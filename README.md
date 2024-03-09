@@ -1,3 +1,18 @@
+
+## Compile 
+
+    make
+
+## Show 
+    
+    make show
+
+
+### vim 
+
+    nnoremap    <F5>   :silent make<CR>
+
+
 dcomp-abntex2
 =========================
 
@@ -20,7 +35,7 @@ Sugerimos escrever documentos por cima do arquivo de modelo .tex fornecido, com 
 	]{dcomp-abntex2}
 ```
 
-Com relação ao pacote abntex2, foram modificadas as seguintes páginas:
+
 - Fontes -> Times New Roman
 - Sumário -> Tradicional, com hierarquia entre capítulos e seções
 - Listas -> Ilustrações, Tabelas, Quadros e Códigos
@@ -29,9 +44,9 @@ Com relação ao pacote abntex2, foram modificadas as seguintes páginas:
 - Ficha catalográfica
 - Folha de Aprovação
 
-## Pacotes
 
-Lista mínima de pacotes a serem instalados em distribuições Ubuntu/Mint linux
+## Packages Needed
+
 * texlive
 * texlive-base
 * texlive-latex-base
@@ -47,16 +62,5 @@ Lista mínima de pacotes a serem instalados em distribuições Ubuntu/Mint linux
 * texlive-pictures
 * texlive-font-utils
 
-## Ambiente de desenvolvimento
-1. Linux
-  * Instalar os pacotes listados anteriormente
-  * Escolher uma IDE para latex
-
-2. Windows
-  * Instalar o miktex
-  * Escolher uma IDE para latex
-
-3. Online
+## Online
   * https://www.overleaf.com/ , https://papeeria.com/ ou https://cocalc.com/doc/latex-editor.html
-  * Ambientes online com todos os pacotes latex existentes já prontos para uso, com a opção de compartilhamento de projeto entre várias pessoas
-  * Para usar nosso template, basta importar a estrutura de pastas e compilar o texto

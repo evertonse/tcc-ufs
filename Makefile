@@ -7,7 +7,7 @@
 ############################################################################
 
 
-FILENAME = Modelo-TCC-DCOMP
+FILENAME = main
 #FILENAME = Modelo-Mestrado-PROCC
 
 
@@ -20,12 +20,14 @@ ps: $(FILENAME).ps
 pimg.ps: $(FILENAME).dvi
 	dvips -o $(FILENAME).ps $(FILENAME).dvi
 
-$(FILENAME).pdf: *.tex
+$(FILENAME).pdf: *.tex **.tex
 	pdflatex $(FILENAME).tex
 	bibtex $(FILENAME)
 	pdflatex $(FILENAME).tex
 	pdflatex $(FILENAME).tex
-	evince $(FILENAME).pdf
+
+show: all
+	evince $(FILENAME).pdf &
 
 $(FILENAME).dvi: clean $(FILENAME).tex
 	echo "Running latex..."
@@ -43,4 +45,6 @@ $(FILENAME).dvi: clean $(FILENAME).tex
 	    done
 
 clean:
-	rm -f *.ps *.dvi *.aux *.toc *.idx *.ind *.ilg *.log *.out *.brf *.blg *.bbl $(FILENAME).pdf
+	rm -f *.loc .*loa .*loq *.ps *.dvi *.aux *.toc *.idx *.ind *.ilg *.log *.out *.brf *.blg *.bbl $(FILENAME).pdf
+
+.PHONY: all show
