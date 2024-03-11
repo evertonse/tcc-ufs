@@ -156,18 +156,494 @@ Writing index file main.idx
 (./Pre_Textual/Dedicatoria.aux) (./Pre_Textual/Agradecimentos.aux)
 (./Pre_Textual/Epigrafe.aux) (./Pre_Textual/Resumo.aux)
 (./Pre_Textual/Abstract.aux) (./Pre_Textual/Abreviaturas.aux)
-(./Pre_Textual/Simbolos.aux))
-Runaway argument?
-{5C3337365C3337375C3030304C5C303030695C303030735C303030745C303030615C\ETC.
-! File ended while scanning use of \BKM@entry.
-<inserted text> 
-                \par 
-l.28 \begin{document}
-                     
-? make: *** [Makefile:24: main.pdf] Hangup
-make: *** [Makefile:24: main.pdf] Hangup
-make: *** [Makefile:24: main.pdf] Hangup
-make: *** [Makefile:24: main.pdf] Hangup
-make: *** [Makefile:24: main.pdf] Hangup
-make: *** [Makefile:24: main.pdf] Hangup
-make: *** [Makefile:24: main.pdf] Hangup
+(./Pre_Textual/Simbolos.aux) (./Pos_Textual/Apendices.aux)
+(./Pos_Textual/Anexos.aux)) (/usr/share/texmf-dist/tex/latex/newtx/omlntxmi.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/untxexa.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/lmsntxsy.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/lmxntxexx.fd)
+(/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (/usr/share/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+(/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
+(/usr/share/texmf-dist/tex/latex/microtype/mt-ptm.cfg) [1{/var/lib/texmf/fonts/
+map/pdftex/updmap/pdftex.map}{/usr/share/texmf-dist/fonts/enc/dvips/newtx/ntx-e
+c-tlf.enc} <./Imagens/logo_ufs.pdf> <./Imagens/logo_dcomp-eps-converted-to.pdf>
+] (/usr/share/texmf-dist/tex/latex/newtx/ot1minntx.fd)<<ot1.cmap>><<oml.cmap>>
+(/usr/share/texmf-dist/tex/latex/newtx/untxmia.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/untxsym.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/untxsyc.fd)
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.52 
+      [1] (./Pre_Textual/Epigrafe.tex [2]) (./Pre_Textual/Resumo.tex [3])
+(./main.lof) [4] (./main.loq) [5] (./main.lot) [6] (./main.loc) [7] (./main.loa
+) [8] (./Pre_Textual/Abreviaturas.tex [9]) (./Pre_Textual/Simbolos.tex [10])
+(./main.toc) [11] (/usr/share/texmf-dist/tex/latex/psnfss/t1pnc.fd) [12{/usr/sh
+are/texmf-dist/fonts/enc/dvips/base/8r.enc}] [13] (./main.bbl (./main.brf)
+[14]
+bibitemlist
+
+LaTeX Warning: Empty `thebibliography' environment on input line 8.
+
+) [15] (./Pos_Textual/Apendices.tex [16]
+
+Package lipsum Warning: Unknown language 'latin'. Hyphenation patterns for
+(lipsum)                'brazil' will be used instead.
+
+[17]) [18] (./Pos_Textual/Anexos.tex [19] [20] [21]) [22]
+
+enddocument/afterlastpage: lastpage setting LastPage.
+(./main.aux (./Pre_Textual/Epigrafe.aux) (./Pre_Textual/Resumo.aux)
+(./Pre_Textual/Abreviaturas.aux) (./Pre_Textual/Simbolos.aux)
+(./Pos_Textual/Apendices.aux) (./Pos_Textual/Anexos.aux))
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ )
+(see the transcript file for additional information)
+pdfTeX warning (dest): name{section*.22} has been referenced but does not exist
+, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{section*.21} has been referenced but does not exist
+, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{chapter*.19} has been referenced but does not exist
+, replaced by a fixed one
+
+</usr/share/texmf-dist/fonts/type1/public/newtx/NewTXMI.pfb></usr/share/texmf-d
+ist/fonts/type1/public/newtx/txmiaX.pfb></usr/share/texmf-dist/fonts/type1/publ
+ic/newtx/txsys.pfb></usr/share/texmf-dist/fonts/type1/urw/ncntrsbk/uncb8a.pfb><
+/usr/share/texmf-dist/fonts/type1/public/newtx/ztmb.pfb></usr/share/texmf-dist/
+fonts/type1/public/newtx/ztmr.pfb></usr/share/texmf-dist/fonts/type1/public/new
+tx/ztmri.pfb>
+Output written on main.pdf (23 pages, 174411 bytes).
+Transcript written on main.log.
+bibtex main
+This is BibTeX, Version 0.99d (TeX Live 2023/Arch Linux)
+The top-level auxiliary file: main.aux
+The style file: abntex2-alf.bst
+Database file #1: abntex2-options.bib
+Database file #2: Bibliografia.bib
++---------------------------------------------------------+
+| Estilo bibliográfico abntex2-alf.bst versão v<VERSION>           |
+| Em caso de dúvidas ou problemas com este estilo procure |
+| http://www.abntex.net.br/                               |
++---------------------------------------------------------+
+pdflatex main.tex
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Arch Linux) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./main.tex
+LaTeX2e <2022-11-01> patch level 1
+L3 programming layer <2023-02-22> (./dcomp-abntex2.cls
+Document Class: dcomp-abntex2 18/06/2019 v1.5 Modelo DCOMP baseado no projeto a
+bnTeX2
+(/usr/share/texmf-dist/tex/latex/abntex2/abntex2.cls
+Document Class: abntex2 <CURRENT_DATE> v<VERSION> abnTeX2
+(/usr/share/texmf-dist/tex/latex/base/ifthen.sty)
+(/usr/share/texmf-dist/tex/latex/memoir/memoir.cls
+Document Class: memoir 2022/11/17 v3.7.19 configurable book, report, article do
+cument class
+(/usr/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/usr/share/texmf-dist/tex/generic/iftex/iftex.sty)
+(/usr/share/texmf-dist/tex/latex/memoir/mem12.clo)
+(/usr/share/texmf-dist/tex/latex/tools/array.sty)
+(/usr/share/texmf-dist/tex/latex/tools/dcolumn.sty)
+(/usr/share/texmf-dist/tex/latex/tools/delarray.sty)
+(/usr/share/texmf-dist/tex/latex/tools/tabularx.sty)
+(/usr/share/texmf-dist/tex/latex/textcase/textcase.sty))
+(/usr/share/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/share/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+(/usr/share/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+(/usr/share/texmf-dist/tex/generic/infwarerr/infwarerr.sty))
+(/usr/share/texmf-dist/tex/latex/graphics/keyval.sty)
+(/usr/share/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)
+(/usr/share/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
+(/usr/share/texmf-dist/tex/generic/pdfescape/pdfescape.sty)
+(/usr/share/texmf-dist/tex/latex/hycolor/hycolor.sty)
+(/usr/share/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty)
+(/usr/share/texmf-dist/tex/latex/auxhook/auxhook.sty)
+(/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/share/texmf-dist/tex/latex/refcount/refcount.sty)
+(/usr/share/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+(/usr/share/texmf-dist/tex/latex/kvoptions/kvoptions.sty)))
+(/usr/share/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/share/texmf-dist/tex/generic/intcalc/intcalc.sty)
+(/usr/share/texmf-dist/tex/generic/etexcmds/etexcmds.sty)
+(/usr/share/texmf-dist/tex/latex/hyperref/puenc.def)
+(/usr/share/texmf-dist/tex/latex/url/url.sty)
+(/usr/share/texmf-dist/tex/generic/bitset/bitset.sty
+(/usr/share/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty))
+(/usr/share/texmf-dist/tex/latex/base/atbegshi-ltx.sty))
+(/usr/share/texmf-dist/tex/latex/hyperref/hpdftex.def
+(/usr/share/texmf-dist/tex/latex/base/atveryend-ltx.sty)
+(/usr/share/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+(/usr/share/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty)))
+(/usr/share/texmf-dist/tex/latex/memoir/memhfixc.sty
+Redoing nameref's sectioning
+Redoing nameref's label
+) (/usr/share/texmf-dist/tex/latex/bookmark/bookmark.sty
+(/usr/share/texmf-dist/tex/latex/bookmark/bkm-pdftex.def))
+(/usr/share/texmf-dist/tex/generic/babel/babel.sty
+(/usr/share/texmf-dist/tex/generic/babel/txtbabel.def)
+(/usr/share/texmf-dist/tex/generic/babel-english/english.ldf)
+(/usr/share/texmf-dist/tex/generic/babel-portuges/brazil.ldf))
+(/usr/share/texmf-dist/tex/generic/babel/locale/en/babel-english.tex)
+(/usr/share/texmf-dist/tex/latex/enumitem/enumitem.sty)
+(/usr/share/texmf-dist/tex/latex/tools/calc.sty)
+
+******************************************************
+Stock height and width: 845.04684pt by 597.50787pt
+Top and edge trims: 0pt and 0pt
+Page height and width: 845.04684pt by 597.50787pt
+Text height and width: 708pt by 455pt
+Spine and edge margins: 85.35826pt and 56.9055pt
+Upper and lower margins: 85.35826pt and 51.68858pt
+Headheight and headsep: 14.5pt and 19.8738pt
+Footskip: 30pt
+Columnsep and columnseprule: 10pt and 0pt
+Marginparsep and marginparwidth: 7pt and 42.9055pt
+Sidecapsep and sidecapwidth: 7pt and 42pt
+Sidebarhsep and sidebarwidth: 7pt and 42pt
+Sidebarvsep and sidebartopsep: 14.5pt and 0pt
+Sidebarheight: 590.14995pt
+Sidefoothsep and sidefootwidth: 7pt and 42pt
+Sidefootvsep and sidefootheight: 14.5pt and 590.14995pt
+******************************************************
+
+) (/usr/share/texmf-dist/tex/latex/cmap/cmap.sty)
+(/usr/share/texmf-dist/tex/latex/base/inputenc.sty)
+(/usr/share/texmf-dist/tex/latex/lastpage/lastpage.sty
+(/usr/share/texmf-dist/tex/latex/lastpage/lastpage2e.sty
+(/usr/share/texmf-dist/tex/latex/lastpage/lastpagemodern.sty) 
+)) (/usr/share/texmf-dist/tex/latex/newtx/newtxtext.sty
+`newtxtext' v1.71, 2022/02/28 Text macros taking advantage of TeXGyre Termes an
+d its extensions (msharpe) (/usr/share/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+(/usr/share/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/share/texmf-dist/tex/generic/xkeyval/xkvutils.tex)))
+(/usr/share/texmf-dist/tex/latex/base/textcomp.sty)
+(/usr/share/texmf-dist/tex/generic/xstring/xstring.sty
+(/usr/share/texmf-dist/tex/generic/xstring/xstring.tex))
+(/usr/share/texmf-dist/tex/latex/carlisle/scalefnt.sty)
+(/usr/share/texmf-dist/tex/generic/kastrup/binhex.tex)
+ntx@otftextfalse
+(/usr/share/texmf-dist/tex/latex/fontaxes/fontaxes.sty))
+(/usr/share/texmf-dist/tex/latex/newtx/newtxmath.sty
+`newtxmath' v1.71, 2022/01/16 Math macros based originally on txfonts (msharpe)
+(/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texmf-dist/tex/generic/iftex/ifxetex.sty)
+(/usr/share/texmf-dist/tex/generic/iftex/ifluatex.sty)
+(/usr/share/texmf-dist/tex/latex/oberdiek/centernot.sty)
+(/usr/share/texmf-dist/tex/generic/kastrup/binhex.tex)
+amsthm NOT loaded
+) (/usr/share/texmf-dist/tex/latex/base/fontenc.sty
+(/usr/share/texmf-dist/tex/latex/newtx/t1minntx.fd)<<t1.cmap>>)
+(/usr/share/texmf-dist/tex/latex/tools/indentfirst.sty)
+(/usr/share/texmf-dist/tex/latex/graphics/color.sty
+(/usr/share/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/share/texmf-dist/tex/latex/graphics-def/pdftex.def)
+(/usr/share/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+(/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)))
+(/usr/share/texmf-dist/tex/latex/microtype/microtype.sty
+(/usr/share/texmf-dist/tex/latex/microtype/microtype-pdftex.def)
+(/usr/share/texmf-dist/tex/latex/microtype/microtype.cfg))
+(/usr/share/texmf-dist/tex/latex/hyperref/backref.sty)
+(/usr/share/texmf-dist/tex/latex/abntex2/abntex2cite.sty
+(/usr/share/texmf-dist/tex/latex/abntex2/abntex2abrev.sty)
+(/usr/share/texmf-dist/tex/generic/iftex/ifpdf.sty)
+(/usr/share/texmf-dist/tex/latex/relsize/relsize.sty))
+(/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/share/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/share/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+(/usr/share/texmf-dist/tex/latex/breakurl/breakurl.sty
+
+Package breakurl Warning: You are using breakurl while processing via pdflatex.
+
+(breakurl)                \burl will be just a synonym of \url.
+(breakurl)                 on input line 48.
+
+) (/usr/share/texmf-dist/tex/latex/listings/listings.sty
+(/usr/share/texmf-dist/tex/latex/listings/lstmisc.sty)
+(/usr/share/texmf-dist/tex/latex/listings/listings.cfg))
+(/usr/share/texmf-dist/tex/latex/lstaddons/lstautogobble.sty) (./Graduacao.sty)
+) (/usr/share/texmf-dist/tex/latex/lipsum/lipsum.sty
+(/usr/share/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
+(/usr/share/texmf-dist/tex/latex/l3kernel/expl3.sty
+(/usr/share/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def)))
+(/usr/share/texmf-dist/tex/latex/lipsum/lipsum.ltd.tex))
+(/usr/share/texmf-dist/tex/latex/algorithm2e/algorithm2e.sty
+(/usr/share/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty)
+(/usr/share/texmf-dist/tex/latex/tools/xspace.sty))
+Writing index file main.idx 
+(/usr/share/texmf-dist/tex/latex/newtx/t1ntxtlf.fd) (./main.aux
+(./Pre_Textual/Epigrafe.aux) (./Pre_Textual/Resumo.aux)
+(./Pre_Textual/Abreviaturas.aux) (./Pre_Textual/Simbolos.aux)
+(./Pos_Textual/Apendices.aux) (./Pos_Textual/Anexos.aux))
+(/usr/share/texmf-dist/tex/latex/newtx/omlntxmi.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/untxexa.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/lmsntxsy.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/lmxntxexx.fd)
+(/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (/usr/share/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+(/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
+(/usr/share/texmf-dist/tex/latex/microtype/mt-ptm.cfg) [1{/var/lib/texmf/fonts/
+map/pdftex/updmap/pdftex.map}{/usr/share/texmf-dist/fonts/enc/dvips/newtx/ntx-e
+c-tlf.enc} <./Imagens/logo_ufs.pdf> <./Imagens/logo_dcomp-eps-converted-to.pdf>
+] (/usr/share/texmf-dist/tex/latex/newtx/ot1minntx.fd)<<ot1.cmap>><<oml.cmap>>
+(/usr/share/texmf-dist/tex/latex/newtx/untxmia.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/untxsym.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/untxsyc.fd)
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.52 
+      [1] (./Pre_Textual/Epigrafe.tex [2]) (./Pre_Textual/Resumo.tex [3])
+(./main.lof) [4] (./main.loq) [5] (./main.lot) [6] (./main.loc) [7] (./main.loa
+) [8] (./Pre_Textual/Abreviaturas.tex [9]) (./Pre_Textual/Simbolos.tex [10])
+(./main.toc) [11] (/usr/share/texmf-dist/tex/latex/psnfss/t1pnc.fd) [12{/usr/sh
+are/texmf-dist/fonts/enc/dvips/base/8r.enc}] [13] (./main.bbl (./main.brf)
+[14]
+bibitemlist
+
+LaTeX Warning: Empty `thebibliography' environment on input line 8.
+
+) [15] (./Pos_Textual/Apendices.tex [16]
+
+Package lipsum Warning: Unknown language 'latin'. Hyphenation patterns for
+(lipsum)                'brazil' will be used instead.
+
+[17]) [18] (./Pos_Textual/Anexos.tex [19] [20] [21]) [22]
+
+enddocument/afterlastpage: lastpage setting LastPage.
+(./main.aux (./Pre_Textual/Epigrafe.aux) (./Pre_Textual/Resumo.aux)
+(./Pre_Textual/Abreviaturas.aux) (./Pre_Textual/Simbolos.aux)
+(./Pos_Textual/Apendices.aux) (./Pos_Textual/Anexos.aux)) )
+(see the transcript file for additional information)</usr/share/texmf-dist/font
+s/type1/public/newtx/NewTXMI.pfb></usr/share/texmf-dist/fonts/type1/public/newt
+x/txmiaX.pfb></usr/share/texmf-dist/fonts/type1/public/newtx/txsys.pfb></usr/sh
+are/texmf-dist/fonts/type1/urw/ncntrsbk/uncb8a.pfb></usr/share/texmf-dist/fonts
+/type1/public/newtx/ztmb.pfb></usr/share/texmf-dist/fonts/type1/public/newtx/zt
+mr.pfb></usr/share/texmf-dist/fonts/type1/public/newtx/ztmri.pfb>
+Output written on main.pdf (23 pages, 174473 bytes).
+Transcript written on main.log.
+pdflatex main.tex
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Arch Linux) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./main.tex
+LaTeX2e <2022-11-01> patch level 1
+L3 programming layer <2023-02-22> (./dcomp-abntex2.cls
+Document Class: dcomp-abntex2 18/06/2019 v1.5 Modelo DCOMP baseado no projeto a
+bnTeX2
+(/usr/share/texmf-dist/tex/latex/abntex2/abntex2.cls
+Document Class: abntex2 <CURRENT_DATE> v<VERSION> abnTeX2
+(/usr/share/texmf-dist/tex/latex/base/ifthen.sty)
+(/usr/share/texmf-dist/tex/latex/memoir/memoir.cls
+Document Class: memoir 2022/11/17 v3.7.19 configurable book, report, article do
+cument class
+(/usr/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/usr/share/texmf-dist/tex/generic/iftex/iftex.sty)
+(/usr/share/texmf-dist/tex/latex/memoir/mem12.clo)
+(/usr/share/texmf-dist/tex/latex/tools/array.sty)
+(/usr/share/texmf-dist/tex/latex/tools/dcolumn.sty)
+(/usr/share/texmf-dist/tex/latex/tools/delarray.sty)
+(/usr/share/texmf-dist/tex/latex/tools/tabularx.sty)
+(/usr/share/texmf-dist/tex/latex/textcase/textcase.sty))
+(/usr/share/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/share/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+(/usr/share/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+(/usr/share/texmf-dist/tex/generic/infwarerr/infwarerr.sty))
+(/usr/share/texmf-dist/tex/latex/graphics/keyval.sty)
+(/usr/share/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)
+(/usr/share/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
+(/usr/share/texmf-dist/tex/generic/pdfescape/pdfescape.sty)
+(/usr/share/texmf-dist/tex/latex/hycolor/hycolor.sty)
+(/usr/share/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty)
+(/usr/share/texmf-dist/tex/latex/auxhook/auxhook.sty)
+(/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/share/texmf-dist/tex/latex/refcount/refcount.sty)
+(/usr/share/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+(/usr/share/texmf-dist/tex/latex/kvoptions/kvoptions.sty)))
+(/usr/share/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/share/texmf-dist/tex/generic/intcalc/intcalc.sty)
+(/usr/share/texmf-dist/tex/generic/etexcmds/etexcmds.sty)
+(/usr/share/texmf-dist/tex/latex/hyperref/puenc.def)
+(/usr/share/texmf-dist/tex/latex/url/url.sty)
+(/usr/share/texmf-dist/tex/generic/bitset/bitset.sty
+(/usr/share/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty))
+(/usr/share/texmf-dist/tex/latex/base/atbegshi-ltx.sty))
+(/usr/share/texmf-dist/tex/latex/hyperref/hpdftex.def
+(/usr/share/texmf-dist/tex/latex/base/atveryend-ltx.sty)
+(/usr/share/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+(/usr/share/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty)))
+(/usr/share/texmf-dist/tex/latex/memoir/memhfixc.sty
+Redoing nameref's sectioning
+Redoing nameref's label
+) (/usr/share/texmf-dist/tex/latex/bookmark/bookmark.sty
+(/usr/share/texmf-dist/tex/latex/bookmark/bkm-pdftex.def))
+(/usr/share/texmf-dist/tex/generic/babel/babel.sty
+(/usr/share/texmf-dist/tex/generic/babel/txtbabel.def)
+(/usr/share/texmf-dist/tex/generic/babel-english/english.ldf)
+(/usr/share/texmf-dist/tex/generic/babel-portuges/brazil.ldf))
+(/usr/share/texmf-dist/tex/generic/babel/locale/en/babel-english.tex)
+(/usr/share/texmf-dist/tex/latex/enumitem/enumitem.sty)
+(/usr/share/texmf-dist/tex/latex/tools/calc.sty)
+
+******************************************************
+Stock height and width: 845.04684pt by 597.50787pt
+Top and edge trims: 0pt and 0pt
+Page height and width: 845.04684pt by 597.50787pt
+Text height and width: 708pt by 455pt
+Spine and edge margins: 85.35826pt and 56.9055pt
+Upper and lower margins: 85.35826pt and 51.68858pt
+Headheight and headsep: 14.5pt and 19.8738pt
+Footskip: 30pt
+Columnsep and columnseprule: 10pt and 0pt
+Marginparsep and marginparwidth: 7pt and 42.9055pt
+Sidecapsep and sidecapwidth: 7pt and 42pt
+Sidebarhsep and sidebarwidth: 7pt and 42pt
+Sidebarvsep and sidebartopsep: 14.5pt and 0pt
+Sidebarheight: 590.14995pt
+Sidefoothsep and sidefootwidth: 7pt and 42pt
+Sidefootvsep and sidefootheight: 14.5pt and 590.14995pt
+******************************************************
+
+) (/usr/share/texmf-dist/tex/latex/cmap/cmap.sty)
+(/usr/share/texmf-dist/tex/latex/base/inputenc.sty)
+(/usr/share/texmf-dist/tex/latex/lastpage/lastpage.sty
+(/usr/share/texmf-dist/tex/latex/lastpage/lastpage2e.sty
+(/usr/share/texmf-dist/tex/latex/lastpage/lastpagemodern.sty) 
+)) (/usr/share/texmf-dist/tex/latex/newtx/newtxtext.sty
+`newtxtext' v1.71, 2022/02/28 Text macros taking advantage of TeXGyre Termes an
+d its extensions (msharpe) (/usr/share/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+(/usr/share/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/share/texmf-dist/tex/generic/xkeyval/xkvutils.tex)))
+(/usr/share/texmf-dist/tex/latex/base/textcomp.sty)
+(/usr/share/texmf-dist/tex/generic/xstring/xstring.sty
+(/usr/share/texmf-dist/tex/generic/xstring/xstring.tex))
+(/usr/share/texmf-dist/tex/latex/carlisle/scalefnt.sty)
+(/usr/share/texmf-dist/tex/generic/kastrup/binhex.tex)
+ntx@otftextfalse
+(/usr/share/texmf-dist/tex/latex/fontaxes/fontaxes.sty))
+(/usr/share/texmf-dist/tex/latex/newtx/newtxmath.sty
+`newtxmath' v1.71, 2022/01/16 Math macros based originally on txfonts (msharpe)
+(/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texmf-dist/tex/generic/iftex/ifxetex.sty)
+(/usr/share/texmf-dist/tex/generic/iftex/ifluatex.sty)
+(/usr/share/texmf-dist/tex/latex/oberdiek/centernot.sty)
+(/usr/share/texmf-dist/tex/generic/kastrup/binhex.tex)
+amsthm NOT loaded
+) (/usr/share/texmf-dist/tex/latex/base/fontenc.sty
+(/usr/share/texmf-dist/tex/latex/newtx/t1minntx.fd)<<t1.cmap>>)
+(/usr/share/texmf-dist/tex/latex/tools/indentfirst.sty)
+(/usr/share/texmf-dist/tex/latex/graphics/color.sty
+(/usr/share/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/share/texmf-dist/tex/latex/graphics-def/pdftex.def)
+(/usr/share/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+(/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)))
+(/usr/share/texmf-dist/tex/latex/microtype/microtype.sty
+(/usr/share/texmf-dist/tex/latex/microtype/microtype-pdftex.def)
+(/usr/share/texmf-dist/tex/latex/microtype/microtype.cfg))
+(/usr/share/texmf-dist/tex/latex/hyperref/backref.sty)
+(/usr/share/texmf-dist/tex/latex/abntex2/abntex2cite.sty
+(/usr/share/texmf-dist/tex/latex/abntex2/abntex2abrev.sty)
+(/usr/share/texmf-dist/tex/generic/iftex/ifpdf.sty)
+(/usr/share/texmf-dist/tex/latex/relsize/relsize.sty))
+(/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/share/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/share/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+(/usr/share/texmf-dist/tex/latex/breakurl/breakurl.sty
+
+Package breakurl Warning: You are using breakurl while processing via pdflatex.
+
+(breakurl)                \burl will be just a synonym of \url.
+(breakurl)                 on input line 48.
+
+) (/usr/share/texmf-dist/tex/latex/listings/listings.sty
+(/usr/share/texmf-dist/tex/latex/listings/lstmisc.sty)
+(/usr/share/texmf-dist/tex/latex/listings/listings.cfg))
+(/usr/share/texmf-dist/tex/latex/lstaddons/lstautogobble.sty) (./Graduacao.sty)
+) (/usr/share/texmf-dist/tex/latex/lipsum/lipsum.sty
+(/usr/share/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
+(/usr/share/texmf-dist/tex/latex/l3kernel/expl3.sty
+(/usr/share/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def)))
+(/usr/share/texmf-dist/tex/latex/lipsum/lipsum.ltd.tex))
+(/usr/share/texmf-dist/tex/latex/algorithm2e/algorithm2e.sty
+(/usr/share/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty)
+(/usr/share/texmf-dist/tex/latex/tools/xspace.sty))
+Writing index file main.idx 
+(/usr/share/texmf-dist/tex/latex/newtx/t1ntxtlf.fd) (./main.aux
+(./Pre_Textual/Epigrafe.aux) (./Pre_Textual/Resumo.aux)
+(./Pre_Textual/Abreviaturas.aux) (./Pre_Textual/Simbolos.aux)
+(./Pos_Textual/Apendices.aux) (./Pos_Textual/Anexos.aux))
+(/usr/share/texmf-dist/tex/latex/newtx/omlntxmi.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/untxexa.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/lmsntxsy.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/lmxntxexx.fd)
+(/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (/usr/share/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+(/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
+(/usr/share/texmf-dist/tex/latex/microtype/mt-ptm.cfg) [1{/var/lib/texmf/fonts/
+map/pdftex/updmap/pdftex.map}{/usr/share/texmf-dist/fonts/enc/dvips/newtx/ntx-e
+c-tlf.enc} <./Imagens/logo_ufs.pdf> <./Imagens/logo_dcomp-eps-converted-to.pdf>
+] (/usr/share/texmf-dist/tex/latex/newtx/ot1minntx.fd)<<ot1.cmap>><<oml.cmap>>
+(/usr/share/texmf-dist/tex/latex/newtx/untxmia.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/untxsym.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/untxsyc.fd)
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.52 
+      [1] (./Pre_Textual/Epigrafe.tex [2]) (./Pre_Textual/Resumo.tex [3])
+(./main.lof) [4] (./main.loq) [5] (./main.lot) [6] (./main.loc) [7] (./main.loa
+) [8] (./Pre_Textual/Abreviaturas.tex [9]) (./Pre_Textual/Simbolos.tex [10])
+(./main.toc) [11] (/usr/share/texmf-dist/tex/latex/psnfss/t1pnc.fd) [12{/usr/sh
+are/texmf-dist/fonts/enc/dvips/base/8r.enc}] [13] (./main.bbl (./main.brf)
+[14]
+bibitemlist
+
+LaTeX Warning: Empty `thebibliography' environment on input line 8.
+
+) [15] (./Pos_Textual/Apendices.tex [16]
+
+Package lipsum Warning: Unknown language 'latin'. Hyphenation patterns for
+(lipsum)                'brazil' will be used instead.
+
+[17]) [18] (./Pos_Textual/Anexos.tex [19] [20] [21]) [22]
+
+enddocument/afterlastpage: lastpage setting LastPage.
+(./main.aux (./Pre_Textual/Epigrafe.aux) (./Pre_Textual/Resumo.aux)
+(./Pre_Textual/Abreviaturas.aux) (./Pre_Textual/Simbolos.aux)
+(./Pos_Textual/Apendices.aux) (./Pos_Textual/Anexos.aux)) )
+(see the transcript file for additional information)</usr/share/texmf-dist/font
+s/type1/public/newtx/NewTXMI.pfb></usr/share/texmf-dist/fonts/type1/public/newt
+x/txmiaX.pfb></usr/share/texmf-dist/fonts/type1/public/newtx/txsys.pfb></usr/sh
+are/texmf-dist/fonts/type1/urw/ncntrsbk/uncb8a.pfb></usr/share/texmf-dist/fonts
+/type1/public/newtx/ztmb.pfb></usr/share/texmf-dist/fonts/type1/public/newtx/zt
+mr.pfb></usr/share/texmf-dist/fonts/type1/public/newtx/ztmri.pfb>
+Output written on main.pdf (23 pages, 174473 bytes).
+Transcript written on main.log.

@@ -10,6 +10,13 @@
 FILENAME = main
 #FILENAME = Modelo-Mestrado-PROCC
 
+push: 
+	 git add . && git commit -m "TCC $$(date)${MSG}" && git push
+
+pull:
+	git pull
+
+
 
 all: $(FILENAME).pdf
 
@@ -47,4 +54,4 @@ $(FILENAME).dvi: clean $(FILENAME).tex
 clean:
 	rm -f *.loc .*loa .*loq *.ps *.dvi *.aux *.toc *.idx *.ind *.ilg *.log *.out *.brf *.blg *.bbl $(FILENAME).pdf
 
-.PHONY: all show $(FILENAME).pdf
+.PHONY: all show $(FILENAME).pdf push

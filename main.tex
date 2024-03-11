@@ -50,18 +50,18 @@
 \imprimircapa
 \imprimirfolhaderosto*
 
-\include{Pre_Textual/Dedicatoria}
-\include{Pre_Textual/Agradecimentos}
+% \include{Pre_Textual/Dedicatoria}
+% \include{Pre_Textual/Agradecimentos}
 \include{Pre_Textual/Epigrafe}
 \include{Pre_Textual/Resumo}
-\include{Pre_Textual/Abstract}
+% \include{Pre_Textual/Abstract}
 
 
 \mostrarlistadeILUSTRACOES
 \mostrarlistadeQUADROS
 \mostrarlistadeTABELAS
 \mostrarlistadeCODIGOS
-\mostrarlistadeALGORITMOS
+% \mostrarlistadeALGORITMOS
  
 \include{Pre_Textual/Abreviaturas}
 \include{Pre_Textual/Simbolos}
@@ -74,12 +74,15 @@
 
 \textual
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Introdução
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Introdução}
 
 
 \section{Contexto}
 
-Na computação gráfica, a representação realista de cenas tridimensionais depende fortemente da modelagem da luz. A interação da luminosidade incidente na matéria, bem como os materiais que compõem esses objetos, são aspectos críticos a serem considerados na geração dessas cenas [referencia]. Na prática, essa interação é frequentemente modelada por meio de funções de distribuição de refletância bidirecional, conhecidas como BRDFs.
+Na computação gráfica, a representação realista de cenas tridimensionais depende fortemente da modelagem da luz. A interação da luminosidade incidente no objeto, bem como os materiais que compõem esses objetos, são aspectos críticos a serem considerados na geração dessas cenas [referencia]. Na prática, essa interação é frequentemente modelada por meio de funções de distribuição de refletância bidirecional, conhecidas como BRDFs.
 
 
 As BRDFs, essencialmente, calculam a proporção entre a energia luminosa que atinge um ponto na superfície e como essa energia é refletida, transmitida ou absorvida [referencia]. Na renderização, essas funções são implementadas por meio programas especializados das unidades de processamento gráfico (GPUs), esses programmas são chamados de shaders, e cada API de rederização disponibiliza etapas diferentes onde esses executaveis podem ser mudados durante o processo de renderização. Esses shaders concedem a capacidade de cada objeto renderizado ter sua aparência configurada por meio de um código que implementa uma BRDF.
@@ -87,31 +90,48 @@ As BRDFs, essencialmente, calculam a proporção entre a energia luminosa que at
 
 \section{Motivação}
 
-Apesar da disponibilidade de linguagens específicas para a programação de shaders, que possibilitam a modificação procedimentos que representam uma BRDF, a aplicação de BRDFs na geração de shaders requer conhecimento especializado em programação [referencia?]. Essa barreira técnica pode restringir a exploração das capacidades visuais por profissionais de áreas não relacionadas à programação. Diante disso, surge a necessidade de ferramentas mais acessíveis para a criação de shaders.
+Apesar da disponibilidade de linguagens específicas para a programação de shaders, que possibilitam a modificação procedimentos que representam uma BRDF, a aplicação de BRDFs na geração de shaders requer conhecimento especializado em programação [referencia?]. Essa barreira técnica pode restringir a exploração dos efeitos visuais por profissionais de áreas não relacionadas à programação. Diante disso, surge a necessidade de ferramentas mais acessíveis para a criação de shaders.
 
-Quase universalmente, as BRDFs são descritas por uma fórmula escrita em LaTeX, uma abordagem promissora para atender a essa necessidade é o desenvolvimento de um compilador capaz de traduzir BRDFs em LaTex para shaders, assim democratizando a visualização que essas BRNo entanto, devido à complexidade matemática das BRDFs, é necessário simplificar sua representação para utilizá-las como linguagem de entrada para o compilador.
+No meio acadêmico, as BRDFs são, comumente, descritas por uma fórmula escrita em LaTeX, uma abordagem promissora para atender a essa necessidade é o desenvolvimento de um compilador capaz de traduzir BRDFs em LaTex para shaders, assim democratizando a visualização dessas BRDFs. Dado que as fórmulas são equações matemáticas, precisamos retrigir repretsentação da linguagem de entrada para o compilador afim de garatir um projeto útil em tempo ábil.
 
 \section{Objetivo}
-Este estudo visa projetar e implementar um compilador que, a partir de funções de distribuição de refletância bidirecional, seja capaz de gerar código de sombreamento na linguagem alvo. O código resultante deverá reproduzir as características de reflexão da função de refletância original em uma superfície tridimensional, ou, no mínimo, alcançar uma aproximação satisfatória dessas características, conforme as capacidades da linguagem de sombreamento alvo.
-
-Para alcançar o objetivo geral, as seguintes etapas serão realizadas:
-
-Realizar uma análise abrangente das áreas relacionadas ao desenvolvimento da ferramenta proposta;
-Investigar o estado da arte no campo da compilação de BRDFs em linguagens de sombreamento;
-Definir a linguagem de entrada e a linguagem de saída do compilador;
-Selecionar as ferramentas mais adequadas para o desenvolvimento do compilador;
-Elaborar exemplos de código de entrada;
-Implementar o compilador utilizando as ferramentas selecionadas;
-Testar o compilador com uma variedade de exemplos de código de entrada;
-Realizar a renderização de cenas utilizando o código de sombreamento gerado pelo compilador.
-
-@Fix
+Este trabalho visa projetar e implementar um compilador que, a partir de funções de distribuição de refletância bidirecional escrita como equações em LaTeX, seja capaz de gerar código de shading na linguagem alvo da API OpenGL (referencia). A saída será um shader capaz de reproduzir as características de reflexão da função de refletância original, considerando a precedencia de operadores, em uma superfície tridimensional, ou, ao menos, alcançar uma aproximação satisfatória dessas características, considerando as limitações da linguagem de shading da API principalmente as representações de dados de forma discreta.
 
 \section{Metodologia}
+Para alcançar o objetivo, a sequencia das etapas adotadas serão as seguintes.
 
+
+\begin{enumerate}
+
+   \item Realizar uma análise abrangente das áreas relacionadas ao desenvolvimento da ferramenta proposta;
+   \item Investigar o estado da arte no campo da compilação de BRDFs em linguagens de shading;
+   \item Definir a linguagem de entrada e a linguagem de saída do compilador;
+   \item Elaborar testes com equações LaTeX de entrada pareado com a saída em shader GLSL esperado;
+   \item Implementar o compilador utilizando uma linguagem de programação e tecnicas recursivas de parsing
+   \item Realizar a renderização de cenas utilizando o shader gerado pelo compilador.
+
+\end{enumerate}
 
 % Apesar da importância de usar técnicas confiáveis para avaliar um BRDF, há uma falta de trabalhos na literatura que reúnam e comparem essas técnicas.
 % Este artigo propõe uma compilação de técnicas usadas para avaliar representações de BRDF, juntamente com suas definições formais. Essas técnicas foram classificadas em três grupos diferentes - funções de comparação, imagens renderizadas e gráficos - e, para ilustrar seu uso, três modelos clássicos e amplamente adotados e uma representação de BRDF de ponta foram avaliados quanto à sua capacidade de preservar a aparência de materiais medidos. Com base em nossa pesquisa sobre funções de comparação, uma técnica de avaliação de BRDF estável e robusta é proposta. Observou-se tanto durante a revisão da literatura quanto nos experimentos que cada grupo de técnicas fornece informações complementares sobre os BRDFs avaliados, o que sugere que pelo menos um modelo de cada categoria deve ser adotado durante a escolha de critérios para avaliar um BRDF.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Revisão Bibliográfica 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Revisão Bibliográfica}
+
+Para esta seção, será conduzida uma revisão literária abrangente com o objetivo de explorar trabalhos relacionados ao desenvolvimento de compiladores para tradução de BRDFs expressas em LaTeX para a linguagem de shading, empregando, técnicas de parsing.
+O processo de busca será conduzido em duas etapas distintas. Primeiramente, será realizado um levantamento dos trabalhos existentes nas bases IEEE Xplorer Digital Library, Elsevier Scopus e Google Acadêmico, esse foram escolhidos por serem acessíveis gratuitamente pela afiliação à Universidade Federal de Sergipe, já o google scholar foi escolhido para agregar pesquisas em outras bases que possam ter trabalhos relevantes.
+
+Por fim, será realizada uma busca por produtos ou ferramentas similares no mercado, utilizando strings de busca específicas em repositórios digitais, especificamente GitHub, e GitLab. Esses processos de busca permitirão identificar referências relevantes e estabelecer um panorama do estado da arte no campo dos compiladores de BRDFs para shaders, contribuindo para a compreensão do contexto acadêmico e prático no qual este trabalho se insere.
+
+\subsection{Mapeamento Sistemático}
+\subsection{Descrição dos Trabalhos Relacionados}
+
+\subsection{Pesquisa por Repositórios online}
+
+
+
 
 
 % \include{Conteudo/02_Comandos}
