@@ -20,7 +20,7 @@ ps: $(FILENAME).ps
 pimg.ps: $(FILENAME).dvi
 	dvips -o $(FILENAME).ps $(FILENAME).dvi
 
-$(FILENAME).pdf: *.tex **.tex
+$(FILENAME).pdf: *.tex Pre_Textual/*.tex Pos_Textual/*.tex **.tex
 	pdflatex $(FILENAME).tex
 	bibtex $(FILENAME)
 	pdflatex $(FILENAME).tex
@@ -47,4 +47,4 @@ $(FILENAME).dvi: clean $(FILENAME).tex
 clean:
 	rm -f *.loc .*loa .*loq *.ps *.dvi *.aux *.toc *.idx *.ind *.ilg *.log *.out *.brf *.blg *.bbl $(FILENAME).pdf
 
-.PHONY: all show
+.PHONY: all show $(FILENAME).pdf

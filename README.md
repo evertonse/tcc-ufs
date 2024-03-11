@@ -10,7 +10,7 @@
 
 ### vim 
 
-    nnoremap    <F5>   :silent make<CR>
+    nnoremap    <F5>   :silent make -j 3<CR>
 
 
 dcomp-abntex2
