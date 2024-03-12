@@ -161,7 +161,7 @@ Incluimos anais de evento, trabalhos e artigos de qualquer ano.
 \begin{tabular}{p{2.6cm}|p{6.0cm}|p{2.25cm}|p{3.40cm}}
   %\hline
    \textbf{Bases} & \textbf{Termos de Pesquisa}  & \textbf{Resultados}\\
-    \hline
+   \hline
     IEEE Xplore Digital Library
     &
     ("Full Text \& Metadata":brdf)
@@ -169,17 +169,18 @@ AND (("Full Text \& Metadata":shader) OR  ("Full Text \& Metadata":shading))
 AND (("Full Text \& Metadata":compiler) OR  ("Full Text \& Metadata":parsing) OR  ("Full Text \& Metadata":parser) OR  ("Full Text \& Metadata":grammar))
    & 36
     \\ \hline
-    Nível do objeto & Paradigmas do metanível e evidências do nível inferior &
-    Ciência  & Teorias e modelos \\ \hline
-    Nível inferior & Modelos e métodos do nível do objeto e problemas do nível inferior & Prática & Solução de problemas  \\
+
+    BDTD
+    & (Todos os campos:compiler OU Todos os campos:parsing OU Todos os campos:parser OU Todos os campos:compilador) E (Todos os campos:shader OU Todos os campos:shading) E (Todos os campos:brdf)
+    & 0
+    \\ \hline
    % \hline
 \end{tabular}
 \legend{Fonte: \citeonline{van86}}
 \end{table}
 
 36 IEEE  = 
-0 BDTD  = (Todos os campos:compiler OU Todos os campos:parsing OU Todos os campos:parser OU Todos os campos:compilador) E (Todos os campos:shader OU Todos os campos:shading) E (Todos os campos:brdf)
-
+0   = 
 0 CAPES Periodico   =  Qualquer campo contém brdf E 
  Qualquer campo contém compi* E shad*
 
