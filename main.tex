@@ -53,8 +53,8 @@
 
 % \include{Pre_Textual/Dedicatoria}
 % \include{Pre_Textual/Agradecimentos}
-% \include{Pre_Textual/Epigrafe}
-% \include{Pre_Textual/Resumo}
+\include{Pre_Textual/Epigrafe}
+\include{Pre_Textual/Resumo}
 % \include{Pre_Textual/Abstract}
 
 
@@ -174,24 +174,28 @@ AND (("Full Text \& Metadata":compiler) OR  ("Full Text \& Metadata":parsing) OR
     & (Todos os campos:compiler OU Todos os campos:parsing OU Todos os campos:parser OU Todos os campos:compilador) E (Todos os campos:shader OU Todos os campos:shading) E (Todos os campos:brdf)
     & 0
     \\ \hline
+    CAPES Periodico
+    &  Qualquer campo contém brdf E 
+ Qualquer campo contém compi* E shad*  
+    & 0
+    \\ \hline
+
+  ACM Digital Library
+  & AllField:((shader OR shading) AND brdf AND (compiler OR compiling) AND (parser OR grammar OR parsing))
+  & 46
+    \\ \hline
+
+ Google Academico 
+  & 
+  ("BRDF" AND ("COMPILER" OR "COMPILING") AND( "PARSER" OR "PARSING") AND ("SHADER" OR "SHADING"))
+  & 69
    % \hline
 \end{tabular}
 \legend{Fonte: \citeonline{van86}}
 \end{table}
 
-36 IEEE  = 
-0   = 
-0 CAPES Periodico   =  Qualquer campo contém brdf E 
- Qualquer campo contém compi* E shad*
+As paralv
 
- 69 Google Academico 
-  ("BRDF" AND ("COMPILER" OR "COMPILING") AND( "PARSER" OR "PARSING") AND ("SHADER" OR "SHADING"))
-
-46 ACM Digital Library = AllField:((shader OR shading) AND brdf AND (compiler OR compiling) AND (parser OR grammar OR parsing))
-
-% (("Full Text & Metadata":brdf) OR  ("Full Text & Metadata":reflectance))
-% AND (("Full Text & Metadata":shader) OR  ("Full Text & Metadata":shading))
-% AND (("Full Text & Metadata":compiler) OR  ("Full Text & Metadata":parsing) OR  ("Full Text & Metadata":parser) OR  ("Full Text & Metadata":grammar))
 
 
 %
