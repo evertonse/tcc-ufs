@@ -18,6 +18,7 @@
 *.idx
 *.ilg
 *.blg
+*.bbl
 logo_dcomp-eps-converted-to.pdf
 logo_ufs-eps-converted-to.pdf
 logo_procc-eps-converted-to.pdf

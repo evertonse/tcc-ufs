@@ -52,6 +52,6 @@ $(FILENAME).dvi: clean $(FILENAME).tex
 	    done
 
 clean:
-	rm -f *.loc .*loa .*loq *.ps *.dvi *.aux *.toc *.idx *.ind *.ilg *.log *.out *.brf *.blg *.bbl $(FILENAME).pdf
+	rm -f *.bbl *.loc .*loa .*loq *.ps *.dvi *.aux *.toc *.idx *.ind *.ilg *.log *.out *.brf *.blg *.bbl **/**.bbl **/**.loc .**/**loa .**/**loq **/**.ps **/**.dvi **/**.aux **/**.toc **/**.idx **/**.ind **/**.ilg **/**.log **/**.out **/**.brf **/**.blg **/**.bbl $(FILENAME).pdf
 
 .PHONY: all show $(FILENAME).pdf push
