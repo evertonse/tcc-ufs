@@ -122,9 +122,13 @@ Para alcançar o objetivo, a sequencia das etapas adotadas serão as seguintes.
 \chapter{Revisão Bibliográfica}
 
 Para esta seção, será conduzida uma revisão literária abrangente com o objetivo de explorar trabalhos relacionados ao desenvolvimento de compiladores para tradução de BRDFs expressas em LaTeX para a linguagem de shading, empregando, técnicas de parsing.
-O processo de busca será conduzido em duas etapas distintas. Primeiramente, será realizado um levantamento dos trabalhos existentes nas bases IEEE Xplorer Digital Library,  Biblioteca Digital Brasileira de Teses e Dissertações (BDTD) e Google Acadêmico, esse foram escolhidos por serem acessíveis gratuitamente pela afiliação à Universidade Federal de Sergipe, já o google scholar foi escolhido para agregar pesquisas em outras bases que possam ter trabalhos relevantes.
+O processo de busca será conduzido em duas etapas distintas. Primeiramente, será realizado um levantamento dos trabalhos existentes nas bases IEEE Xplorer Digital Library,  Biblioteca Digital Brasileira de Teses e Dissertações (BDTD), Portal de Periódicos da CAPES e Google Acadêmico, esse foram escolhidos por serem acessíveis gratuitamente pela afiliação à Universidade Federal de Sergipe, já o google scholar foi escolhido para agregar pesquisas em outras bases que possam ter trabalhos relevantes.
 
-Por fim, será realizada uma busca por produtos ou ferramentas similares no mercado, utilizando strings de busca específicas em repositórios digitais, especificamente GitHub, e GitLab. Esses processos de busca permitirão identificar referências relevantes e estabelecer um panorama do estado da arte no campo dos compiladores de BRDFs para shaders, contribuindo para a compreensão do contexto acadêmico e prático no qual este trabalho se insere.
+\url{https://bdtd.ibict.br/}
+\url{https://ieeexplore.ieee.org/}
+\url{https://www-periodicos-capes-gov-br.ezl.periodicos.capes.gov.br/}
+
+Por fim, será realizada uma busca por produtos ou ferramentas similares no mercado, utilizando strings de busca específicas em repositórios digitais, especificamente GitHub, e GitLab. Esses processos de busca permitirão identificar referências relevantes e estabelecer um panorama do estado da arte no campo dos compiladores de BRDFs  para shaders, contribuindo para a compreensão do contexto acadêmico e prático no qual este trabalho se insere.
 
 \subsection{Mapeamento Sistemático}
 
@@ -148,31 +152,41 @@ Quais são as ferramentas e recursos disponíveis para auxiliar no desenvolvimen
 
 %
 
+Incluimos anais de evento, trabalhos e artigos de qualquer ano.
+
 \begin{table}[htb]
 \ABNTEXfontereduzida
-\caption[Níveis de investigação]{Níveis de investigação.}
-\label{tab-nivinv}
+\caption[bases]{}
+\label{tab-bases}
 \begin{tabular}{p{2.6cm}|p{6.0cm}|p{2.25cm}|p{3.40cm}}
   %\hline
-   \textbf{Nível de Investigação} & \textbf{Insumos}  & \textbf{Sistemas de Investigação}  & \textbf{Produtos}  \\
+   \textbf{Bases} & \textbf{Termos de Pesquisa}  & \textbf{Resultados}\\
     \hline
-    Meta-nível & Filosofia\index{filosofia} da Ciência  & Epistemologia &
-    Paradigma  \\
-    \hline
+    IEEE Xplore Digital Library
+    &
+    ("Full Text \& Metadata":brdf)
+AND (("Full Text \& Metadata":shader) OR  ("Full Text \& Metadata":shading))
+AND (("Full Text \& Metadata":compiler) OR  ("Full Text \& Metadata":parsing) OR  ("Full Text \& Metadata":parser) OR  ("Full Text \& Metadata":grammar))
+   & 36
+    \\ \hline
     Nível do objeto & Paradigmas do metanível e evidências do nível inferior &
-    Ciência  & Teorias e modelos \\
-    \hline
+    Ciência  & Teorias e modelos \\ \hline
     Nível inferior & Modelos e métodos do nível do objeto e problemas do nível inferior & Prática & Solução de problemas  \\
    % \hline
 \end{tabular}
 \legend{Fonte: \citeonline{van86}}
 \end{table}
 
-("Full Text \& Metadata":brdf)
-AND (("Full Text \& Metadata":shader) OR  ("Full Text \& Metadata":shading))
-AND (("Full Text \& Metadata":compiler) OR  ("Full Text \& Metadata":parsing) OR  ("Full Text \& Metadata":parser) OR  ("Full Text \& Metadata":grammar))
+36 IEEE  = 
+0 BDTD  = (Todos os campos:compiler OU Todos os campos:parsing OU Todos os campos:parser OU Todos os campos:compilador) E (Todos os campos:shader OU Todos os campos:shading) E (Todos os campos:brdf)
 
-(Todos os campos:compiler OU Todos os campos:parsing OU Todos os campos:parser OU Todos os campos:compilador) E (Todos os campos:shader OU Todos os campos:shading) E (Todos os campos:brdf)
+0 CAPES Periodico   =  Qualquer campo contém brdf E 
+ Qualquer campo contém compi* E shad*
+
+ 69 Google Academico 
+  ("BRDF" AND ("COMPILER" OR "COMPILING") AND( "PARSER" OR "PARSING") AND ("SHADER" OR "SHADING"))
+
+46 ACM Digital Library = AllField:((shader OR shading) AND brdf AND (compiler OR compiling) AND (parser OR grammar OR parsing))
 
 % (("Full Text & Metadata":brdf) OR  ("Full Text & Metadata":reflectance))
 % AND (("Full Text & Metadata":shader) OR  ("Full Text & Metadata":shading))
@@ -191,7 +205,7 @@ AND (("Full Text \& Metadata":compiler) OR  ("Full Text \& Metadata":parsing) OR
 \chapter{Conceitos}
 
 \section{BRDFs}
-% \url{https://www.youtube.com/watch?v=kPIqO929pIc&list=PL2zRqk16wsdpyQNZ6WFlGQtDICpzzQ925&index=3}
+\url{https://www.youtube.com/watch?v=kPIqO929pIc&list=PL2zRqk16wsdpyQNZ6WFlGQtDICpzzQ925&index=3}
 
 \section{Compilador}
 \section{Análise Léxica}
