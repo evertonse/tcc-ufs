@@ -17,6 +17,7 @@ pull:
 	git pull
 
 
+run: all
 
 all: $(FILENAME).pdf
 
