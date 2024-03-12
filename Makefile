@@ -17,7 +17,8 @@ pull:
 	git pull
 
 
-run: all
+run: clean all
+
 
 all: $(FILENAME).pdf
 
@@ -54,4 +55,4 @@ $(FILENAME).dvi: clean $(FILENAME).tex
 clean:
 	rm -f *.bbl *.loc .*loa .*loq *.ps *.dvi *.aux *.toc *.idx *.ind *.ilg *.log *.out *.brf *.blg *.bbl **/**.bbl **/**.loc .**/**loa .**/**loq **/**.ps **/**.dvi **/**.aux **/**.toc **/**.idx **/**.ind **/**.ilg **/**.log **/**.out **/**.brf **/**.blg **/**.bbl $(FILENAME).pdf
 
-.PHONY: all show $(FILENAME).pdf push
+.PHONY: all show $(FILENAME).pdf push run clean

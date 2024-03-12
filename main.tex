@@ -16,6 +16,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \usepackage{lipsum} % Retirar para a versão final do documento
+\usepackage{float}
+\restylefloat{table}
 
 %Utilize aqui seu pacote preferido para algoritmos
 \usepackage[linesnumbered]{algorithm2e}
@@ -128,7 +130,7 @@ Por fim, será realizada uma busca por produtos ou ferramentas similares no merc
 
 \section{Mapeamento Sistemático}
 
-Com o intuito de obter resultados relevantes para a pesquisa, foram criados termos de busca básicos, tanto em inglês quanto em português, para iniciar a investigação. Para isso, foram elaboradas frases de busca com base nos termos-chave relacionados ao tema deste trabalho. As frases foram contruidas considerando suas variações equivalentes através de operadores lógicos. Posteriormente, as frases de pesquisa foram adaptadas de acordo com as características individuais de cada base de dados utilizada nas pesquisas.Os termos-chave escolhidos foram: "shader", "BRDF", "compiler", "parser" e "grammar".
+Com o intuito de obter resultados relevantes para a pesquisa, foram elaboradas frases de busca com base nos termos-chave relacionados ao tema deste trabalho. Assim como, foram criadas questões de pesquisa para guiar a seleção dos trabalhos.
 
 \subsection{Seleção das Bases}
 As bases escolhidas foram: ACM Digital Library,  IEEE Xplorer Digital Library,  Biblioteca Digital Brasileira de Teses e Dissertações (BDTD), Portal de Periódicos da CAPES,  Google Acadêmico, esse foram escolhidos por serem acessíveis gratuitamente pela afiliação à Universidade Federal de Sergipe, já o google scholar foi escolhido para agregar pesquisas em outras bases que possam ter trabalhos relevantes.
@@ -140,7 +142,7 @@ As bases escolhidas foram: ACM Digital Library,  IEEE Xplorer Digital Library,  
 
 \subsection{Questões de Pequisa}
 
-Foram elaboradas questões de pesquisa específicas e conduzidas buscas em diversas bases de dados, utilizando frases-chave que refletiam os principais aspectos do tema em questão. A partir desse processo de busca criteriosa, foram identificados e selecionados os trabalhos que melhor atendiam às questões propostas, garantindo maior relevância para o estudo em questão.
+Foram elaboradas questões de pesquisa específicas, que guiam as frases-chave que refletem os principais aspectos do tema em questão. A partir desse processo, foram identificados e selecionados os trabalhos que melhor atendiam às questões propostas, garantindo maior relevância para o estudo em questão.
 
 \begin{enumerate}
   \item Quais são as abordagens mais comuns utilizadas na criação de compiladores para tradução de BRDFs expressas em alguma linguagem de texto, com LaTeX, para shaders?
@@ -157,7 +159,11 @@ Foram elaboradas questões de pesquisa específicas e conduzidas buscas em diver
 
 
 
-\begin{table}[htb]
+\subsection{Termos de Busca}
+ As frases foram contruidas considerando suas variações equivalentes através de operadores lógicos. Posteriormente, as frases de pesquisa foram adaptadas de acordo com as características individuais de cada base de dados utilizada nas pesquisas. Os termos-chave escolhidos foram: "shader", "BRDF", "compiler", "parser" e "grammar".
+
+
+\begin{table}[Htb]
 \ABNTEXfontereduzida
 \caption[bases]{}
 \label{tab-bases}
@@ -197,17 +203,17 @@ AND (("Full Text \& Metadata":compiler) OR  ("Full Text \& Metadata":parsing) OR
 % \legend{Fonte: \citeonline{van86}}
 \end{table}
 
-\subsection{Critérios de Inclusão e Exclusão}
+\subsection{Critérios}
 
-São critérios de inclusão:
+\subsubsection{Critérios de Inclusão}
+
 \begin{enumerate}
   \item Foram incluídos artigos relacionados às palavras-chaves;
-  \item Foram incluídos artigos que de alguma forma exista a criação de um compilador
-  \item Foram incluídos artigos que de alguma forma sintetize uma arvóre como representação de BRDFs
+  \item Foram incluídos artigos que de alguma forma inclua a criação de um compilador ou um parser;
+  \item Foram incluídos artigos que sintetize uma arvóre como representação de BRDFs
 \end{enumerate}
 
-
-São critérios de exclusão:
+\subsubsection{Critérios de Exclusão}
 
 \begin{enumerate}
   \item Foram excluídos artigos dos quais dispunham de links incorretos e ou quebrados;
