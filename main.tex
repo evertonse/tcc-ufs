@@ -122,7 +122,7 @@ Para alcançar o objetivo, a sequencia das etapas adotadas serão as seguintes.
 \chapter{Revisão Bibliográfica}
 
 Para esta seção, será conduzida uma revisão literária abrangente com o objetivo de explorar trabalhos relacionados ao desenvolvimento de compiladores para tradução de BRDFs expressas em LaTeX para a linguagem de shading, empregando, técnicas de parsing.
-O processo de busca será conduzido em duas etapas distintas. Primeiramente, será realizado um levantamento dos trabalhos existentes nas bases IEEE Xplorer Digital Library, Elsevier Scopus e Google Acadêmico, esse foram escolhidos por serem acessíveis gratuitamente pela afiliação à Universidade Federal de Sergipe, já o google scholar foi escolhido para agregar pesquisas em outras bases que possam ter trabalhos relevantes.
+O processo de busca será conduzido em duas etapas distintas. Primeiramente, será realizado um levantamento dos trabalhos existentes nas bases IEEE Xplorer Digital Library,  Biblioteca Digital Brasileira de Teses e Dissertações (BDTD) e Google Acadêmico, esse foram escolhidos por serem acessíveis gratuitamente pela afiliação à Universidade Federal de Sergipe, já o google scholar foi escolhido para agregar pesquisas em outras bases que possam ter trabalhos relevantes.
 
 Por fim, será realizada uma busca por produtos ou ferramentas similares no mercado, utilizando strings de busca específicas em repositórios digitais, especificamente GitHub, e GitLab. Esses processos de busca permitirão identificar referências relevantes e estabelecer um panorama do estado da arte no campo dos compiladores de BRDFs para shaders, contribuindo para a compreensão do contexto acadêmico e prático no qual este trabalho se insere.
 
@@ -147,15 +147,40 @@ Foram elaboradas questões de pesquisa específicas e conduzidas buscas em diver
 Quais são as ferramentas e recursos disponíveis para auxiliar no desenvolvimento de compiladores para BRDFs e shaders, e como elas podem ser integradas ao processo de desenvolvimento?
 
 %
-(("Full Text \& Metadata":brdf) OR  ("Full Text \& Metadata":reflectance))
+
+\begin{table}[htb]
+\ABNTEXfontereduzida
+\caption[Níveis de investigação]{Níveis de investigação.}
+\label{tab-nivinv}
+\begin{tabular}{p{2.6cm}|p{6.0cm}|p{2.25cm}|p{3.40cm}}
+  %\hline
+   \textbf{Nível de Investigação} & \textbf{Insumos}  & \textbf{Sistemas de Investigação}  & \textbf{Produtos}  \\
+    \hline
+    Meta-nível & Filosofia\index{filosofia} da Ciência  & Epistemologia &
+    Paradigma  \\
+    \hline
+    Nível do objeto & Paradigmas do metanível e evidências do nível inferior &
+    Ciência  & Teorias e modelos \\
+    \hline
+    Nível inferior & Modelos e métodos do nível do objeto e problemas do nível inferior & Prática & Solução de problemas  \\
+   % \hline
+\end{tabular}
+\legend{Fonte: \citeonline{van86}}
+\end{table}
+
+("Full Text \& Metadata":brdf)
 AND (("Full Text \& Metadata":shader) OR  ("Full Text \& Metadata":shading))
 AND (("Full Text \& Metadata":compiler) OR  ("Full Text \& Metadata":parsing) OR  ("Full Text \& Metadata":parser) OR  ("Full Text \& Metadata":grammar))
 
-%
-% ("Full Text & Metadata":brdf)
+(Todos os campos:compiler OU Todos os campos:parsing OU Todos os campos:parser OU Todos os campos:compilador) E (Todos os campos:shader OU Todos os campos:shading) E (Todos os campos:brdf)
+
+% (("Full Text & Metadata":brdf) OR  ("Full Text & Metadata":reflectance))
 % AND (("Full Text & Metadata":shader) OR  ("Full Text & Metadata":shading))
 % AND (("Full Text & Metadata":compiler) OR  ("Full Text & Metadata":parsing) OR  ("Full Text & Metadata":parser) OR  ("Full Text & Metadata":grammar))
+
+
 %
+
 
 
 \subsection{Descrição dos Trabalhos Relacionados}
