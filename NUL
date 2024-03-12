@@ -1,9 +1,1 @@
 git add . && git commit -m "TCC $(date)" && git push
-[master 5ee3ddd] TCC Tue Mar 12 05:10:04 PM -03 2024
- 5 files changed, 7 insertions(+), 12 deletions(-)
- create mode 100644 main.loc
- create mode 100644 main.pdf
-remote: This repository moved. Please use the new location:        
-remote:   https://github.com/evertonse/tcc-ufs.git        
-To https://github.com/evertonse/abntex2-DCOMP-UFS.git
-   ddbaffa..5ee3ddd  master -> master
