@@ -126,7 +126,7 @@ Para alcançar o objetivo, a sequencia das etapas adotadas serão as seguintes.
 Para esta seção, será conduzida uma revisão literária abrangente com o objetivo de explorar trabalhos relacionados ao desenvolvimento de compiladores para tradução de BRDFs expressas em LaTeX para a linguagem de shading, empregando, técnicas de parsing. O processo de busca será conduzido em duas etapas distintas. Primeiramente, será realizado um levantamento dos trabalhos existentes nas bases de dados  com relevantes periodicos, anais de eventos, artigos e trabalhos. 
 
 
-Por fim, será realizada uma busca por produtos ou ferramentas similares no mercado, utilizando strings de busca específicas em repositórios digitais, especificamente GitHub, e GitLab. Esses processos de busca permitirão identificar referências relevantes e estabelecer um panorama do estado da arte no campo dos compiladores de BRDFs  para shaders, contribuindo para a compreensão do contexto acadêmico e prático no qual este trabalho se insere.
+Por fim, será realizada uma busca por produtos ou ferramentas similares no mercado, utilizando strings de busca específicas em repositórios digitais, especificamente GitHub, e SourceForge. Esses processos de busca permitirão identificar referências relevantes e estabelecer um panorama do estado da arte no campo dos compiladores de BRDFs  para shaders, contribuindo para a compreensão do contexto acadêmico e prático no qual este trabalho se insere.
 
 \section{Mapeamento Sistemático}
 
@@ -163,7 +163,7 @@ Foram elaboradas questões de pesquisa específicas, que guiam as frases-chave q
  As frases foram contruidas considerando suas variações equivalentes através de operadores lógicos. Posteriormente, as frases de pesquisa foram adaptadas de acordo com as características individuais de cada base de dados utilizada nas pesquisas. Os termos-chave escolhidos foram: "shader", "BRDF", "compiler", "parser" e "grammar".
 
 
-\begin{table}[Htb]
+\begin{table}[H]
 \ABNTEXfontereduzida
 \caption[bases]{}
 \label{tab-bases}
@@ -205,6 +205,8 @@ AND (("Full Text \& Metadata":compiler) OR  ("Full Text \& Metadata":parsing) OR
 
 \subsection{Critérios}
 
+Para garantir relevancia dos resultados obtivos, seguimos os critérios de inclusão e exclusão estabelecidos, de forma que os resultados serão filtrados. Ao fim desse procedimento, apenas os resultados com maior compatibilidade com este trabalho seram análisado e descritos de maneira mais detalhada.
+
 \subsubsection{Critérios de Inclusão}
 
 \begin{enumerate}
@@ -226,42 +228,37 @@ AND (("Full Text \& Metadata":compiler) OR  ("Full Text \& Metadata":parsing) OR
 
 
 
-% \begin{table}[htb]
-% \ABNTEXfontereduzida
-% \caption[bases]{Resultados após análise}
-% \label{tab-bases}
-% \begin{tabular}{p{2.6cm}|p{6.0cm}|p{2.25cm}|p{3.40cm}}
-%    %\hline
-%    \textbf{Bases}
-%    & \textbf{Resultados}\\
-%
-%    \hline
-%     IEEE Xplore Digital Library
-%    & 36
-%     \\ \hline
-%
-%     BDTD
-%     & 0
-%     \\ \hline
-%     CAPES Periodico
-%     & 0
-%     \\ \hline
-%
-%   ACM Digital Library
-%   & 46
-%     \\ \hline
-%
-%  Google Academico 
-%   & 69
-%    % \hline
-% \end{tabular}
-% \legend{Fonte: \citeonline{van86}}
-% \end{table}
-
 
 \subsection{Descrição dos Trabalhos Relacionados}
 
+
 \subsection{Pesquisa por Repositórios online}
+Também foram analisados repositórios no github e SourceForge, cada um com uma string de busca especifica. Os repositórios encontrados, foram filtrados baseados em seus resumos. Se não houver a menção da criação de um compilador, ou não citar uma transformação de uma BRDF para outra estrutura, esse repositório foi excluido.
+
+
+\begin{table}[H]
+\ABNTEXfontereduzida
+\caption[bases]{}
+\label{tab-bases}
+\begin{tabular}{p{2.6cm}|p{6.0cm}|p{2.25cm}|p{3.40cm}}
+  %\hline
+   \textbf{Plataformas} & \textbf{Termos de Pesquisa}  & \textbf{Resultados}\\
+   \hline
+   GitHub
+   &
+   in:readme (GLSL AND BRDF AND  (compiler OR compilation) AND (shader OR shading))
+   & 15
+   \\ \hline
+   SourceForge
+   &
+   compiler bdrf
+   & 0
+\end{tabular}
+% \legend{Fonte: \citeonline{van86}}
+\end{table}
+
+
+Após ler por completo os resumos dos repostiórios do GitHub, é evidente que nenhum desses projetos é relacionado com o proposto neste trabalhos, apesar de comentar sobre BRDFs, esses projetos não implementam compiladores, não fazem parsing de equações de BRDFs e nem mesmo geram shaders a partir de BRDFs.
 
 
 \chapter{Conceitos}
