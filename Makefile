@@ -9,6 +9,8 @@
 
 FILENAME = main
 #FILENAME = Modelo-Mestrado-PROCC
+OPEN = open 
+# OPEN = evince
 
 push: 
 	 git add . && git commit -m "TCC $$(date)${MSG}" && git push
@@ -35,7 +37,7 @@ $(FILENAME).pdf: *.tex Pre_Textual/*.tex Pos_Textual/*.tex **.tex
 	pdflatex $(FILENAME).tex
 
 show: all
-	evince $(FILENAME).pdf &
+	$(OPEN) $(FILENAME).pdf &
 
 $(FILENAME).dvi: clean $(FILENAME).tex
 	echo "Running latex..."
