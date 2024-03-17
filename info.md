@@ -61,13 +61,15 @@ radiante energy = # hits
 Radiant energy density = # hits per area
 Radiant flux = # hits per second
 Irrandiace = # hits per second per area (radiance flux density)
+Half the area would mean half the flux, but same Irradiance
 
 Units:
 
 
-Isso ainda não é suficiente para descrever, é ncessario extender para o angulo
+Isso ainda não é suficiente para descrever how bright something appear, é ncessario extender para o angulo
 em 2d temos radians
 
+ex: if you had a flux heading only in one direction and it not the direction your looking in the sufarce wouldn't appear bright, nevertheless the flux could possibly be very high
 
 Solid Angle: razão entre a area subtended on the sphere to radius square
 a area projetada
@@ -78,6 +80,13 @@ radiance $L$ is the solid angle density of irradiance
 
 $$
 L(p,w) = \frac{dE_w(p)}{dw} [J/s\cdot m^2\cdot \text{sr}]
+$$
+
+Or 
+
+$$
+
+L(p,w) = \frac{d \phi(p)}{dwdA^{\perp}} \text{ $A^\perp$ is the area perpendicular  } 
 $$
 
 E_w denota que a area de superficie diferencial está orientada na direção de $w$
@@ -93,8 +102,8 @@ Computing flux per unit area on surface due to ALL incoming light from all direc
 $$
 irradiance = E(p) = \int_{H^2}{L_i(p,w)\cos\theta dw}
 dw = \sin\theta d \theta d\phi
+text{Onde $H^2$ é o hemispherio  no plano tangete definido pela superficie no ponto  $p$}
 $$
-Onde H^2 é o hemispherio tangete ao plano definido pela superficie
 
 $$
   \int_1^9\! \cos{x} \,\mathrm{d}x \textrm{this is textrm}\
@@ -114,3 +123,8 @@ geometric optics, defraction is not accounted
 
 
 Ideial specular, D
+--- 
+both wi and wo are positions on the hemisphere and therefore 2 dimension so BRDFs are 4 dimensional functions
+em shading estamos interessado em um wo apenas de todas essa BRDF que é o wo que é a direção dada pelo vetor do ponto p até a camera
+propriedades, isso permite ir da camera para a luz ao invez da luz para a acmera
+
