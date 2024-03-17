@@ -65,5 +65,24 @@ Irrandiace = # hits per second per area (radiance flux density)
 Units:
 
 
-Isso ainda não é suficiente para descrever
+Isso ainda não é suficiente para descrever, é ncessario extender para o angulo
+em 2d temos radians
 
+
+Solid Angle: razão entre a area subtended on the sphere to radius square
+a area projetada
+Explain better
+
+# Radiance
+radiance $L$ is the solid angle density of irradiance
+
+$$
+L(p,w) = \frac{dE_w(p)}{dw} [J/s\cdot m^2\cdot sr]
+$$
+
+E_w denota que a area de superficie diferencial está orientada na direção de $w$
+
+Radiance is the energy along a ray defined by origin point $p$ and a direction $w$
+
+Caso não esteja na direção de w entaõ precisamos adicionar um termo cos
+Light comming in $L_i$ might be very different from light  going out $L_o$ of and object
