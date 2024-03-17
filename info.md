@@ -77,7 +77,7 @@ Explain better
 radiance $L$ is the solid angle density of irradiance
 
 $$
-L(p,w) = \frac{dE_w(p)}{dw} [J/s\cdot m^2\cdot sr]
+L(p,w) = \frac{dE_w(p)}{dw} [J/s\cdot m^2\cdot \text{sr}]
 $$
 
 E_w denota que a area de superficie diferencial está orientada na direção de $w$
@@ -86,3 +86,31 @@ Radiance is the energy along a ray defined by origin point $p$ and a direction $
 
 Caso não esteja na direção de w entaõ precisamos adicionar um termo cos
 Light comming in $L_i$ might be very different from light  going out $L_o$ of and object
+
+Randiance is a fundamental quantity that characterizes the distribution of light in an environment
+Computing flux per unit area on surface due to ALL incoming light from all direction:
+
+$$
+irradiance = E(p) = \int_{H^2}{L_i(p,w)\cos\theta dw}
+dw = \sin\theta d \theta d\phi
+$$
+Onde H^2 é o hemispherio tangete ao plano definido pela superficie
+
+$$
+  \int_1^9\! \cos{x} \,\mathrm{d}x \textrm{this is textrm}\
+  \sum_1^9 y                       \textsf{this is textsf}\
+  \prod_1^9 z                      \textnormal{this is textnormal}\
+  \bigcup_1^9 w                    
+$$
+
+# Equation
+the recurse terminate on emissive light
+
+### BRDF how does reflection fo light affect the outgoing radiance
+called scatering function, reflection is o processo pelo qual luz indidente numa superficie interage de tal maneira que não afeta a frequencia da onda ( isto é a cor) a aparencia da é determinada pelo modelo.
+Podendo varia na frequencia absorvida ou refletida, quais a direções que a luz é refletida fortemente.
+
+geometric optics, defraction is not accounted
+
+
+Ideial specular, D
