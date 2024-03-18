@@ -417,21 +417,102 @@ A radiância pode fornecer informação sobre o quanto um ponto específico est�
 \end{align*}
 
 
-A principal funcionalidade de uma renderizador fotorealista é estimar a radiancia em um ponto $p$ numa dada direção $w_o$. Essa radiancia é dada pela equação de renderização apresentada por @ref Kajiya:
+A principal funcionalidade de uma renderizador fotorealista é estimar a radiancia em um ponto $p$ numa dada direção $w_o$. Essa radiancia é dada pela equação de renderização apresentada por @ref Kajiya. Note que essa euquação envolve um termo de radiancia recursiva, o caso base ocorre quando não há mais o termo recursivo, isto é, um fonte de luz na qual sua radiancia é contribuida apenas por randianca emitida $L_e$.
 
 \begin{align*}
   &L_o(p, w_o) = L_e(p, w_o) + 
 \int_{H^2}F(p, w_i, w_o){L_i(p,w_i)\cos(\theta)dw_i}\\
-
-    &L_o \text{é radiancia \textit{out}/{observada}}\\
-    &L_i
+    &L_o \text{ é radiancia de saída (\textit{outgoing}) ou {observada}}\\
+    &L_e \text{ é radiancia emitida (i.e. fonte de luz)}\\
+    &L_i \text{ é radiancia incidente}\\
+    &w_i \text{ é a direção incidente}\\
+    &w_o \text{ é a direção de saída}\\
+    &H^2 \text{ são todas no hemisfério}\\
+    &\theta \text{ angulo entre direção incidente e a normal da superficie}\\
+    &F \text{ função de refletancia}\\
 \end{align*}
 
-A Função de Distribuição Bidirecional de Reflectância (BRDF) descreve como a reflexão da luz afeta a radiância de saída. Ela leva em conta vários fatores, como rugosidade da superfície, ângulo de incidência e propriedades do material. Compreender a BRDF permite a modelagem precisa da interação da luz com superfícies na renderização de gráficos computacionais.
+A Função de Distribuição Bidirecional de Reflectância (BRDF) descreve como a luz reflete de uma superficie em diferentes direções afetando a radiância de saída. Reflexão é o processo no qual a luz iterage com a superficie sem alterar a sua frequencia. Assim, BRDFs encapsulam as propriedades de reflexão de um material levando em conta vários fatores, como rugosidade da superfície, ângulo de incidência, angulo de reflexão
+Formalmente uma BRDF pode ser definida por $F(w_i, w_o)$, onde $w_i$ é a direção indicente de luz e $w_o$ é a direção de saída.
 
-Em resumo, a radiometria fornece o quadro fundamental para entender o comportamento da luz em ambientes digitais, essencial para criar renderizações realistas e visualmente atraentes.
+Para BRDFs fisicamente realistas algumas propriedades devem ser respeitadas.
 
-\section{Compilador}
+\begin{itemize}
+  \item A propriedade de positividade, $ F(\omega_i, \omega_o) \geq 0 $, que garante não existência de energia negativa. 
+
+  \item Também, deve-se obedecer a reciprocidade de Helmhotz, $F(\omega_i, \omega_o) = F(\omega_o, \omega_i)$. Essa reciprocidade é usado na renderização, pois no lugar de traçar os raios da fonte de luz até a camera, podemos traçar os raios da camera até a fonte de luz otimizando a maior parte dos raios traçados diretamente da fonte de luz que não iriam antigir a lente da camera, exitando desperdicio de poder computacional em raios que não contribuem para intensidade de um dado pixel.
+
+  \item A BRDF deve, também, respeitar a conversação de energia, $\forall  \omega_i, \int_{H^2}{F(\omega_i, \omega_o)cos(\theta_o) d\omega_o}\leq 1$. Nesse caso parte da energia pode ser absorvida, ou seja, transformado em outra forma de energia como calor, nesse caso esse somatório infintesimal pode no máximo chegar a 1, mas nunca ultrapassar.
+\end{itemize}
+
+\section{BRDF Models}
+
+
+\subsection{Superfície Pura Especular}
+Uma superfície puramente especular reflete a luz apenas em uma direção, seguindo a lei da reflexão. Ela produz reflexões nítidas, semelhantes a espelhos.
+A BRDF para uma superfície puramente especular é frequentemente representada pela função delta de Dirac $\delta(\omega_i - \omega_o)$, onde $\omega_i$ é a direção da luz incidente e $\omega_o$ é a direção refletida.
+$f(\omega_i, \omega_o) = k_s \cdot \delta(\omega_i - \omega_o)$
+A função delta de Dirac garante que toda a luz incidente seja refletida na direção perfeitamente espelhada, resultando em uma reflexão altamente focada e intensa. Esse tipo de superfície é comum em materiais como metal polido ou vidro.
+
+\subsection{BRDF Difusa Ideal}
+Uma BRDFs difusa ideal reflete a luz incidente uniformemente em todas as direções, sem preferência por ângulos específicos. é representada por um termo cosseno lambertiano $\frac{\rho_d}{\pi} \cdot \cos \theta$, onde $\rho_d$ é o albedo da superfície e $\theta$ é o ângulo entre a direção da luz incidente e a normal da superfície.
+$f(\omega_i, \omega_o) = \frac{\rho_d}{\pi} \cdot \cos \theta$
+O termo cosseno garante que a radiância refletida seja proporcional ao cosseno do ângulo entre a direção da luz incidente e a normal da superfície. Esse modelo pode representar superfícies como tinta fosca ou papel.
+
+\subsubsection{BRDF Brilhante (\textit{Glossy})}
+Uma superfície brilhante exibe propriedades de reflexão tanto especulares quanto difusas. BRDF para uma superfície brilhante é frequentemente representada por uma combinação de termos especulares e difusos, como o modelo de Blinn-Phong @ref
+
+\subsubsection{BRDF Retro-Refletora}
+Uma superfície retro-refletora reflete a luz incidente de volta na direção de onde veio, independentemente do ângulo de incidência. A BRDF para uma superfície retro-refletora envolve tipicamente geometria especializada ou revestimentos projetados para redirecionar a luz de volta para a fonte.
+
+\section{Compiladores}
+
+\subsection{Cadeia de Símbolos e Alfabeto}
+
+Um \textbf{cadeia de símbolos} é uma sequência finita de símbolos retirados de um alfabeto $ \Sigma $. Formalmente, um cadeia $ w $ é representado como $ [w_1, w_2, ..., w_n] $, onde cada $ w_i $ pertence ao alfabeto $ \Sigma $. O \textbf{alfabeto} $ \Sigma $ é um conjunto finito de símbolos distintos usados para construir cadeias em uma linguagem. Ele define os blocos de construção a partir dos quais cadeias válidas na linguagem são formadas.
+
+\subsection{Definições de Linguagens}
+
+Na ciência da computação, as linguagens são sistemas formais compostos por símbolos e regras que são muito uteis para definir um significado algoritimico. Uma \textbf{linguagem} $L$ é definida como um conjunto de cadeias sobre um alfabeto finito $ \Sigma $, $ L \subseteq \Sigma^* $, onde  $ \Sigma^* $ denota o conjunto de todas as cadeias possíveis sobre $ \Sigma $. A estrutura e semântica de uma linguagem  inclue seu alfabeto $ \Sigma $, sintaxe e regras de gramática.
+
+\subsection{Compilador como um Transformação}
+
+Um compilador pode ser visto como um transformação entre linguagens $ L_1 $ e $ L_2 $ que preserva a estrutura interna dos cojuntos, isto é, deve manter o mesmo significado algoritmico. Assim, o compilador $ C: L_1 \rightarrow L_2 $ mapeia programas escritos na linguagem de origem $ L_1 $ para programas equivalentes na linguagem de destino $ L_2 $. Essa transformação garante a preservação semântica, mantendo o comportamento pretendido do programa original durante a tradução.
+
+
+\section{Gramática}
+
+Para auxiliar na criação de um compilador é necessario entender as regras que auxiliam na validação e geração da linguagem de interesse, esse entedimento pode ser alcaçando pela gramática. Uma gramática $ G $ é um sistema formal composto por um conjunto de regras de produção que especificam como cadeias válidas na linguagem podem ser geradas. Ela inclui terminais, não-terminais, regras de produção e um símbolo inicial.
+
+\begin{itemize}
+  \item Terminais: Terminais são os símbolos básicos a partir dos quais as cadeias são formadas. Eles representam as unidades elementares da sintaxe da linguagem.
+  \item Não-terminais: Não-terminais são espaços reservados que podem ser substituídos por terminais ou outros não-terminais de acordo com as regras de produção.
+
+  \item Regras de Produção: As regras de produção definem a transformação ou substituição de não-terminais em sequências de terminais e/ou não-terminais.
+
+  \item Símbolo Inicial: O símbolo inicial é um não-terminal especial a partir do qual a derivação de cadeias válidas na linguagem começa.
+\end{itemize}
+
+
+\subsubsection{Gramáticas Livres de Contexto (GLCs)}
+
+Um tipo comum de gramática usado na definição de linguagens é a gramática livre de contexto (GLC). Em uma GLC $ G=(V,\Sigma,R,S)$:
+
+\begin{itemize}
+  \item $V$ é um conjunto finito de símbolos não-terminais.
+
+  \item $\Sigma$ é um conjunto finito de símbolos terminais disjunto de $V$.
+
+  \item $R$ é um conjunto finito de regras de produção, cada regra no formato $A \rightarrow \beta$, onde $A$ é um não-terminal e $\beta$ é uma cadeia de terminais e não-terminais.
+
+  \item $S$ é o símbolo inicial, que pertence a $V$.
+\end{itemize}
+
+Derivação e Árvores de Análise Sintática
+O processo de gerar uma cadeia na linguagem definida por uma gramática é chamado de derivação. Isso envolve aplicar regras de produção sucessivamente, começando pelo símbolo inicial até restarem apenas símbolos terminais.
+
+Uma árvore sintática é uma representação gráfica do processo de derivação, onde cada nó representa um símbolo na cadeia e cada aresta representa a aplicação de uma regra de produção, nos processos seguintes como análise sintatica em código, essa árvore é de fato gerada e usada como representação intermediária que auxilia a geração na linguagem alvo $L_2$.
+
 \section{Análise Léxica}
 \section{Análise Sintática}
 \subsection{Pratt Parsing}
