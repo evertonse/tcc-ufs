@@ -508,16 +508,91 @@ Um tipo comum de gramática usado na definição de linguagens é a gramática l
   \item $S$ é o símbolo inicial, que pertence a $V$.
 \end{itemize}
 
-Derivação e Árvores de Análise Sintática
-O processo de gerar uma cadeia na linguagem definida por uma gramática é chamado de derivação. Isso envolve aplicar regras de produção sucessivamente, começando pelo símbolo inicial até restarem apenas símbolos terminais.
+O processo de gerar uma cadeia na linguagem definida por uma gramática é chamado de derivação. Isso envolve aplicar regras de produção sucessivamente, começando pelo símbolo inicial $S$ até restarem apenas símbolos terminais.
 
-Uma árvore sintática é uma representação gráfica do processo de derivação, onde cada nó representa um símbolo na cadeia e cada aresta representa a aplicação de uma regra de produção, nos processos seguintes como análise sintatica em código, essa árvore é de fato gerada e usada como representação intermediária que auxilia a geração na linguagem alvo $L_2$.
+Uma árvore sintática é uma representação gráfica do processo de derivação, onde cada nó representa um símbolo na cadeia e cada aresta representa a aplicação de uma regra de produção, nos processos seguintes como análise sintatica,em código, essa árvore é gerada e usada como representação intermediária que auxilia na geração na linguagem alvo $L_2$.
 
-\section{Análise Léxica}
-\section{Análise Sintática}
+
+\subsection{Análise Léxica}
+A análise léxica, também conhecida como \textit{lexing} ou \textit{tokenization}, é a primeira etapa do processo de compilação, na qual a entrada textual é dividida em unidades léxicas significativas chamadas de \textit{tokens}. Esses tokens representam os componentes básicos da linguagem, como palavras-chave, identificadores, operadores e literais. O analisador léxico percorre o código fonte caractere por caractere, agrupando-os em tokens conforme regras pré-definidas pela gramática da linguagem.
+
+\subsection{Análise Sintática ou \textit{Parsing}}
+A análise sintática é a segunda fase do processo de compilação, na qual os tokens gerados pela análise léxica são organizados e verificados quanto à conformidade com a gramática da linguagem. Essa etapa envolve a construção de uma árvore sintática ou estrutura de dados equivalente que representa a estrutura hierárquica das expressões e instruções do programa. O analisador sintático utiliza regras de produção gramatical para validar a sintaxe do código fonte e identificar possíveis erros.
+
 \subsection{Pratt Parsing}
-\subsubsection{precedencia de expressões}
-\section{Shaders}
+O Pratt Parsing, introduzida por Vaughan Pratt, é uma técnica de análise sintática recursiva que permite analisar expressões com precedência de operadores de forma eficiente e sem ambiguidades. Uma das características distintivas do Pratt Parsing é a maneira como lida com a precedência dos operadores, que é determinada pela ordem de avaliação das expressões. Ao contrário da análise descendente recursiva tradicional, onde cada não-terminal possui uma função de análise, a análise Pratt associa funções de manipulação (handlers) com tokens. Essas funções de manipulação são responsáveis por analisar expressões envolvendo seus respectivos tokens.
+
+\subsubsection{Precedência de Expressões}
+
+Na implementação do Pratt Parser, a precedência das expressões é definida por meio de uma tabela de precedência, na qual cada operador é associado a um nível de precedência. Isso permite que o parser decida dinamicamente a ordem de avaliação das expressões com base nos operadores encontrados durante a análise.
+
+Essa abordagem simplifica significativamente a implementação do parser e elimina a necessidade de criar uma grammática que encapsula a precendencia em sua definição, também evita recursão profunda para lidar com diferentes níveis de precedência, tornando o Pratt Parsing uma técnica eficiente para análise sintática.
+
+\subsubsection{Árvores mais à Direita e mais à Esquerda}
+
+Na análise Pratt, a estrutura da árvore de expressão pode ser influenciada pela ordem de avaliação dos operadores. Essa distinção leva a dois tipos principais de árvores de expressão: árvores inclinadas à direita e árvores inclinadas à esquerda.
+
+\textbf{Árvore inclinada à Direita:} Em uma árvore inclinada à direita, operadores com maior precedência são resolvidos primeiro, mesmo que apareçam mais tarde (para a direita) na expressão. Isso resulta em uma árvore onde os operadores com maior precedência estão mais próximos da raiz, indicando que eles são avaliados primeiro. Considere a expressão `1 + 2 * 3`. Apesar de `*` aparecer após `+`, ele tem uma precedência mais alta e, portanto, forma uma subárvore que é resolvida antes da adição. A árvore resultante é:
+
+
+\begin{verbatim}
+               +
+              / \
+             1   *
+                / \
+               2   3
+\end{verbatim}
+
+\textbf{Árvore inclinada à Esquerda:} Por outro lado, em uma árvore inclinada à esquerda, operadores com maior precedência são resolvidos por último, seguindo uma ordem de avaliação da esquerda para a direita. Isso significa que operadores com maior precedência formam subárvores que são resolvidas mais profundamente na árvore. As árvores inclinadas à esquerda estão tipicamente associadas a chamadas recursivas na análise.
+
+Para alcançar a estrutura desejada da árvore, a análise Pratt utiliza diferentes estratégias com base na precedência dos operadores. Operadores com precedência maior que a do operador atual formam a estrutura inclinada à direita, enquanto operadores com precedência menor formam a estrutura inclinada à esquerda.
+
+\subsubsection{Pseudo-código para Análise de Expressões}
+
+O pseudo-código abaixo demonstra o algoritmo de análise Pratt para a construção de árvores de expressão, considerando tanto estruturas inclinadas à direita quanto à esquerda:
+
+
+\begin{algoritmo}[htb]
+	\caption{Algoritmo exemplo}
+	\label{alg1}
+	\begin{algorithm}[H]
+ 	\KwData{this text}
+ 	\KwResult{how to write algorithm with \LaTeX2e }
+ 	initialization\;
+ 	\While{not at end of this document}{
+  		read current\;
+  		\eIf{understand}{
+   			go to next section\;
+   			current section becomes this one\;
+   		}{
+   			go back to the beginning of current section\;
+  		}
+ 	}
+	\end{algorithm}
+\end{algoritmo}
+
+% \begin{verbatim}
+% def expressao(precedencia_anterior:=0):
+%     token = proximo_token()
+%     esquerda = token.prefixo()  # denotação nula
+%
+%     while precedencia_anterior < token.precedencia():
+%         token = proximo_token()
+%         esquerda = token.infixo(esquerda)  # denotação à esquerda
+%
+%     return esquerda
+% \end{verbatim}
+
+% Neste pseudo-código:
+% - `proximo_token()` recupera o próximo token do fluxo de tokens.
+% - `token.prefixo()` é uma função associada ao token que analisa a expressão quando o token é o primeiro token em uma subexpressão.
+% - `token.infixo(esquerda)` é uma função associada ao token que analisa a expressão quando o token não é o primeiro token em uma subexpressão, recebendo o operando esquerdo como entrada.
+% - `precedencia_anterior` representa a precedência do token anterior, garantindo que os operadores sejam resolvidos na ordem correta com base na precedência.
+
+
+\section{\textit{Shaders}}
+\subsection{Fragment}
+\subsection{Fragment}
 
 
 % \include{Conteudo/02_Comandos}
