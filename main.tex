@@ -549,26 +549,27 @@ Para alcançar a estrutura desejada da árvore, a análise Pratt utiliza diferen
 
 \subsubsection{Pseudo-código para Análise de Expressões}
 
-O pseudo-código abaixo demonstra o algoritmo de análise Pratt para a construção de árvores de expressão, considerando tanto estruturas inclinadas à direita quanto à esquerda:
+O pseudo-código \ref{algo:algo1}
+demonstra o algoritmo de análise Pratt para a construção de árvores de expressão, considerando tanto estruturas inclinadas à direita quanto à esquerda.
 
+% \texttt{proximo_token()} recupera o próximo token do fluxo de tokens.
+% \texttt{token.prefixo()} é uma função associada ao token que analisa a expressão quando o token é o primeiro token em uma subexpressão.
+% \texttt{token.infixo(esquerda)} é uma função associada ao token que analisa a expressão quando o token não é o primeiro token em uma subexpressão, recebendo o operando esquerdo como entrada.
+% \texttt{precedencia_anterior} representa a precedência do token anterior, garantindo que os operadores sejam resolvidos na ordem correta com base na precedência.
+%
 
-\begin{algoritmo}[htb]
-	\caption{Algoritmo exemplo}
+\begin{algoritmo}[H]
+	\caption{Função Pratt Parsing de Expressão}
 	\label{alg1}
-	\begin{algorithm}[H]
- 	\KwData{this text}
- 	\KwResult{how to write algorithm with \LaTeX2e }
- 	initialization\;
- 	\While{not at end of this document}{
-  		read current\;
-  		\eIf{understand}{
-   			go to next section\;
-   			current section becomes this one\;
-   		}{
-   			go back to the beginning of current section\;
-  		}
- 	}
-	\end{algorithm}
+  \begin{lstlisting}
+  function expressao(precedencia_anterior:=0):
+      token := proximo_token()
+      esquerda := token.prefixo()
+      while precedencia_anterior < token.precedencia():
+          token    = proximo_token()
+          esquerda = token.infixo(esquerda)
+      return esquerda
+  \end{lstlisting}
 \end{algoritmo}
 
 % \begin{verbatim}
