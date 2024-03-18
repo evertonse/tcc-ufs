@@ -480,7 +480,7 @@ Na ciência da computação, as linguagens são sistemas formais compostos por s
 Um compilador pode ser visto como um transformação entre linguagens $ L_1 $ e $ L_2 $ que preserva a estrutura interna dos cojuntos, isto é, deve manter o mesmo significado algoritmico. Assim, o compilador $ C: L_1 \rightarrow L_2 $ mapeia programas escritos na linguagem de origem $ L_1 $ para programas equivalentes na linguagem de destino $ L_2 $. Essa transformação garante a preservação semântica, mantendo o comportamento pretendido do programa original durante a tradução.
 
 
-\section{Gramática}
+\subsection{Gramática}
 
 Para auxiliar na criação de um compilador é necessario entender as regras que auxiliam na validação e geração da linguagem de interesse, esse entedimento pode ser alcaçando pela gramática. Uma gramática $ G $ é um sistema formal composto por um conjunto de regras de produção que especificam como cadeias válidas na linguagem podem ser geradas. Ela inclui terminais, não-terminais, regras de produção e um símbolo inicial.
 
@@ -514,7 +514,7 @@ Uma árvore sintática é uma representação gráfica do processo de derivaçã
 
 
 \subsection{Análise Léxica}
-A análise léxica, também conhecida como \textit{lexing} ou \textit{tokenization}, é a primeira etapa do processo de compilação, na qual a entrada textual é dividida em unidades léxicas significativas chamadas de \textit{tokens}. Esses tokens representam os componentes básicos da linguagem, como palavras-chave, identificadores, operadores e literais. O analisador léxico percorre o código fonte caractere por caractere, agrupando-os em tokens conforme regras pré-definidas pela gramática da linguagem.
+A análise léxica, também conhecida como \textit{lexing} ou \textit{tokenization}, é a primeira etapa do processo de compilação, na qual a entrada textual é dividida em unidades léxicas significativas chamadas de \textit{tokens}. Esses tokens representam os componentes básicos da linguagem, como palavras-chave, identificadores, operadores e literais. O analisador léxico percorre o código fonte caractere por caractere, agrupando-os em tokens conforme regras pré-definidas pela gramática da linguagem. No caso a linguagem do entrada analisador léxico são os formados por caracteres e, geralmente, são reconhecivel por maquinas de estado @ref, já a linguagem de saída é composta por tokens.
 
 \subsection{Análise Sintática ou \textit{Parsing}}
 A análise sintática é a segunda fase do processo de compilação, na qual os tokens gerados pela análise léxica são organizados e verificados quanto à conformidade com a gramática da linguagem. Essa etapa envolve a construção de uma árvore sintática ou estrutura de dados equivalente que representa a estrutura hierárquica das expressões e instruções do programa. O analisador sintático utiliza regras de produção gramatical para validar a sintaxe do código fonte e identificar possíveis erros.
@@ -528,9 +528,9 @@ Na implementação do Pratt Parser, a precedência das expressões é definida p
 
 Essa abordagem simplifica significativamente a implementação do parser e elimina a necessidade de criar uma grammática que encapsula a precendencia em sua definição, também evita recursão profunda para lidar com diferentes níveis de precedência, tornando o Pratt Parsing uma técnica eficiente para análise sintática.
 
-\subsubsection{Árvores mais à Direita e mais à Esquerda}
+\subsubsection{Árvores Inclinadas}
 
-Na análise Pratt, a estrutura da árvore de expressão pode ser influenciada pela ordem de avaliação dos operadores. Essa distinção leva a dois tipos principais de árvores de expressão: árvores inclinadas à direita e árvores inclinadas à esquerda.
+No Pratt \textit{Parsing}, a estrutura da árvore de expressão pode ser influenciada pela ordem de avaliação dos operadores. Essa distinção leva a dois tipos de árvores de expressão: árvores inclinadas à direita e árvores inclinadas à esquerda.
 
 \textbf{Árvore inclinada à Direita:} Em uma árvore inclinada à direita, operadores com maior precedência são resolvidos primeiro, mesmo que apareçam mais tarde (para a direita) na expressão. Isso resulta em uma árvore onde os operadores com maior precedência estão mais próximos da raiz, indicando que eles são avaliados primeiro. Considere a expressão `1 + 2 * 3`. Apesar de `*` aparecer após `+`, ele tem uma precedência mais alta e, portanto, forma uma subárvore que é resolvida antes da adição. A árvore resultante é:
 
@@ -575,29 +575,149 @@ Por fim, \textbf{precedencia\_anterior} representa a precedência do token anter
   \end{lstlisting}
 \end{algoritmo}
 
-% \begin{verbatim}
-% def expressao(precedencia_anterior:=0):
-%     token = proximo_token()
-%     esquerda = token.prefixo()  # denotação nula
-%
-%     while precedencia_anterior < token.precedencia():
-%         token = proximo_token()
-%         esquerda = token.infixo(esquerda)  # denotação à esquerda
-%
-%     return esquerda
-% \end{verbatim}
-
-% Neste pseudo-código:
-% - `proximo_token()` recupera o próximo token do fluxo de tokens.
-% - `token.prefixo()` é uma função associada ao token que analisa a expressão quando o token é o primeiro token em uma subexpressão.
-% - `token.infixo(esquerda)` é uma função associada ao token que analisa a expressão quando o token não é o primeiro token em uma subexpressão, recebendo o operando esquerdo como entrada.
-% - `precedencia_anterior` representa a precedência do token anterior, garantindo que os operadores sejam resolvidos na ordem correta com base na precedência.
-
-
 \section{Geração da Linguagem Alvo}
+
+Nesta fase, fazemos a transição da representação intermediária  da linguagem origem \( L_1 \)  para  a linguagem de destino \( L_2 \). O processo envolve traduzir construções da linguagem de origem \( L_1 \) em suas representações equivalentes na linguagem de destino \( L_2 \). Podemos realizar essa tradução ao percorrer recursivamente os nós da arvóre sintatica usando as informações contidas nesses nós para gerar partes do programa final em $L_2$.
+
+Dado um programa $a \in L_1$ existem varios programas $b_{i=1,2,3,...} \in L_2$ que possui estrutura semanticamente equivalentes à $a$. Ao explorar esse conjunto, é possivel escolher um $b_j \in L_2$ tal que esse programa seja otimizado em algum sentido, como uso eficiente de memoria, ou executar menos instruções de \textit{hardware}. Nosso foco neste trabalho está na tradução semanticamente correta, sem envolver explorão das saídas  equivalentes.
+
+Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) para \( L_2 \):
+
+\[
+ \quad \mathbf{v} = (\mathbf{a} + \mathbf{b}) \cdot \mathbf{c} - (\mathbf{d} \times \mathbf{e})
+\]
+
+Após a tradução da expressão matematica para \( L_2 \), o cálculo pode ser convertido para o trecho de programa abaixo. Esse código é válido na linguagem GLSL.
+
+\[
+\quad \text{{vec3 v = dot(a + b, c) - cross(d, e);}}
+\]
+
+
+
+
 \section{\textit{Shaders}}
-\subsection{Fragment}
-\subsection{Fragment}
+
+In computer graphics, shaders play a pivotal role in the rendering pipeline, responsible for various tasks such as vertex manipulation, lighting calculations, and material shading. 
+Shaders are small programs executed on the GPU, designed to perform specific tasks during the rendering process. They are written in languages like GLSL (OpenGL Shading Language) or HLSL (High-Level Shading Language) and are essential for achieving realistic graphics.
+
+
+\subsection{GPU Pipeline}
+
+The GPU pipeline consists of various stages through which geometry and shaders pass to produce the final rendered image. These stages include:
+
+\begin{itemize}
+    \item Vertex Shader
+    \item Tessellation (Control Shader, Tessellation Shader, Evaluation Shader)
+    \item Geometry Shader
+    \item Rasterization
+    \item Fragment Shader
+\end{itemize}
+
+Each stage performs specific operations, such as vertex transformation, tessellation, primitive assembly, and pixel shading. But most of these are optional, the most indispensable ones are Vertex Shader and Frament Shader.
+
+
+
+\section{Vertex Shader and Fragment Shader Interaction}
+
+In the graphics rendering pipeline, the Vertex Shader and Fragment Shader play crucial roles in transforming vertices and determining the appearance of fragments (pixels) on the screen, respectively. Understanding how these shaders interact is essential for creating realistic and visually appealing graphics.
+
+\subsection{Vertex Shader}
+
+The Vertex Shader operates on individual vertices of geometric primitives (such as triangles) before they are rasterized into fragments. Its primary task is to transform each vertex from its original coordinate space to a common coordinate space (often referred to as clip space) and to pass along any necessary data to the Fragment Shader.
+
+In addition to position transformation, the Vertex Shader often performs other calculations, such as lighting calculations, texture coordinate generation, and normal transformations. When dealing with lighting, for example, the Vertex Shader might compute per-vertex lighting values based on vertex normals and light positions.
+
+\subsection{Fragment Shader}
+
+The Fragment Shader, also known as the Pixel Shader, operates on each rasterized fragment produced by the rasterization stage. Its main responsibility is to determine the final color of each fragment based on various factors, including lighting, texturing, and surface properties.
+
+The Fragment Shader receives interpolated data from the Vertex Shader, including interpolated vertex attributes such as normals. These interpolated values are computed using barycentric interpolation across the surface of the primitive. For normals specifically, this interpolation ensures that lighting calculations appear smooth across the surface, even though lighting calculations are performed per-vertex in the Vertex Shader.
+
+\subsection{Interpolation of Normals}
+
+In many cases, surfaces in 3D models are represented by flat polygons, meaning that each vertex of the polygon has a single associated normal vector. However, to achieve smooth shading across the surface, normals need to be interpolated across the primitive's surface.
+
+Barycentric interpolation is commonly used to interpolate normals across triangles. Each vertex of the triangle has a corresponding normal vector, and these normals are interpolated across the triangle's surface based on the barycentric coordinates of each fragment within the triangle.
+
+The interpolated normals are then passed from the Vertex Shader to the Fragment Shader, where they are used in lighting calculations to compute the final color of each fragment.
+
+\subsection{Example Interaction}
+
+Consider a scenario where a 3D model of a sphere is rendered. The Vertex Shader transforms the vertices of the sphere and computes normals at each vertex. These normals are then interpolated across the surface of each triangle composing the sphere. In the Fragment Shader, the interpolated normals are used in lighting calculations to determine the brightness of each pixel, resulting in smooth shading on the curved surface of the sphere.
+
+
+\subsubsection{Vertex Shader}
+The vertex shader manipulates vertex positions, normals, textures and passes relevant information to the fragment shader. Below is an example of a vertex shader that applies a simple manipulation to vertex positions for animation effects:
+
+\begin{verbatim}
+#version 330 core
+
+layout(location = 0) in vec3 inPosition;
+layout(location = 1) in vec3 inNormal;
+
+uniform mat4 modelViewProjection;
+
+out vec3 fragNormal;
+
+void main() {
+    vec3 manipulatedPosition = inPosition + (sin(gl_VertexID * 0.1) * 0.1);
+    fragNormal = inNormal;
+    gl_Position = modelViewProjection * vec4(manipulatedPosition, 1.0);
+}
+\end{verbatim}
+
+\subsubsection{Fragment Shader with Glossy BRDF Calculation}
+
+The fragment shader computes the color of each pixel based on lighting and material properties. Here's an example of a fragment shader that implements a glossy BRDF for simulating surface reflection:
+
+\begin{verbatim}
+#version 330 core
+
+in vec3 fragNormal;
+out vec4 fragColor;
+
+void main() {
+    // Glossy BRDF parameters
+    // Add equation here
+
+    // Lambertian diffuse term
+    // Add equation here
+
+    // Blinn-Phong specular term
+    // Add equation here
+
+    // Combine diffuse and specular terms using Fresnel-Schlick approximation
+    // Add equation here
+
+    // Output final color
+    // Add equation here
+}
+\end{verbatim}
+
+\subsubsection{BRDF Equation}
+
+In shader programming, BRDFs are implemented to simulate various material properties such as diffuse reflection, specular highlights, and surface roughness.
+A common form of the BRDF equation is the Cook-Torrance model, which combines diffuse and specular reflection components:
+
+\begin{equation}
+F(\omega_i, \omega_o) = \frac{F(\omega_i, h) D(h) G(\omega_i, \omega_o, h)}{4(\omega_i \cdot n)(\omega_o \cdot n)}
+\end{equation}
+
+where:
+\begin{align*}
+&F(\omega_i, \omega_o) \text{ is the BRDF}\\
+&\omega_i \text{ is the incident light direction}\\
+&\omega_o \text{ is the outgoing light direction}\\
+&n \text{ is the surface normal}\\
+&h \text{ is the half vector between } \omega_i \text{ and } \omega_o\\
+&F(\omega_i, h) \text{ is the Fresnel term}\\
+&D(h) \text{ is the microfacet distribution function}\\
+&G(\omega_i, \omega_o, h) \text{ is the geometric attenuation factor}
+\end{align*}
+
+
+
 
 
 % \include{Conteudo/02_Comandos}
@@ -609,9 +729,9 @@ Por fim, \textbf{precedencia\_anterior} representa a precedência do token anter
 \phantompart
 \bibliography{Bibliografia}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ELEMENTOS PÓS-TEXTUAIS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \postextual
 
