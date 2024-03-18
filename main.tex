@@ -545,21 +545,24 @@ Na análise Pratt, a estrutura da árvore de expressão pode ser influenciada pe
 
 \textbf{Árvore inclinada à Esquerda:} Por outro lado, em uma árvore inclinada à esquerda, operadores com maior precedência são resolvidos por último, seguindo uma ordem de avaliação da esquerda para a direita. Isso significa que operadores com maior precedência formam subárvores que são resolvidas mais profundamente na árvore. As árvores inclinadas à esquerda estão tipicamente associadas a chamadas recursivas na análise.
 
-Para alcançar a estrutura desejada da árvore, a análise Pratt utiliza diferentes estratégias com base na precedência dos operadores. Operadores com precedência maior que a do operador atual formam a estrutura inclinada à direita, enquanto operadores com precedência menor formam a estrutura inclinada à esquerda.
+Para alcançar a estrutura desejada da árvore, o Pratt parsing utiliza as estratégias de recursão e iteração com base na precedência dos operadores para saber o momento de gerar uma subarvores inclinada para esquerda ou direita. Operadores com precedência maior que a do operador atual formam a estrutura inclinada à direita, enquanto operadores com precedência menor formam a estrutura inclinada à esquerda.
 
 \subsubsection{Pseudo-código para Análise de Expressões}
 
-O pseudo-código \ref{algo:algo1}
-demonstra o algoritmo de análise Pratt para a construção de árvores de expressão, considerando tanto estruturas inclinadas à direita quanto à esquerda.
+O pseudo-código \ref{alg1},
+demonstra o Pratt \textit{parsing} para a construção de árvores de expressão, considerando tanto estruturas inclinadas à direita quanto à esquerda. Esse algoritmo também é robusto mesmo quando um operador é tanto infixo quanto prefixo, por exemplo "$-$" pode ser um \textit{token} de subtração ou de negação. Assim cada token tem uma função de prefixo e infixo associada.
 
-% \texttt{proximo_token()} recupera o próximo token do fluxo de tokens.
-% \texttt{token.prefixo()} é uma função associada ao token que analisa a expressão quando o token é o primeiro token em uma subexpressão.
-% \texttt{token.infixo(esquerda)} é uma função associada ao token que analisa a expressão quando o token não é o primeiro token em uma subexpressão, recebendo o operando esquerdo como entrada.
-% \texttt{precedencia_anterior} representa a precedência do token anterior, garantindo que os operadores sejam resolvidos na ordem correta com base na precedência.
-%
+Nesse algoritimo, 
+\textbf{proximo\_token()} recupera o próximo elemento da lista de tokens,
+\textbf{token.precedencia}() retorna a precedencia do token atual, \textbf{token.prefixo()} é a função associada ao token que realisa o parsing de uma expressão quando o token é o primeiro em uma subexpressão (e.g. o token "$-$" é o primeiro na expressão "$-3$"). Já o   
+\textbf{token.infixo}(esquerda) é a função associada ao token uma função que cria um nó subárvore utilizando outra subarvore já criada como entrada para gerar expressão com operadores infixos, por exemplo a subarvore esquerda pode ser a expressão "$-3$", o token atual ser "$*$" e o o retorno gera a expressão completa "$-3 * 1$"
+
+Tanto \textbf{token.infixo} quanto \textbf{token.prefixo} podem ser indiretamente recursivas, isto é, ambas podem chamar a função \textbf{expressao} no algortimo \ref{alg1}. 
+Por fim, \textbf{precedencia\_anterior} representa a precedência do token anterior, garantindo que os operadores sejam resolvidos na ordem correta.
 
 \begin{algoritmo}[H]
 	\caption{Função Pratt Parsing de Expressão}
+	\label{alg1}
 	\label{alg1}
   \begin{lstlisting}
   function expressao(precedencia_anterior:=0):
@@ -591,6 +594,7 @@ demonstra o algoritmo de análise Pratt para a construção de árvores de expre
 % - `precedencia_anterior` representa a precedência do token anterior, garantindo que os operadores sejam resolvidos na ordem correta com base na precedência.
 
 
+\section{Geração da Linguagem Alvo}
 \section{\textit{Shaders}}
 \subsection{Fragment}
 \subsection{Fragment}
