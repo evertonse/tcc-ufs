@@ -14,6 +14,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Área para adição de pacotes extras
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{listings}% http://ctan.org/pkg/listings
+\lstset{
+  basicstyle=\ttfamily,
+  mathescape
+}
 
 \usepackage{lipsum} % Retirar para a versão final do documento
 \usepackage{float}
@@ -821,7 +826,7 @@ parse_expr :: proc(prec_prev: i64) -> ^Expr {
 
 The grammar is defined below, we make a syntax light notation for describing it, all lowcase words are rules, symbol $*$ means zero or more $()$ means grouping to apply a operator to it, $|$ is the or operator words in single quotes $''$ means literalmente a token with that content as carachter and all letter uppercase means a token that might be different in content but has the same sematnic meaning, for example NUMBER might be 2.0 or 1.0, but in the production rules they are treated the same. $=$ menas a production, 
 
-\begin{lstlisting}
+\begin{verbatim}
 start = assign* expr ;
 
 expr = prefix expr 
@@ -840,11 +845,11 @@ assign = IDENTIFIER '=' expr ';'
 call = expr '(' args ')';
 args = expr
         | expr ',' args
-        | ε
+        | 
         ;
 params = IDENTIFIER
          | IDENTIFIER ',' params
-         | ε
+         | 
         ;
 
 postfix = '+' | '-' | '~' | '!';
@@ -853,7 +858,7 @@ infix   = '+' | '-' | '*' | '/' | '^'
             | 'eq' | 'lt' | 'gt' | 'or' | 'and'
             ;
 
-\end{lstlisting}
+\end{verbatim}
 
 This grammar defines rules for expressions (`expr`), assignments (`assign`), function calls (`call`), and various operators (`postfix`, `prefix`, `infix`). It also includes terminal symbols such as numbers (`NUMBER`) and identifiers (`IDENTIFIER`). The grammar rules are designed to handle different operator types and their precedence levels.
 
