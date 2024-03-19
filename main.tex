@@ -659,20 +659,22 @@ void main() {
 }
 \end{verbatim}
 
+\chapter{Metodologia}
 
-\chapter{Methodology}
+A metodologia para desenvolver o compilador proposto envolve uma abordagem sistemática composta por etapas adaptadas para alcançar os objetivos de pesquisa especificados. Essas etapas incluem uma análise aprofundada das informações relacionadas pertinentes a BRDFs e compilação de shaders, exploração de técnicas existentes dentro do domínio, formulação de especificações de linguagem precisas, design e execução meticulosos de casos de teste abrangentes, a implementação real do compilador e a avaliação de seu desempenho por meio de experimentos de renderização.
 
-The methodology for developing the proposed compiler involves a systematic approach comprising steps tailored to accomplish the specified research objectives. These steps entail in-depth analysis of related information pertinent to BRDFs and shader compilation, exploration of existing techniques within the domain, formulation of precise language specifications, meticulous design and execution of comprehensive test cases, the actual implementation of the compiler, and evaluation of its performance via rendering experiments.
 
-\section{Comprehensive Analysis}
+\section{Análise Abrangente}
 
-The first step involves conducting a thorough analysis of areas related to the development of the proposed tool. This includes reviewing literature on BRDFs, shader languages, compiler design, and graphics rendering techniques. This involves studying research papers, existing tools, and relevant software libraries to identify existing techniques and potential areas for improvement.
+O primeiro passo envolve a realização de uma análise detalhada das áreas relacionadas ao desenvolvimento da ferramenta proposta. Isso inclui a revisão da literatura sobre BRDFs, linguagens de shaders, design de compiladores e técnicas de renderização gráfica. Isso envolve o estudo de artigos de pesquisa, ferramentas existentes e bibliotecas de software relevantes para identificar técnicas existentes e áreas potenciais para melhoria.
 
-\section{Language Specification}
 
-The input and output language specifications for the compiler are defined. The input language is a simplified version of LaTeX, where mathematical expressions in the \texttt{equation} or \texttt{align} environments suffice for the purposes of this work. LaTeX is a typesetting system commonly used for mathematical and scientific documents. For describing BRDFs using LaTeX equations, while the output language specifies the GLSL shader language for rendering.
 
-For the input language, we opted to use the \texttt{equation} environment due to its simplicity and widespread use in representing mathematical expressions. In LaTeX, environments provide a way to group and format text or equations. The \texttt{equation} environment is specifically designed for displaying single equations. Below is an example of LaTeX code using the \texttt{equation} environment:
+\section{Especificação da Linguagem}
+
+As especificações da linguagem de entrada e saída para o compilador são definidas. A linguagem de entrada é uma versão simplificada do LaTeX, onde expressões matemáticas nos ambientes \texttt{equation} ou \texttt{align} são suficientes para os propósitos deste trabalho. O LaTeX é um sistema de composição amplamente utilizado para documentos matemáticos e científicos. Para descrever BRDFs usando equações LaTeX, enquanto a linguagem de saída especifica a linguagem de shader GLSL para renderização.
+
+Para a linguagem de entrada, optamos por usar o ambiente \texttt{equation} devido à sua simplicidade e uso generalizado na representação de expressões matemáticas. No LaTeX, os ambientes fornecem uma maneira de agrupar e formatar texto ou equações. O ambiente \texttt{equation} é especificamente projetado para exibir equações individuais. Abaixo está um exemplo de código LaTeX usando o ambiente \texttt{equation}:
 
 \begin{verbatim}
 \begin{equation}
@@ -680,9 +682,9 @@ For the input language, we opted to use the \texttt{equation} environment due to
 \end{equation}
 \end{verbatim}
 
-This LaTeX code represents a quadratic equation \( f(x) = ax^2 + bx + c \), where \( a \), \( b \), and \( c \) are coefficients.
+Este código LaTeX representa uma equação quadrática \( f(x) = ax^2 + bx + c \), onde \( a \), \( b \) e \( c \) são coeficientes.
 
-As for the output language, it specifies the GLSL shader language for rendering. An example of a corresponding GLSL shader code generated from the LaTeX equation above might be:
+Quanto à linguagem de saída, ela especifica a linguagem de shader GLSL para renderização. Um exemplo de código de shader GLSL correspondente gerado a partir da equação LaTeX acima pode ser:
 
 \begin{verbatim}
 float quadratic(float x, float a, float b, float c) {
@@ -690,9 +692,11 @@ float quadratic(float x, float a, float b, float c) {
 }
 \end{verbatim}
 
-\section{Test Case Design}
+\section{Design de Casos de Teste}
 
-Test cases must be designed to validate the correctness and accuracy of the compiler's translation process. These test cases pair input LaTeX equations describing BRDFs with the expected output GLSL shader code. A specific case demonstrating the compiler's capability can be created with the Cook-Torrance BRDF. The LaTeX definition and expected output can be provided as an example:
+
+
+Os casos de teste devem ser projetados para validar a correção e precisão do processo de tradução do compilador. Esses casos de teste emparelham equações LaTeX de entrada descrevendo BRDFs com o código de shader GLSL de saída esperado. Um caso específico que demonstra a capacidade do compilador pode ser criado com o BRDF de Cook-Torrance. A definição LaTeX e a saída esperada podem ser fornecidas como exemplo
 
 \textbf{LaTeX Input (Cook-Torrance BRDF):}
 \begin{verbatim}
@@ -701,7 +705,7 @@ f_{\text{CT}}(\omega_i, \omega_o) = \frac{D(h)F(\omega_i, h)G(\omega_i, \omega_o
 \end{equation}
 \end{verbatim}
 
-\textbf{Expected GLSL Output:}
+\textbf{GLSL Output esperado:}
 \begin{verbatim}
 float CookTorrance(vec3 normal, vec3 viewDir, vec3 lightDir, float roughness, float F0) {
     // halfway vector
@@ -723,56 +727,59 @@ float CookTorrance(vec3 normal, vec3 viewDir, vec3 lightDir, float roughness, fl
 }
 \end{verbatim}
 
-This example showcases how the input LaTeX equation representing the Cook-Torrance BRDF is translated into the corresponding GLSL shader function.
+\section{Implementação do Compilador}
 
-\section{Compiler Implementation}
+A implementação do compilador é feita usando a linguagem de programação Odin, escolhida por suas capacidades de linguagem de baixo nível com herança de composição e uma biblioteca padrão satisfatória. Técnicas de análise recursiva são utilizadas, especificamente o Parsing de Pratt, para processar as equações LaTeX de entrada e gerar o código de shader GLSL correspondente. Inicialmente, um lexer e um parser foram implementados para uma linguagem mais simples do que o LaTeX para garantir que os fundamentos do compilador sejam funcionais, com precedência totalmente testada para a árvore de sintaxe e também a execução disso.
 
-The compiler is implemented using the Odin programming language, chosen for its low-level language capabilities with composition inheritance and a satisfactory standard library. Recursive parsing techniques are utilized, specifically Pratt Parsing, to process the input LaTeX equations and generate the corresponding GLSL shader code. Initially, a lexer and parser were implemented for a simpler language than LaTeX to ensure the compiler's foundations is functional, with fully tested precedence for the synax tree, and also the execution of this.
+\section{Experimentos de Renderização}
 
-\section{Rendering Experiments}
+Por fim, experimentos de renderização são realizados usando os shaders gerados pelo compilador. Isso permite a avaliação do desempenho e da qualidade visual das imagens renderizadas produzidas pelos shaders compilados. A plataforma escolhida para os testes é a ferramenta Disney BRDF, compilada localmente para modificar e adicionar shaders adicionais. Ele fornece uma interface para definir parâmetros que servem como controles deslizantes para os hiperparâmetros do BRDF.
 
-Finally, rendering experiments are performed using the shaders generated by the compiler. This allows for the evaluation of the performance and visual quality of the rendered images produced by the compiled shaders. The chosen platform for testing is the Disney BRDF tool, compiled locally to modify and add additional shaders. It provides an interface for defining parameters that serve as sliders for the BRDF's hyperparameters.
+@ Imagem para a ferramenta
+@ Código para o superconjunto GLSL
 
-@Image for the tool
-@code for glsl super set
+Seguindo esta metodologia, a ferramenta proposta visa compilar efetivamente descrições de BRDF em shaders GLSL, facilitando a geração de gráficos realistas em aplicativos de gráficos por computador.
+\section{Plano de Continuação}
 
-By following this methodology, the proposed tool aims to effectively compile BRDF descriptions into GLSL shaders, facilitating the generation of realistic graphics in computer graphics applications.
+A continuação desta tese envolve várias tarefas-chave destinadas a completar o desenvolvimento do compilador proposto para converter equações LaTeX que descrevem BRDFs em código de shader GLSL. As tarefas incluem atualizar o lexer e o parser escritos em Odin para aceitar equações LaTeX, testar o lexer e o parser para garantir o reconhecimento correto dos tokens LaTex Math, testar o parser para garantir a árvore de sintaxe com a precedência correta, definir símbolos predefinidos como constantes matemáticas e outras quantidades, implementar o processo de geração de código GLSL usando a árvore de sintaxe usando o padrão de visitante @ref, expandir os casos de teste para cobrir uma melhor variedade de BRDFs, testar minuciosamente o código gerado quanto à correção e eficácia, incluindo as visualizações dos mencionados BRDFs em algumas cenas, preparar a apresentação final e, finalmente, escrever o documento do trabalho (TCC).
 
-\section{Plan of Continuation}
-
-The continuation of this thesis involves several key tasks aimed at completing the development of the proposed compiler for converting LaTeX equations describing Bidirectional Reflectance Distribution Functions (BRDFs) into GLSL shader code. The tasks include updating the lexer and parser written in Odin to accept LaTeX equations, testing the lexer and parser to ensure correct token recognition and parsing of LaTeX syntax, defining predefined symbols such as mathematical constants and other quantities, implementing the GLSL code generation process, expanding test cases to cover a wide range of BRDFs, thoroughly testing the generated code for correctness and effectiveness, preparing the final presentation, and finally, writing the thesis document.
 \begin{enumerate}
-\item 06/05/2024 - 20/05/2024: Update the lexer and parser to accept LaTeX equations.
-\item 06/05/2024 - 27/05/2024: Test the lexer and parser to ensure correct token recognition and parsing of LaTeX syntax.
-\item 13/05/2024 - 03/06/2024: Define predefined symbols such as mathematical constants and other quantities.
-\item 20/05/2024 - 10/06/2024: Implement the GLSL code generation process.
-\item 27/05/2024 - 17/06/2024: Expand test cases to cover a wide range of BRDFs.
-\item 03/06/2024 - 24/06/2024: Thoroughly test the generated code for correctness and effectiveness.
-\item 10/06/2024 - 01/07/2024: Prepare the final presentation.
-\item 17/06/2024 - 06/09/2024: Write the thesis document.
+\item 06/05/2024 - 20/05/2024: Atualizar o lexer e o parser para aceitar equações LaTeX.
+\item 06/05/2024 - 27/05/2024: Testar o lexer para garantir o reconhecimento correto de todos os tokens LaTex Math.
+\item 06/05/2024 - 27/05/2024: Testar o parser para garantir a árvore de sintaxe com a precedência correta.
+\item 13/05/2024 - 03/06/2024: Definir símbolos predefinidos como constantes matemáticas e outras quantidades.
+\item 20/05/2024 - 10/06/2024: Implementar o processo de geração de código GLSL.
+\item 27/05/2024 - 17/06/2024: Expandir os casos de teste para cobrir uma ampla gama de BRDFs.
+\item 03/06/2024 - 24/06/2024: Testar minuciosamente o código gerado quanto à correção e eficácia, tanto em código quanto em visualização.
+\item 17/06/2024 - 06/09/2024: Escrever o documento da tese.
+\item 10/06/2024 - 01/07/2024: Preparar a apresentação final.
 \end{enumerate}
 
+
+\begin{adjustwidth}{-1.3cm}{-1cm}
 
 \begin{ganttchart}[
 vgrid,
 hgrid,
-x unit=1.2mm,
+x unit=1.01mm,
 time slot format=isodate,
-% locale=pt,
-% time slot unit=month
-inline,
-  ]{2024-05-06}{2024-09-06}
+bar label font=\footnotesize,
+group label font=\footnotesize,
+milestone label font=\footnotesize,
+]{2024-05-06}{2024-09-06}
     \gantttitlecalendar{year, month=shortname} \\
-    \ganttbar{Convert lexer and parser}{2024-05-06}{2024-05-10} \\
-    \ganttbar{Test lexer for all tokens}{2024-05-10}{2024-05-15} \\
-    \ganttbar{Test parser for ambiguities}{2024-05-15}{2024-05-20} \\
-    \ganttbar{Define table of symbols}{2024-05-20}{2024-05-25} \\
-    \ganttbar{Implement GLSL generation}{2024-05-25}{2024-06-01} \\
-    \ganttbar{Expand test cases to GLSL}{2024-06-01}{2024-06-10} \\
-    \ganttbar{Test code correctness}{2024-06-10}{2024-07-01} \\
-    \ganttbar{Write thesis}{2024-06-01}{2024-08-25} \\
-    \ganttbar{Prepare final presentation}{2024-08-25}{2024-09-06}
+    \ganttbar{1. Atualizar lexer e parser}{2024-05-06}{2024-05-10} \\
+    \ganttbar{2. Testar lexer para todos os tokens}{2024-05-10}{2024-05-15} \\
+    \ganttbar{3. Testar parser para precedência}{2024-05-15}{2024-05-20} \\
+    \ganttbar{4. Definir símbolos matemáticos}{2024-05-20}{2024-05-25} \\
+    \ganttbar{5. Implementar geração de GLSL}{2024-05-25}{2024-06-01} \\
+    \ganttbar{6. Expandir casos de teste para GLSL}{2024-06-01}{2024-06-10} \\
+    \ganttbar{7. Testar correção do código}{2024-06-10}{2024-07-01} \\
+    \ganttbar{8. Escrever tese}{2024-06-01}{2024-08-25} \\
+    \ganttbar{9. Preparar apresentação final}{2024-08-25}{2024-09-06}
 \end{ganttchart}
+
+\end{adjustwidth}
 
 % \include{Conteudo/02_Comandos}
 
