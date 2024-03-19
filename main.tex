@@ -685,7 +685,38 @@ float quadratic(float x, float a, float b, float c) {
 
 \section{Test Case Design}
 
-Test cases are designed to validate the correctness and accuracy of the compiler's translation process. These test cases pair input LaTeX equations describing BRDFs with the expected output GLSL shader code. A specific case demonstrating the compiler's capability can be created with the Cook-Torrance BRDF. The LaTeX definition and expected output can be provided as an example.
+Test cases must be designed to validate the correctness and accuracy of the compiler's translation process. These test cases pair input LaTeX equations describing BRDFs with the expected output GLSL shader code. A specific case demonstrating the compiler's capability can be created with the Cook-Torrance BRDF. The LaTeX definition and expected output can be provided as an example:
+
+\textbf{LaTeX Input (Cook-Torrance BRDF):}
+\begin{verbatim}
+\begin{equation}
+f_{\text{CT}}(\omega_i, \omega_o) = \frac{D(h)F(\omega_i, h)G(\omega_i, \omega_o, h)}{4(\omega_i \cdot n)(\omega_o \cdot n)}
+\end{equation}
+\end{verbatim}
+
+\textbf{Expected GLSL Output:}
+\begin{verbatim}
+float CookTorrance(vec3 normal, vec3 viewDir, vec3 lightDir, float roughness, float F0) {
+    // halfway vector
+    vec3 halfwayDir = normalize(viewDir + lightDir);
+
+    // microfacet distribution function
+    float D = ...; // D(h)
+
+    // Calculate Fresnel term
+    float F = ...; //F(wi, h) 
+
+    // Calculate geometric attenuation factor
+    float G = ...; //G(wi, wo, h)
+
+    float denominator = 4.0 * max(dot(viewDir, normal), 0.0) * max(dot(lightDir, normal), 0.0);
+
+    // Final BRDF value
+    return (D * F * G) / denominator;
+}
+\end{verbatim}
+
+This example showcases how the input LaTeX equation representing the Cook-Torrance BRDF is translated into the corresponding GLSL shader function.
 
 \section{Compiler Implementation}
 
