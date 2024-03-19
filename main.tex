@@ -798,8 +798,9 @@ We built a lexer, parser and interpreter for a  simple language along with its g
 The Pratt parser, implemented in the `parser.odin` file, employs precedence climbing to efficiently handle arbitrary operator precedence levels. Unlike traditional recursive descent parsers, which often require multiple nested function calls for each precedence level, the Pratt parser organizes parsing functions hierarchically based on operator precedence.
 
 
+
 \begin{algoritmo}[H]
-	\caption{Parte principal do parsing de expressão em código Odin}
+  \caption{Parte principal do parsing de expressão em código Odin, nessa implementação usamos a notação original de @ref(pratt) null\_denotations and left\_denotations que o mesmo que funções de parsing para operadore prefix e infixo respectivamente}
 	\label{alg1}
 	\label{alg1}
   \begin{lstlisting}
@@ -821,6 +822,10 @@ parse_expr :: proc(prec_prev: i64) -> ^Expr {
 
   \end{lstlisting}
 \end{algoritmo}
+
+Functions such as `associativity` and `precedence` provide the necessary information for parsing operators correctly, ensuring the desired behavior in expressions.
+
+@img(folder struture)
 
 \subsection{Grammar}
 
@@ -860,9 +865,8 @@ infix   = '+' | '-' | '*' | '/' | '^'
 
 \end{verbatim}
 
-This grammar defines rules for expressions (`expr`), assignments (`assign`), function calls (`call`), and various operators (`postfix`, `prefix`, `infix`). It also includes terminal symbols such as numbers (`NUMBER`) and identifiers (`IDENTIFIER`). The grammar rules are designed to handle different operator types and their precedence levels.
+This grammar defines rules for expressions, assignments, function calls and various operators such as postfix, prefix and infix. 
 
-Keywords such as `fn`, `eq`, `lt`, `gt`, `or`, and `and` are defined and mapped to corresponding tokens in the lexer. Functions such as `associativity` and `precedence` provide the necessary information for parsing operators correctly, ensuring the desired behavior in expressions.
 
 \begin{algoritmo}[H]
 	\caption{Exemplo código da linguagem implementada}
@@ -922,12 +926,12 @@ Cada símbolo na tabela de símbolos é representado pela estrutura \texttt{Symb
 \begin{lstlisting}
 
 Scope :: #type map[string]Symbol
-Scope_Table :: [dynamic]Scope
+Scope\_Table :: [dynamic]Scope
 
 Symbol :: struct  {
     name : string,
     val: f64,
-    is_function: bool,
+    is\_function: bool,
     params: []Token,
     body: ^Expr,
 }
@@ -946,7 +950,40 @@ A tabela de símbolos fornece funções para gerenciar escopos, incluindo:
 \end{itemize}
 
 
-A tabela de símbolos será utilizada durante a fase de geração de código para garantir a tradução adequada do código-fonte em shaders GLSL. Futuras melhorias podem envolver otimização de algoritmos de pesquisa de símbolos e suporte para atributos e recursos de símbolos adicionais.
+A tabela de símbolos será utilizada durante a fase de geração de código para garantir a tradução adequada do código-fonte em shaders GLSL.
+
+\section{Padrão de Visitante e Árvore de Sintaxe}
+
+O padrão de visitante foi empregado para percorrer e operar em uma árvore de sintaxe abstrata (AST). A estrutura da AST é definida com vários tipos de nó para capturar diferentes elementos da sintaxe da linguagem.
+
+\subsection{Estrutura da Árvore de Sintaxe}
+
+\begin{itemize}
+\item \textbf{Ast}: A estrutura base para todos os nós da AST.
+\item \textbf{Start}: Representa o ponto de partida do programa, contendo uma sequência de atribuições seguida de uma expressão.
+\item \textbf{Assign}: Representa atribuições de variáveis, incluindo um identificador, operador de atribuição e expressão.
+\item \textbf{Assign\_Function}: Estende Assign e representa definições de funções, incluindo parâmetros.
+\item \textbf{Expr}: Representa expressões, servindo como a estrutura base para diferentes tipos de expressões.
+\item \textbf{Expr\_Identifier}: Representa identificadores dentro de expressões.
+\item \textbf{Expr\_Number}: Representa literais numéricos dentro de expressões.
+\item \textbf{Expr\_Grouped}: Representa expressões agrupadas dentro de parênteses.
+\item \textbf{Expr\_Prefix}: Representa operações unárias de prefixo.
+\item \textbf{Expr\_Infix}: Representa operações binárias de infixo.
+\item \textbf{Expr\_Postfix}: Representa operações unárias de sufixo.
+\item \textbf{Expr\_Mixfix}: Representa operações ternárias de mixfix.
+\item \textbf{Expr\_Function\_Call}: Representa chamadas de função com argumentos.
+
+\end{itemize}
+
+\subsection{Implementação do Padrão de Visitante}
+
+Três procedimentos incorporam o padrão de visitante para percorrer e manipular a AST:
+
+\begin{itemize}
+  \item \textbf{walker\_interp}: Interpreta a AST, calculando o valor numérico das expressões.
+  \item \textbf{walker\_paren}: Gera uma representação de string entre parênteses da AST, auxiliando na legibilidade e garantindo a ordem correta de avaliação.
+  \item \textbf{walker\_print}: Imprime os nós da AST e seus atributos, facilitando a depuração e compreensão da estrutura da AST.
+\end{itemize}
 
 \subsection{Testing}
 
