@@ -1070,7 +1070,63 @@ Esses testes, junto com outros na suíte, ajudam a validar a correção da imple
 
 
 \section{Ray Tracer}
+\chapter{\textit{Ray Tracing} Implementation}
 
+Este capítulo apresenta o desenvolvimento e implementação de um simples \textit{ray tracer} usando métodos estocásticos de colisão de raios na linguagem de programação Odin com a biblioteca RayLib para renderização de imagens em uma janela. Isso foi feito para começar a entender melhor BRDFs e a equação de renderização.
+
+O \textit{ray tracer} foi construído com instruções do livro \url{https://raytracing.github.io/books/RayTracingInOneWeekend.html}. Ele opera inteiramente na CPU, e a funcionalidade principal do \textit{ray tracer} envolve a modelagem de raios e sua reflexão dos pixels da imagem para a cena. A cena consiste exclusivamente de esferas, empregando cálculos de colisão padrão entre um raio e uma esfera.
+
+\section{Implementação de Materiais}
+
+O \textit{ray tracer} inclui vários materiais que ditam o comportamento dos raios ao interagir com superfícies, embora não garantidos de estar fisicamente vinculados, considerando a conservação de energia discutida no capítulo \ref{brdf}. Cada material é implementado como uma estrutura contendo um ponteiro de função de dispersão responsável por calcular a atenuação e o raio disperso após a interação com uma superfície. Os seguintes materiais são implementados:
+
+\begin{itemize}
+\item \textbf{Material Difuso}: Representa um material básico com refletância lambertiana.
+\item \textbf{Material Lambertiano}: Uma variante do material difuso com albedo personalizável.
+\item \textbf{Material Metálico}: Modela uma superfície metálica com reflexão especular, permitindo controle sobre a difusão.
+\item \textbf{Material Dielétrico}: Simula materiais transparentes com refração e reflexão com base no índice de refração.
+\end{itemize}
+
+\begin{verbatim}
+
+Material :: struct {
+    scatter: #type proc(self: ^Material, ray: Ray, hit: Hit) -> (attenuation: Color, scattered: Ray, ok: bool),
+}
+
+Shit_Diffuse_Material  :: struct {
+    using _ : Material,
+    albedo: Color,
+}
+
+Lambertian_Material :: struct {
+    using _ : Material,
+    albedo: Color,
+}
+
+Metal_Material :: struct {
+    using _ : Material,
+    albedo: Color,
+    fuzz: f32,
+}
+
+Dielectric_Material :: struct {
+    using _ : Material,
+    ir: f32, // índice de refração
+};
+\end{verbatim}
+
+\section{Mecanismo de Reflexão de Raios}
+
+O mecanismo central do \textit{ray tracer} envolve traçar raios pela cena, determinar suas interações com superfícies e calcular os valores de cor resultantes. O processo de reflexão de raios consiste nos seguintes passos:
+
+\begin{enumerate}
+\item \textbf{Geração de Raios}: Raios são gerados a partir do ponto de vista da câmera e projetados na cena.
+\item \textbf{Detecção de Colisão}: Cada raio é testado quanto à interseção com objetos na cena.
+\item \textbf{Interação de Material}: Após a colisão, os raios interagem com o material da superfície, determinando atenuação e raios dispersos com base nas propriedades do material.
+\item \textbf{Traçado Recursivo}: Se um raio se dispersa, o processo se repete, traçando o caminho do raio disperso até que uma profundidade máxima de recursão seja atingida ou o raio escape da cena.
+\item \textbf{Acúmulo de Cor}: Os valores de cor são acumulados ao longo do caminho do raio, essa acumulação simula a irradiância de um certo ponto da superfície.
+
+\end{enumerate}
 
 % \include{Conteudo/02_Comandos}
 
