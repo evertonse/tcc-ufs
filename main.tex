@@ -781,6 +781,260 @@ milestone label font=\footnotesize,
 
 \end{adjustwidth}
 
+
+\chapter{Resultados Iniciais}
+
+\section{Parser and Lexer in Odin}
+
+We built a lexer, parser and interpreter for a  simple language along with its grammar using Pratt parsing in Odin programming language, the repository can be found here \url{https://github.com/evertonse/pratt-parser}. The Pratt parser, is a recursive descente parser that means that each production rule as a associated parsing function. The implementation prioritizes simplicity and clarity, with extensive comments to aid understanding, specailly because it is meant to validate the parser for a ramp up, when we'll need to change to LateX tokens and de BRDF semantic meaning.
+
+\subsection{Parser}
+
+The Pratt parser, implemented in the `parser.odin` file, employs precedence climbing to efficiently handle arbitrary operator precedence levels. Unlike traditional recursive descent parsers, which often require multiple nested function calls for each precedence level, the Pratt parser organizes parsing functions hierarchically based on operator precedence.
+
+
+\begin{algoritmo}[H]
+	\caption{Parte principal do parsing de expressão em código Odin}
+	\label{alg1}
+	\label{alg1}
+  \begin{lstlisting}
+
+parse_expr :: proc(prec_prev: i64) -> ^Expr {
+    /* expressions that takes nothing (null) as left operand */
+    left := parse_null_denotations() 
+    /*
+    . if current token is left associative or current token has higher precedence
+    . than previous precedence then stay in the loop, effectively creating a left leaning
+    . sub-tree, else, we recurse to create a right leaning sub-tree.
+    */
+    for precedence(peek()) > prec_prev + associativity(peek())  {
+        /* expressions that needs a left operand such as postfix, mixfix, and infix operator */
+        left = parse_left_denotations(left)
+    }
+    return left
+}
+
+  \end{lstlisting}
+\end{algoritmo}
+
+\subsection{Grammar}
+
+The grammar is defined below, we make a syntax light notation for describing it, all lowcase words are rules, symbol $*$ means zero or more $()$ means grouping to apply a operator to it, $|$ is the or operator words in single quotes $''$ means literalmente a token with that content as carachter and all letter uppercase means a token that might be different in content but has the same sematnic meaning, for example NUMBER might be 2.0 or 1.0, but in the production rules they are treated the same. $=$ menas a production, 
+
+\begin{lstlisting}
+start = assign* expr ;
+
+expr = prefix expr 
+       | expr postfix  
+       | expr infix expr 
+       | expr '?' expr ':' expr
+       | call
+       | NUMBER
+       | IDENTIFIER
+       ;
+
+assign = IDENTIFIER '=' expr ';'
+         | IDENTIFIER '=' 'fn' (' params ')' expr ';'
+         ; 
+
+call = expr '(' args ')';
+args = expr
+        | expr ',' args
+        | ε
+        ;
+params = IDENTIFIER
+         | IDENTIFIER ',' params
+         | ε
+        ;
+
+postfix = '+' | '-' | '~' | '!';
+prefix  = '+' | '-' | '~' | '!';
+infix   = '+' | '-' | '*' | '/' | '^'
+            | 'eq' | 'lt' | 'gt' | 'or' | 'and'
+            ;
+
+\end{lstlisting}
+
+This grammar defines rules for expressions (`expr`), assignments (`assign`), function calls (`call`), and various operators (`postfix`, `prefix`, `infix`). It also includes terminal symbols such as numbers (`NUMBER`) and identifiers (`IDENTIFIER`). The grammar rules are designed to handle different operator types and their precedence levels.
+
+Keywords such as `fn`, `eq`, `lt`, `gt`, `or`, and `and` are defined and mapped to corresponding tokens in the lexer. Functions such as `associativity` and `precedence` provide the necessary information for parsing operators correctly, ensuring the desired behavior in expressions.
+
+\begin{algoritmo}[H]
+	\caption{Exemplo código da linguagem implementada}
+	\label{alg1}
+	\label{alg1}
+  \begin{lstlisting}[language = python]
+    epsilon = 0.001; # Close by this much
+
+    abs = fn(a) a lt 0 or a lt -0 ? -a : a;
+
+    float_close = fn(a, b) 
+        abs(a - b) lt epsilon ? 
+            1 : 0;
+
+    # Classical fibonacci
+    fib = fn(n)  
+        float_close(n, 0) ? 
+            0
+        :float_close(n, 1) ?
+            1
+        :fib(n-1)  + fib(n-2);
+
+    fib(10) # last statement is the return expression from main program
+  \end{lstlisting}
+\end{algoritmo}
+
+
+\begin{algoritmo}[H]
+  \begin{lstlisting}[language = python]
+    cos = fn(a) a!;  # postfix '!' means cossine
+    sin = fn(a) !a;  # prefix '!' means sine
+    tan = fn(a) sin(a)/cos(a); # we have access to functions in outter scope
+    val = tan(98);    
+    val 
+  \end{lstlisting}
+\end{algoritmo}
+
+
+
+\subsection{Tabela de Símbolos}
+
+Nesse projeto também foi desenvolvido uma tabela de símbolos simples, que será reaproveitado na análise semântica e na geração de código GLSL futuramente. A
+
+A implementação da tabela de símbolos fornecida aqui é baseada em uma estrutura de escopo hierárquico, onde cada escopo mantém um mapeamento entre os nomes dos símbolos e seus atributos correspondentes. A estrutura \texttt{Scope} representa um mapeamento de nomes de símbolos para objetos de símbolo dentro de um \textbf{único} escopo, enquanto a \texttt{Scope\_Table} mantém uma pilha de escopos, permitindo aninhamento.
+
+\subsubsection{Estrutura de Símbolos}
+
+Cada símbolo na tabela de símbolos é representado pela estrutura \texttt{Symbol}, que contém os seguintes atributos:
+\begin{itemize}
+    \item \texttt{name}: O nome do símbolo.
+    \item \texttt{val}: O valor associado ao símbolo (para variáveis).
+    \item \texttt{is\_function}: Um sinalizador booleano indicando se o símbolo é uma função.
+    \item \texttt{params}: Uma lista de tokens representando os parâmetros da função (se aplicável).
+    \item \texttt{body}: Um ponteiro para a expressão que representa o corpo da função (se aplicável).
+\end{itemize}
+
+\begin{lstlisting}
+
+Scope :: #type map[string]Symbol
+Scope_Table :: [dynamic]Scope
+
+Symbol :: struct  {
+    name : string,
+    val: f64,
+    is_function: bool,
+    params: []Token,
+    body: ^Expr,
+}
+
+\end{lstlisting}
+
+\subsubsection{Gerenciamento de Escopo}
+
+A tabela de símbolos fornece funções para gerenciar escopos, incluindo:
+\begin{itemize}
+    \item \texttt{scope\_enter}: Entra em um novo escopo, anexando-o à pilha de escopos.
+    \item \texttt{scope\_exit}: Sai do escopo atual, removendo-o da pilha de escopos e retornando-o.
+    \item \texttt{scope\_reset}: Redefine a tabela de símbolos limpando todos os escopos.
+    \item \texttt{scope\_get}: Recupera um símbolo da tabela de símbolos pelo seu identificador.
+    \item \texttt{scope\_add}: Adiciona um novo símbolo ao escopo atual.
+\end{itemize}
+
+
+A tabela de símbolos será utilizada durante a fase de geração de código para garantir a tradução adequada do código-fonte em shaders GLSL. Futuras melhorias podem envolver otimização de algoritmos de pesquisa de símbolos e suporte para atributos e recursos de símbolos adicionais.
+
+\subsection{Testing}
+
+To ensure the correctness and robustness of the Pratt parser implementation, a comprehensive suite of tests has been developed. These tests cover various aspects of the parser's functionality, including syntax tree generation, operator precedence, and semantic interpretation.
+
+\subsubsection{Syntax Tree Generation}
+
+One crucial aspect of testing involves verifying the correct generation of syntax trees from input expressions. Tests are designed to cover different scenarios, including simple arithmetic operations, complex expressions with nested sub-expressions, and function calls.
+
+For example, the syntax tree generation test suite includes cases to validate:
+
+\begin{itemize}
+    \item The correct handling of unary and binary operators, ensuring proper precedence and associativity.
+    \item The accurate representation of function calls and their arguments within the syntax tree.
+    \item Proper grouping of expressions within parentheses to enforce precedence rules.
+\end{itemize}
+
+\subsubsection{Operator Precedence and Associativity}
+
+Tests are conducted to validate the precedence and associativity of operators in the language grammar. This includes ensuring that operators with higher precedence are evaluated before those with lower precedence, and that left- or right-associative operators are parsed correctly.
+
+Examples of tests for operator precedence and associativity include:
+
+\begin{itemize}
+    \item Verifying the correct parenthesization of expressions involving multiple operators with varying precedence levels.
+    \item Ensuring that unary operators are applied before binary operators, according to their precedence rules.
+    \item Validating the proper grouping of expressions to enforce left or right associativity as specified in the grammar.
+\end{itemize}
+
+\subsubsection{Semantic Interpretation}
+
+In addition to syntax tree generation and operator precedence, tests are performed to ensure the semantic interpretation of expressions yields the expected results. This involves evaluating expressions and comparing the output against the anticipated values.
+
+For instance, semantic interpretation tests cover:
+
+\begin{itemize}
+    \item Evaluating arithmetic expressions involving constants, variables, and function calls to verify correct results.
+    \item Checking the behavior of conditional expressions (e.g., ternary operator) under different conditions.
+    \item Verifying the correctness of function implementations and their behavior within the parser's execution environment.
+\end{itemize}
+
+By meticulously testing syntax tree generation, operator precedence, and semantic interpretation, the Pratt parser implementation can be validated for correctness and reliability, ensuring robust performance across various input scenarios.
+
+Para garantir a correção da geração e interpretação da árvore de sintaxe, diversos testes são realizados na implementação do parser de Pratt. Esses testes cobrem vários aspectos da gramática e semântica da linguagem. Vamos passar por alguns exemplos com base nos casos de teste fornecidos:
+
+1. **Teste de Recursão**: O teste verifica a correção da geração da sequência de Fibonacci até o 9º número. Por exemplo, o teste verifica se o número de Fibonacci no índice 7 é calculado corretamente.
+
+\begin{verbatim}
+fib = fn(n)  
+    float_close(n, 0) ? 
+        0
+    :float_close(n, 1) ?
+        1
+    :fib(n-1)  + fib(n-2);
+
+fib(7)
+\end{verbatim}
+
+2. **Teste de Atribuição e Interpretação**: Este teste avalia uma expressão envolvendo atribuições de variáveis e chamadas de função dentro do mesmo escopo. Por exemplo, verifica se a função `val` calcula corretamente a subtração de seus argumentos.
+
+\begin{verbatim}
+a = 1;
+b = 2;
+c = 3;
+d = 4;
+
+val = fn(a,b,c,d) d-c-b-a; 
+val(a,b,c,d, 2, 4 ,4)
+\end{verbatim}
+
+3. **Teste de Operador Relacional**: Este teste verifica a precedência e associatividade dos operadores relacionais (`lt`, `gt`, `eq`) e operadores lógicos (`or`, `and`). Por exemplo, verifica se a expressão `1 or 2 and 3 or 4` é corretamente parantezada.
+
+\begin{verbatim}
+1 or 2 and 3 or 4
+\end{verbatim}
+
+4. **Teste de Precedência de Operadores Unários e Binários**: Este teste examina a precedência dos operadores unários e binários. Por exemplo, verifica se a expressão `!a + b` é corretamente interpretada com o operador unário `!` aplicado antes do binário `+`.
+
+\begin{verbatim}
+!a + b
+\end{verbatim}
+
+5. **Teste de Agrupamento**: Este teste garante que as expressões entre parênteses sejam corretamente agrupadas. Por exemplo, verifica se a expressão `a + (b + c) + d` é parantezada conforme o esperado.
+
+\begin{verbatim}
+a + (b + c) + d
+\end{verbatim}
+
+Esses testes, juntamente com outros na suíte, ajudam a validar a correção da implementação do parser de Pratt, cobrindo várias características da linguagem e regras de precedência de operadores.
+
+\section{Ray Tracer}
+
+
 % \include{Conteudo/02_Comandos}
 
 % \include{Conteudo/03_ConteudoEspecifico}
