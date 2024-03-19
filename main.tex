@@ -826,10 +826,9 @@ parse_expr :: proc(prec_prev: i64) -> ^Expr {
 Functions such as `associativity` and `precedence` provide the necessary information for parsing operators correctly, ensuring the desired behavior in expressions.
 
 @img(folder struture)
+\subsection{Gramática}
 
-\subsection{Grammar}
-
-The grammar is defined below, we make a syntax light notation for describing it, all lowcase words are rules, symbol $*$ means zero or more $()$ means grouping to apply a operator to it, $|$ is the or operator words in single quotes $''$ means literalmente a token with that content as carachter and all letter uppercase means a token that might be different in content but has the same sematnic meaning, for example NUMBER might be 2.0 or 1.0, but in the production rules they are treated the same. $=$ menas a production, 
+A gramática é definida abaixo. Utilizamos uma notação leve de sintaxe para descrevê-la, todas as palavras em minúsculas são regras, o símbolo $*$ significa zero ou mais ocorrências, $()$ indica agrupamento para aplicar um operador a ele, $|$ é o operador ou, palavras entre aspas simples $''$ significam literalmente um token com esse conteúdo como caractere, e todas as letras maiúsculas representam um token que pode ter conteúdo diferente, mas possui o mesmo significado semântico. Por exemplo, NUMBER pode ser 2.0 ou 1.0, mas nas regras de produção eles são tratados da mesma forma. O símbolo $=$ indica uma produção.
 
 \begin{verbatim}
 start = assign* expr ;
@@ -865,7 +864,7 @@ infix   = '+' | '-' | '*' | '/' | '^'
 
 \end{verbatim}
 
-This grammar defines rules for expressions, assignments, function calls and various operators such as postfix, prefix and infix. 
+Essa gramática define regras para expressões, atribuições, chamadas de função e vários operadores, como postfix, prefix e infix com o intuito de criar uma vasta coleção de operadores com diferentes precendecias para facilitar quando for transicionado para sintaxe LaTeX.
 
 
 \begin{algoritmo}[H]
@@ -873,7 +872,7 @@ This grammar defines rules for expressions, assignments, function calls and vari
 	\label{alg1}
 	\label{alg1}
   \begin{lstlisting}[language = python]
-    epsilon = 0.001; # Close by this much
+    epsilon = 0.001; # proximidade em float
 
     abs = fn(a) a lt 0 or a lt -0 ? -a : a;
 
@@ -889,22 +888,19 @@ This grammar defines rules for expressions, assignments, function calls and vari
             1
         :fib(n-1)  + fib(n-2);
 
-    fib(10) # last statement is the return expression from main program
+    fib(10)  # Ultima expressao significa retorno do main
   \end{lstlisting}
 \end{algoritmo}
 
-
-\begin{algoritmo}[H]
-  \begin{lstlisting}[language = python]
-    cos = fn(a) a!;  # postfix '!' means cossine
-    sin = fn(a) !a;  # prefix '!' means sine
-    tan = fn(a) sin(a)/cos(a); # we have access to functions in outter scope
-    val = tan(98);    
-    val 
-  \end{lstlisting}
-\end{algoritmo}
-
-
+\begin{algorithm}[H]
+\begin{lstlisting}[language = python]
+  cos = fn(a) a!; # Postfix '!' significa cosseno
+  sin = fn(a) !a; # Prefixo '!' significa seno
+  tan = fn(a) sin(a)/cos(a); # Temos acesso a procedimentos no escopo externo
+  val = tan(98);
+  val
+\end{lstlisting}
+\end{algorithm}
 
 \subsection{Tabela de Símbolos}
 
@@ -950,11 +946,11 @@ A tabela de símbolos fornece funções para gerenciar escopos, incluindo:
 \end{itemize}
 
 
-A tabela de símbolos será utilizada durante a fase de geração de código para garantir a tradução adequada do código-fonte em shaders GLSL.
+Essa tabela de símbolos será apdatada para a fase de geração de código e tradução adequada do código-fonte em shaders GLSL.
 
 \section{Padrão de Visitante e Árvore de Sintaxe}
 
-O padrão de visitante foi empregado para percorrer e operar em uma árvore de sintaxe abstrata (AST). A estrutura da AST é definida com vários tipos de nó para capturar diferentes elementos da sintaxe da linguagem.
+O padrão visitante @ref foi empregado para percorrer e operar em uma árvore de sintaxe abstrata (AST). A estrutura da AST é definida com vários tipos de nó para capturar diferentes elementos da sintaxe.
 
 \subsection{Estrutura da Árvore de Sintaxe}
 
@@ -986,50 +982,48 @@ Três procedimentos incorporam o padrão de visitante para percorrer e manipular
 \end{itemize}
 
 \subsection{Testing}
+\subsection{Testes}
 
-To ensure the correctness and robustness of the Pratt parser implementation, a comprehensive suite of tests has been developed. These tests cover various aspects of the parser's functionality, including syntax tree generation, operator precedence, and semantic interpretation.
+Para garantir a correção e robustez da implementação do parser de Pratt, foi desenvolvida uma ampla suíte de testes. Esses testes abrangem vários aspectos da funcionalidade do parser, incluindo geração de árvore de sintaxe, precedência de operadores e interpretação semântica.
 
-\subsubsection{Syntax Tree Generation}
+\subsubsection{Geração de Árvore de Sintaxe}
 
-One crucial aspect of testing involves verifying the correct generation of syntax trees from input expressions. Tests are designed to cover different scenarios, including simple arithmetic operations, complex expressions with nested sub-expressions, and function calls.
+Um aspecto crucial dos testes envolve verificar a correta geração de árvores de sintaxe a partir de expressões de entrada. Os testes são projetados para cobrir diferentes cenários, incluindo operações aritméticas simples, expressões complexas com subexpressões aninhadas e chamadas de funções.
 
-For example, the syntax tree generation test suite includes cases to validate:
-
-\begin{itemize}
-    \item The correct handling of unary and binary operators, ensuring proper precedence and associativity.
-    \item The accurate representation of function calls and their arguments within the syntax tree.
-    \item Proper grouping of expressions within parentheses to enforce precedence rules.
-\end{itemize}
-
-\subsubsection{Operator Precedence and Associativity}
-
-Tests are conducted to validate the precedence and associativity of operators in the language grammar. This includes ensuring that operators with higher precedence are evaluated before those with lower precedence, and that left- or right-associative operators are parsed correctly.
-
-Examples of tests for operator precedence and associativity include:
+Por exemplo, a suíte de testes de geração de árvore de sintaxe inclui casos para validar:
 
 \begin{itemize}
-    \item Verifying the correct parenthesization of expressions involving multiple operators with varying precedence levels.
-    \item Ensuring that unary operators are applied before binary operators, according to their precedence rules.
-    \item Validating the proper grouping of expressions to enforce left or right associativity as specified in the grammar.
+    \item O manuseio correto de operadores unários e binários, garantindo a precedência e associatividade adequadas.
+    \item A representação precisa de chamadas de função e seus argumentos dentro da árvore de sintaxe.
+    \item O agrupamento adequado de expressões dentro de parênteses para impor regras de precedência.
 \end{itemize}
 
-\subsubsection{Semantic Interpretation}
+\subsubsection{Precedência de Operadores e Associatividade}
 
-In addition to syntax tree generation and operator precedence, tests are performed to ensure the semantic interpretation of expressions yields the expected results. This involves evaluating expressions and comparing the output against the anticipated values.
+Testes são conduzidos para validar a precedência e associatividade de operadores na gramática da linguagem. Isso inclui garantir que operadores com maior precedência sejam avaliados antes daqueles com menor precedência e que operadores associativos à esquerda ou à direita sejam analisados corretamente.
 
-For instance, semantic interpretation tests cover:
+Exemplos de testes para precedência de operadores e associatividade incluem:
 
 \begin{itemize}
-    \item Evaluating arithmetic expressions involving constants, variables, and function calls to verify correct results.
-    \item Checking the behavior of conditional expressions (e.g., ternary operator) under different conditions.
-    \item Verifying the correctness of function implementations and their behavior within the parser's execution environment.
+    \item Verificar a correta parantezização de expressões envolvendo múltiplos operadores com níveis de precedência variados.
+    \item Garantir que operadores unários sejam aplicados antes de operadores binários, de acordo com suas regras de precedência.
+    \item Validar o agrupamento adequado de expressões para impor associatividade à esquerda ou à direita conforme especificado na gramática.
 \end{itemize}
 
-By meticulously testing syntax tree generation, operator precedence, and semantic interpretation, the Pratt parser implementation can be validated for correctness and reliability, ensuring robust performance across various input scenarios.
+\subsubsection{Interpretação Semântica}
 
-Para garantir a correção da geração e interpretação da árvore de sintaxe, diversos testes são realizados na implementação do parser de Pratt. Esses testes cobrem vários aspectos da gramática e semântica da linguagem. Vamos passar por alguns exemplos com base nos casos de teste fornecidos:
+Além da geração de árvore de sintaxe e precedência de operadores, testes são realizados para garantir a interpretação semântica de expressões produza os resultados esperados. Isso envolve avaliar expressões e comparar a saída com os valores antecipados.
 
-1. **Teste de Recursão**: O teste verifica a correção da geração da sequência de Fibonacci até o 9º número. Por exemplo, o teste verifica se o número de Fibonacci no índice 7 é calculado corretamente.
+Por exemplo, os testes de interpretação semântica abrangem:
+
+\begin{itemize}
+    \item Avaliar expressões aritméticas envolvendo constantes, variáveis e chamadas de função para verificar resultados corretos.
+    \item Verificar o comportamento de expressões condicionais (por exemplo, operador ternário) sob diferentes condições.
+    \item Validar a correção das implementações de funções e seu comportamento dentro do ambiente de execução do parser.
+\end{itemize}
+
+Ao testar meticulosamente a geração de árvore de sintaxe, precedência de operadores e interpretação semântica, a implementação do parser de Pratt pode ser validada quanto à correção e confiabilidade, garantindo um desempenho robusto em vários cenários de entrada.
+1. **Teste de Recursão**: Verifica a geração correta da sequência de Fibonacci até o 9º número. Por exemplo, verifica se o número de Fibonacci no índice 7 é calculado corretamente.
 
 \begin{verbatim}
 fib = fn(n)  
@@ -1042,7 +1036,7 @@ fib = fn(n)
 fib(7)
 \end{verbatim}
 
-2. **Teste de Atribuição e Interpretação**: Este teste avalia uma expressão envolvendo atribuições de variáveis e chamadas de função dentro do mesmo escopo. Por exemplo, verifica se a função `val` calcula corretamente a subtração de seus argumentos.
+2. **Teste de Atribuição e Interpretação**: Avalia uma expressão envolvendo atribuições de variáveis e chamadas de função no mesmo escopo. Por exemplo, verifica se a função `val` calcula corretamente a subtração de seus argumentos.
 
 \begin{verbatim}
 a = 1;
@@ -1054,25 +1048,26 @@ val = fn(a,b,c,d) d-c-b-a;
 val(a,b,c,d, 2, 4 ,4)
 \end{verbatim}
 
-3. **Teste de Operador Relacional**: Este teste verifica a precedência e associatividade dos operadores relacionais (`lt`, `gt`, `eq`) e operadores lógicos (`or`, `and`). Por exemplo, verifica se a expressão `1 or 2 and 3 or 4` é corretamente parantezada.
+3. **Teste de Operador Relacional**: Verifica a precedência e associatividade dos operadores relacionais (`lt`, `gt`, `eq`) e lógicos (`or`, `and`). Por exemplo, verifica se a expressão `1 or 2 and 3 or 4` é corretamente parantezada.
 
 \begin{verbatim}
 1 or 2 and 3 or 4
 \end{verbatim}
 
-4. **Teste de Precedência de Operadores Unários e Binários**: Este teste examina a precedência dos operadores unários e binários. Por exemplo, verifica se a expressão `!a + b` é corretamente interpretada com o operador unário `!` aplicado antes do binário `+`.
+4. **Teste de Precedência de Operadores Unários e Binários**: Examina a precedência dos operadores unários e binários. Por exemplo, verifica se a expressão `!a + b` é corretamente interpretada com o operador unário `!` aplicado antes do binário `+`.
 
 \begin{verbatim}
 !a + b
 \end{verbatim}
 
-5. **Teste de Agrupamento**: Este teste garante que as expressões entre parênteses sejam corretamente agrupadas. Por exemplo, verifica se a expressão `a + (b + c) + d` é parantezada conforme o esperado.
+5. **Teste de Agrupamento**: Garante que as expressões entre parênteses sejam corretamente agrupadas. Por exemplo, verifica se a expressão `a + (b + c) + d` é parantezada conforme o esperado.
 
 \begin{verbatim}
 a + (b + c) + d
 \end{verbatim}
 
-Esses testes, juntamente com outros na suíte, ajudam a validar a correção da implementação do parser de Pratt, cobrindo várias características da linguagem e regras de precedência de operadores.
+Esses testes, junto com outros na suíte, ajudam a validar a correção da implementação do parser de Pratt, cobrindo várias características da linguagem e regras de precedência de operadores.
+
 
 \section{Ray Tracer}
 
