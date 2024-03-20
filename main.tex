@@ -401,31 +401,30 @@ Após a tradução da expressão matematica para \( L_2 \), o cálculo pode ser 
 
 
 A interação com as GPUs é facilitada por meio de uma 
-API, sendo o OpenGL uma API padrão para o uso de funções na GPU \cite{opengl_spec}. O pipeline de renderização do OpenGL é composto por várias etapas, incluindo definição de dados de vértices, \textit{shaders} de vértice e fragmento, \textit{shaders} de tesselação e geometria opcionais, configuração de primitivas, recorte, rasterização e \textit{shader} de fragmento.
+API, sendo o OpenGL uma API padrão para o uso de funções na GPU \cite{opengl_spec}. O pipeline de renderização do OpenGL é composto por várias etapas, incluindo definição de dados de vértices, \textit{shaders} de vértice e fragmento, \textit{shaders} de tesselação e geometria opcionais, configuração de primitivas, recorte e rasterização.
 
-Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. As etapas mais importantes para o nosso trabalho são os \textit{shaders} de fragmento e de vértice representados na \autoref{fig-pipeline}, os quais executam a manipulação dos vértices e determinar cores de pixels, respectivamente.
+Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. As etapas mais importantes para o nosso trabalho são os \textit{shaders} de fragmento e de vértice, representados na \autoref{fig-pipeline}, os quais executam a manipulação dos vértices e determinam cores de pixels, respectivamente.
 
 \begin{figure}[H]
 	\caption{\label{fig-pipeline} Pipeline Grafico}
 	\begin{center}
-	    \includegraphics[scale=0.8]{./Imagens/gpu_pipeline.png}
+	    \includegraphics[scale=0.6]{./Imagens/gpu_pipeline.png}
 	\end{center}
   \legend{Fonte: \cite{video_pipeline}}
 \end{figure}
 
 
+\subsection{Shader de Vértice}
 
-\subsection{Vertex Shader}
+O \textit{shader} de vértice opera em vértices individuais de primitivas geométricas antes de serem rasterizados em fragmentos. Sua principal tarefa é transformar vértices do espaço de coordenadas local do objeto para o espaço de coordenadas global da cena e passar os dados necessários para o \textit{shader} fragmento.
 
-O vertex \textit{shader} opera em vértices individuais de primitivas geométricas antes de serem rasterizados em fragmentos. Sua principal tarefa é transformar vértices do espaço de coordenadas local do objeto para o espaço de coordenadas global da cena e passar os dados necessários para o fragment shader. Esses \textit{shaders} geralmente realizam várias transformações nos dados dos vértices, permitindo que objetos sejam posicionados, orientados e projetados em uma tela 2D. Nesta seção, discutimos algumas das transformações comuns realizadas por \textit{shaders} de vértice.
-
-Ao fim dessa estapa, os vértices são normalizados para garantir coordenadas homogêneas. Coordenadas homogêneas são necessárias para realizar a projeção perspectiva e outros cálculos no pipeline de renderização.
+Esses \textit{shaders} geralmente realizam várias transformações nos dados dos vértices, permitindo que objetos sejam posicionados, orientados e projetados em uma tela 2D, um exemplo desse \textit{shader} está na \autoref{vertex}. Ao fim dessa estapa, os vértices são normalizados para coordenadas homogêneas, que é útil para realizar a projeção perspectiva e outros cálculos no pipeline de renderização.
 
 
-\begin{verbatim}
-// Exemplo de \textit{shader} de Vértice
+\begin{codigo}[H]
+\label{vertex}
+\begin{lstlisting}
 #version 330 core
-
 layout(location = 0) in vec3 inPosition;
 layout(location = 1) in vec3 inNormal;
 
@@ -436,29 +435,25 @@ out vec3 fragNormal;
 void main() {
     vec3 manipulatedPosition = inPosition + (sin(gl_VertexID * 0.1) * 0.1);
     fragNormal = inNormal;
-    gl_Position = modelViewProjection * vec4(manipulatedPosition, 1.0);
+    gl\_Position = modelViewProjection * vec4(manipulatedPosition, 1.0);
 }
-\end{verbatim}
+\end{lstlisting}
+\end{codigo}
 
-\subsection{Fragment Shader}
+\subsection{Shader de Fragmento}
 
-O Fragment \textit{shader} opera em fragmentos rasterizados produzidos pela etapa de rasterização. Sua principal responsabilidade é determinar a cor final de cada fragmento com base na iluminação, texturização e propriedades da superfície. O modelo mental é interpretar esse programa  sendo repetido para todos os pixeis da imagem paralelamente, e ainda, esse programa recebe dados interpolados, como vértices e normais, ou seja, cada instancia desse programa possue entradas diferentes uma das outras. Esses valores interpolados são calculados usando interpolação bariêntrica em toda a superfície da primitiva.
+O \textit{shader} de fragmento, opera em fragmentos produzidos pela etapa de rasterização. Sua principal responsabilidade é determinar a cor final de cada fragmento com base na iluminação, texturização e propriedades da superfície. O modelo mental é interpretar esse programa  sendo repetido para todos os pixeis da imagem paralelamente.  Esse programa recebe dados interpolados, como vértices e normais, ou seja, cada instancia desse programa possue entradas diferentes uma das outras. Os valores interpolados são calculados usando interpolação bariêntrica.
 
-Neste \textit{shader} é onde as BRDFs devem ser implementadas para atingir um nível de shading mais preciso, pois temos mais dados do que os passados, devido à interpolação. Isso resulta em um nível de granularidade maior, considerando uma transição mais suave de um ponto para outro dentro de um triângulo.
+Neste \textit{shader} é onde as BRDFs devem ser implementadas para atingir um nível de shading mais preciso, pois temos mais dados do que os passados, devido à interpolação. Isso resulta em um nível de granularidade maior, considerando uma transição mais suave de um ponto para outro dentro de um triângulo como represetado na \autoref{better-with-fragment}.
 
-@image{ put an image about verter shading and fragment shading}
 
-\begin{verbatim}
-// Exemplo de \textit{shader} de Fragmento
-#version 330 core
-
-in vec3 fragNormal;
-out vec4 fragColor;
-
-void main() {
-    fragColor = vec4(1.0, 0.0, 0.0, 1.0); 
-}
-\end{verbatim}
+\begin{figure}[H]
+	\caption{\label{better-with-fragment} \small Diferença entre shading a nível de vértice e shading a nível de fragmento}
+	\begin{center}
+	    \includegraphics[scale=0.5]{./Imagens/per_vertex_per_frag.png}
+	\end{center}
+  \legend{ Fonte: XXX\cite{De}}
+\end{figure}
 
 \chapter{Revisão Bibliográfica} \label{revisao}
 
