@@ -105,16 +105,19 @@ No meio acadêmico, as BRDFs são comumente descritas por fórmulas escritas em 
 Este trabalho visa projetar e implementar um compilador que, a partir de BRDFs escritas como equações em \LaTeX, seja capaz de gerar código de \textit{shading} na linguagem alvo da API OpenGL, considerando a precedência de operadores. O resultado será um \textit{shader} capaz de reproduzir as características de reflexão da BRDF original ou, ao menos, alcançar uma aproximação satisfatória dessas características, levando em conta as limitações da linguagem de \textit{shading} da API, principalmente as representações de dados de forma discreta. 
 
 \section{Estrutura do Documento}
-Em \autoref{conceitos}, descrevemos por todos os conhecimentos necessário para entender BRDFs,incluingo quantificação de luminosidade, e radiação, assim como conceitos de compiladores como tokenização e construção da árvore sintática.
+No \autoref{conceitos}, descrevemos por todos os conhecimentos necessário para entender BRDFs,incluingo quantificação de luminosidade, e radiação, assim como conceitos de compiladores como tokenização e construção da árvore sintática.
 \autoref{radiometria} trata dos conceitos fundamentais relacionados à luz, como a capacidade de um material refletir raios de luz e sua importância na computação gráfica e renderização. Destaca-se a relação entre a intensidade de um pixel de imagem, a iluminação, a orientação e a reflectância da superfície, além da definitição de funções de refletância, as BRDFs. 
 \autoref{brdfmodels} destaca algums modelos comuns de BRDFs. é compilador 
 
 Na \autoref{compiladores}, fornece uma visão abrangente dos elementos essenciais envolvidos na criação de compiladores. Começa com a definição de conceitos fundamentais, como cadeias de símbolos e alfabetos, necessários para entender linguagens formais. Em seguida, explora a natureza das linguagens, destacando sua estrutura e semântica. Além disso, a seção discute a importância das gramáticas na definição de linguagens e descreve o processo de compilação, incluindo a análise léxica, a análise sintática e o Pratt \textit{Parsing}, uma técnica eficiente para lidar com a precedência de operadores durante a análise sintática
 
-\autoref{shading} aborda o processo de shading em gráficos por computador e o funcionamento do pipeline de renderização da GPU, destacando o papel dos shaders. Descreve a transformação de vértices e a determinação da cor dos fragmentos, mostrando exemplos de código. 
+Na \autoref{shading} aborda o processo de shading em gráficos por computador e o funcionamento do pipeline de renderização da GPU, destacando o papel dos shaders. Descreve a transformação de vértices e a determinação da cor dos fragmentos, mostrando exemplos de código. 
 
 \autoref{revisao}, tem como parte principal um mapeamento sistemático utilizando termos de busca para identificar trabalhos relevantes sobre o desenvolvimento de compiladores para traduzir BRDFs de \LaTeX para shaders. Os critérios de inclusão e exclusão são definidos para filtrar os resultados. Além disso, são descritos os resultados encontrados em diversas bases de dados, como IEEE Xplore, BDTD, CAPES, ACM Digital Library e Google Scholar, bem como a análise de repositórios online como GitHub e SourceForge. 
 
+No \autoref{metodologia}, é descrito o método para desenvolver o compilador proposto, são definidas etapas adaptadas para alcançar os objetivos de pesquisa especificados. Casos de teste são projetados para validação. O plano de continuação, na \autoref{continuacao}, detalha as etapas futuras com datas previstas.
+
+O \autoref{resultadosiniciais} descreve a implementação de um analisador léxico, sintático e interpretador em Odin usando análise de Pratt. Ele prioriza simplicidade e clareza, com uma gramática definida e uma tabela de símbolos simples. O capítulo também detalha testes desenvolvidos para validar a implementação. O segundo capítulo apresenta o desenvolvimento de um \textit{ray tracer} em Odin com RayLib, modelando raios e materiais para renderização de imagens em CPU.
 
 
 
@@ -733,7 +736,8 @@ Por fim, experimentos de renderização são realizados usando os shaders gerado
 @ Código para o superconjunto GLSL
 
 Seguindo esta metodologia, a ferramenta proposta visa compilar efetivamente descrições de BRDF em shaders GLSL, facilitando a geração de gráficos realistas em aplicativos de gráficos por computador.
-\section{Plano de Continuação}
+
+\section{Plano de Continuação} \label{continuacao}
 
 A continuação desta tese envolve várias tarefas-chave destinadas a completar o desenvolvimento do compilador proposto para converter equações \LaTeX  que descrevem BRDFs em código de shader GLSL. As tarefas incluem atualizar o lexer e o parser escritos em Odin para aceitar equações \LaTeX , testar o lexer e o parser para garantir o reconhecimento correto dos tokens \LaTeX  Math, testar o parser para garantir a árvore de sintaxe com a precedência correta, definir símbolos predefinidos como constantes matemáticas e outras quantidades, implementar o processo de geração de código GLSL usando a árvore de sintaxe usando o padrão de visitante @ref, expandir os casos de teste para cobrir uma melhor variedade de BRDFs, testar minuciosamente o código gerado quanto à correção e eficácia, incluindo as visualizações dos mencionados BRDFs em algumas cenas, preparar a apresentação final e, finalmente, escrever o documento do trabalho (TCC).
 
