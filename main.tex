@@ -655,13 +655,13 @@ Esse trabalho propõe uma arquitetura de \textit{hardware} que permite cálculos
 Além disso, o circuito suporta diversas BRDFs, como Blinn-Phong, Cook-Torrance, Ward e modelos baseados em microfacetas, com tabelas  específicas para cada modelo. O uso de tabelas de pesquisa permite a representação organizada da parametrização das BRDFs, tornando o processo de transformação de BRDF para \textit{shaders} mais acessível. Assim como este trabalho, a abordagem facilita a geração de \textit{shaders} a partir da descrição de BRDFs, apesar da metologia ser diferente.
 
 \section{Pesquisa por Repositórios online}
-Também foram analisados repositórios no github e SourceForge, cada um com uma \textit{string} de busca especifica. Os repositórios encontrados foram filtrados baseados em seus resumos, caso não haja a menção da criação de um compilador ou não citar uma transformação de BRDF para outra estrutura, esse repositório será excluido.
+Também foram analisados repositórios no github e SourceForge, cada um com uma \textit{string} de busca especifica. Os repositórios encontrados foram filtrados baseados em seus resumos, caso não haja a menção da criação de um compilador ou não citar uma transformação de BRDF para outra estrutura, esse repositório foi excluido. O resultado se encontra na \autoref{tab-repo}.
 
 
 \begin{table}[H]
 \ABNTEXfontereduzida
-\caption[bases]{}
-\label{tab-bases}
+\caption[bases]{Resultados da pesquisa nos repositórios}
+\label{tab-repo}
 \begin{tabular}{p{2.6cm}|p{6.0cm}|p{2.25cm}|p{3.40cm}}
   %\hline
    \textbf{Plataformas} & \textbf{Termos de Pesquisa}  & \textbf{Resultados}\\
@@ -680,35 +680,32 @@ Também foram analisados repositórios no github e SourceForge, cada um com uma 
 \end{table}
 
 
-Após ler por completo os resumos dos repostiórios do GitHub, é evidente que nenhum desses projetos é relacionado com o proposto neste trabalhos, apesar de comentar sobre BRDFs, esses projetos não implementam compiladores, não fazem parsing de equações de BRDFs e nem mesmo geram \textit{shaders} a partir de BRDFs.
+Após ler por completo os resumos dos repostiórios do GitHub, é evidente que nenhum desses projetos é relacionado com o proposto neste trabalhos, apesar de comentarem sobre BRDFs, esses projetos não implementam compiladores, não fazem \textit{parsing} de equações de BRDFs e nem mesmo geram \textit{shaders} a partir de BRDFs.
 
 \chapter{Metodologia} \label{metodologia}
 
-A metodologia para desenvolver o compilador proposto envolve uma abordagem sistemática composta por etapas adaptadas para alcançar os objetivos de pesquisa especificados. Essas etapas incluem uma análise aprofundada das informações relacionadas pertinentes a BRDFs e compilação de shaders, exploração de técnicas existentes dentro do domínio, formulação de especificações de linguagem precisas, design e execução meticulosos de casos de teste abrangentes, a implementação real do compilador e a avaliação de seu desempenho por meio de experimentos de renderização.
+A metodologia para desenvolver o compilador proposto envolve uma abordagem prática, as etapas são:  uma análise aprofundada das informações pertinentes a BRDFs e compilação de \textit{shaders}; exploração de técnicas existentes dentro do domínio;  especificação da linguagem subcojunto \LaTeX de entrada;  a implementação do compilador; a avaliação de seu desempenho por meio de experimentos de renderização.
 
 
-\section{Análise Abrangente} \label{analise}
+\section{Análise } \label{analise}
 
-O primeiro passo envolve a realização de uma análise detalhada das áreas relacionadas ao desenvolvimento da ferramenta proposta. Isso inclui a revisão da literatura sobre BRDFs, linguagens de shaders, design de compiladores e técnicas de renderização gráfica. Isso envolve o estudo de artigos de pesquisa, ferramentas existentes e bibliotecas de software relevantes para identificar técnicas existentes e áreas potenciais para melhoria.
-
+O primeiro passo envolve a realização de uma análise detalhada das áreas relacionadas ao desenvolvimento da ferramenta proposta. Isso inclui a revisão da literatura sobre BRDFs, linguagens de \textit{shaders}, \textit{design} de compiladores e técnicas de renderização gráfica. Também envolve estudo de ferramentas e bibliotecas pertinentes.
 
 
 \section{Especificação da Linguagem}
 
-As especificações da linguagem de entrada e saída para o compilador são definidas. A linguagem de entrada é uma versão simplificada do \LaTeX , onde expressões matemáticas nos ambientes \texttt{equation} ou \texttt{align} são suficientes para os propósitos deste trabalho. O \LaTeX  é um sistema de composição amplamente utilizado para documentos matemáticos e científicos. Para descrever BRDFs usando equações \LaTeX , enquanto a linguagem de saída especifica a linguagem de \textit{shader} GLSL para renderização.
+As especificações da linguagem de entrada e saída para o compilador são definidas. A linguagem de entrada é uma versão simplificada do \LaTeX ,na qual as expressões matemáticas nos ambientes \texttt{equation} ou \texttt{align} são suficientes para descrever BRDFs. O \LaTeX  é um sistema de composição amplamente utilizado para documentos matemáticos e científicos. O ambiente \texttt{equation} é especificamente projetado para exibir equações individuais. A equação \ref{equation-latex} é um exemplo de código \LaTeX  usando o ambiente \texttt{equation}:
 
-Para a linguagem de entrada, optamos por usar o ambiente \texttt{equation} devido à sua simplicidade e uso generalizado na representação de expressões matemáticas. No \LaTeX , os ambientes fornecem uma maneira de agrupar e formatar texto ou equações. O ambiente \texttt{equation} é especificamente projetado para exibir equações individuais. Abaixo está um exemplo de código \LaTeX  usando o ambiente \texttt{equation}:
 
+\label{equation-latex}
 \begin{verbatim}
 \begin{equation}
     f(x) = ax^2 + bx + c
 \end{equation}
 \end{verbatim}
 
-Este código \LaTeX  representa uma equação quadrática \( f(x) = ax^2 + bx + c \), onde \( a \), \( b \) e \( c \) são coeficientes.
 
-Quanto à linguagem de saída, ela especifica a linguagem de \textit{shader} GLSL para renderização. Um exemplo de código de \textit{shader} GLSL correspondente gerado a partir da equação \LaTeX  acima pode ser:
-
+Este código representa uma equação quadrática \( f(x) = ax^2 + bx + c \), onde \( a \), \( b \) e \( c \) são coeficientes, o \textit{shader} GLSL correspondente gerado a partir dessa equação pode ser:  
 \begin{verbatim}
 float quadratic(float x, float a, float b, float c) {
     return a * x * x + b * x + c;
@@ -719,7 +716,7 @@ float quadratic(float x, float a, float b, float c) {
 
 
 
-Os casos de teste devem ser projetados para validar a correção e precisão do processo de tradução do compilador. Esses casos de teste emparelham equações \LaTeX  de entrada descrevendo BRDFs com o código de \textit{shader} GLSL de saída esperado. Um caso específico que demonstra a capacidade do compilador pode ser criado com o BRDF de Cook-Torrance. A definição \LaTeX  e a saída esperada podem ser fornecidas como exemplo
+Os casos de teste devem ser projetados para validar a correção e precisão do processo de tradução do compilador. Eles emparelham equações \LaTeX  de entrada descrevendo BRDFs com o código de \textit{shader} GLSL de saída esperado. Um caso específico que demonstra a capacidade do compilador pode ser criado com a BRDF de Cook-Torrance.
 
 \textbf{LaTeX Input (Cook-Torrance BRDF):}
 \begin{verbatim}
@@ -752,29 +749,30 @@ float CookTorrance(vec3 normal, vec3 viewDir, vec3 lightDir, float roughness, fl
 
 \section{Implementação do Compilador} \label{compiladorimplementacao}
 
-A implementação do compilador é feita usando a linguagem de programação Odin, escolhida por suas capacidades de linguagem de baixo nível com herança de composição e uma biblioteca padrão satisfatória. Técnicas de análise recursiva são utilizadas, especificamente o Parsing de Pratt, para processar as equações \LaTeX  de entrada e gerar o código de \textit{shader} GLSL correspondente. Inicialmente, um lexer e um parser foram implementados para uma linguagem mais simples do que o \LaTeX  para garantir que os fundamentos do compilador sejam funcionais, com precedência totalmente testada para a árvore de sintaxe e também a execução disso.
+A implementação do compilador é feita usando a linguagem de programação Odin, escolhida por suas capacidades baixo nível com herança por composição e uma biblioteca padrão satisfatória. Técnicas de análise recursiva são utilizadas, especificamente o Pratt \textit{Parsing}. Inicialmente, um \textit{lexer} e um \textit{parser} foram implementados para uma linguagem mais simples do que o \LaTeX  para garantir que os fundamentos do compilador estejam funcionais, com precedência totalmente testada para a árvore sintática.
 
 \section{Experimentos de Renderização}
 
-Por fim, experimentos de renderização são realizados usando os \textit{shaders} gerados pelo compilador. Isso permite a avaliação do desempenho e da qualidade visual das imagens renderizadas produzidas pelos \textit{shaders} compilados. A plataforma escolhida para os testes é a ferramenta Disney BRDF, compilada localmente para modificar e adicionar \textit{shaders} adicionais. Ele fornece uma interface para definir parâmetros que servem como controles deslizantes para os hiperparâmetros do BRDF.
+Por fim, experimentos de renderização são realizados usando os \textit{shaders} gerados pelo compilador. Isso permite a avaliação do desempenho e da qualidade visual das imagens renderizadas produzidas pelos \textit{shaders} compilados. A plataforma escolhida para os testes é a ferramenta Disney BRDF \footnote{\url{https://github.com/wdas/brdf}}, compilada localmente para modificar e adicionar outros \textit{shaders}. Essa fornece uma interface para definir parâmetros que servem como controles deslizantes para as constantes da BRDF.
 
 @ Imagem para a ferramenta
 @ Código para o superconjunto GLSL
 
-Seguindo esta metodologia, a ferramenta proposta visa compilar efetivamente descrições de BRDF em \textit{shaders} GLSL, facilitando a geração de gráficos realistas em aplicativos de gráficos por computador.
+Seguindo esa metodologia, a ferramenta proposta visa compilar efetivamente descrições de BRDF em \textit{shaders} GLSL, facilitando a geração de gráficos realistas em aplicativos de gráficos por computador.
 
 \section{Plano de Continuação} \label{continuacao}
 
-A continuação desta tese envolve várias tarefas-chave destinadas a completar o desenvolvimento do compilador proposto para converter equações \LaTeX  que descrevem BRDFs em código de \textit{shader} GLSL. As tarefas incluem atualizar o lexer e o parser escritos em Odin para aceitar equações \LaTeX , testar o lexer e o parser para garantir o reconhecimento correto dos tokens \LaTeX  Math, testar o parser para garantir a árvore de sintaxe com a precedência correta, definir símbolos predefinidos como constantes matemáticas e outras quantidades, implementar o processo de geração de código GLSL usando a árvore de sintaxe usando o padrão de visitante @ref, expandir os casos de teste para cobrir uma melhor variedade de BRDFs, testar minuciosamente o código gerado quanto à correção e eficácia, incluindo as visualizações dos mencionados BRDFs em algumas cenas, preparar a apresentação final e, finalmente, escrever o documento do trabalho (TCC).
+A continuação deste trabalho envolve várias tarefas-chave destinadas a completar o desenvolvimento do compilador proposto para converter equações \LaTeX  que descrevem BRDFs em código de \textit{shader} GLSL. As tarefas incluem: atualizar o \textit{lexer} e o \textit{parser} escritos em Odin para aceitar equações \LaTeX; testar o \textit{lexer} para garantir o reconhecimento correto dos \textit{tokens}; testar o \textit{parser} para garantir que a árvore sintática está com precedência correta; definir símbolos predefinidos e constantes matemáticas; implementar o processo de geração de código GLSL usando a árvore sintática com o padrão de visitante; expandir os casos de teste para cobrir uma melhor variedade de BRDFs; testar o código gerado quanto à correção e eficácia, incluindo as visualizações das BRDFs em algumas cenas; preparar a apresentação final; escrever o documento do trabalho (TCC).
 
 \begin{enumerate}
-\item 06/05/2024 - 20/05/2024: Atualizar o lexer e o parser para aceitar equações \LaTeX .
+  \item 06/05/2024 - 20/05/2024: Atualizar o \textit{lexer} e o \textit{parser} para aceitar equações \LaTeX.
+
 \item 06/05/2024 - 27/05/2024: Testar o lexer para garantir o reconhecimento correto de todos os tokens \LaTeX  Math.
 \item 06/05/2024 - 27/05/2024: Testar o parser para garantir a árvore de sintaxe com a precedência correta.
 \item 13/05/2024 - 03/06/2024: Definir símbolos predefinidos como constantes matemáticas e outras quantidades.
-\item 20/05/2024 - 10/06/2024: Implementar o processo de geração de código GLSL.
-\item 27/05/2024 - 17/06/2024: Expandir os casos de teste para cobrir uma ampla gama de BRDFs.
-\item 03/06/2024 - 24/06/2024: Testar minuciosamente o código gerado quanto à correção e eficácia, tanto em código quanto em visualização.
+\item 03/06/2024 - 10/07/2024: Implementar o processo de geração de código GLSL.
+\item 10/07/2024 - 17/07/2024: Expandir os casos de teste para cobrir uma ampla gama de BRDFs.
+\item 17/07/2024 - 24/08/2024: Testar o código gerado quanto à correção e eficácia, tanto em código quanto em visualização e corrigir se necessário.
 \item 17/06/2024 - 06/09/2024: Escrever o documento da tese.
 \item 10/06/2024 - 01/07/2024: Preparar a apresentação final.
 \end{enumerate}
@@ -796,10 +794,10 @@ milestone label font=\footnotesize,
     \ganttbar{2. Testar lexer para todos os tokens}{2024-05-10}{2024-05-15} \\
     \ganttbar{3. Testar parser para precedência}{2024-05-15}{2024-05-20} \\
     \ganttbar{4. Definir símbolos matemáticos}{2024-05-20}{2024-05-25} \\
-    \ganttbar{5. Implementar geração de GLSL}{2024-05-25}{2024-06-01} \\
-    \ganttbar{6. Expandir casos de teste para GLSL}{2024-06-01}{2024-06-10} \\
-    \ganttbar{7. Testar correção do código}{2024-06-10}{2024-07-01} \\
-    \ganttbar{8. Escrita do trabalho}{2024-06-01}{2024-08-25} \\
+    \ganttbar{5. Implementar geração de GLSL}{2024-06-03}{2024-07-10} \\
+    \ganttbar{6. Expandir casos de teste para GLSL}{2024-07-10}{2024-07-17} \\
+    \ganttbar{7. Testar correção do código}{2024-07-17}{2024-08-24} \\
+    \ganttbar{8. Escrita do trabalho}{2024-06-01}{2024-09-06} \\
     \ganttbar{9. Preparar apresentação final}{2024-08-25}{2024-09-06}
 \end{ganttchart}
 
