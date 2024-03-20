@@ -353,15 +353,14 @@ Por outro lado, em uma árvore inclinada à esquerda, operadores com maior prece
 \subsubsection{Pseudo-código para Análise de Expressões}
 
 O pseudo-código \ref{alg1},
-demonstra o Pratt \textit{parsing} para a construção de árvores de expressão. Esse algoritmo também é robusto mesmo quando um operador é tanto infixo quanto prefixo, por exemplo "$-$" pode ser um \textit{token} de subtração ou de negação. Assim cada token tem uma função de prefixo e infixo associada.
+demonstra o Pratt \textit{parsing} para a construção de árvores de expressão. Esse algoritmo também é robusto mesmo quando um operador é tanto infixo quanto prefixo, por exemplo ``$-$'' pode ser um \textit{token} de subtração ou de negação. Assim, cada \textit{token} tem uma função de prefixo e infixo associada.
 
 Nesse algoritimo, 
 \textbf{proximo\_token()} recupera o próximo elemento da lista de tokens,
-\textbf{token.precedencia}() retorna a precedencia do token atual, \textbf{token.prefixo()} é a função associada ao token que realisa o parsing de uma expressão quando o token é o primeiro em uma subexpressão (e.g. o token "$-$" é o primeiro na expressão "$-3$"). Já o   
-\textbf{token.infixo}(esquerda) é a função associada ao token uma função que cria um nó subárvore utilizando outra subarvore já criada como entrada para gerar expressão com operadores infixos, por exemplo a subarvore esquerda pode ser a expressão "$-3$", o token atual ser "$*$" e o o retorno gera a expressão completa "$-3 * 1$"
+\textbf{token.precedencia}() retorna a precedencia do token atual, \textbf{token.prefixo()} é a função associada ao \textit{token} que faz o parsing de uma expressão quando o \textit{token} é o primeiro em uma subexpressão (e.g. o token "$-$" é o primeiro na expressão "$-3$"). Já o \textbf{token.infixo(esquerda)} é a função associada ao \textit{token} que utiliza outra subarvore já criada como entrada, por exemplo a subárvore \textbf{esquerda} pode ser a expressão "$-3$", o token atual ser "$*$" e o o retorno gera a expressão completa "$-3 * 1$"
 
 Tanto \textbf{token.infixo} quanto \textbf{token.prefixo} podem ser indiretamente recursivas, isto é, ambas podem chamar a função \textbf{expressao} no algortimo \ref{alg1}. 
-Por fim, \textbf{precedencia\_anterior} representa a precedência do token anterior, garantindo que os operadores sejam resolvidos na ordem correta.
+Por fim, \textbf{precedencia\_anterior} representa a precedência do token anterior.
 
 \begin{algoritmo}[H]
 	\caption{Função Pratt Parsing de Expressão}
@@ -379,9 +378,9 @@ Por fim, \textbf{precedencia\_anterior} representa a precedência do token anter
 
 \subsection{Geração da Linguagem Alvo} \label{codegen}
 
-Nesta fase, fazemos a transição da representação intermediária  da linguagem origem \( L_1 \)  para  a linguagem de destino \( L_2 \). O processo envolve traduzir construções da linguagem de origem \( L_1 \) em suas representações equivalentes na linguagem de destino \( L_2 \). Podemos realizar essa tradução ao percorrer recursivamente os nós da arvóre sintatica usando as informações contidas nesses nós para gerar partes do programa final em $L_2$.
+Nesta fase, fazemos a transição da representação intermediária  da linguagem origem \( L_1 \)  para  a linguagem de destino \( L_2 \), o processo envolve traduzir construções de \( L_1 \) para equivalentes em $L_2$. Podemos realizar essa tradução ao percorrer recursivamente os nós da arvóre sintatica usando as informações contidas nesses nós para gerar partes do programa final em $L_2$.
 
-Dado um programa $a \in L_1$ existem varios programas $b_{i=1,2,3,...} \in L_2$ que possui estrutura semanticamente equivalentes à $a$. Ao explorar esse conjunto, é possivel escolher um $b_j \in L_2$ tal que esse programa seja otimizado em algum sentido, como uso eficiente de memoria, ou executar menos instruções de \textit{hardware}. Nosso foco neste trabalho está na tradução semanticamente correta, sem envolver explorão das saídas  equivalentes.
+Dado um programa $a \in L_1$ existem varios programas $b_{i=1,2,3,...} \in L_2$ que possui estrutura semanticamente equivalentes à $a$. Ao explorar esse conjunto, é possivel escolher um $b_j \in L_2$ tal que esse programa seja otimizado em algum sentido, como uso eficiente de memoria ou executar menos instruções de \textit{hardware}. Nosso foco neste trabalho está na tradução semanticamente correta, sem envolver explorão das saídas  equivalentes.
 
 Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) para \( L_2 \):
 
@@ -398,26 +397,33 @@ Após a tradução da expressão matematica para \( L_2 \), o cálculo pode ser 
 
 \section{Introdução ao Shading e ao Pipeline de GPU} \label{shading}
 
-Shading refere-se ao processo de determinar a cor e o brilho dos pixels em uma imagem renderizada. Isso envolve simular a interação da luz com as superfícies, levando em consideração as propriedades dos materiais, condições de iluminação e orientação da superfície. Isso é alcançado por meio de pequenos programas chamados shaders, que são compilados e executados na unidade de processamento gráfico (GPU).
+\textit{Shading} refere-se ao processo de determinar a cor e o brilho dos pixels em uma imagem renderizada. Isso envolve simular a interação da luz com as superfícies, levando em consideração as propriedades dos materiais, condições de iluminação e orientação da superfície. Isso é alcançado por meio de pequenos programas chamados shaders, que são compilados e executados na unidade de processamento gráfico (GPU).
 
 
 A interação com as GPUs é facilitada por meio de uma 
-(API), em portugues, Interface de Programação de Aplicação, sendo o OpenGL uma API padrão para o uso de funções na GPU. O OpenGL foi criado como um padrão de programação aberto e multiplataforma para GPUs. O pipeline de renderização do OpenGL é composto por várias etapas, incluindo definição de dados de vértices, shaders de vértice e fragmento, shaders de tesselação e geometria opcionais, configuração de primitivas, recorte, rasterização e shader de fragmento.
+API, sendo o OpenGL uma API padrão para o uso de funções na GPU \cite{opengl_spec}. O pipeline de renderização do OpenGL é composto por várias etapas, incluindo definição de dados de vértices, \textit{shaders} de vértice e fragmento, \textit{shaders} de tesselação e geometria opcionais, configuração de primitivas, recorte, rasterização e \textit{shader} de fragmento.
 
-Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. As etapas mais importantes para o nosso trabalho são o shading de fragmento e de vértice, os quais executam a manipulação dos vértices e determinar cores de pixels, respectivamente.
+Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. As etapas mais importantes para o nosso trabalho são os \textit{shaders} de fragmento e de vértice representados na \autoref{fig-pipeline}, os quais executam a manipulação dos vértices e determinar cores de pixels, respectivamente.
 
-@image put in the overview image
+\begin{figure}[H]
+	\caption{\label{fig-pipeline} Pipeline Grafico}
+	\begin{center}
+	    \includegraphics[scale=0.8]{./Imagens/gpu_pipeline.png}
+	\end{center}
+  \legend{Fonte: \cite{video_pipeline}}
+\end{figure}
+
 
 
 \subsection{Vertex Shader}
 
-O vertex shader opera em vértices individuais de primitivas geométricas antes de serem rasterizados em fragmentos. Sua principal tarefa é transformar vértices do espaço de coordenadas local do objeto para o espaço de coordenadas global da cena e passar os dados necessários para o fragment shader. Esses shaders geralmente realizam várias transformações nos dados dos vértices, permitindo que objetos sejam posicionados, orientados e projetados em uma tela 2D. Nesta seção, discutimos algumas das transformações comuns realizadas por shaders de vértice.
+O vertex \textit{shader} opera em vértices individuais de primitivas geométricas antes de serem rasterizados em fragmentos. Sua principal tarefa é transformar vértices do espaço de coordenadas local do objeto para o espaço de coordenadas global da cena e passar os dados necessários para o fragment shader. Esses \textit{shaders} geralmente realizam várias transformações nos dados dos vértices, permitindo que objetos sejam posicionados, orientados e projetados em uma tela 2D. Nesta seção, discutimos algumas das transformações comuns realizadas por \textit{shaders} de vértice.
 
 Ao fim dessa estapa, os vértices são normalizados para garantir coordenadas homogêneas. Coordenadas homogêneas são necessárias para realizar a projeção perspectiva e outros cálculos no pipeline de renderização.
 
 
 \begin{verbatim}
-// Exemplo de Shader de Vértice
+// Exemplo de \textit{shader} de Vértice
 #version 330 core
 
 layout(location = 0) in vec3 inPosition;
@@ -436,14 +442,14 @@ void main() {
 
 \subsection{Fragment Shader}
 
-O Fragment Shader opera em fragmentos rasterizados produzidos pela etapa de rasterização. Sua principal responsabilidade é determinar a cor final de cada fragmento com base na iluminação, texturização e propriedades da superfície. O modelo mental é interpretar esse programa  sendo repetido para todos os pixeis da imagem paralelamente, e ainda, esse programa recebe dados interpolados, como vértices e normais, ou seja, cada instancia desse programa possue entradas diferentes uma das outras. Esses valores interpolados são calculados usando interpolação bariêntrica em toda a superfície da primitiva.
+O Fragment \textit{shader} opera em fragmentos rasterizados produzidos pela etapa de rasterização. Sua principal responsabilidade é determinar a cor final de cada fragmento com base na iluminação, texturização e propriedades da superfície. O modelo mental é interpretar esse programa  sendo repetido para todos os pixeis da imagem paralelamente, e ainda, esse programa recebe dados interpolados, como vértices e normais, ou seja, cada instancia desse programa possue entradas diferentes uma das outras. Esses valores interpolados são calculados usando interpolação bariêntrica em toda a superfície da primitiva.
 
-Neste shader é onde as BRDFs devem ser implementadas para atingir um nível de shading mais preciso, pois temos mais dados do que os passados, devido à interpolação. Isso resulta em um nível de granularidade maior, considerando uma transição mais suave de um ponto para outro dentro de um triângulo.
+Neste \textit{shader} é onde as BRDFs devem ser implementadas para atingir um nível de shading mais preciso, pois temos mais dados do que os passados, devido à interpolação. Isso resulta em um nível de granularidade maior, considerando uma transição mais suave de um ponto para outro dentro de um triângulo.
 
 @image{ put an image about verter shading and fragment shading}
 
 \begin{verbatim}
-// Exemplo de Shader de Fragmento
+// Exemplo de \textit{shader} de Fragmento
 #version 330 core
 
 in vec3 fragNormal;
@@ -556,7 +562,7 @@ Para garantir relevancia dos resultados obtivos, seguimos os critérios de inclu
   \item Foram excluídos artigos que dispunham de aplicacões muito similares/repetitivas;
   \item Foram excluídos artigos que não respodem as questões de pesquisa \ref{sec:questoes-pesquisa};
   \item Artigo que não tem como entrada a BRDFs no formato de equação, ou seja, está utilizando a representação diretamente como código, também foi excluído.
-  \item Foram excluídos artigos que não consideram a geração de shaders como saída ou estrutura da BRDF em arvore.
+  \item Foram excluídos artigos que não consideram a geração de \textit{shaders} como saída ou estrutura da BRDF em arvore.
   \item Foram excluídos artigos que não citam BRDFs e compilador em seu resumo;
   \item Se após a leitura completa, o artigo não concerne os interesse deste trabalho, esse foi excluído.
 \end{enumerate}
@@ -638,7 +644,7 @@ Essa representação permite que usuários inexperientes editem o sombreamento d
 
 Assim como o nosso trabalho, esse artigo se concentra em facilitar o processo para usuários inexperientes, pois ambos visam fornecer ferramentas acessíveis para manipular representações de sombreamento sem exigir conhecimento avançado em programação de shading. Esse artigo também emprega uma representação em árvore, embora para um propósito diferente. Enquanto o nosso trabalho utiliza árvores para representar expressões matemáticas de BRDFs, esse artigo utiliza a decomposição em nós de árvores para representar o shading parcial de objetos.
 
-\subsubsection{A Real-Time Configurable Shader Based on Lookup Tables}
+\subsubsection{A Real-Time Configurable \textit{shader} Based on Lookup Tables}
 
 
 
@@ -654,7 +660,7 @@ Este trabalho propõe uma arquitetura de hardware que permite cálculos de shadi
 \end{figure}
 
 
-Além disso, o circuito suporta diversas BRDFs, como Blinn-Phong, Cook-Torrance, Ward e modelos baseados em microfacetes, com tabelas de lookup específicas para cada modelo. O uso de tabelas de pesquisa permite a representação organizada da parametrização das BRDFs, tornando o processo de transformação de BRDF para shaders mais acessível. Assim como este trabalho, a abordagem facilita a geração de shaders a partir da descrição de BRDFs, apesar da metologia ser diferente.
+Além disso, o circuito suporta diversas BRDFs, como Blinn-Phong, Cook-Torrance, Ward e modelos baseados em microfacetes, com tabelas de lookup específicas para cada modelo. O uso de tabelas de pesquisa permite a representação organizada da parametrização das BRDFs, tornando o processo de transformação de BRDF para \textit{shaders} mais acessível. Assim como este trabalho, a abordagem facilita a geração de \textit{shaders} a partir da descrição de BRDFs, apesar da metologia ser diferente.
 
 \section{Pesquisa por Repositórios online}
 Também foram analisados repositórios no github e SourceForge, cada um com uma string de busca especifica. Os repositórios encontrados foram filtrados baseados em seus resumos, caso não haja a menção da criação de um compilador, ou não citar uma transformação de BRDF para outra estrutura, esse repositório será excluido.
@@ -682,7 +688,7 @@ Também foram analisados repositórios no github e SourceForge, cada um com uma 
 \end{table}
 
 
-Após ler por completo os resumos dos repostiórios do GitHub, é evidente que nenhum desses projetos é relacionado com o proposto neste trabalhos, apesar de comentar sobre BRDFs, esses projetos não implementam compiladores, não fazem parsing de equações de BRDFs e nem mesmo geram shaders a partir de BRDFs.
+Após ler por completo os resumos dos repostiórios do GitHub, é evidente que nenhum desses projetos é relacionado com o proposto neste trabalhos, apesar de comentar sobre BRDFs, esses projetos não implementam compiladores, não fazem parsing de equações de BRDFs e nem mesmo geram \textit{shaders} a partir de BRDFs.
 
 \chapter{Metodologia} \label{metodologia}
 
@@ -697,7 +703,7 @@ O primeiro passo envolve a realização de uma análise detalhada das áreas rel
 
 \section{Especificação da Linguagem}
 
-As especificações da linguagem de entrada e saída para o compilador são definidas. A linguagem de entrada é uma versão simplificada do \LaTeX , onde expressões matemáticas nos ambientes \texttt{equation} ou \texttt{align} são suficientes para os propósitos deste trabalho. O \LaTeX  é um sistema de composição amplamente utilizado para documentos matemáticos e científicos. Para descrever BRDFs usando equações \LaTeX , enquanto a linguagem de saída especifica a linguagem de shader GLSL para renderização.
+As especificações da linguagem de entrada e saída para o compilador são definidas. A linguagem de entrada é uma versão simplificada do \LaTeX , onde expressões matemáticas nos ambientes \texttt{equation} ou \texttt{align} são suficientes para os propósitos deste trabalho. O \LaTeX  é um sistema de composição amplamente utilizado para documentos matemáticos e científicos. Para descrever BRDFs usando equações \LaTeX , enquanto a linguagem de saída especifica a linguagem de \textit{shader} GLSL para renderização.
 
 Para a linguagem de entrada, optamos por usar o ambiente \texttt{equation} devido à sua simplicidade e uso generalizado na representação de expressões matemáticas. No \LaTeX , os ambientes fornecem uma maneira de agrupar e formatar texto ou equações. O ambiente \texttt{equation} é especificamente projetado para exibir equações individuais. Abaixo está um exemplo de código \LaTeX  usando o ambiente \texttt{equation}:
 
@@ -709,7 +715,7 @@ Para a linguagem de entrada, optamos por usar o ambiente \texttt{equation} devid
 
 Este código \LaTeX  representa uma equação quadrática \( f(x) = ax^2 + bx + c \), onde \( a \), \( b \) e \( c \) são coeficientes.
 
-Quanto à linguagem de saída, ela especifica a linguagem de shader GLSL para renderização. Um exemplo de código de shader GLSL correspondente gerado a partir da equação \LaTeX  acima pode ser:
+Quanto à linguagem de saída, ela especifica a linguagem de \textit{shader} GLSL para renderização. Um exemplo de código de \textit{shader} GLSL correspondente gerado a partir da equação \LaTeX  acima pode ser:
 
 \begin{verbatim}
 float quadratic(float x, float a, float b, float c) {
@@ -721,7 +727,7 @@ float quadratic(float x, float a, float b, float c) {
 
 
 
-Os casos de teste devem ser projetados para validar a correção e precisão do processo de tradução do compilador. Esses casos de teste emparelham equações \LaTeX  de entrada descrevendo BRDFs com o código de shader GLSL de saída esperado. Um caso específico que demonstra a capacidade do compilador pode ser criado com o BRDF de Cook-Torrance. A definição \LaTeX  e a saída esperada podem ser fornecidas como exemplo
+Os casos de teste devem ser projetados para validar a correção e precisão do processo de tradução do compilador. Esses casos de teste emparelham equações \LaTeX  de entrada descrevendo BRDFs com o código de \textit{shader} GLSL de saída esperado. Um caso específico que demonstra a capacidade do compilador pode ser criado com o BRDF de Cook-Torrance. A definição \LaTeX  e a saída esperada podem ser fornecidas como exemplo
 
 \textbf{LaTeX Input (Cook-Torrance BRDF):}
 \begin{verbatim}
@@ -754,20 +760,20 @@ float CookTorrance(vec3 normal, vec3 viewDir, vec3 lightDir, float roughness, fl
 
 \section{Implementação do Compilador} \label{compiladorimplementacao}
 
-A implementação do compilador é feita usando a linguagem de programação Odin, escolhida por suas capacidades de linguagem de baixo nível com herança de composição e uma biblioteca padrão satisfatória. Técnicas de análise recursiva são utilizadas, especificamente o Parsing de Pratt, para processar as equações \LaTeX  de entrada e gerar o código de shader GLSL correspondente. Inicialmente, um lexer e um parser foram implementados para uma linguagem mais simples do que o \LaTeX  para garantir que os fundamentos do compilador sejam funcionais, com precedência totalmente testada para a árvore de sintaxe e também a execução disso.
+A implementação do compilador é feita usando a linguagem de programação Odin, escolhida por suas capacidades de linguagem de baixo nível com herança de composição e uma biblioteca padrão satisfatória. Técnicas de análise recursiva são utilizadas, especificamente o Parsing de Pratt, para processar as equações \LaTeX  de entrada e gerar o código de \textit{shader} GLSL correspondente. Inicialmente, um lexer e um parser foram implementados para uma linguagem mais simples do que o \LaTeX  para garantir que os fundamentos do compilador sejam funcionais, com precedência totalmente testada para a árvore de sintaxe e também a execução disso.
 
 \section{Experimentos de Renderização}
 
-Por fim, experimentos de renderização são realizados usando os shaders gerados pelo compilador. Isso permite a avaliação do desempenho e da qualidade visual das imagens renderizadas produzidas pelos shaders compilados. A plataforma escolhida para os testes é a ferramenta Disney BRDF, compilada localmente para modificar e adicionar shaders adicionais. Ele fornece uma interface para definir parâmetros que servem como controles deslizantes para os hiperparâmetros do BRDF.
+Por fim, experimentos de renderização são realizados usando os \textit{shaders} gerados pelo compilador. Isso permite a avaliação do desempenho e da qualidade visual das imagens renderizadas produzidas pelos \textit{shaders} compilados. A plataforma escolhida para os testes é a ferramenta Disney BRDF, compilada localmente para modificar e adicionar \textit{shaders} adicionais. Ele fornece uma interface para definir parâmetros que servem como controles deslizantes para os hiperparâmetros do BRDF.
 
 @ Imagem para a ferramenta
 @ Código para o superconjunto GLSL
 
-Seguindo esta metodologia, a ferramenta proposta visa compilar efetivamente descrições de BRDF em shaders GLSL, facilitando a geração de gráficos realistas em aplicativos de gráficos por computador.
+Seguindo esta metodologia, a ferramenta proposta visa compilar efetivamente descrições de BRDF em \textit{shaders} GLSL, facilitando a geração de gráficos realistas em aplicativos de gráficos por computador.
 
 \section{Plano de Continuação} \label{continuacao}
 
-A continuação desta tese envolve várias tarefas-chave destinadas a completar o desenvolvimento do compilador proposto para converter equações \LaTeX  que descrevem BRDFs em código de shader GLSL. As tarefas incluem atualizar o lexer e o parser escritos em Odin para aceitar equações \LaTeX , testar o lexer e o parser para garantir o reconhecimento correto dos tokens \LaTeX  Math, testar o parser para garantir a árvore de sintaxe com a precedência correta, definir símbolos predefinidos como constantes matemáticas e outras quantidades, implementar o processo de geração de código GLSL usando a árvore de sintaxe usando o padrão de visitante @ref, expandir os casos de teste para cobrir uma melhor variedade de BRDFs, testar minuciosamente o código gerado quanto à correção e eficácia, incluindo as visualizações dos mencionados BRDFs em algumas cenas, preparar a apresentação final e, finalmente, escrever o documento do trabalho (TCC).
+A continuação desta tese envolve várias tarefas-chave destinadas a completar o desenvolvimento do compilador proposto para converter equações \LaTeX  que descrevem BRDFs em código de \textit{shader} GLSL. As tarefas incluem atualizar o lexer e o parser escritos em Odin para aceitar equações \LaTeX , testar o lexer e o parser para garantir o reconhecimento correto dos tokens \LaTeX  Math, testar o parser para garantir a árvore de sintaxe com a precedência correta, definir símbolos predefinidos como constantes matemáticas e outras quantidades, implementar o processo de geração de código GLSL usando a árvore de sintaxe usando o padrão de visitante @ref, expandir os casos de teste para cobrir uma melhor variedade de BRDFs, testar minuciosamente o código gerado quanto à correção e eficácia, incluindo as visualizações dos mencionados BRDFs em algumas cenas, preparar a apresentação final e, finalmente, escrever o documento do trabalho (TCC).
 
 \begin{enumerate}
 \item 06/05/2024 - 20/05/2024: Atualizar o lexer e o parser para aceitar equações \LaTeX .
@@ -823,8 +829,7 @@ The Pratt parser, implemented in the `parser.odin` file, employs precedence clim
 
 \begin{algoritmo}[H]
   \caption{Parte principal do parsing de expressão em código Odin, nessa implementação usamos a notação original de @ref(pratt) null\_denotations and left\_denotations que o mesmo que funções de parsing para operadore prefix e infixo respectivamente}
-	\label{alg1}
-	\label{alg1}
+	\label{alg2}
   \begin{lstlisting}
 
 parse_expr :: proc(prec_prev: i64) -> ^Expr {
@@ -891,8 +896,7 @@ Essa gramática define regras para expressões, atribuições, chamadas de funç
 
 \begin{algoritmo}[H]
 	\caption{Exemplo código da linguagem implementada}
-	\label{alg1}
-	\label{alg1}
+	\label{alg3}
   \begin{lstlisting}[language = python]
     epsilon = 0.001; # proximidade em float
 
@@ -968,7 +972,7 @@ A tabela de símbolos fornece funções para gerenciar escopos, incluindo:
 \end{itemize}
 
 
-Essa tabela de símbolos será apdatada para a fase de geração de código e tradução adequada do código-fonte em shaders GLSL.
+Essa tabela de símbolos será apdatada para a fase de geração de código e tradução adequada do código-fonte em \textit{shaders} GLSL.
 
 
 \subsubsection{Estrutura da Árvore de Sintaxe}
