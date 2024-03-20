@@ -136,20 +136,18 @@ O \autoref{resultadosiniciais} descreve a implementação de um analisador léxi
 
 \section{Radiometria} \label{radiometria}
 
-A radiometria trata de conceitos fundamentais relacionados à luz. Ela abrange a capacidade de um material de superfície receber raios de luz de uma direção e refleti-los em outra 
-\cite{radiometry_introduction}. No contexto da computação gráfica e renderização, a radiometria desempenha um papel crucial na compreensão do comportamento da luz em uma cena.
+A radiometria trata de conceitos fundamentais relacionados à luz, ela abrange a capacidade de um material de superfície receber raios de luz de uma direção e refleti-los em outra 
+\cite{radiometry_introduction}. No contexto da computação gráfica, a radiometria desempenha um papel crucial na compreensão do comportamento da luz em uma cena.
 
-A intensidade de um pixel de imagem depende de vários fatores, como iluminação, orientação da superfície e refletância da superfície. A orientação da superfície é determinada pelo vetor normal em um ponto dado, enquanto a refletância da superfície diz respeito às propriedades materiais da mesma.
+Na renderização, a intensidade de um pixel da imagem depende de vários fatores, como iluminação, orientação e refletância da superfície. A orientação da superfície é determinada pelo vetor normal em um dado ponto, enquanto a refletância da superfície diz respeito às propriedades materiais da mesma.
 
 Para compreender e interpretar a intensidade de um pixel em uma imagem, é essencial compreender os conceitos radiométricos. A radiometria quantifica o brilho de uma fonte de luz, a iluminação de uma superfície, a radiância de uma cena e a refletância da superfície.
 
-Renderização Além da Cor
-
-Renderizar uma imagem envolve mais do que apenas capturar cor. Isso requer conhecimento da intensidade da luz em cada ponto da imagem, isto é, a quantidade de luz incidente na cena que alcança a câmera. A radiometria ajuda na criação de sistemas e unidades para quantificar a radiação eletromagnética, considerando a luz como fótons viajando em linha reta em um modelo óptico geométrico. Esse modelo simplifica considerações de difração e interferência, focando nos caminhos em linha reta dos fótons.
+Renderizar uma imagem envolve mais do que capturar cor \cite{radiometry_color}, requer conhecimento da intensidade de luz em cada ponto da imagem, isto é, a quantidade de luz incidente na cena que alcança a câmera. A radiometria ajuda na criação de sistemas e unidades para quantificar a radiação eletromagnética, considerando um modelo simplicado no qual a luz é tratadas como fótons que viajam em linha reta. 
 
 \subsection{Energia Radiante e Fluxo} \label{fluxo}
 
-Vários processos físicos convertem energia em fótons, como radiação de corpo negro e fusão nuclear em estrelas. Quantificar a energia radiante total envolve entender a energia dos fótons colidindo com um objeto, equivalente ao brilho da imagem. A energia radiante $Q$ considera a energia total de todos os fótons atingindo a cena durante toda a duração.
+Vários processos físicos convertem energia em fótons, como radiação de corpo negro e fusão nuclear em estrelas \cite{black_body_radiation}. Quantificar a energia radiante total de uma cena é equivalente a quantificar o brilho da imagem, que envolve entender a energia dos fótons colidindo com objetos.  A energia radiante $Q$ considera a energia total de todos os fótons atingindo a cena durante toda a duração, expressa pela fórmula abaixo, onde $c$ é a velocidade da luz, e $\lambda$ é o comprimento de onda. 
 
 \begin{align*} 
 Q &= \frac{hc}{\lambda} \\
@@ -159,13 +157,13 @@ Q &= \frac{hc}{\lambda} \\
 \end{align*}
 
 
-É interessante observar a evolução da energia radiante $Q$ ao longo do tempo, isso da origem ao fluxo radiantea $\phi$, medida em impactos de cada fóton por segundo em uma superficie.
+É interessante observar a evolução da energia radiante ($Q$) ao longo do tempo, isso dá origem ao conceito de fluxo radiante $\phi$, que é medida em impactos de cada fóton por segundo em uma superficie, sua unidade é joules por segundo.
 
 \begin{align*} 
   \phi &= \frac{dQ}{dt} [\text{J/s}] 
 \end{align*}
 
-A irradiância $E$ quantifica o número de impactos dos photons em uma superficie por segundo por unidade de área. Assim, tempos uma métrica mais específica e essencial para renderizar imagens com precisão.
+A irradiância $E$ quantifica o número de impactos dos fótons em uma superfície por segundo por unidade de área. Assim, temos uma métrica mais específica para renderizar imagens com precisão.
 
 $$
  E(p) = \frac{d\phi(p)}{dA} [\text{J/s} \cdot m^2]
@@ -174,56 +172,54 @@ $$
 
 \subsection{Radiância e BRDF} \label{brdf}
 
-A radiância, denotada como $L$, caracteriza a distribuição da luz em um ambiente ao longo de um raio definido por um ponto de origem e uma direção. A radiância desempenha um papel fundamental no cálculo do fluxo por unidade de área em uma superfície considerando toda a luz incidente de todas as direções possiveis em um dado ponto $p$.
+A radiância, denotada como $L$, caracteriza a distribuição da luz em um ambiente ao longo de um raio definido por um ponto de origem e uma direção \cite{radiance_definition}. A radiância diz respeito ao cálculo do fluxo por unidade de área em uma superfície considerando toda a luz incidente de todas as direções $\omega$ possiveis em um ponto $p$ específico.
 
 
 \begin{align*} 
-  L(p,w) &= \frac{dE_w(p)}{dw} \qquad \left[\frac{J}{s\cdot m^2\cdot \text{sr}}\right]\\ 
-E_w &\text{ é função de a irradiancia numa direção $w$ }  \end{align*}
+  L(p,{\omega}) &= \frac{dE_{\omega}(p)}{d{\omega}} \qquad \left[\frac{J}{s\cdot m^2\cdot \text{sr}}\right]\\ 
+E_{\omega} &\text{ é função de irradiancia numa direção ${\omega}$ }  \end{align*}
 
 
-Para acomodar diferentes orientações da superfície e direção do raio, aplicamos o fator $\cos(\theta)$, tal que $\theta$ é o angulo entre a normal da superficie e a direção do $w$ para obter a formula:
+Para acomodar diferentes orientações da superfície e direção do raio, aplicamos o fator $\cos(\theta)$, tal que $\theta$ é o angulo entre a normal da superficie e a direção do ${\omega}$ para obter a formula:
 \begin{align*} 
-  L(p,w) &= \frac{dE(p)}{dw \cos(\theta)} = \frac{d^2\phi(p)}{dAdw \cos(\theta)}
+  L(p,{\omega}) &= \frac{dE(p)}{d{\omega} \cos(\theta)} = \frac{d^2\phi(p)}{dAd{\omega} \cos(\theta)}
 \end{align*}
 
-A radiância pode fornecer informação sobre o quanto um ponto específico está iluminado na direção da câmera. Ela depende não apenas da direção do raio que incide câmera, mas também das propriedades de refletância da superfície. E, no contexto de renderização, a radiância de uma superfície na cena se correlaciona com a irradiância de um pixel em uma imagem da sequinte forma: 
+A radiância pode fornecer informação sobre o quanto um ponto específico está iluminado na direção da câmera, ela depende não apenas da direção do raio que incide, mas também das propriedades de refletância da superfície. E, no contexto de renderização, a radiância de uma superfície na cena se correlaciona com a irradiância de um pixel em uma imagem da seguinte forma: 
 
 \begin{align*}
-  &E(p) = \int_{H^2}{L(p,w)\cos(\theta)dw}\\
+  &E(p) = \int_{H^2}{L(p,{\omega})\cos(\theta)d{\omega}}\\
   &H^2 \text{ é o hemisfério no plano tangente à superficie no ponto $p$}
 \end{align*}
 
 
-A principal funcionalidade de uma renderizador fotorealista é estimar a radiancia em um ponto $p$ numa dada direção $w_o$. Essa radiancia é dada pela equação de renderização apresentada por @ref Kajiya. Note que essa euquação envolve um termo de radiancia recursiva, o caso base ocorre quando não há mais o termo recursivo, isto é, um fonte de luz na qual sua radiancia é contribuida apenas por randianca emitida $L_e$.
+A principal funcionalidade de uma renderizador fotorrealista é estimar a radiancia em um ponto $p$ numa dada direção ${\omega}_o$. Essa radiancia é dada pela equação de renderização apresentada por \cite{rendering_equation}. Note que essa equação envolve um termo de radiancia recursivo, o caso base ocorre quando não há mais o termo recursivo, isto é, um fonte de luz na qual sua radiancia é contribuida apenas por randianca emitida $L_e$.
 
 \begin{align*}
-  &L_o(p, w_o) = L_e(p, w_o) + 
-\int_{H^2}F(p, w_i, w_o){L_i(p,w_i)\cos(\theta)dw_i}\\
-    &L_o \text{ é radiancia de saída (\textit{outgoing}) ou {observada}}\\
+  &L_o(p, {\omega}_o) = L_e(p, {\omega}_o) + 
+\int_{H^2}F(p, {\omega}_i, {\omega}_o){L_i(p,{\omega}_i)\cos(\theta)d{\omega}_i}\\
+    &L_o \text{ é radiancia de saída (\textit{outgoing})}\\
     &L_e \text{ é radiancia emitida (i.e. fonte de luz)}\\
     &L_i \text{ é radiancia incidente}\\
-    &w_i \text{ é a direção incidente}\\
-    &w_o \text{ é a direção de saída}\\
-    &H^2 \text{ são todas no hemisfério}\\
+    &{\omega}_i \text{ é a direção incidente}\\
+    &{\omega}_o \text{ é a direção de saída}\\
+    &H^2 \text{ são todas as direções no hemisfério no ponto $p$}\\
     &\theta \text{ angulo entre direção incidente e a normal da superficie}\\
     &F \text{ função de refletancia}\\
 \end{align*}
 
-A Função de Distribuição Bidirecional de Reflectância (BRDF) descreve como a luz reflete de uma superficie em diferentes direções afetando a radiância de saída. Reflexão é o processo no qual a luz iterage com a superficie sem alterar a sua frequencia. Assim, BRDFs encapsulam as propriedades de reflexão de um material levando em conta vários fatores, como rugosidade da superfície, ângulo de incidência, angulo de reflexão
-Formalmente uma BRDF pode ser definida por $F(w_i, w_o)$, onde $w_i$ é a direção indicente de luz e $w_o$ é a direção de saída.
-
-Para BRDFs fisicamente realistas algumas propriedades devem ser respeitadas.
+A Função de Distribuição Bidirecional de Reflectância (BRDF) descreve como a luz reflete de uma superficie em diferentes direções afetando a radiância de saída \cite{overview_brdf}. Assim, BRDFs encapsulam as propriedades de reflexão de um material, considerando fatores como a rugosidade da superfície, o ângulo de incidência e o ângulo de reflexão. Formalmente uma BRDF pode ser definida por $F({\omega}_i, {\omega}_o)$, onde ${\omega}_i$ é a direção indicente de luz e ${\omega}_o$ é a direção de saída. Para BRDFs fisicamente realistas algumas propriedades devem ser respeitadas.
 
 \begin{itemize}
   \item A propriedade de positividade, $ F(\omega_i, \omega_o) \geq 0 $, que garante não existência de energia negativa. 
 
-  \item Também, deve-se obedecer a reciprocidade de Helmhotz, $F(\omega_i, \omega_o) = F(\omega_o, \omega_i)$. Essa reciprocidade é usado na renderização, pois no lugar de traçar os raios da fonte de luz até a camera, podemos traçar os raios da camera até a fonte de luz otimizando a maior parte dos raios traçados diretamente da fonte de luz que não iriam antigir a lente da camera, exitando desperdicio de poder computacional em raios que não contribuem para intensidade de um dado pixel.
+  \item A reciprocidade de Helmhotz, $F(\omega_i, \omega_o) = F(\omega_o, \omega_i)$, é usada na renderização para otimizar o traçado de raios. Em vez de traçar os raios da fonte de luz à câmera, podemos traçar os raios da câmera à fonte de luz, evitando desperdício computacional em raios que não contribuem para a intensidade de um pixel.
 
-  \item A BRDF deve, também, respeitar a conversação de energia, $\forall  \omega_i, \int_{H^2}{F(\omega_i, \omega_o)cos(\theta_o) d\omega_o}\leq 1$. Nesse caso parte da energia pode ser absorvida, ou seja, transformado em outra forma de energia como calor, nesse caso esse somatório infintesimal pode no máximo chegar a 1, mas nunca ultrapassar.
+  \item A conservação de energia, expressa por $\forall \omega_i, \int_{H^2}{F(\omega_i, \omega_o)cos(\theta_o) d\omega_o} \leq 1$, implica que parte da energia pode ser absorvida, transformando-se em outras formas de energia, como calor. Portanto, a soma infinitesimal pode atingir no máximo 1, mas nunca ultrapassá-la.
 \end{itemize}
 
-\section{BRDF Models} \label{brdfmodels}
+\section{Modelos de BRDFs } \label{brdfmodels}
+Apresento nas proximas seções salgums modelos comuns de BRDFs  na literatura \cite{overview_brdf}.
 
 
 \subsection{Superfície Pura Especular}
@@ -231,6 +227,14 @@ Uma superfície puramente especular reflete a luz apenas em uma direção, segui
 A BRDF para uma superfície puramente especular é frequentemente representada pela função delta de Dirac $\delta(\omega_i - \omega_o)$, onde $\omega_i$ é a direção da luz incidente e $\omega_o$ é a direção refletida.
 $f(\omega_i, \omega_o) = k_s \cdot \delta(\omega_i - \omega_o)$
 A função delta de Dirac garante que toda a luz incidente seja refletida na direção perfeitamente espelhada, resultando em uma reflexão altamente focada e intensa. Esse tipo de superfície é comum em materiais como metal polido ou vidro.
+
+\begin{figure}[H]
+	\caption{\label{specular}}
+	\begin{center}
+	    \includegraphics[scale=0.5]{./Imagens/tree-shading.png}
+	\end{center}
+	\legend{Fonte: \citeonline[]{radiometry_introduction}}
+\end{figure}
 
 \subsection{BRDF Difusa Ideal}
 Uma BRDFs difusa ideal reflete a luz incidente uniformemente em todas as direções, sem preferência por ângulos específicos. é representada por um termo cosseno lambertiano $\frac{\rho_d}{\pi} \cdot \cos \theta$, onde $\rho_d$ é o albedo da superfície e $\theta$ é o ângulo entre a direção da luz incidente e a normal da superfície.
