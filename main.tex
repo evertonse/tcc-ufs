@@ -105,19 +105,21 @@ No meio acadêmico, as BRDFs são comumente descritas por fórmulas escritas em 
 Este trabalho visa projetar e implementar um compilador que, a partir de BRDFs escritas como equações em \LaTeX, seja capaz de gerar código de \textit{shading} na linguagem alvo da API OpenGL, considerando a precedência de operadores. O resultado será um \textit{shader} capaz de reproduzir as características de reflexão da BRDF original ou, ao menos, alcançar uma aproximação satisfatória dessas características, levando em conta as limitações da linguagem de \textit{shading} da API, principalmente as representações de dados de forma discreta. 
 
 \section{Estrutura do Documento}
-No \autoref{conceitos}, descrevemos por todos os conhecimentos necessário para entender BRDFs,incluingo quantificação de luminosidade, e radiação, assim como conceitos de compiladores como tokenização e construção da árvore sintática.
-\autoref{radiometria} trata dos conceitos fundamentais relacionados à luz, como a capacidade de um material refletir raios de luz e sua importância na computação gráfica e renderização. Destaca-se a relação entre a intensidade de um pixel de imagem, a iluminação, a orientação e a reflectância da superfície, além da definitição de funções de refletância, as BRDFs. 
-\autoref{brdfmodels} destaca algums modelos comuns de BRDFs. é compilador 
+No \autoref{conceitos}, descrevemos todos os conhecimentos necessários para entender BRDFs, incluindo quantificação de luminosidade, radiação e  conceitos de compiladores, como tokenização e construção da árvore sintática.
 
-Na \autoref{compiladores}, fornece uma visão abrangente dos elementos essenciais envolvidos na criação de compiladores. Começa com a definição de conceitos fundamentais, como cadeias de símbolos e alfabetos, necessários para entender linguagens formais. Em seguida, explora a natureza das linguagens, destacando sua estrutura e semântica. Além disso, a seção discute a importância das gramáticas na definição de linguagens e descreve o processo de compilação, incluindo a análise léxica, a análise sintática e o Pratt \textit{Parsing}, uma técnica eficiente para lidar com a precedência de operadores durante a análise sintática
+Especificamente na \autoref{radiometria}, tratamos dos conceitos fundamentais relacionados à luz, como a capacidade de um material refletir raios de luz e sua importância na computação gráfica e renderização. Destacamos a relação entre a intensidade de um pixel de imagem, a iluminação, a orientação da superfície e  a definição de funções de refletância, as BRDFs. 
+Já na \autoref{brdfmodels}, destacamos alguns modelos comuns de BRDFs.  
 
-Na \autoref{shading} aborda o processo de shading em gráficos por computador e o funcionamento do pipeline de renderização da GPU, destacando o papel dos shaders. Descreve a transformação de vértices e a determinação da cor dos fragmentos, mostrando exemplos de código. 
+A \autoref{compiladores} fornece uma visão abrangente dos elementos essenciais na criação de compiladores. Ela começa com a definição de conceitos fundamentais, como cadeias de símbolos e alfabetos, necessários para entender linguagens formais. Além disso, a seção discute a importância das gramáticas na definição de linguagens e descreve o processo de compilação, incluindo a análise léxica, a análise sintática e o Pratt \textit{Parsing}.
 
-\autoref{revisao}, tem como parte principal um mapeamento sistemático utilizando termos de busca para identificar trabalhos relevantes sobre o desenvolvimento de compiladores para traduzir BRDFs de \LaTeX para shaders. Os critérios de inclusão e exclusão são definidos para filtrar os resultados. Além disso, são descritos os resultados encontrados em diversas bases de dados, como IEEE Xplore, BDTD, CAPES, ACM Digital Library e Google Scholar, bem como a análise de repositórios online como GitHub e SourceForge. 
+Na \autoref{shading}, é abordado o processo de \textit{shading} e o funcionamento do \textit{pipeline} de renderização da GPU. Nele, é descrito a transformação de vértices e a determinação da cor dos fragmentos, mostrando exemplos de código. 
 
-No \autoref{metodologia}, é descrito o método para desenvolver o compilador proposto, são definidas etapas adaptadas para alcançar os objetivos de pesquisa especificados. Casos de teste são projetados para validação. O plano de continuação, na \autoref{continuacao}, detalha as etapas futuras com datas previstas.
+O \autoref{revisao} tem como parte principal um mapeamento sistemático , utilizando termos de busca para identificar trabalhos relevantes sobre o desenvolvimento de compiladores para traduzir BRDFs de \LaTeX  para \textit{shaders}. Os critérios de inclusão e exclusão são definidos para filtrar os resultados. Além disso, são descritos os resultados encontrados em diversas bases de dados, como IEEE Xplore, BDTD, CAPES, ACM Digital Library e Google Scholar, bem como a análise de repositórios online como GitHub e SourceForge. 
 
-O \autoref{resultadosiniciais} descreve a implementação de um analisador léxico, sintático e interpretador em Odin usando análise de Pratt. Ele prioriza simplicidade e clareza, com uma gramática definida e uma tabela de símbolos simples. O capítulo também detalha testes desenvolvidos para validar a implementação. O segundo capítulo apresenta o desenvolvimento de um \textit{ray tracer} em Odin com RayLib, modelando raios e materiais para renderização de imagens em CPU.
+No \autoref{metodologia} é descrito o método para desenvolver o compilador proposto, são definidas etapas para alcançar os objetivos especificados neste trabalho e casos de teste são projetados para validação. O plano de continuação, na \autoref{continuacao}, detalha as etapas futuras com datas previstas.
+
+O \autoref{resultadosiniciais} descreve a implementação de um analisador léxico, sintático e interpretador na linguagem de programação Odin, includindo o \textit{parsing} de Pratt. É priorizado simplicidade e clareza, com uma gramática  simples. O capítulo também detalha testes desenvolvidos para validar a implementação. A \autoref{raytracer} apresenta o desenvolvimento de um \textit{ray tracer} em Odin com a biblioteca RayLib, modelando raios e materiais para renderização de imagens.
+
 
 
 
@@ -1061,7 +1063,7 @@ a + (b + c) + d
 Esses testes, junto com outros na suíte, ajudam a validar a correção da implementação do parser de Pratt, cobrindo várias características da linguagem e regras de precedência de operadores.
 
 
-\section{\textit{Ray Tracing} }
+\section{\textit{Ray Tracing} } \label{raytracer}
 
 
 Este capítulo apresenta o desenvolvimento e implementação de um simples \textit{ray tracer} usando métodos estocásticos de colisão de raios na linguagem de programação Odin com a biblioteca RayLib (\url{https://www.raylib.com/}) para renderização de imagens em uma janela. Isso foi feito para começar a entender melhor BRDFs e a equação de renderização.
