@@ -609,7 +609,7 @@ Esse artigo se concentra em automaticamente encontrar novos modelos analíticos 
 
 \subsubsection{Slang: language mechanisms for extensible real-time shading systems}
 
-O artigo descreve a linguagem Slang, uma extensão da amplamente utilizada linguagem de \textit{shading} HLSL, projetada para melhorar o suporte à modularidade e extensibilidade. A abordagem de design da Slang é baseada em dois princípios fundamentais: manter a compatibilidade com o HLSL existente sempre que possível e introduzir recursos com precedentes em linguagens de programação \textit{mainstream} para facilitar a familiaridade e intuição dos desenvolvedores.
+O artigo descreve a linguagem Slang, uma extensão da amplamente utilizada linguagem de \textit{shading} HLSL, projetada para melhorar o suporte à modularidade e extensibilidade \cite{slang}. A abordagem de design da Slang é baseada em dois princípios fundamentais: manter a compatibilidade com o HLSL existente sempre que possível e introduzir recursos com precedentes em linguagens de programação \textit{mainstream} para facilitar a familiaridade e intuição dos desenvolvedores.
 
 O autor enfatiza que cada extensão da Slang busca oferecer uma progressão incremental para a adoção a partir do código HLSL existente, eliminando a necessidade de uma migração completa. Algumas dessas extensões incluem: funções genéricas, estruturas genéricas e tipos que implementam interfaces específicas, semelhantes ao funcionamento das interfaces em Java, mas aplicadas a estruturas. Um exemplo de função genérica escrita em Slang é:
 
@@ -621,15 +621,14 @@ SurfaceGeometry geom, float3 wi, float3 wo, float3 Li)
 \end{verbatim}
 
 
-Enquanto o artigo tenta melhorar a eficiência e a extensibilidade dos sistemas de \textit{shading} em tempo real, o nosso trabalho se concentra na compilação de equações BRDF em linguagens de \textit{shading}. Embora ambos os projetos façam uso de shading e compilação, as abordagens e focos são diferentes.
+Enquanto o artigo tenta melhorar a eficiência e a extensibilidade dos sistemas de \textit{shading} em tempo real, o nosso trabalho se concentra na compilação de equações BRDF em linguagens de \textit{shading}. Embora ambos os projetos façam uso de \textit{shaders} e compilação, as abordagens e focos são diferentes.
+
 \subsubsection{Tree-Structured Shading Decomposition}
 
-O artigo propõe uma abordagem para inferir uma representação de BRDF estruturada em árvore a partir de uma única imagem para a sombreamento de objetos. Em vez de usar representações paramétricas ou medidas para modelar o sombreamento, como é comum, é proposta uma abordagem que utiliza uma representação em árvore de shading, combinando nós de sombreamento básicos e métodos de composição para decompor o sombreamento da superfície do objeto.
-
-Essa representação permite que usuários inexperientes editem o sombreamento do objeto de maneira eficiente e intuitiva. Para abordar o desafio de inferir a árvore de sombreamento, é proposta uma abordagem híbrida que combina um modelo de inferência auto-regressivo para gerar uma estimativa aproximada da estrutura da árvore com um algoritmo de otimização para ajustar a árvore inferida. Experimentos são realizados em diversas imagens para demonstrar a eficácia da abordagem proposta.
+Esse trabalho propõe uma abordagem para inferir uma representação de BRDF estruturada em árvore a partir de uma única imagem para a sombreamento de objetos \cite{tree_decomposition}. Em vez de usar representações paramétricas, como é comum, é proposta uma abordagem que utiliza uma representação em árvore de \textit{shading}, combinando nós básicos e métodos para decompor o \textit{shading} da superfície do objeto, representado na \autoref{fig_decomp}.
 
 \begin{figure}[H]
-	\caption{\label{fig_grafico} Exemplo de decomposição de BRDFs em nós de uma arvóre}
+	\caption{\label{fig_decomp} Exemplo de decomposição de BRDFs em nós de uma arvóre}
 	\begin{center}
 	    \includegraphics[scale=0.5]{./Imagens/tree-shading.png}
 	\end{center}
@@ -637,28 +636,26 @@ Essa representação permite que usuários inexperientes editem o sombreamento d
 \end{figure}
 
 
-Assim como o nosso trabalho, esse artigo se concentra em facilitar o processo para usuários inexperientes, pois ambos visam fornecer ferramentas acessíveis para manipular representações de sombreamento sem exigir conhecimento avançado em programação de shading. Esse artigo também emprega uma representação em árvore, embora para um propósito diferente. Enquanto o nosso trabalho utiliza árvores para representar expressões matemáticas de BRDFs, esse artigo utiliza a decomposição em nós de árvores para representar o shading parcial de objetos.
+Assim como o nosso trabalho, esse artigo se concentra em facilitar o processo para usuários inexperientes, pois ambos visam fornecer ferramentas acessíveis para manipular representações de \textit{shading} sem exigir conhecimento avançado em programação. Esse artigo também emprega uma representação em árvore, embora para um propósito diferente.
 
 \subsubsection{A Real-Time Configurable \textit{shader} Based on Lookup Tables}
 
-
-
-Este trabalho propõe uma arquitetura de hardware que permite cálculos de shading por pixel em tempo real, utilizando lookup-tables. Para isso, são projetados circuitos configurável baseado em lookup-tables, memórias de acesso aleatório (RAMs) e memórias somente leitura (ROMs). Varios circuitos base foram projetados visando realizar cálculos de shading, considerando as operações mais comuns, por exemplo, circuitos para calcular produto interno entre dois vetores, circuitos de rotação de um vetor por um angulo. Ademais, é usado interpolação em um sistema de coordenadas polares em vez da interpolação vetorial convencional com normalização, com o objetivo de reduzir o tamanho dos circuitos e melhorar o desempenho.
+Esse trabalho propõe uma arquitetura de \textit{hardware} que permite cálculos de \textit{shading} por pixel em tempo real, utilizando \textit{lookup-tables} \cite{configurable}. Para isso, são projetados circuitos configurávei baseado nessas tabelas, memórias de acesso aleatório (RAMs) e memórias somente leitura (ROMs). Varios circuitos base foram projetados para as operações mais comuns, por exemplo, circuitos para calcular produto interno entre dois vetores e circuitos de rotação de um vetor por um angulo, um exemplo desses diagramas é representado na \autoref{fig_circuit}. Ademais, é usado interpolação em um sistema de coordenadas polares em vez da interpolação vetorial convencional com normalização, com o objetivo de reduzir o tamanho dos circuitos e melhorar o desempenho.
 
 
 \begin{figure}[H]
-	\caption{\label{fig_grafico} Exemplo de circuito de produto interno entre vetores}
+	\caption{\label{fig_circuit} Exemplo de circuito de produto interno entre vetores}
 	\begin{center}
-	    \includegraphics[scale=0.9]{./Imagens/rom-cos-lookup-table.png}
+	    \includegraphics[scale=0.7]{./Imagens/rom-cos-lookup-table.png}
 	\end{center}
-	\legend{Fonte: \citeonline[p. 24]{lol}}
+  \legend{Fonte: \cite{configurable}}
 \end{figure}
 
 
-Além disso, o circuito suporta diversas BRDFs, como Blinn-Phong, Cook-Torrance, Ward e modelos baseados em microfacetes, com tabelas de lookup específicas para cada modelo. O uso de tabelas de pesquisa permite a representação organizada da parametrização das BRDFs, tornando o processo de transformação de BRDF para \textit{shaders} mais acessível. Assim como este trabalho, a abordagem facilita a geração de \textit{shaders} a partir da descrição de BRDFs, apesar da metologia ser diferente.
+Além disso, o circuito suporta diversas BRDFs, como Blinn-Phong, Cook-Torrance, Ward e modelos baseados em microfacetas, com tabelas  específicas para cada modelo. O uso de tabelas de pesquisa permite a representação organizada da parametrização das BRDFs, tornando o processo de transformação de BRDF para \textit{shaders} mais acessível. Assim como este trabalho, a abordagem facilita a geração de \textit{shaders} a partir da descrição de BRDFs, apesar da metologia ser diferente.
 
 \section{Pesquisa por Repositórios online}
-Também foram analisados repositórios no github e SourceForge, cada um com uma string de busca especifica. Os repositórios encontrados foram filtrados baseados em seus resumos, caso não haja a menção da criação de um compilador, ou não citar uma transformação de BRDF para outra estrutura, esse repositório será excluido.
+Também foram analisados repositórios no github e SourceForge, cada um com uma \textit{string} de busca especifica. Os repositórios encontrados foram filtrados baseados em seus resumos, caso não haja a menção da criação de um compilador ou não citar uma transformação de BRDF para outra estrutura, esse repositório será excluido.
 
 
 \begin{table}[H]
