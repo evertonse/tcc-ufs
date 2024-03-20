@@ -807,19 +807,18 @@ milestone label font=\footnotesize,
 \chapter{Resultados Iniciais}
 \label{resultadosiniciais}
 
-\section{Parser and Lexer in Odin}\label{parser}
+\section{Parser e Lexer em Odin}\label{parser}
 
-We built a lexer, parser and interpreter for a  simple language along with its grammar using Pratt parsing in Odin programming language, the repository can be found here \url{https://github.com/evertonse/pratt-parser}. The Pratt parser, is a recursive descente parser that means that each production rule as a associated parsing function. The implementation prioritizes simplicity and clarity, with extensive comments to aid understanding, specailly because it is meant to validate the parser for a ramp up, when we'll need to change to \LaTeX  tokens and de BRDF semantic meaning.
+Desenvolvemos um \textit{lexer}, \textit{parser} e interpretador para uma linguagem simples, juntamente com sua gramática, utilizando a o Pratt \textit{Parsing} na linguagem de programação Odin. O repositório pode ser encontrado em \url{https://github.com/evertonse/pratt-parser}. Esse \textit{parser} é um implemetado por descida recursiva, o que significa que cada regra de produção tem uma função de análise associada. A implementação prioriza a simplicidade e a clareza, com extensos comentários para auxiliar na compreensão, especialmente porque será modificado para aceitar \textit{tokens} de \LaTeX.
 
 \subsection{Parser}
 
-The Pratt parser, implemented in the `parser.odin` file, employs precedence climbing to efficiently handle arbitrary operator precedence levels. Unlike traditional recursive descent parsers, which often require multiple nested function calls for each precedence level, the Pratt parser organizes parsing functions hierarchically based on operator precedence.
-
+Ao contrário dos \textit{parser} de descida recursiva tradicionais, que muitas vezes exigem várias chamadas de função aninhadas para cada nível de precedência, o nosso \textit{parser} organiza as funções de análise hierarquicamente com base na precedência do operador, como demonstrado no \autoref{alg-pratt-parsing}. Os pacotes desse projeto estão definidos na \autoref{folder}.
 
 
 \begin{algoritmo}[H]
   \caption{Parte principal do parsing de expressão em código Odin, nessa implementação usamos a notação original de @ref(pratt) null\_denotations and left\_denotations que o mesmo que funções de parsing para operadore prefix e infixo respectivamente}
-	\label{alg2}
+	\label{alg-pratt-parsing}
   \begin{lstlisting}
 
 parse_expr :: proc(prec_prev: i64) -> ^Expr {
@@ -840,13 +839,18 @@ parse_expr :: proc(prec_prev: i64) -> ^Expr {
   \end{lstlisting}
 \end{algoritmo}
 
-Functions such as `associativity` and `precedence` provide the necessary information for parsing operators correctly, ensuring the desired behavior in expressions.
 
-@img(folder struture)
+\begin{figure}[H]
+	\caption{\label{folder} \small estrutura de pacotes do compilador}
+	\begin{center}
+	    \includegraphics[scale=0.5]{./Imagens/folder_structuer_odin_parser_lexer.png}
+	\end{center}
+\end{figure}
+
 \subsection{Gramática}
 
-A gramática é definida abaixo. Utilizamos uma notação leve de sintaxe para descrevê-la, todas as palavras em minúsculas são regras, o símbolo $*$ significa zero ou mais ocorrências, $()$ indica agrupamento para aplicar um operador a ele, $|$ é o operador ou, palavras entre aspas simples $''$ significam literalmente um token com esse conteúdo como caractere, e todas as letras maiúsculas representam um token que pode ter conteúdo diferente, mas possui o mesmo significado semântico. Por exemplo, NUMBER pode ser 2.0 ou 1.0, mas nas regras de produção eles são tratados da mesma forma. O símbolo $=$ indica uma produção.
-
+A gramática é definida em \autoref{gramatica}. Utilizamos uma notação leve de sintaxe para descrevê-la, todas as palavras em minúsculas são regras, o símbolo ``$*$'' significa zero ou mais ocorrências, ``$()$'' indica agrupamento para aplicar um operador a ele, ``$|$'' é o operador ou, palavras entre aspas simples significam literalmente um \textit{token} com esse conteúdo, e todas as letras maiúsculas representam um \textit{token} que pode ter conteúdo diferente, mas possui o mesmo significado semântico. Por exemplo, NUMBER pode ser 2.0 ou 1.0, mas nas regras de produção eles são tratados da mesma forma. O símbolo ``$=$ '' indica uma produção. Um exemplos de código fonte válido para essa grammática é dado em \autoref{code-gramatica}.
+\label{gramatica}
 \begin{verbatim}
 start = assign* expr ;
 
@@ -886,7 +890,7 @@ Essa gramática define regras para expressões, atribuições, chamadas de funç
 
 \begin{algoritmo}[H]
 	\caption{Exemplo código da linguagem implementada}
-	\label{alg3}
+	\label{code-gramatica}
   \begin{lstlisting}[language = python]
     epsilon = 0.001; # proximidade em float
 
@@ -908,35 +912,25 @@ Essa gramática define regras para expressões, atribuições, chamadas de funç
   \end{lstlisting}
 \end{algoritmo}
 
-\begin{algorithm}[H]
-\begin{lstlisting}[language = python]
-  cos = fn(a) a!; # Postfix '!' significa cosseno
-  sin = fn(a) !a; # Prefixo '!' significa seno
-  tan = fn(a) sin(a)/cos(a); # Temos acesso a procedimentos no escopo externo
-  val = tan(98);
-  val
-\end{lstlisting}
-\end{algorithm}
-
 \subsection{Tabela de Símbolos}
 
-Nesse projeto também foi desenvolvido uma tabela de símbolos simples, que será reaproveitado na análise semântica e na geração de código GLSL futuramente. A
-
-A implementação da tabela de símbolos fornecida aqui é baseada em uma estrutura de escopo hierárquico, onde cada escopo mantém um mapeamento entre os nomes dos símbolos e seus atributos correspondentes. A estrutura \texttt{Scope} representa um mapeamento de nomes de símbolos para objetos de símbolo dentro de um \textbf{único} escopo, enquanto a \texttt{Scope\_Table} mantém uma pilha de escopos, permitindo aninhamento.
+Nesse projeto também foi desenvolvido uma tabela de símbolos simples, que será reaproveitado na análise semântica e na geração de código GLSL futuramente. A implementação da tabela de símbolos fornecida aqui é baseada em uma estrutura de escopo hierárquico, onde cada escopo mantém um mapeamento entre os nomes dos símbolos e seus atributos correspondentes. No \autoref{struct-symbol} temos a estrutura \texttt{Scope}, que representa um mapeamento de nomes de símbolos para objetos de símbolo dentro de um \textbf{único} escopo, e também a estrutura \texttt{Scope\_Table} mantém uma pilha de escopos, permitindo aninhamento.
 
 \subsubsection{Estrutura de Símbolos}
 
 Cada símbolo na tabela de símbolos é representado pela estrutura \texttt{Symbol}, que contém os seguintes atributos:
 \begin{itemize}
-    \item \texttt{name}: O nome do símbolo.
-    \item \texttt{val}: O valor associado ao símbolo (para variáveis).
-    \item \texttt{is\_function}: Um sinalizador booleano indicando se o símbolo é uma função.
-    \item \texttt{params}: Uma lista de tokens representando os parâmetros da função (se aplicável).
-    \item \texttt{body}: Um ponteiro para a expressão que representa o corpo da função (se aplicável).
+    \item \texttt{name}: o nome do símbolo.
+    \item \texttt{val}: o valor associado ao símbolo (para variáveis).
+    \item \texttt{is\_function}: um sinalizador booleano indicando se o símbolo é uma função.
+    \item \texttt{params}: uma lista de tokens representando os parâmetros da função.
+    \item \texttt{body}: um ponteiro para a expressão que representa o corpo da função (se aplicável).
 \end{itemize}
 
-\begin{lstlisting}
 
+\begin{codigo}[htb]
+\label{struct-symbol}
+\begin{lstlisting}
 Scope :: #type map[string]Symbol
 Scope\_Table :: [dynamic]Scope
 
@@ -949,6 +943,7 @@ Symbol :: struct  {
 }
 
 \end{lstlisting}
+\end{codigo}
 
 \subsubsection{Gerenciamento de Escopo}
 
