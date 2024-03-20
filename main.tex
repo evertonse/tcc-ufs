@@ -605,14 +605,13 @@ Neste artigo é introduzido uma  \textit{framework} chamada genBRDF, a qual apli
 
 Os autores geraram uma gramática que inclui constantes e operadores matemáticos comuns encontrados em equações BRDF. A gramática é compilada, e a árvore de sintaxe abstrata resultante passa por modificações realizadas pelo algoritmo genético. Nós na árvore podem ser trocados, substituídos, removidos e novos nós podem ser adicionados. Esse processo, após refinamento e análise, resulta em novas BRDFs. Alguns dos novos modelos BRDF apresentados no documento incluem aqueles que superam os modelos existentes em termos de precisão e simplicidade.
  
-Esse artigo se concentra em automaticamente encontrart novos modelos analíticos de BRDF, em vez de compilar diretamente equações BRDF em linguagens de \textit{shading}. Embora a representação das expressões das BRDFs possam potencialmente inspirar o nosso trabalho, o principal objetivo do artigo difere do objetivo de compilar equações BRDF para linguagem de shading.
+Esse artigo se concentra em automaticamente encontrar novos modelos analíticos de BRDF, em vez de compilar diretamente equações BRDF em linguagens de \textit{shading}. Embora a representação das expressões das BRDFs possam potencialmente inspirar o nosso trabalho, o principal objetivo do artigo difere do nosso tema.
 
 \subsubsection{Slang: language mechanisms for extensible real-time shading systems}
 
-O artigo descreve a linguagem Slang, uma extensão da amplamente utilizada linguagem de shading HLSL, projetada para melhorar o suporte à modularidade e extensibilidade. A abordagem de design da Slang é baseada em dois princípios fundamentais: manter a compatibilidade com o HLSL existente sempre que possível e introduzir recursos com precedentes em linguagens de programação mainstream para facilitar a familiaridade e intuição dos desenvolvedores.
+O artigo descreve a linguagem Slang, uma extensão da amplamente utilizada linguagem de \textit{shading} HLSL, projetada para melhorar o suporte à modularidade e extensibilidade. A abordagem de design da Slang é baseada em dois princípios fundamentais: manter a compatibilidade com o HLSL existente sempre que possível e introduzir recursos com precedentes em linguagens de programação \textit{mainstream} para facilitar a familiaridade e intuição dos desenvolvedores.
 
-O autor destaca que cada extensão da Slang visa fornecer uma trajetória incremental para a adoção a partir do código HLSL existente, evitando a necessidade de uma migração completa. Algumas dessas extensões são: funções generica, struct genericas, tipos que implementam uma dada interface assim como interfaces funcionam em Java nas para struct.
-Exemplo de funçao generica escrita em Slang:
+O autor enfatiza que cada extensão da Slang busca oferecer uma progressão incremental para a adoção a partir do código HLSL existente, eliminando a necessidade de uma migração completa. Algumas dessas extensões incluem: funções genéricas, estruturas genéricas e tipos que implementam interfaces específicas, semelhantes ao funcionamento das interfaces em Java, mas aplicadas a estruturas. Um exemplo de função genérica escrita em Slang é:
 
 \begin{verbatim}
 float3 integrateSingleRay<B:IBxDF>(B bxdf,
@@ -622,8 +621,7 @@ SurfaceGeometry geom, float3 wi, float3 wo, float3 Li)
 \end{verbatim}
 
 
-Enquanto o artigo se concentra na extensão de linguagens de shading existentes para melhorar a eficiência e a extensibilidade dos sistemas de shading em tempo real, o nosso trabalho se concentra na compilação de equações BRDF em linguagens de shading para explorar e descobrir novos modelos analíticos, mesmo para pessoas que não tem o conhecimento ténico da linguagem de shading espeficica. Embora ambos os projetos façam uso de shading e compilação, as abordagens e focos são diferentes.
-
+Enquanto o artigo tenta melhorar a eficiência e a extensibilidade dos sistemas de \textit{shading} em tempo real, o nosso trabalho se concentra na compilação de equações BRDF em linguagens de \textit{shading}. Embora ambos os projetos façam uso de shading e compilação, as abordagens e focos são diferentes.
 \subsubsection{Tree-Structured Shading Decomposition}
 
 O artigo propõe uma abordagem para inferir uma representação de BRDF estruturada em árvore a partir de uma única imagem para a sombreamento de objetos. Em vez de usar representações paramétricas ou medidas para modelar o sombreamento, como é comum, é proposta uma abordagem que utiliza uma representação em árvore de shading, combinando nós de sombreamento básicos e métodos de composição para decompor o sombreamento da superfície do objeto.
