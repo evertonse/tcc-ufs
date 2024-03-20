@@ -35,6 +35,7 @@ $(FILENAME).pdf: *.tex Pre_Textual/*.tex Pos_Textual/*.tex **.tex **/**.tex
 	pdflatex $(FILENAME).tex
 	bibtex $(FILENAME)
 	pdflatex $(FILENAME).tex
+	pdflatex $(FILENAME).tex
 
 show: all
 	$(OPEN) $(FILENAME).pdf &
