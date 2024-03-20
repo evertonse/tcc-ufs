@@ -929,6 +929,7 @@ Cada símbolo na tabela de símbolos é representado pela estrutura \texttt{Symb
 
 
 \begin{codigo}[htb]
+\caption{Código Odin}
 \label{struct-symbol}
 \begin{lstlisting}
 Scope :: #type map[string]Symbol
@@ -949,11 +950,11 @@ Symbol :: struct  {
 
 A tabela de símbolos fornece funções para gerenciar escopos, incluindo:
 \begin{itemize}
-    \item \texttt{scope\_enter}: Entra em um novo escopo, anexando-o à pilha de escopos.
-    \item \texttt{scope\_exit}: Sai do escopo atual, removendo-o da pilha de escopos e retornando-o.
-    \item \texttt{scope\_reset}: Redefine a tabela de símbolos limpando todos os escopos.
-    \item \texttt{scope\_get}: Recupera um símbolo da tabela de símbolos pelo seu identificador.
-    \item \texttt{scope\_add}: Adiciona um novo símbolo ao escopo atual.
+    \item \texttt{scope\_enter}: entrar em um novo escopo, anexando-o à pilha de escopos.
+    \item \texttt{scope\_exit}: sai do escopo atual, removendo-o da pilha de escopos e retornando-o.
+    \item \texttt{scope\_reset}: redefine a tabela de símbolos limpando todos os escopos.
+    \item \texttt{scope\_get}: recupera um símbolo da tabela de símbolos pelo seu identificador.
+    \item \texttt{scope\_add}: adiciona um novo símbolo ao escopo atual.
 \end{itemize}
 
 
@@ -963,43 +964,40 @@ Essa tabela de símbolos será apdatada para a fase de geração de código e tr
 \subsubsection{Estrutura da Árvore de Sintaxe}
 
 \begin{itemize}
-\item \textbf{Ast}: A estrutura base para todos os nós da AST.
-\item \textbf{Start}: Representa o ponto de partida do programa, contendo uma sequência de atribuições seguida de uma expressão.
-\item \textbf{Assign}: Representa atribuições de variáveis, incluindo um identificador, operador de atribuição e expressão.
-\item \textbf{Assign\_Function}: Estende Assign e representa definições de funções, incluindo parâmetros.
-\item \textbf{Expr}: Representa expressões, servindo como a estrutura base para diferentes tipos de expressões.
-\item \textbf{Expr\_Identifier}: Representa identificadores dentro de expressões.
-\item \textbf{Expr\_Number}: Representa literais numéricos dentro de expressões.
-\item \textbf{Expr\_Grouped}: Representa expressões agrupadas dentro de parênteses.
-\item \textbf{Expr\_Prefix}: Representa operações unárias de prefixo.
-\item \textbf{Expr\_Infix}: Representa operações binárias de infixo.
-\item \textbf{Expr\_Postfix}: Representa operações unárias de sufixo.
-\item \textbf{Expr\_Mixfix}: Representa operações ternárias de mixfix.
-\item \textbf{Expr\_Function\_Call}: Representa chamadas de função com argumentos.
+\item \textbf{Ast}: a estrutura base para todos os nós da AST.
+\item \textbf{Start}: representa o ponto de partida do programa, contendo uma sequência de atribuições seguida de uma expressão.
+\item \textbf{Assign}: representa atribuições de variáveis, incluindo um identificador, operador de atribuição e expressão.
+\item \textbf{Assign\_Function}: estende Assign e representa definições de funções, incluindo parâmetros.
+\item \textbf{Expr}: representa expressões, servindo como a estrutura base para diferentes tipos de expressões.
+\item \textbf{Expr\_Identifier}: representa identificadores dentro de expressões.
+\item \textbf{Expr\_Number}: representa literais numéricos dentro de expressões.
+\item \textbf{Expr\_Grouped}: representa expressões agrupadas dentro de parênteses.
+\item \textbf{Expr\_Prefix}: representa operações unárias de prefixo.
+\item \textbf{Expr\_Infix}: representa operações binárias de infixo.
+\item \textbf{Expr\_Postfix}: representa operações unárias de sufixo.
+\item \textbf{Expr\_Mixfix}: representa operações ternárias de mixfix.
+\item \textbf{Expr\_Function\_Call}: representa chamadas de função com argumentos.
 
 \end{itemize}
 
 \subsection{Implementação do Padrão de Visitante}
 
-O padrão visitante @ref foi empregado para percorrer e operar em uma árvore de sintaxe abstrata (AST). A estrutura da AST é definida com vários tipos de nó para capturar diferentes elementos da sintaxe.
+O padrão visitante foi empregado para percorrer e operar em uma árvore de sintaxe abstrata (AST). A estrutura da AST é definida com vários tipos de nó para capturar diferentes elementos da sintaxe.
 Três procedimentos incorporam o padrão de visitante para percorrer e manipular a AST:
 
 \begin{itemize}
-  \item \textbf{walker\_interp}: Interpreta a AST, calculando o valor numérico das expressões.
-  \item \textbf{walker\_paren}: Gera uma representação de string entre parênteses da AST, auxiliando na legibilidade e garantindo a ordem correta de avaliação.
-  \item \textbf{walker\_print}: Imprime os nós da AST e seus atributos, facilitando a depuração e compreensão da estrutura da AST.
+  \item \textbf{walker\_interp}: interpreta a AST, calculando o valor numérico das expressões.
+  \item \textbf{walker\_paren}: gera uma representação de string entre parênteses da AST, auxiliando na legibilidade e garantindo a ordem correta de avaliação.
+  \item \textbf{walker\_print}: imprime os nós da AST e seus atributos, facilitando a depuração e compreensão da estrutura da AST.
 \end{itemize}
 
-\subsection{Testing}
 \subsection{Testes}
 
-Para garantir a correção e robustez da implementação do parser de Pratt, foi desenvolvida uma ampla suíte de testes. Esses testes abrangem vários aspectos da funcionalidade do parser, incluindo geração de árvore de sintaxe, precedência de operadores e interpretação semântica.
+Foi desenvolvida uma serie de testes que  abrangem vários aspectos da funcionalidade do parser, incluindo geração de árvore de sintaxe, precedência de operadores e interpretação semântica.
 
 \subsubsection{Geração de Árvore de Sintaxe}
 
-Um aspecto crucial dos testes envolve verificar a correta geração de árvores de sintaxe a partir de expressões de entrada. Os testes são projetados para cobrir diferentes cenários, incluindo operações aritméticas simples, expressões complexas com subexpressões aninhadas e chamadas de funções.
-
-Por exemplo, a suíte de testes de geração de árvore de sintaxe inclui casos para validar:
+Um aspecto crucial dos testes envolve verificar a correta geração de árvores sintática a partir de expressões de entrada. Os testes são projetados para cobrir diferentes cenários, incluindo operações aritméticas simples, expressões complexas com subexpressões aninhadas e chamadas de funções. São eles:
 
 \begin{itemize}
     \item O manuseio correto de operadores unários e binários, garantindo a precedência e associatividade adequadas.
@@ -1007,95 +1005,51 @@ Por exemplo, a suíte de testes de geração de árvore de sintaxe inclui casos 
     \item O agrupamento adequado de expressões dentro de parênteses para impor regras de precedência.
 \end{itemize}
 
-\subsubsection{Precedência de Operadores e Associatividade}
-
-Testes são conduzidos para validar a precedência e associatividade de operadores na gramática da linguagem. Isso inclui garantir que operadores com maior precedência sejam avaliados antes daqueles com menor precedência e que operadores associativos à esquerda ou à direita sejam analisados corretamente.
-
-Exemplos de testes para precedência de operadores e associatividade incluem:
-
-\begin{itemize}
-    \item Verificar a correta parantezização de expressões envolvendo múltiplos operadores com níveis de precedência variados.
-    \item Garantir que operadores unários sejam aplicados antes de operadores binários, de acordo com suas regras de precedência.
-    \item Validar o agrupamento adequado de expressões para impor associatividade à esquerda ou à direita conforme especificado na gramática.
-\end{itemize}
-
+% \subsubsection{Precedência de Operadores e Associatividade}
+%
+% Testes são conduzidos para validar a precedência e associatividade de operadores na gramática da linguagem. Isso inclui garantir que operadores com maior precedência sejam avaliados antes daqueles com menor precedência e que operadores associativos à esquerda ou à direita sejam analisados corretamente.
+%
+% Exemplos de testes para precedência de operadores e associatividade incluem:
+%
+% \begin{itemize}
+%     \item Verificar a correta parantezização de expressões envolvendo múltiplos operadores com níveis de precedência variados.
+%     \item Garantir que operadores unários sejam aplicados antes de operadores binários, de acordo com suas regras de precedência.
+%     \item Validar o agrupamento adequado de expressões para impor associatividade à esquerda ou à direita conforme especificado na gramática.
+% \end{itemize}
+%
 \subsubsection{Interpretação Semântica}
 
-Além da geração de árvore de sintaxe e precedência de operadores, testes são realizados para garantir a interpretação semântica de expressões produza os resultados esperados. Isso envolve avaliar expressões e comparar a saída com os valores antecipados.
+Além da geração de árvore de sintaxe e precedência de operadores, testes foram realizados para garantir a interpretação semântica de expressões. Isso envolve avaliar entradas e comparar a saída com os valores esperados.
 
 Por exemplo, os testes de interpretação semântica abrangem:
 
 \begin{itemize}
-    \item Avaliar expressões aritméticas envolvendo constantes, variáveis e chamadas de função para verificar resultados corretos.
+    \item Avaliar expressões aritméticas envolvendo constantes, variáveis e chamadas de função recursivas para verificar resultados corretos.
     \item Verificar o comportamento de expressões condicionais (por exemplo, operador ternário) sob diferentes condições.
-    \item Validar a correção das implementações de funções e seu comportamento dentro do ambiente de execução do parser.
 \end{itemize}
 
-Ao testar meticulosamente a geração de árvore de sintaxe, precedência de operadores e interpretação semântica, a implementação do parser de Pratt pode ser validada quanto à correção e confiabilidade, garantindo um desempenho robusto em vários cenários de entrada.
-1. **Teste de Recursão**: Verifica a geração correta da sequência de Fibonacci até o 9º número. Por exemplo, verifica se o número de Fibonacci no índice 7 é calculado corretamente.
-
-\begin{verbatim}
-fib = fn(n)  
-    float_close(n, 0) ? 
-        0
-    :float_close(n, 1) ?
-        1
-    :fib(n-1)  + fib(n-2);
-
-fib(7)
-\end{verbatim}
-
-2. **Teste de Atribuição e Interpretação**: Avalia uma expressão envolvendo atribuições de variáveis e chamadas de função no mesmo escopo. Por exemplo, verifica se a função `val` calcula corretamente a subtração de seus argumentos.
-
-\begin{verbatim}
-a = 1;
-b = 2;
-c = 3;
-d = 4;
-
-val = fn(a,b,c,d) d-c-b-a; 
-val(a,b,c,d, 2, 4 ,4)
-\end{verbatim}
-
-3. **Teste de Operador Relacional**: Verifica a precedência e associatividade dos operadores relacionais (`lt`, `gt`, `eq`) e lógicos (`or`, `and`). Por exemplo, verifica se a expressão `1 or 2 and 3 or 4` é corretamente parantezada.
-
-\begin{verbatim}
-1 or 2 and 3 or 4
-\end{verbatim}
-
-4. **Teste de Precedência de Operadores Unários e Binários**: Examina a precedência dos operadores unários e binários. Por exemplo, verifica se a expressão `!a + b` é corretamente interpretada com o operador unário `!` aplicado antes do binário `+`.
-
-\begin{verbatim}
-!a + b
-\end{verbatim}
-
-5. **Teste de Agrupamento**: Garante que as expressões entre parênteses sejam corretamente agrupadas. Por exemplo, verifica se a expressão `a + (b + c) + d` é parantezada conforme o esperado.
-
-\begin{verbatim}
-a + (b + c) + d
-\end{verbatim}
-
-Esses testes, junto com outros na suíte, ajudam a validar a correção da implementação do parser de Pratt, cobrindo várias características da linguagem e regras de precedência de operadores.
-
+Ao testar a geração de árvore de sintaxe, precedência de operadores e interpretação semântica, a implementação do Pratt \textit{Parsing} pode foi validada quanto à correção e confiabilidade, e um desempenho robusto em vários cenários de entrada.
 
 \section{\textit{Ray Tracing} } \label{raytracer}
 
 
-Este capítulo apresenta o desenvolvimento e implementação de um simples \textit{ray tracer} usando métodos estocásticos de colisão de raios na linguagem de programação Odin com a biblioteca RayLib (\url{https://www.raylib.com/}) para renderização de imagens em uma janela. Isso foi feito para começar a entender melhor BRDFs e a equação de renderização.
+Este capítulo apresenta o desenvolvimento e implementação de um simples \textit{ray tracer} usando métodos estocásticos de colisão de raios na linguagem de programação Odin com a biblioteca RayLib \footnote{\url{https://www.raylib.com/}} para renderização de imagens em uma janela. Isso foi feito para começar a entender melhor BRDFs e a equação de renderização.
 
-O \textit{ray tracer} foi construído com instruções do livro \url{https://raytracing.github.io/books/RayTracingInOneWeekend.html}. Ele opera inteiramente na CPU, e a funcionalidade principal do \textit{ray tracer} envolve a modelagem de raios e sua reflexão dos pixels da imagem para a cena. A cena consiste exclusivamente de esferas, empregando cálculos de colisão padrão entre um raio e uma esfera.
-
+O \textit{ray tracer} foi construído com instruções do livro "Ray Tracing in One Weekend" \footnote{\url{https://raytracing.github.io/books/RayTracingInOneWeekend.html}}. Ele opera inteiramente na unidade de processamento central, e a funcionalidade principal do \textit{ray tracer} envolve a modelagem de raios e sua reflexão dos \textit{pixels} da imagem para a cena. A cena consiste exclusivamente de esferas, empregando cálculos de colisão padrão entre um raio e uma esfera.
 \subsection{Implementação de Materiais}
 
-O \textit{ray tracer} inclui vários materiais que ditam o comportamento dos raios ao interagir com superfícies, embora não garantidos de estar fisicamente vinculados, considerando a conservação de energia discutida no capítulo \ref{brdf}. Cada material é implementado como uma estrutura contendo um ponteiro de função de dispersão responsável por calcular a atenuação e o raio disperso após a interação com uma superfície. Os seguintes materiais são implementados:
+O \textit{ray tracer} inclui vários materiais que ditam o comportamento dos raios ao interagir com superfícies, embora não garantidos de estar fisicamente vinculados, considerando a conservação de energia discutida no capítulo \ref{brdf}. Cada material é implementado como uma estrutura contendo um ponteiro de função de dispersão responsável por calcular a atenuação e o raio disperso após a interação com uma superfície. Como demonstrando no \autoref{odin-materiais}, os seguintes materiais foram implementados:
 
 \begin{itemize}
-\item \textbf{Material Difuso}: Representa um material básico com refletância lambertiana.
-\item \textbf{Material Lambertiano}: Uma variante do material difuso com albedo personalizável.
-\item \textbf{Material Metálico}: Modela uma superfície metálica com reflexão especular, permitindo controle sobre a difusão.
-\item \textbf{Material Dielétrico}: Simula materiais transparentes com refração e reflexão com base no índice de refração.
+\item \textbf{Material Difuso}: representa um material básico com refletância lambertiana.
+\item \textbf{Material Lambertiano}: uma variante do material difuso com albedo personalizável.
+\item \textbf{Material Metálico}: modela uma superfície metálica com reflexão especular, permitindo controle sobre a difusão.
+\item \textbf{Material Dielétrico}: simula materiais transparentes com refração e reflexão com base no índice de refração.
 \end{itemize}
 
+\begin{codigo}
+\caption{Materiais}
+\label{odin-materiais}
 \begin{verbatim}
 
 Material :: struct {
@@ -1123,19 +1077,28 @@ Dielectric_Material :: struct {
     ir: f32, // índice de refração
 };
 \end{verbatim}
+\end{codigo}
+
 
 \subsection{Mecanismo de Reflexão de Raios}
 
-O mecanismo central do \textit{ray tracer} envolve traçar raios pela cena, determinar suas interações com superfícies e calcular os valores de cor resultantes. O processo de reflexão de raios consiste nos seguintes passos:
+O mecanismo central do \textit{ray tracer} envolve traçar raios pela cena para determinar suas interações com superfícies e calcular os valores de cor resultantes. Esse processo foi implementado considerando os passos, o resultado pode ser encontrando na \autoref{imagem-raytrace}:
 
 \begin{enumerate}
-\item \textbf{Geração de Raios}: Raios são gerados a partir do ponto de vista da câmera e projetados na cena.
-\item \textbf{Detecção de Colisão}: Cada raio é testado quanto à interseção com objetos na cena.
-\item \textbf{Interação de Material}: Após a colisão, os raios interagem com o material da superfície, determinando atenuação e raios dispersos com base nas propriedades do material.
-\item \textbf{Traçado Recursivo}: Se um raio se dispersa, o processo se repete, traçando o caminho do raio disperso até que uma profundidade máxima de recursão seja atingida ou o raio escape da cena.
-\item \textbf{Acúmulo de Cor}: Os valores de cor são acumulados ao longo do caminho do raio, essa acumulação simula a irradiância de um certo ponto da superfície.
+\item \textbf{Geração de Raios}: raios são gerados a partir do ponto de vista da câmera e projetados na cena.
+\item \textbf{Detecção de Colisão}: cada raio é testado quanto à interseção com objetos na cena.
+\item \textbf{Interação de Material}: após a colisão, os raios interagem com o material da superfície, determinando atenuação e raios dispersos com base nas propriedades do material.
+\item \textbf{Traçado Recursivo}: se um raio se dispersa, o processo se repete, traçando o caminho do raio disperso até que uma profundidade máxima de recursão seja atingida ou o raio escape da cena.
+\item \textbf{Acúmulo de Cor}: os valores de cor são acumulados ao longo do caminho do raio, essa acumulação simula a irradiância de um certo ponto da superfície.
 
 \end{enumerate}
+
+\begin{figure}[H]
+	\caption{\label{imagem-raytrace} \small Imagem gerada por raytracing conforme a implementação em Odin}
+	\begin{center}
+	    \includegraphics[scale=0.5]{./Imagens/ray_tracer.png}
+	\end{center}
+\end{figure}
 
 % \include{Conteudo/02_Comandos}
 

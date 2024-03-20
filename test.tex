@@ -1,0 +1,45 @@
+
+1. **Teste de Recursão**: Verifica a geração correta da sequência de Fibonacci até o 9º número. Por exemplo, verifica se o número de Fibonacci no índice 7 é calculado corretamente.
+
+\begin{verbatim}
+fib = fn(n)  
+    float_close(n, 0) ? 
+        0
+    :float_close(n, 1) ?
+        1
+    :fib(n-1)  + fib(n-2);
+
+fib(7)
+\end{verbatim}
+
+2. **Teste de Atribuição e Interpretação**: Avalia uma expressão envolvendo atribuições de variáveis e chamadas de função no mesmo escopo. Por exemplo, verifica se a função `val` calcula corretamente a subtração de seus argumentos.
+
+\begin{verbatim}
+a = 1;
+b = 2;
+c = 3;
+d = 4;
+
+val = fn(a,b,c,d) d-c-b-a; 
+val(a,b,c,d, 2, 4 ,4)
+\end{verbatim}
+
+3. **Teste de Operador Relacional**: Verifica a precedência e associatividade dos operadores relacionais (`lt`, `gt`, `eq`) e lógicos (`or`, `and`). Por exemplo, verifica se a expressão `1 or 2 and 3 or 4` é corretamente parantezada.
+
+\begin{verbatim}
+1 or 2 and 3 or 4
+\end{verbatim}
+
+4. **Teste de Precedência de Operadores Unários e Binários**: Examina a precedência dos operadores unários e binários. Por exemplo, verifica se a expressão `!a + b` é corretamente interpretada com o operador unário `!` aplicado antes do binário `+`.
+
+\begin{verbatim}
+!a + b
+\end{verbatim}
+
+5. **Teste de Agrupamento**: Garante que as expressões entre parênteses sejam corretamente agrupadas. Por exemplo, verifica se a expressão `a + (b + c) + d` é parantezada conforme o esperado.
+
+\begin{verbatim}
+a + (b + c) + d
+\end{verbatim}
+
+Esses testes, junto com outros na suíte, ajudam a validar a correção da implementação do parser de Pratt, cobrindo várias características da linguagem e regras de precedência de operadores.
