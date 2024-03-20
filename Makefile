@@ -20,7 +20,7 @@ pull:
 
 
 run: clean all
-	cp $(FILENAME).pdf TCC_I_EVERTON_SANTOS_JR
+	cp $(FILENAME).pdf TCC_I_EVERTON_SANTOS_JR.pdf
 
 
 all: $(FILENAME).pdf
