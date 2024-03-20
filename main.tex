@@ -418,11 +418,12 @@ Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformaçõe
 
 O \textit{shader} de vértice opera em vértices individuais de primitivas geométricas antes de serem rasterizados em fragmentos. Sua principal tarefa é transformar vértices do espaço de coordenadas local do objeto para o espaço de coordenadas global da cena e passar os dados necessários para o \textit{shader} fragmento.
 
-Esses \textit{shaders} geralmente realizam várias transformações nos dados dos vértices, permitindo que objetos sejam posicionados, orientados e projetados em uma tela 2D, um exemplo desse \textit{shader} está na código \ref{vertex}. Ao fim dessa estapa, os vértices são normalizados para coordenadas homogêneas, que é útil para realizar a projeção perspectiva e outros cálculos no\textit{pipeline} de renderização.
+Esses \textit{shaders} geralmente realizam várias transformações nos dados dos vértices, permitindo que objetos sejam posicionados, orientados e projetados em uma tela 2D, um exemplo desse \textit{shader} está no \autoref{vertex_code1}. Ao fim dessa estapa, os vértices são normalizados para coordenadas homogêneas, que é útil para realizar a projeção perspectiva e outros cálculos no \textit{pipeline} de renderização.
 
 
 \begin{codigo}[H]
-  \label{vertex}
+  \caption{Exemplo GLSL de \textit{shader} de vértice}
+ \label{vertex_code1}
 \begin{lstlisting}
 #version 330 core
 layout(location = 0) in vec3 inPosition;
@@ -442,9 +443,9 @@ void main() {
 
 \subsection{Shader de Fragmento}
 
-O \textit{shader} de fragmento, opera em fragmentos produzidos pela etapa de rasterização. Sua principal responsabilidade é determinar a cor final de cada fragmento com base na iluminação, texturização e propriedades da superfície. O modelo mental é interpretar esse programa  sendo repetido para todos os pixeis da imagem paralelamente.  Esse programa recebe dados interpolados, como vértices e normais, ou seja, cada instancia desse programa possue entradas diferentes uma das outras. Os valores interpolados são calculados usando interpolação bariêntrica.
+O \textit{shader} de fragmento, opera em fragmentos produzidos pela etapa de rasterização. Sua principal responsabilidade é determinar a cor final de cada fragmento com base na iluminação, texturização e propriedades da superfície. Uma possível interpretação é que esse programa é repetido para todos os pixeis da imagem paralelamente.  Esse programa recebe dados interpolados, como vértices e normais, ou seja, cada instancia desse programa possue entradas diferentes uma das outras. Os valores interpolados são calculados usando interpolação bariêntrica.
 
-Neste \textit{shader} é onde as BRDFs devem ser implementadas para atingir um nível de \textit{shading} mais preciso, pois temos mais dados do que os passados, devido à interpolação. Isso resulta em um nível de granularidade maior, considerando uma transição mais suave de um ponto para outro dentro de um triângulo como represetado na \autoref{better-with-fragment}.
+Neste \textit{shader} é onde as BRDFs devem ser implementadas para atingir um nível de \textit{shading} mais preciso, pois temos mais dados do que os definidos na geometria, devido à interpolação. Isso resulta em um nível de granularidade maior, considerando uma transição mais suave de um ponto para outro dentro de um triângulo,  como represetado na \autoref{better-with-fragment}.
 
 
 \begin{figure}[H]
@@ -457,50 +458,53 @@ Neste \textit{shader} é onde as BRDFs devem ser implementadas para atingir um n
 
 \chapter{Revisão Bibliográfica} \label{revisao}
 
-Para esta seção, será conduzida uma revisão literária abrangente com o objetivo de explorar trabalhos relacionados ao desenvolvimento de compiladores para tradução de BRDFs expressas em \LaTeX  para a linguagem de shading, empregando, técnicas de parsing. O processo de busca será conduzido em duas etapas distintas. Primeiramente, será realizado um levantamento dos trabalhos existentes nas bases de dados  com relevantes periodicos, anais de eventos, artigos e trabalhos. 
+Para esta seção, será conduzida uma revisão literária abrangente com o objetivo de explorar trabalhos relacionados ao desenvolvimento de compiladores para tradução de BRDFs expressas em \LaTeX  para a linguagem de \textit{shading}, empregando, técnicas de \textit{parsing}. O processo de busca será conduzido em duas etapas distintas. Primeiro, será realizado um levantamento dos trabalhos existentes nas bases de dados  com relevantes periodicos, anais de eventos, artigos e trabalhos. 
 
 
-Por fim, será realizada uma busca por produtos ou ferramentas similares no mercado, utilizando strings de busca específicas em repositórios digitais, especificamente GitHub, e SourceForge. Esses processos de busca permitirão identificar referências relevantes e estabelecer um panorama do estado da arte no campo dos compiladores de BRDFs  para shaders, contribuindo para a compreensão do contexto acadêmico e prático no qual este trabalho se insere.
+Por fim, será realizada uma busca por produtos ou ferramentas similares no mercado, utilizando \textit{strings} de busca específicas em repositórios digitais, especificamente GitHub e SourceForge. Esses processos de busca permitirão identificar referências relevantes e estabelecer um panorama do estado da arte no campo dos compiladores de BRDFs  para \textit{shaders}, contribuindo para a compreensão do contexto acadêmico e prático no qual este trabalho se insere.
 
 \section{Mapeamento Sistemático}
 
-Com o intuito de obter resultados relevantes para a pesquisa, foram elaboradas frases de busca com base nos termos-chave relacionados ao tema deste trabalho. Assim como, foram criadas questões de pesquisa para guiar a seleção dos trabalhos.
+Com o intuito de obter resultados relevantes para a pesquisa, foram elaboradas frases de busca com base nos termos-chave relacionados ao tema deste trabalho. Assim como foram criadas questões de pesquisa para guiar a seleção dos trabalhos.
 
 \subsection{Seleção das Bases}
-As bases escolhidas foram: ACM Digital Library,  IEEE Xplorer Digital Library,  Biblioteca Digital Brasileira de Teses e Dissertações (BDTD), Portal de Periódicos da CAPES,  Google Acadêmico, esse foram escolhidos por serem acessíveis gratuitamente pela afiliação à Universidade Federal de Sergipe, já o google scholar foi escolhido para agregar pesquisas em outras bases que possam ter trabalhos relevantes.
+As bases escolhidas foram: ACM Digital Library \footnote{\url{https://dl.acm.org/}},  IEEE Xplorer Digital Library \footnote{\url{https://ieeexplore.ieee.org/}},  Biblioteca Digital Brasileira de Teses e Dissertações (BDTD) \footnote{\url{https://bdtd.ibict.br/}}, Portal de Periódicos da CAPES \footnote{\url{https://www-periodicos-capes-gov-br.ezl.periodicos.capes.gov.br/index.php?}},  Google Acadêmico \footnote{\url{https://scholar.google.com/}}. Essas foram escolhidas por serem acessíveis gratuitamente pela afiliação à Universidade Federal de Sergipe, já o Google Scholar foi escolhido para agregar pesquisas em outras bases que possam ter trabalhos relevantes.
 
-\url{https://bdtd.ibict.br/}
-\url{https://ieeexplore.ieee.org/}
-\url{https://www-periodicos-capes-gov-br.ezl.periodicos.capes.gov.br/}
+% 
+%
+
+%
+% \url{https://www-periodicos-capes-gov-br.ezl.periodicos.capes.gov.br/}
 
 
 
-\subsection{Questões de Pequisa} 
 
-Foram elaboradas questões de pesquisa específicas, que guiam as frases-chave que refletem os principais aspectos do tema em questão. A partir desse processo, foram identificados e selecionados os trabalhos que melhor atendiam às questões propostas, garantindo maior relevância para o estudo em questão.
+\subsection{Questões de Pequisa}  \label{questoes-pesquisa}
+
+Foram elaboradas questões de pesquisa específicas, que guiam as frases-chave que refletem os principais aspectos do tema em questão. A partir desse processo, foram identificados e selecionados os trabalhos que melhor atendiam às questões propostas, garantindo maior relevância para este estudo.
 
 \begin{enumerate}
-  \item Quais são as abordagens mais comuns utilizadas na criação de compiladores para tradução de BRDFs expressas em alguma linguagem de texto, com \LaTeX , para shaders?
+  \item Quais são as abordagens mais comuns utilizadas na criação de compiladores para tradução de BRDFs expressas em alguma linguagem de texto, com \LaTeX , para \textit{shaders}?
 
-  \item Quais as técnicas de parsing que têm sido aplicadas no desenvolvimento de compiladores para linguagens matemáticas como \LaTeX ?
+  \item Quais as técnicas de \textit{parsing} que têm sido aplicadas no desenvolvimento de compiladores para linguagens matemáticas como \LaTeX ?
 
-  \item O trabalho utiliza arvores, ou gramáticas livre de contexto para representar uma BRDF?
+  \item O trabalho utiliza arvores ou gramáticas livre de contexto para representar uma BRDF?
 
- \item Quais são os principais desafios enfrentados ao traduzir funções matemáticas complexas, como as BRDFs, em shaders?
+ \item Quais são os principais desafios enfrentados ao traduzir funções matemáticas complexas, como as BRDFs, em \textit{shaders}?
 
- \item Quais são as ferramentas e recursos disponíveis para auxiliar no desenvolvimento de compiladores para BRDFs e shaders, e como elas podem ser integradas ao processo de desenvolvimento?
+ \item Quais são as ferramentas e recursos disponíveis para auxiliar no desenvolvimento de compiladores para BRDFs e \textit{shaders}, e como elas podem ser integradas ao processo de desenvolvimento?
 
 \end{enumerate}
 
 
 
 \subsection{Termos de Busca}
- As frases foram contruidas considerando suas variações equivalentes através de operadores lógicos. Posteriormente, as frases de pesquisa foram adaptadas de acordo com as características individuais de cada base de dados utilizada nas pesquisas. Os termos-chave escolhidos foram: "shader", "BRDF", "compiler", "parser" e "grammar".
+ As frases foram construidas considerando suas variações equivalentes através de operadores lógicos. Posteriormente, as frases de pesquisa foram adaptadas de acordo com as características individuais de cada base de dados utilizada. Os termos-chave escolhidos foram: "shader", "BRDF", "compiler", "parser" e "grammar", conforme demonstrado na \autoref{tab-bases}
 
 
 \begin{table}[H]
 \ABNTEXfontereduzida
-\caption[bases]{}
+\caption[bases]{Tabela de pesquisa}
 \label{tab-bases}
 \begin{tabular}{p{2.6cm}|p{6.0cm}|p{2.25cm}|p{3.40cm}}
   %\hline
@@ -540,33 +544,33 @@ AND (("Full Text \& Metadata":compiler) OR  ("Full Text \& Metadata":parsing) OR
 
 \subsection{Critérios}
 
-Para garantir relevancia dos resultados obtivos, seguimos os critérios de inclusão e exclusão estabelecidos, de forma que os resultados serão filtrados. Ao fim desse procedimento, apenas os resultados com maior compatibilidade com este trabalho seram análisado e descritos de maneira mais detalhada.
+Para garantir relevancia dos resultados obtivos, seguimos os critérios de inclusão e exclusão estabelecidos, de forma a filtrar os resultados. Ao fim desse procedimento, apenas os resultados com maior compatibilidade com este trabalho foram análisados e descritos de maneira detalhada. O resultados se encontram na \autoref{tab-result}
 
 \subsubsection{Critérios de Inclusão}
 
 \begin{enumerate}
   \item Foram incluídos artigos relacionados às palavras-chaves;
-  \item Foram incluídos artigos que de alguma forma inclua a criação de um compilador ou um parser;
-  \item Foram incluídos artigos que sintetize uma arvóre como representação de BRDFs
+  \item Foram incluídos artigos que de alguma forma incluam a criação de um compilador ou um \textit{parser};
+  \item Foram incluídos artigos que sintetize uma arvóre como representação de BRDFs.
 \end{enumerate}
 
 \subsubsection{Critérios de Exclusão}
 
 \begin{enumerate}
   \item Foram excluídos artigos dos quais dispunham de links incorretos e ou quebrados;
-  \item Foram excluídos artigos que dispunham de aplicacões muito similares/repetitivas;
-  \item Foram excluídos artigos que não respodem as questões de pesquisa \ref{sec:questoes-pesquisa};
-  \item Artigo que não tem como entrada a BRDFs no formato de equação, ou seja, está utilizando a representação diretamente como código, também foi excluído.
-  \item Foram excluídos artigos que não consideram a geração de \textit{shaders} como saída ou estrutura da BRDF em arvore.
+  \item Foram excluídos artigos no quais os projetos são muito similares;
+  \item Foram excluídos artigos que não respodem as questões de pesquisa na \autoref{questoes-pesquisa};
+  \item Foram excluídos artigos que não têm como entrada uma BRDF no formato de equação, ou seja, está utilizam a representação diretamente como código;
+  \item Foram excluídos artigos que não consideram a geração de \textit{shaders} como saída ou estrutura da BRDF em arvore;
   \item Foram excluídos artigos que não citam BRDFs e compilador em seu resumo;
-  \item Se após a leitura completa, o artigo não concerne os interesse deste trabalho, esse foi excluído.
+  \item Se após a leitura completa, o artigo não concerne os interesses deste trabalho, esse foi excluído.
 \end{enumerate}
 
 
 \begin{table}[H]
 \ABNTEXfontereduzida
   \caption[bases]{Resultados da Base após aplicar os critérios}
-\label{tab-bases}
+\label{tab-result}
 \begin{tabular}{p{6.6cm}|p{6.6cm}}
   %\hline
    \textbf{Bases}  & \textbf{Filtrados}\\
@@ -597,13 +601,11 @@ Para garantir relevancia dos resultados obtivos, seguimos os critérios de inclu
 
 \subsubsection{genBRDF: Discovering New Analytic BRDFs with Genetic Programming}
 
-Neste artigo é introduzido uma framework chamada genBRDF, a qual aplica tecnicas de programação genética para explorar e descobrir novas BRDFs de maneira analitica. O processo inicia utilizando uma BRDF existente, e iterativamente aplica mutações e recombinações de partes das expressões matematicas que compões essas BRDFs a medida que novas gerações surgem. Essas mutações são guiadas por uma função fitness, que seria o inverso de uma função de erro, essa é baseada em um dataset de materiais já medidos. Por meio da avaliação de milhares de expressões, a framework identificas as viávies, que estão na Fronteira de Pareto.
+Neste artigo é introduzido uma  \textit{framework} chamada genBRDF, a qual aplica tecnicas de programação genética para explorar e descobrir novas BRDFs de maneira analitica \cite{genbrdf}. O processo inicia utilizando uma BRDF existente, e iterativamente aplica mutações e recombinações de partes das expressões matematicas que compões essas BRDFs a medida que novas gerações surgem. Essas mutações são guiadas por uma função \textit{fitness}, que seria o inverso de uma função de erro, ela é baseada em um \textit{dataset} de materiais já medidos. Por meio da avaliação de milhares de expressões, a  \textit{framework} identifica as viávies.
 
-A representação das BRDFs de entrada para o GA, autores geraram uma gramática que inclui constantes e operadores matemáticos comuns encontrados em equações BRDF. A gramática é compilada, e a árvore de sintaxe abstrata resultante passa por modificações realizadas pelo algoritmo genético. Nós na árvore podem ser trocados, substituídos, removidos e novos nós podem ser adicionados. Esse processo, após refinamento e análise, resulta em novas BRDFs.
-
-Alguns dos novos modelos BRDF apresentados no documento incluem aqueles que superam os modelos existentes em termos de precisão e simplicidade.
+Os autores geraram uma gramática que inclui constantes e operadores matemáticos comuns encontrados em equações BRDF. A gramática é compilada, e a árvore de sintaxe abstrata resultante passa por modificações realizadas pelo algoritmo genético. Nós na árvore podem ser trocados, substituídos, removidos e novos nós podem ser adicionados. Esse processo, após refinamento e análise, resulta em novas BRDFs. Alguns dos novos modelos BRDF apresentados no documento incluem aqueles que superam os modelos existentes em termos de precisão e simplicidade.
  
-Esse artigo se concentra principalmente em utilizar programação genética para descobrir automaticamente novos modelos analíticos de BRDF, em vez de compilar diretamente equações BRDF em linguagens de shading. Embora a representação das expressões das BRDFs possam potencialmente inspirar o nosso trabalho, o principal objetivo do artigo difere do objetivo de compilar equações BRDF para linguagem de shading.
+Esse artigo se concentra em automaticamente encontrart novos modelos analíticos de BRDF, em vez de compilar diretamente equações BRDF em linguagens de \textit{shading}. Embora a representação das expressões das BRDFs possam potencialmente inspirar o nosso trabalho, o principal objetivo do artigo difere do objetivo de compilar equações BRDF para linguagem de shading.
 
 \subsubsection{Slang: language mechanisms for extensible real-time shading systems}
 
