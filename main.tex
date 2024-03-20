@@ -172,7 +172,15 @@ $$
 
 \subsection{Radiância e BRDF} \label{brdf}
 
-A radiância, denotada como $L$, caracteriza a distribuição da luz em um ambiente ao longo de um raio definido por um ponto de origem e uma direção \cite{radiance_definition}. A radiância diz respeito ao cálculo do fluxo por unidade de área em uma superfície considerando toda a luz incidente de todas as direções $\omega$ possiveis em um ponto $p$ específico.
+A radiância, denotada como $L$, caracteriza a distribuição da luz em um ambiente ao longo de um raio definido por um ponto de origem e uma direção \cite{radiance_definition}. A radiância diz respeito ao cálculo do fluxo por unidade de área em uma superfície considerando toda a luz incidente de todas as direções $\omega$ possiveis em um ponto $p$ específico como na \autoref.
+
+\begin{figure}[H]
+	\caption{\label{specular} \small Visualização da radiancia em uma direção específica do hemisfério}
+	\begin{center}
+	    \includegraphics[scale=0.5]{./Imagens/irradiance_hemisphere.png}
+	\end{center}
+  \legend{ Fonte: \cite{video_radiometry}}
+\end{figure}
 
 
 \begin{align*} 
@@ -222,30 +230,51 @@ A Função de Distribuição Bidirecional de Reflectância (BRDF) descreve como 
 Apresento nas proximas seções salgums modelos comuns de BRDFs  na literatura \cite{overview_brdf}.
 
 
-\subsection{Superfície Pura Especular}
-Uma superfície puramente especular reflete a luz apenas em uma direção, seguindo a lei da reflexão. Ela produz reflexões nítidas, semelhantes a espelhos.
-A BRDF para uma superfície puramente especular é frequentemente representada pela função delta de Dirac $\delta(\omega_i - \omega_o)$, onde $\omega_i$ é a direção da luz incidente e $\omega_o$ é a direção refletida.
-$f(\omega_i, \omega_o) = k_s \cdot \delta(\omega_i - \omega_o)$
-A função delta de Dirac garante que toda a luz incidente seja refletida na direção perfeitamente espelhada, resultando em uma reflexão altamente focada e intensa. Esse tipo de superfície é comum em materiais como metal polido ou vidro.
+\subsection{BRDF Pura Especular}
+Uma superfície puramente especular reflete a luz apenas em uma direção, seguindo a lei fisica da reflexão \cite{laws_of_refletion}, ela produz reflexões nítidas, semelhantes a espelhos. A BRDF para essa superfície é frequentemente representada pela função $F(\omega_i, \omega_o) = k_s \cdot \delta(\omega_i - \omega_o)$, onde $\omega_i$ é a direção da luz incidente, $\omega_o$ é a direção refletida e $\delta$ é a função delta de Dirac que garante que toda a luz incidente seja refletida na direção perfeitamente espelhada como na \autoref{specular}. Esse tipo de superfície é comum em materiais como metal polido ou vidro.
 
 \begin{figure}[H]
-	\caption{\label{specular}}
+	\caption{\label{specular} \small Reflexão especular}
 	\begin{center}
-	    \includegraphics[scale=0.5]{./Imagens/tree-shading.png}
+	    \includegraphics[scale=0.5]{./Imagens/specular-2d.png}
 	\end{center}
-	\legend{Fonte: \citeonline[]{radiometry_introduction}}
+	\legend{ Note que  angulo de saída é identico ao angulo de entrada em relação à normal da superficie}
 \end{figure}
 
 \subsection{BRDF Difusa Ideal}
-Uma BRDFs difusa ideal reflete a luz incidente uniformemente em todas as direções, sem preferência por ângulos específicos. é representada por um termo cosseno lambertiano $\frac{\rho_d}{\pi} \cdot \cos \theta$, onde $\rho_d$ é o albedo da superfície e $\theta$ é o ângulo entre a direção da luz incidente e a normal da superfície.
-$f(\omega_i, \omega_o) = \frac{\rho_d}{\pi} \cdot \cos \theta$
-O termo cosseno garante que a radiância refletida seja proporcional ao cosseno do ângulo entre a direção da luz incidente e a normal da superfície. Esse modelo pode representar superfícies como tinta fosca ou papel.
+Uma BRDF difusa ideal reflete a luz incidente uniformemente em todas as direções, sem preferência por ângulos específicos. É representada pela função $f(\omega_i, \omega_o) = \frac{\rho_d}{\pi} \cdot \cos \theta$, onde $\rho_d$ é o albedo da superfície e $\theta$ é o ângulo entre a direção da luz incidente e a normal da superfície. O termo cosseno garante que a radiância refletida seja proporcional ao cosseno do ângulo entre a direção da luz incidente e a normal da superfície como na \autoref{diffuse}. Esse modelo pode representar superfícies como tinta fosca ou papel.
 
-\subsubsection{BRDF Brilhante (\textit{Glossy})}
-Uma superfície brilhante exibe propriedades de reflexão tanto especulares quanto difusas. BRDF para uma superfície brilhante é frequentemente representada por uma combinação de termos especulares e difusos, como o modelo de Blinn-Phong @ref
 
-\subsubsection{BRDF Retro-Refletora}
-Uma superfície retro-refletora reflete a luz incidente de volta na direção de onde veio, independentemente do ângulo de incidência. A BRDF para uma superfície retro-refletora envolve tipicamente geometria especializada ou revestimentos projetados para redirecionar a luz de volta para a fonte.
+\begin{figure}[H]
+	\caption{\label{diffuse} \small Reflexão Difusa}
+	\begin{center}
+	    \includegraphics[scale=0.5]{./Imagens/diffuse-2d.png}
+	\end{center}
+	\legend{ Note que os raios refletidos não dependem o angulo de entrada}
+\end{figure}
+
+\subsection{BRDF \textit{Glossy}}
+Uma superfície pode exibir propriedades de reflexão tanto especulares quanto difusas, como na \autoref{glossy}. BRDF para uma superfície brilhante é frequentemente representada por uma combinação de termos especulares e difusos, como o modelo de Blinn-Phong \cite{blinn_phong}
+
+\begin{figure}[H]
+  \caption{\label{glossy} \small Reflexão \textit{glossy}}
+	\begin{center}
+	    \includegraphics[scale=0.5]{./Imagens/glossy-2d.png}
+	\end{center}
+	\legend{Apresenta tanto reflexão difusa quando especular}
+\end{figure}
+
+
+\subsection{BRDF Retro-Refletora}
+Uma superfície retro-refletora reflete a luz incidente de volta na direção de onde veio, como na \autoref{retro_refletora}. A BRDF para uma superfície retro-refletora envolve tipicamente geometria especializada ou revestimentos projetados para redirecionar a luz de volta para a fonte.
+
+\begin{figure}[H]
+  \caption{\label{retro_refletora} \small Reflexão \textit{retro-refletora}}
+	\begin{center}
+	    \includegraphics[scale=0.5]{./Imagens/retro-reflection-2d.png}
+	\end{center}
+\end{figure}
+
 
 \section{Compiladores} \label{compiladores}
 
@@ -255,30 +284,30 @@ Um \textbf{cadeia de símbolos} é uma sequência finita de símbolos retirados 
 
 \subsection{Definições de Linguagens} \label{linguagem}
 
-Na ciência da computação, as linguagens são sistemas formais compostos por símbolos e regras que são muito uteis para definir um significado algoritimico. Uma \textbf{linguagem} $L$ é definida como um conjunto de cadeias sobre um alfabeto finito $ \Sigma $, $ L \subseteq \Sigma^* $, onde  $ \Sigma^* $ denota o conjunto de todas as cadeias possíveis sobre $ \Sigma $. A estrutura e semântica de uma linguagem  inclue seu alfabeto $ \Sigma $, sintaxe e regras de gramática.
+Na ciência da computação, as linguagens são sistemas formais compostos por símbolos e regras que são muito uteis para definir um significado algoritimico. Uma \textbf{linguagem} $L$ é definida como um conjunto de cadeias sobre um alfabeto finito $ \Sigma $, $ L \subseteq \Sigma^* $, onde  $ \Sigma^* $ denota o conjunto de todas as cadeias possíveis sobre $ \Sigma $ \cite{language_theory}. A estrutura semântica de uma linguagem  inclue seu alfabeto $ \Sigma $, sintaxe e regras de gramática.
 
 \subsection{Compilador como um Transformação}
 
-Um compilador pode ser visto como um transformação entre linguagens $ L_1 $ e $ L_2 $ que preserva a estrutura interna dos cojuntos, isto é, deve manter o mesmo significado algoritmico. Assim, o compilador $ C: L_1 \rightarrow L_2 $ mapeia programas escritos na linguagem de origem $ L_1 $ para programas equivalentes na linguagem de destino $ L_2 $. Essa transformação garante a preservação semântica, mantendo o comportamento pretendido do programa original durante a tradução.
+Um compilador pode ser visto como um transformação entre linguagens $ L_1 $ e $ L_2 $ que preserva a estrutura interna dos conjuntos, isto é, deve manter o mesmo significado algoritmico. Assim, o compilador $ C: L_1 \rightarrow L_2 $ mapeia programas escritos na linguagem de origem $ L_1 $ para programas equivalentes na linguagem de destino $ L_2 $. Essa transformação garante a preservação semântica, mantendo o comportamento pretendido do programa original durante a tradução.
 
 
 \subsection{Gramática} \label{gramatica}
 
-Para auxiliar na criação de um compilador é necessario entender as regras que auxiliam na validação e geração da linguagem de interesse, esse entedimento pode ser alcaçando pela gramática. Uma gramática $ G $ é um sistema formal composto por um conjunto de regras de produção que especificam como cadeias válidas na linguagem podem ser geradas. Ela inclui terminais, não-terminais, regras de produção e um símbolo inicial.
+Para auxiliar na criação de um compilador é necessario entender as regras que auxiliam na validação e geração da linguagem de interesse, esse entedimento pode ser alcaçando pela gramática. Uma gramática $ G $ é um sistema formal composto por um conjunto de regras de produção que especificam como cadeias válidas na linguagem podem ser geradas \cite{language_theory}. Ela inclui terminais, não-terminais, regras de produção e um símbolo inicial.
 
 \begin{itemize}
-  \item Terminais: Terminais são os símbolos básicos a partir dos quais as cadeias são formadas. Eles representam as unidades elementares da sintaxe da linguagem.
-  \item Não-terminais: Não-terminais são espaços reservados que podem ser substituídos por terminais ou outros não-terminais de acordo com as regras de produção.
+  \item Terminais: são os símbolos básicos a partir dos quais as cadeias são formadas. Eles representam as unidades elementares da sintaxe da linguagem.
+  \item Não-terminais: são espaços reservados que podem ser substituídos por terminais ou outros não-terminais de acordo com as regras de produção.
 
-  \item Regras de Produção: As regras de produção definem a transformação ou substituição de não-terminais em sequências de terminais e/ou não-terminais.
+  \item Regras de Produção: definem a transformação ou substituição de não-terminais em sequências de terminais e/ou não-terminais.
 
-  \item Símbolo Inicial: O símbolo inicial é um não-terminal especial a partir do qual a derivação de cadeias válidas na linguagem começa.
+  \item Símbolo Inicial: é um não-terminal especial a partir do qual a derivação de cadeias válidas na linguagem começa.
 \end{itemize}
 
 
 \subsubsection{Gramáticas Livres de Contexto (GLCs)}
 
-Um tipo comum de gramática usado na definição de linguagens é a gramática livre de contexto (GLC). Em uma GLC $ G=(V,\Sigma,R,S)$:
+Um tipo comum de gramática usado na definição de linguagens é a gramática livre de contexto (GLC).  Uma GLC pode ser descrita formalmente como $ G=(V,\Sigma,R,S)$:
 
 \begin{itemize}
   \item $V$ é um conjunto finito de símbolos não-terminais.
@@ -292,29 +321,23 @@ Um tipo comum de gramática usado na definição de linguagens é a gramática l
 
 O processo de gerar uma cadeia na linguagem definida por uma gramática é chamado de derivação. Isso envolve aplicar regras de produção sucessivamente, começando pelo símbolo inicial $S$ até restarem apenas símbolos terminais.
 
-Uma árvore sintática é uma representação gráfica do processo de derivação, onde cada nó representa um símbolo na cadeia e cada aresta representa a aplicação de uma regra de produção, nos processos seguintes como análise sintatica,em código, essa árvore é gerada e usada como representação intermediária que auxilia na geração na linguagem alvo $L_2$.
+Uma árvore sintática é uma representação gráfica do processo de derivação, onde cada nó representa um símbolo na cadeia e cada aresta representa a aplicação de uma regra de produção. Em código, essa árvore é gerada e usada como representação intermediária que auxilia na geração na linguagem alvo $L_2$.
 
 
 \subsection{Análise Léxica}
-A análise léxica, também conhecida como \textit{lexing} ou \textit{tokenization}, é a primeira etapa do processo de compilação, na qual a entrada textual é dividida em unidades léxicas significativas chamadas de \textit{tokens}. Esses tokens representam os componentes básicos da linguagem, como palavras-chave, identificadores, operadores e literais. O analisador léxico percorre o código fonte caractere por caractere, agrupando-os em tokens conforme regras pré-definidas pela gramática da linguagem. No caso a linguagem do entrada analisador léxico são os formados por caracteres e, geralmente, são reconhecivel por maquinas de estado @ref, já a linguagem de saída é composta por tokens.
+A análise léxica, também conhecida como \textit{lexing} ou \textit{tokenization}, é a primeira etapa do processo de compilação, na qual a entrada textual é dividida em unidades léxicas significativas chamadas de \textit{tokens}. Esses tokens representam os componentes básicos da linguagem, como palavras-chave, identificadores, operadores e literais. O analisador léxico percorre o código fonte caractere por caractere, agrupando-os em tokens conforme regras pré-definidas pela gramática da linguagem. Essa linguagem é, geralmente, reconhecível por maquinas de estado \cite{automata}.
 
 \subsection{Análise Sintática ou \textit{Parsing}}
-A análise sintática é a segunda fase do processo de compilação, na qual os tokens gerados pela análise léxica são organizados e verificados quanto à conformidade com a gramática da linguagem. Essa etapa envolve a construção de uma árvore sintática ou estrutura de dados equivalente que representa a estrutura hierárquica das expressões e instruções do programa. O analisador sintático utiliza regras de produção gramatical para validar a sintaxe do código fonte e identificar possíveis erros.
+A análise sintática é a segunda fase do processo de compilação, na qual os tokens gerados pela análise léxica são organizados e verificados quanto à conformidade com a gramática da linguagem. Essa etapa envolve a construção de uma árvore sintática, ou estrutura de dados equivalente, que representa a estrutura hierárquica das expressões e instruções do programa. O analisador sintático utiliza regras de produção gramatical para validar a sintaxe do código fonte e identificar possíveis erros.
 
 \subsection{Pratt Parsing}
-O Pratt Parsing, introduzida por Vaughan Pratt, é uma técnica de análise sintática recursiva que permite analisar expressões com precedência de operadores de forma eficiente e sem ambiguidades. Uma das características distintivas do Pratt Parsing é a maneira como lida com a precedência dos operadores, que é determinada pela ordem de avaliação das expressões. Ao contrário da análise descendente recursiva tradicional, onde cada não-terminal possui uma função de análise, a análise Pratt associa funções de manipulação (handlers) com tokens. Essas funções de manipulação são responsáveis por analisar expressões envolvendo seus respectivos tokens.
+O Pratt Parsing, introduzida por Vaughan Pratt, é uma técnica de análise sintática recursiva que permite analisar expressões com precedência de operadores de forma eficiente e sem ambiguidades \cite{pratt}. Uma das características distintivas é determinar ordem de avaliação das expressões, ao contrário da análise descendente recursiva tradicional, na qual cada não-terminal possui uma função de \textit{parsing}, a análise Pratt associa funções de manipulação (\textit{handlers}) com \textit{tokens}.
 
-\subsubsection{Precedência de Expressões}
-
-Na implementação do Pratt Parser, a precedência das expressões é definida por meio de uma tabela de precedência, na qual cada operador é associado a um nível de precedência. Isso permite que o parser decida dinamicamente a ordem de avaliação das expressões com base nos operadores encontrados durante a análise.
-
-Essa abordagem simplifica significativamente a implementação do parser e elimina a necessidade de criar uma grammática que encapsula a precendencia em sua definição, também evita recursão profunda para lidar com diferentes níveis de precedência, tornando o Pratt Parsing uma técnica eficiente para análise sintática.
+A precedência das expressões é definida por meio de uma tabela, na qual cada operador é associado a um valor que permita o \textit{parser} decidir dinamicamente a ordem de avaliação das expressões com base nos operadores encontrados durante a análise. Essa abordagem simplifica significativamente a implementação do parser e elimina a necessidade de criar uma grammática que encapsula a precendencia em sua definição, também evita recursão profunda para lidar com diferentes níveis de precedência.
 
 \subsubsection{Árvores Inclinadas}
 
-No Pratt \textit{Parsing}, a estrutura da árvore de expressão pode ser influenciada pela ordem de avaliação dos operadores. Essa distinção leva a dois tipos de árvores de expressão: árvores inclinadas à direita e árvores inclinadas à esquerda.
-
-\textbf{Árvore inclinada à Direita:} Em uma árvore inclinada à direita, operadores com maior precedência são resolvidos primeiro, mesmo que apareçam mais tarde (para a direita) na expressão. Isso resulta em uma árvore onde os operadores com maior precedência estão mais próximos da raiz, indicando que eles são avaliados primeiro. Considere a expressão `1 + 2 * 3`. Apesar de `*` aparecer após `+`, ele tem uma precedência mais alta e, portanto, forma uma subárvore que é resolvida antes da adição. A árvore resultante é:
+Em uma árvore inclinada à direita, operadores com maior precedência são resolvidos primeiro, mesmo que apareçam na direita da expressão. Isso resulta em uma árvore onde os operadores com maior precedência estão mais próximos da raiz, indicando que eles são avaliados primeiro. Considere a expressão ``1 + 2 * 3'', apesar de ``*'' aparecer após ``+'',  ``*'' tem uma precedência mais alta e, portanto, forma uma subárvore que é resolvida antes da adição.
 
 
 \begin{verbatim}
@@ -325,14 +348,12 @@ No Pratt \textit{Parsing}, a estrutura da árvore de expressão pode ser influen
                2   3
 \end{verbatim}
 
-\textbf{Árvore inclinada à Esquerda:} Por outro lado, em uma árvore inclinada à esquerda, operadores com maior precedência são resolvidos por último, seguindo uma ordem de avaliação da esquerda para a direita. Isso significa que operadores com maior precedência formam subárvores que são resolvidas mais profundamente na árvore. As árvores inclinadas à esquerda estão tipicamente associadas a chamadas recursivas na análise.
-
-Para alcançar a estrutura desejada da árvore, o Pratt parsing utiliza as estratégias de recursão e iteração com base na precedência dos operadores para saber o momento de gerar uma subarvores inclinada para esquerda ou direita. Operadores com precedência maior que a do operador atual formam a estrutura inclinada à direita, enquanto operadores com precedência menor formam a estrutura inclinada à esquerda.
+Por outro lado, em uma árvore inclinada à esquerda, operadores com maior precedência são resolvidos por último, seguindo uma ordem de avaliação da esquerda para a direita. As árvores inclinadas à esquerda estão tipicamente associadas a chamadas recursivas de \textit{parsing}, já as inclinadas à direita estão associadas a iteração. Para alcançar a estrutura correta da árvore, o Pratt \textit{parsing} alterna entre recursão e iteração com base na precedência dos operadores para saber o momento de gerar uma subarvores inclinada para esquerda ou direita.
 
 \subsubsection{Pseudo-código para Análise de Expressões}
 
 O pseudo-código \ref{alg1},
-demonstra o Pratt \textit{parsing} para a construção de árvores de expressão, considerando tanto estruturas inclinadas à direita quanto à esquerda. Esse algoritmo também é robusto mesmo quando um operador é tanto infixo quanto prefixo, por exemplo "$-$" pode ser um \textit{token} de subtração ou de negação. Assim cada token tem uma função de prefixo e infixo associada.
+demonstra o Pratt \textit{parsing} para a construção de árvores de expressão. Esse algoritmo também é robusto mesmo quando um operador é tanto infixo quanto prefixo, por exemplo "$-$" pode ser um \textit{token} de subtração ou de negação. Assim cada token tem uma função de prefixo e infixo associada.
 
 Nesse algoritimo, 
 \textbf{proximo\_token()} recupera o próximo elemento da lista de tokens,
