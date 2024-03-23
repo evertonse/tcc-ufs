@@ -86,13 +86,10 @@
 \chapter{Introdução}
 \label{introduction}
 
-
-\section{Contexto}
-
-Na computação gráfica, a representação realista de cenas tridimensionais depende fortemente da modelagem da luz e dos materiais que compõem os objetos na cena. [referencia] A interação da luminosidade incidente com esses materiais é crucial para a geração de imagens fiéis à realidade. Uma abordagem fundamental para modelar essa interação é por meio das funções de distribuição de refletância bidirecional, conhecidas como BRDFs (do inglês, \textit{Bidirectional Reflectance Distribution Functions}).
+Na computação gráfica, a representação realista de cenas tridimensionais depende fortemente da modelagem da luz e dos materiais que compõem os objetos na cena. A interação da luminosidade incidente com esses materiais é crucial para a geração de imagens fiéis à realidade. Uma abordagem fundamental para modelar essa interação é por meio das funções de distribuição de refletância bidirecional, conhecidas como BRDFs (do inglês, \textit{Bidirectional Reflectance Distribution Functions}).
 
 
-As BRDFs, essencialmente, calculam a proporção entre a energia luminosa que atinge um ponto na superfície e como essa energia é refletida, transmitida ou absorvida [referencia]. Na renderização, essas funções são implementadas por meio programas especializados nas unidades de processamento gráfico (GPUs), esses programmas são chamados de \textit{shaders}, e cada interface de programação, do inglês \textit{ Application Programming Interface} (API), de rederização disponibiliza etapas diferentes onde esses executaveis podem ser programados durante o processo de renderização. Esses \textit{shaders} concedem a capacidade de cada objeto renderizado ter sua aparência configurada por meio de um código que implementa uma BRDF.
+As BRDFs, essencialmente, calculam a proporção entre a energia luminosa que atinge um ponto na superfície e como essa energia é refletida, transmitida ou absorvida \cite{pbr}. Na renderização, essas funções são implementadas por meio programas especializados nas unidades de processamento gráfico (GPUs), chamados de \textit{shaders}. Cada interface de programação, do inglês \textit{ Application Programming Interface} (API),  disponibiliza etapas diferentes onde esses executaveis podem ser programados durante o processo de renderização. Esses \textit{shaders} concedem a capacidade de cada objeto renderizado ter sua aparência configurada por meio de um código que implementa uma BRDF.
 
 
 \section{Motivação}
