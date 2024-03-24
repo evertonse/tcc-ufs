@@ -412,16 +412,21 @@ Nesta fase, fazemos a transição da representação intermediária  da linguage
 
 Dado um programa $a \in L_1$ existem varios programas $b_{i=1,2,3,...} \in L_2$ que possui estrutura semanticamente equivalentes à $a$. Ao explorar esse conjunto, é possivel escolher um $b_j \in L_2$ tal que esse programa seja otimizado em algum sentido, como uso eficiente de memoria ou executar menos instruções de \textit{hardware}. Nosso foco neste trabalho está na tradução semanticamente correta, sem envolver explorão das saídas  equivalentes.
 
-Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \), \LaTeX, para \( L_2 \), GLSL, o cálculo abaixo pertence a $L_1$. 
+Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) (\LaTeX), para \( L_2 \) ( GLSL). O cálculo abaixo pertence a $L_1$. O \autoref{cod-fonte-calculo} mostra o código fonte do cáculo. 
 
 \[
- \quad \mathbf{v} = (\mathbf{a} + \mathbf{b}) \cdot \mathbf{c} - (\mathbf{d} \times \mathbf{e})
+ \quad \mathbf{v} = (\mathbf{a} + \mathbf{b}) \cdot
+ \mathbf{c} - (\mathbf{d} \times \mathbf{e})
 \]
 
-O texto usado para compilar o calculo acima:
-\begin{verbatim}
- \quad \mathbf{v} = (\mathbf{a} + \mathbf{b}) \cdot \mathbf{c} - (\mathbf{d} \times \mathbf{e})
-\end{verbatim}
+\begin{codigo}
+\caption{Cáculo vetorial}
+  \label{cod-fonte-calculo}
+\begin{lstlisting}
+ \mathbf{v} = (\mathbf{a} + \mathbf{b}) \cdot
+ \mathbf{c} - (\mathbf{d} \times \mathbf{e})
+\end{lstlisting}
+\end{codigo}
 
 
 
@@ -432,13 +437,13 @@ Após a tradução da expressão matematica para \( L_2 \), o cálculo pode ser 
 \]
 
 
-\section{Introdução ao Shading e ao\textit{pipeline} de GPU} \label{shading}
+\section{Introdução ao Shading e ao \textit{pipeline} de GPU} \label{shading}
 
 \textit{Shading} refere-se ao processo de determinar a cor e o brilho dos pixels em uma imagem renderizada. Isso envolve simular a interação da luz com as superfícies, levando em consideração as propriedades dos materiais, condições de iluminação e orientação da superfície. Isso é alcançado por meio de pequenos programas chamados shaders, que são compilados e executados na unidade de processamento gráfico (GPU).
 
 
 A interação com as GPUs é facilitada por meio de uma 
-API, sendo o OpenGL uma API padrão para o uso de funções na GPU \cite{opengl_spec}. O\textit{pipeline} de renderização do OpenGL é composto por várias etapas, incluindo definição de dados de vértices, \textit{shaders} de vértice e fragmento, \textit{shaders} de tesselação e geometria opcionais, configuração de primitivas, recorte e rasterização.
+API, sendo o OpenGL uma API padrão para o uso de funções na GPU \cite{opengl_spec}. O \textit{pipeline} de renderização do OpenGL é composto por várias etapas, incluindo definição de dados de vértices, \textit{shaders} de vértice e fragmento, \textit{shaders} de tesselação e geometria opcionais, configuração de primitivas, recorte e rasterização.
 
 Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. As etapas mais importantes para o nosso trabalho são os \textit{shaders} de fragmento e de vértice, representados na \autoref{fig-pipeline}, os quais executam a manipulação dos vértices e determinam cores de pixels, respectivamente.
 
