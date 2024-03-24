@@ -94,28 +94,23 @@ As BRDFs, essencialmente, calculam a proporção entre a energia luminosa que at
 
 \section{Motivação}
 
-Apesar da disponibilidade de linguagens específicas para a programação de shaders, que possibilitam a modificação procedimentos que representam uma BRDF, a aplicação de BRDFs na geração de \textit{shaders} requer conhecimento especializado em programação [referencia?]. Essa barreira técnica pode restringir a exploração dos efeitos visuais por profissionais de áreas não relacionadas à programação. Diante disso, surge a necessidade de ferramentas mais acessíveis para a criação de \textit{shaders}.
 
-No meio acadêmico, as BRDFs são comumente descritas por fórmulas escritas em \LaTeX , uma abordagem promissora para atender a essa necessidade é o desenvolvimento de um compilador capaz de traduzir BRDFs em \LaTeX  para \textit{shaders}, assim democratizando a visualização dessas BRDFs. Dado que as fórmulas são equações matemáticas, precisamos retrigir representação da linguagem de entrada para o compilador afim de garatir um projeto útil em tempo hábil.
+Existem linguagens específicas para a programação de \textit{shaders}, as quais permitem a modificação de procedimentos que representam uma BRDF. No entanto, essa aplicação requer conhecimento especializado em programação. Essa barreira técnica pode restringir a exploração dos efeitos visuais por profissionais de áreas não relacionadas à programação. Diante disso, surge a necessidade de ferramentas mais acessíveis para a criação de \textit{shaders}.
+
+No meio acadêmico, as BRDFs são comumente descritas por fórmulas escritas em \LaTeX, Desta forma, uma abordagem promissora para simplificar a criação de \textit{shaders} é o desenvolvimento de um compilador capaz de traduzir BRDFs   escritas em \LaTeX  para \textit{shaders}. Isso permitiria uma maior acessibilidade e democratização na criação de efeitos visuais complexos.
 
 \section{Objetivo}
-Este trabalho visa projetar e implementar um compilador que, a partir de BRDFs escritas como equações em \LaTeX, seja capaz de gerar código de \textit{shading} na linguagem alvo da API OpenGL, considerando a precedência de operadores. O resultado será um \textit{shader} capaz de reproduzir as características de reflexão da BRDF original ou, ao menos, alcançar uma aproximação satisfatória dessas características, levando em conta as limitações da linguagem de \textit{shading} da API, principalmente as representações de dados de forma discreta. 
+Este trabalho visa projetar e implementar um compilador que, a partir de BRDFs escritas como equações em \LaTeX, seja capaz de gerar código de \textit{shading} na linguagem alvo da API OpenGL. O resultado será um \textit{shader} capaz de reproduzir as características de reflexão da BRDF original ou, ao menos, alcançar uma aproximação satisfatória dessas características, levando em conta as limitações da linguagem de \textit{shading} da API, principalmente as representações de dados de forma discreta. 
 
 \section{Estrutura do Documento}
-No \autoref{conceitos}, descrevemos todos os conhecimentos necessários para entender BRDFs, incluindo quantificação de luminosidade, radiação e  conceitos de compiladores, como tokenização e construção da árvore sintática.
+No \autoref{conceitos}, descrevemos os conhecimentos necessários para entender BRDFs, incluindo quantificação de luminosidade e radiação, e  conceitos de compiladores, como tokenização e construção da árvore sintática.
 
-Especificamente na \autoref{radiometria}, tratamos dos conceitos fundamentais relacionados à luz, como a capacidade de um material refletir raios de luz e sua importância na computação gráfica e renderização. Destacamos a relação entre a intensidade de um pixel de imagem, a iluminação, a orientação da superfície e  a definição de funções de refletância, as BRDFs. 
-Já na \autoref{brdfmodels}, destacamos alguns modelos comuns de BRDFs.  
+O \autoref{revisao} faz um mapeamento sistemático, utilizando termos de busca para identificar trabalhos relevantes sobre o desenvolvimento de compiladores para traduzir BRDFs de \LaTeX  para \textit{shaders}. Os critérios de inclusão e exclusão são definidos para filtrar os resultados. Além disso, são descritos os resultados encontrados em diversas bases de dados, como IEEE Xplore, BDTD, CAPES, ACM Digital Library e Google Scholar, bem como a análise de repositórios online como GitHub e SourceForge. 
 
-A \autoref{compiladores} fornece uma visão abrangente dos elementos essenciais na criação de compiladores. Ela começa com a definição de conceitos fundamentais, como cadeias de símbolos e alfabetos, necessários para entender linguagens formais. Além disso, a seção discute a importância das gramáticas na definição de linguagens e descreve o processo de compilação, incluindo a análise léxica, a análise sintática e o Pratt \textit{Parsing}.
+No \autoref{metodologia} é descrito o método para desenvolver o compilador proposto. São definidas etapas para alcançar os objetivos especificados neste trabalho e casos de teste são projetados para validação. Este capítulo também inclui o plano de continuação deste trabalho, que detalha as etapas futuras com datas previstas.
 
-Na \autoref{shading}, é abordado o processo de \textit{shading} e o funcionamento do \textit{pipeline} de renderização da GPU. Nele, é descrito a transformação de vértices e a determinação da cor dos fragmentos, mostrando exemplos de código. 
 
-O \autoref{revisao} tem como parte principal um mapeamento sistemático , utilizando termos de busca para identificar trabalhos relevantes sobre o desenvolvimento de compiladores para traduzir BRDFs de \LaTeX  para \textit{shaders}. Os critérios de inclusão e exclusão são definidos para filtrar os resultados. Além disso, são descritos os resultados encontrados em diversas bases de dados, como IEEE Xplore, BDTD, CAPES, ACM Digital Library e Google Scholar, bem como a análise de repositórios online como GitHub e SourceForge. 
-
-No \autoref{metodologia} é descrito o método para desenvolver o compilador proposto, são definidas etapas para alcançar os objetivos especificados neste trabalho e casos de teste são projetados para validação. O plano de continuação, na \autoref{continuacao}, detalha as etapas futuras com datas previstas.
-
-O \autoref{resultadosiniciais} descreve a implementação de um analisador léxico, sintático e interpretador na linguagem de programação Odin, includindo o \textit{parsing} de Pratt. É priorizado simplicidade e clareza, com uma gramática  simples. O capítulo também detalha testes desenvolvidos para validar a implementação. A \autoref{raytracer} apresenta o desenvolvimento de um \textit{ray tracer} em Odin com a biblioteca RayLib, modelando raios e materiais para renderização de imagens.
+O \autoref{resultadosiniciais} descreve os resultados preliminares deste trabalho, que consistem na implementação de um analisador léxico, sintático e interpretador na linguagem de programação Odin \footnote{\url{https://odin-lang.org/}}, incluindo o método de análise sintática de Pratt. A linguagem desenvolvida possui uma gramática simplificada em comparação com \LaTeX, de forma a garantir o funcionamento dos algoritmos de análise léxica e sintática antes de avançar para uma linguagem mais complexa. O capítulo também descreve os testes elaborados para validar a implementação. Além disso, o capítulo apresenta o desenvolvimento de um \textit{ray tracer} em Odin, que modela raios e materiais para a renderização de imagens, utilizando a biblioteca Raylib \footnote{\url{https://www.raylib.com/}} para exibir as imagens renderizadas.
 
 
 
@@ -131,68 +126,97 @@ O \autoref{resultadosiniciais} descreve a implementação de um analisador léxi
 
 \chapter{Conceitos} \label{conceitos}
 
+Neste capítulo, abordaremos os conceitos fundamentais da interação da luz com os materiais na computação gráfica. Destacaremos a importância da reflexão da luz, explorando as BRDFs e modelos comuns. Além disso, discutiremos elementos-chave na criação de compiladores e o processo de shading na GPU.
+
+Especificamente na \autoref{radiometria}, tratamos dos conceitos fundamentais relacionados à luz, como a capacidade de um material refletir raios de luz e sua importância na computação gráfica e renderização. Destacamos a relação entre a intensidade de um pixel de imagem, a iluminação, a orientação da superfície e  a definição de funções de refletância, as BRDFs. 
+Já na \autoref{brdfmodels}, destacamos alguns modelos comuns de BRDFs.  
+
+A \autoref{compiladores} fornece uma visão abrangente dos elementos essenciais na criação de compiladores. Ela começa com a definição de conceitos fundamentais, como cadeias de símbolos e alfabetos, necessários para entender linguagens formais. Além disso, a seção discute a importância das gramáticas na definição de linguagens e descreve o processo de compilação, incluindo a análise léxica, a análise sintática e o Pratt \textit{Parsing}.
+
+Na \autoref{shading}, é abordado o processo de \textit{shading} e o funcionamento do \textit{pipeline} de renderização da GPU. Nele, é descrito a transformação de vértices e a determinação da cor dos fragmentos, mostrando exemplos de código. 
+
 \section{Radiometria} \label{radiometria}
 
-A radiometria trata de conceitos fundamentais relacionados à luz, ela abrange a capacidade de um material de superfície receber raios de luz de uma direção e refleti-los em outra 
+A radiometria trata de conceitos fundamentais relacionados à luz. Ela abrange a capacidade de um material de superfície receber raios de luz de uma direção e refleti-los em outra 
 \cite{radiometry_introduction}. No contexto da computação gráfica, a radiometria desempenha um papel crucial na compreensão do comportamento da luz em uma cena.
 
 Na renderização, a intensidade de um pixel da imagem depende de vários fatores, como iluminação, orientação e refletância da superfície. A orientação da superfície é determinada pelo vetor normal em um dado ponto, enquanto a refletância da superfície diz respeito às propriedades materiais da mesma.
 
 Para compreender e interpretar a intensidade de um pixel em uma imagem, é essencial compreender os conceitos radiométricos. A radiometria quantifica o brilho de uma fonte de luz, a iluminação de uma superfície, a radiância de uma cena e a refletância da superfície.
 
-Renderizar uma imagem envolve mais do que capturar cor \cite{radiometry_color}, requer conhecimento da intensidade de luz em cada ponto da imagem, isto é, a quantidade de luz incidente na cena que alcança a câmera. A radiometria ajuda na criação de sistemas e unidades para quantificar a radiação eletromagnética, considerando um modelo simplicado no qual a luz é tratadas como fótons que viajam em linha reta. 
+Renderizar uma imagem envolve mais do que capturar cor \cite{radiometry_color}, requer conhecimento da intensidade de luz em cada ponto da imagem, isto é, a quantidade de luz incidente na cena que alcança a câmera. A radiometria ajuda na criação de sistemas e unidades para quantificar a radiação eletromagnética, considerando um modelo simplicado no qual a luz é tratada como fótons que viajam em linha reta. 
 
 \subsection{Energia Radiante e Fluxo} \label{fluxo}
 
-Vários processos físicos convertem energia em fótons, como radiação de corpo negro e fusão nuclear em estrelas \cite{black_body_radiation}. Quantificar a energia radiante total de uma cena é equivalente a quantificar o brilho da imagem, que envolve entender a energia dos fótons colidindo com objetos.  A energia radiante $Q$ considera a energia total de todos os fótons atingindo a cena durante toda a duração, expressa pela fórmula abaixo, onde $c$ é a velocidade da luz, e $\lambda$ é o comprimento de onda. 
+Vários processos físicos convertem energia em fótons, como radiação de corpo negro e fusão nuclear em estrelas \cite{black_body_radiation}. Quantificar a energia radiante total de uma cena é necessario para quantificar o brilho da imagem, que envolve entender a energia dos fótons colidindo com objetos \cite{rendering_judice}.
 
-\begin{align*} 
-Q &= \frac{hc}{\lambda} \\
-  h &\approx 6,626 \times 10^{-34} J \cdot s (\text{Joules por segundo})\\
-  c &\approx 3,00  \times 10^{8} m \cdot s (\text{metros por segundo})\\
-  \lambda &\approx 390-700  \times 10^{-3} m (\text{metros})
-\end{align*}
+A \autoref{eq-radiant-energy} expressa a energia radiante \( Q \) \cite{pbr}, que considera a energia total de todos os fótons atingindo a cena durante toda a duração, onde:  \( c  \approx 3,00 \times 10^8 \) m/s (metros por segundo) é a velocidade da luz; \( \lambda \) representa o comprimento de onda, uma variável que abrange o espectro visível, aproximadamente entre \( 389 \times 10^{-3} \)m e \(700 \times 10^{-3} \)m; \( h \) denota a constante de Planck, aproximadamente \( 6,626 \times 10^{-34} \) J$\cdot$s (joule-segundo).
 
 
-É interessante observar a evolução da energia radiante ($Q$) ao longo do tempo, isso dá origem ao conceito de fluxo radiante $\phi$, que é medida em impactos de cada fóton por segundo em uma superficie, sua unidade é joules por segundo.
+\begin{equation}\label{eq-radiant-energy}
+Q = \frac{hc}{\lambda}
+\end{equation}
+
+
+
+É interessante observar a evolução da energia radiante ($Q$) ao longo do tempo. Isso dá origem ao conceito de fluxo radiante $\phi$, que é medida em impactos de cada fóton por segundo em uma superficie. Sua unidade é joules por segundo.
 
 \begin{align*} 
   \phi &= \frac{dQ}{dt} [\text{J/s}] 
 \end{align*}
 
-A irradiância $E$ quantifica o número de impactos dos fótons em uma superfície por segundo por unidade de área. Assim, temos uma métrica mais específica para renderizar imagens com precisão.
+A irradiância quantifica o número de impactos dos fótons em uma superfície por segundo por unidade de área. Mais precisamente, podemos definir a irradiância $E$ ao considerar o limite do fluxo radiante $\phi$ diferencial por área $A$ diferencial em um ponto $p$ \cite[~5.4.1]{pbr}. Assim, temos uma métrica mais específica para renderizar imagens com precisão.
 
 $$
- E(p) = \frac{d\phi(p)}{dA} [\text{J/s} \cdot m^2]
+ E(p) = \frac{d\phi(p)}{dA} \left[ \frac{\text{J}} {s\cdot m^2} \right]
 $$
 
 
 \subsection{Radiância e BRDF} \label{brdf}
 
-A radiância, denotada como $L$, caracteriza a distribuição da luz em um ambiente ao longo de um raio definido por um ponto de origem e uma direção \cite{radiance_definition}. A radiância diz respeito ao cálculo do fluxo por unidade de área em uma superfície considerando toda a luz incidente de todas as direções $\omega$ possiveis em um ponto $p$ demonstrada como na \autoref{radiance-img}.
+A radiância,  denotada como \( L \), caracteriza a densidade de fluxo por unidade de área \( A \), por ângulo sólido \(\omega \) (ver \autoref{radiance-img} para representação visual). Os ângulos sólidos representam a projeção da região no espaço sobre uma esfera unitária centrada em \( p \), conforme a \autoref{solid-angle}. Ângulo sólido é a medida da área ocupada por uma região tridimensional conforme vista de um ponto específico \( p \). É expresso em esteradianos (sr), e são frequentemente representados pelo símbolo \( \omega \).
+
+Assim, é possível definir radiância conforme a \autoref{eq-radiance}. Ao invés de usar diretamente a área \( A \), a convenção estabelecida nessa definição é utilizar a projeção da área em um plano perpendicular à direção da câmera \cite{weyrich}.
+
+\begin{equation} \label{eq-radiance}
+  L = \frac{d\Phi}{d\omega \, dA_\perp} \, \left[W \cdot m^{-2} \cdot \text{sr}^{-1}\right]
+\end{equation}
+
 
 \begin{figure}[h]
 	\caption{\label{radiance-img} \small Visualização da radiancia em uma direção específica do hemisfério}
 	\begin{center}
 	    \includegraphics[scale=0.5]{./Imagens/irradiance_hemisphere.png}
 	\end{center}
-  \legend{ Fonte: \cite{video_radiometry}}
+  \legend{ \small Fonte: \cite{pbr}}
 \end{figure}
 
 
-\begin{align*} 
-  L(p,{\omega}) &= \frac{dE_{\omega}(p)}{d{\omega}} \qquad \left[\frac{J}{s\cdot m^2\cdot \text{sr}}\right]\\ 
-E_{\omega} &\text{ é função de irradiancia numa direção ${\omega}$ }  \end{align*}
+\begin{figure}[htb]
+	\caption{\label{solid-angle} \small Ângulo sólido s do objeto B visto pelo ponto p}
+	\begin{center}
+	    \includegraphics[scale=0.5]{./Imagens/solid_angle.png}
+	\end{center}
+  \legend{ \small Fonte: \cite{pbr}}
+\end{figure}
 
 
-Para acomodar diferentes orientações da superfície e direção do raio, aplicamos o fator $\cos(\theta)$, tal que $\theta$ é o angulo entre a normal da superficie e a direção do ${\omega}$ para obter a formula:
-\begin{align*} 
-  L(p,{\omega}) &= \frac{dE(p)}{d{\omega} \cos(\theta)} = \frac{d^2\phi(p)}{dAd{\omega} \cos(\theta)}
-\end{align*}
+% \begin{align*} 
+%   L(p,{\omega}) &= \frac{dE_{\omega}(p)}{d{\omega}} \qquad \left[\frac{J}{s\cdot m^2\cdot \text{sr}}\right]\\ 
+% E_{\omega} &\text{ é função de irradiancia numa direção ${\omega}$ } 
+% \end{align*}
 
-A radiância pode fornecer informação sobre o quanto um ponto específico está iluminado na direção da câmera, ela depende não apenas da direção do raio que incide, mas também das propriedades de refletância da superfície. E, no contexto de renderização, a radiância de uma superfície na cena se correlaciona com a irradiância de um pixel em uma imagem da seguinte forma: 
+Equivalentemente, podemos definir radiancia para diferentes orientações da superfície e direção do raio ao introduzir o fator $\cos(\theta)$, tal que $\theta$ é o angulo entre a normal da superficie e a direção do ${\omega}$ \cite[5.4.1]{pbr}. Essa definição é dada pela \autoref{eq-radiance-2}. 
+
+\begin{equation} \label{eq-radiance-2}
+  L(p,{\omega}) = \frac{d^2\phi(p)}{dAd{\omega} \cos(\theta)} = \frac{dE(p)}{d{\omega} \cos(\theta)} 
+\end{equation}
+
+
+A radiância pode fornecer informação sobre o quanto um ponto específico está iluminado na direção da câmera. Ela depende não apenas da direção do raio que incide, mas também das propriedades de refletância da superfície. E, no contexto de renderização, a radiância de uma superfície na cena se correlaciona com a irradiância de um pixel em uma imagem pela \autoref{eq-radiance-2}. Isolando o termo $E(p)$, encontramos essa relação de maneira explicita:
 
 \begin{align*}
+ \label{ep-Ep}
   &E(p) = \int_{H^2}{L(p,{\omega})\cos(\theta)d{\omega}}\\
   &H^2 \text{ é o hemisfério no plano tangente à superficie no ponto $p$}
 \end{align*}
@@ -202,63 +226,74 @@ A principal funcionalidade de uma renderizador fotorrealista é estimar a radian
 
 \begin{align*}
   &L_o(p, {\omega}_o) = L_e(p, {\omega}_o) + 
-\int_{H^2}F(p, {\omega}_i, {\omega}_o){L_i(p,{\omega}_i)\cos(\theta)d{\omega}_i}\\
+\int_{H^2}f(p, {\omega}_i, {\omega}_o){L_i(p,{\omega}_i)\cos(\theta_i)d{\omega}_i}\\
     &L_o \text{ é radiancia de saída (\textit{outgoing})}\\
-    &L_e \text{ é radiancia emitida (i.e. fonte de luz)}\\
-    &L_i \text{ é radiancia incidente}\\
+    &L_e \text{ é radiancia emitida pela superficie (i.e. fonte de luz)}\\
+    &L_i \text{ é radiancia incidente na superficie}\\
     &{\omega}_i \text{ é a direção incidente}\\
     &{\omega}_o \text{ é a direção de saída}\\
     &H^2 \text{ são todas as direções no hemisfério no ponto $p$}\\
-    &\theta \text{ angulo entre direção incidente e a normal da superficie}\\
-    &F \text{ função de refletancia}\\
+    &\theta_i \text{ angulo entre direção incidente e a normal da superficie}\\
+    &f \text{ função de refletancia}\\
 \end{align*}
 
-A Função de Distribuição Bidirecional de Reflectância (BRDF) descreve como a luz reflete de uma superficie em diferentes direções afetando a radiância de saída \cite{overview_brdf}. Assim, BRDFs encapsulam as propriedades de reflexão de um material, considerando fatores como a rugosidade da superfície, o ângulo de incidência e o ângulo de reflexão. Formalmente uma BRDF pode ser definida por $F({\omega}_i, {\omega}_o)$, onde ${\omega}_i$ é a direção indicente de luz e ${\omega}_o$ é a direção de saída. Para BRDFs fisicamente realistas algumas propriedades devem ser respeitadas.
+A Função de Distribuição Bidirecional de Reflectância (BRDF) descreve como a luz reflete de uma superficie em diferentes direções afetando a radiância de saída \cite{overview_brdf}. Assim, BRDFs encapsulam as propriedades de reflexão de um material, considerando fatores como a rugosidade da superfície, o ângulo de incidência e o ângulo de reflexão. Formalmente uma BRDF pode ser definida por $f({\omega}_i, {\omega}_o)$, onde ${\omega}_i$ é a direção indicente de luz e ${\omega}_o$ é a direção de saída. Para BRDFs fisicamente realistas algumas propriedades devem ser respeitadas \cite[5.6]{pbr}.
 
 \begin{itemize}
-  \item A propriedade de positividade, $ F(\omega_i, \omega_o) \geq 0 $, que garante não existência de energia negativa. 
+  \item A propriedade de positividade, $f(\omega_i, \omega_o) \geq 0 $, que garante não existência de energia negativa. 
 
-  \item A reciprocidade de Helmhotz, $F(\omega_i, \omega_o) = F(\omega_o, \omega_i)$, é usada na renderização para otimizar o traçado de raios. Em vez de traçar os raios da fonte de luz à câmera, podemos traçar os raios da câmera à fonte de luz, evitando desperdício computacional em raios que não contribuem para a intensidade de um pixel.
+  \item A reciprocidade de Helmhotz, $f(\omega_i, \omega_o) = f(\omega_o, \omega_i)$, é o princípio que indica que a função de refletância de uma superfície permanece inalterada quando os ângulos de incidência e reflexão da luz são trocados. Isso é utilizado na otimização do traçado de raios durante a renderização, permitindo traçar os raios da câmera para a fonte de luz. Essa abordagem evita o desperdício computacional em raios que não contribuem significativamente para a intensidade de um pixel na imagem final.
 
-  \item A conservação de energia, expressa por $\forall \omega_i, \int_{H^2}{F(\omega_i, \omega_o)cos(\theta_o) d\omega_o} \leq 1$, implica que parte da energia pode ser absorvida, transformando-se em outras formas de energia, como calor. Portanto, a soma infinitesimal pode atingir no máximo 1, mas nunca ultrapassá-la.
+  \item A conservação de energia, expressa por $\forall \omega_i, \int_{H^2}{f(\omega_i, \omega_o)cos(\theta_o) d\omega_o} \leq 1$, implica que parte da energia pode ser absorvida, transformando-se em outras formas de energia, como calor. Portanto, a soma infinitesimal pode atingir no máximo 1, mas nunca ultrapassá-la.
 \end{itemize}
 
 \section{Modelos de BRDFs } \label{brdfmodels}
-Apresento nas proximas seções salgums modelos comuns de BRDFs  na literatura \cite{overview_brdf}.
+As próximas seções apresentam algums modelos comuns de BRDFs  na literatura \cite{overview_brdf}.
 
 
 \subsection{BRDF Pura Especular}
-Uma superfície puramente especular reflete a luz apenas em uma direção, seguindo a lei fisica da reflexão \cite{laws_of_refletion}, ela produz reflexões nítidas, semelhantes a espelhos. A BRDF para essa superfície é frequentemente representada pela função $F(\omega_i, \omega_o) = k_s \cdot \delta(\omega_i - \omega_o)$, onde $\omega_i$ é a direção da luz incidente, $\omega_o$ é a direção refletida e $\delta$ é a função delta de Dirac que garante que toda a luz incidente seja refletida na direção perfeitamente espelhada como na \autoref{specular}. Esse tipo de superfície é comum em materiais como metal polido ou vidro.
+Uma superfície puramente especular reflete a luz apenas em uma direção, seguindo a lei fisica da reflexão \cite{laws_of_refletion}, ela produz reflexões nítidas, semelhantes a espelhos. A BRDF para essa superfície é frequentemente representada pela \autoref{eq-specular}, onde $\omega_i$ é a direção da luz incidente, $\omega_o$ é a direção refletida e $\delta$ é a função delta de Dirac que garante que toda a luz incidente seja refletida na direção perfeitamente espelhada como na \autoref{specular}. Esse tipo de superfície é comum em materiais como metal polido ou vidro.
+
+\begin{equation} \label{eq-specular}
+f(\omega_i, \omega_o) = k_s \cdot \delta(\omega_i - \omega_o)
+\end{equation}
 
 \begin{figure}[H]
-	\caption{\label{specular} \small Reflexão especular}
+	\caption{\label{specular} \small Reflexão especular.}
 	\begin{center}
 	    \includegraphics[scale=0.5]{./Imagens/specular-2d.png}
 	\end{center}
-	\legend{ Note que  angulo de saída é identico ao angulo de entrada em relação à normal da superficie}
+	\legend{ \footnotesize O angulo de saída é identico ao angulo de entrada em relação à normal da superficie.
+  Em vermelho está o raio indicente, e em azul o raio de saída.
+  Fonte: Autor}
 \end{figure}
 
 \subsection{BRDF Difusa Ideal}
-Uma BRDF difusa ideal reflete a luz incidente uniformemente em todas as direções, sem preferência por ângulos específicos. É representada pela função $f(\omega_i, \omega_o) = \frac{\rho_d}{\pi} \cdot \cos \theta$, onde $\rho_d$ é o albedo da superfície e $\theta$ é o ângulo entre a direção da luz incidente e a normal da superfície. O termo cosseno garante que a radiância refletida seja proporcional ao cosseno do ângulo entre a direção da luz incidente e a normal da superfície como na \autoref{diffuse}. Esse modelo pode representar superfícies como tinta fosca ou papel.
+Uma BRDF difusa ideal reflete a luz incidente uniformemente em todas as direções, sem preferência por ângulos específicos. É representada pela função $f$ na \autoref{eq-diffuse}, onde $\rho_d$ é o albedo da superfície e $\theta$ é o ângulo entre a direção da luz incidente e a normal da superfície. O termo cosseno garante que a radiância refletida seja proporcional ao cosseno do ângulo entre a direção da luz incidente e a normal da superfície como na \autoref{diffuse}. Esse modelo pode representar superfícies como tinta fosca ou papel.
 
+\begin{equation}\label{eq-diffuse}
+  
+f(\omega_i, \omega_o) = \frac{\rho_d}{\pi} \cdot \cos \theta
+
+\end{equation}
 
 \begin{figure}[H]
-	\caption{\label{diffuse} \small Reflexão Difusa}
+	\caption{\label{diffuse} \small Reflexão Difusa. }
 	\begin{center}
 	    \includegraphics[scale=0.5]{./Imagens/diffuse-2d.png}
 	\end{center}
-	\legend{ Note que os raios refletidos não dependem o angulo de entrada}
+	\legend{ \footnotesize Note que os raios refletidos não dependem o angulo de entrada. Fonte: Autor }
 \end{figure}
 
 \subsection{BRDF \textit{Glossy}}
-Uma superfície pode exibir propriedades de reflexão tanto especulares quanto difusas, como na \autoref{glossy}. BRDF para uma superfície brilhante é frequentemente representada por uma combinação de termos especulares e difusos, como o modelo de Blinn-Phong \cite{blinn_phong}
+Uma superfície pode exibir propriedades de reflexão tanto especulares quanto difusas, como na \autoref{glossy}. Uma BRDF para uma superfície brilhante é frequentemente representada por uma combinação de termos especulares e difusos, como o modelo de Blinn-Phong \cite{blinn_phong}
 
 \begin{figure}[H]
-  \caption{\label{glossy} \small Reflexão \textit{glossy}}
+  \caption{\label{glossy} \small Reflexão \textit{glossy}. }
 	\begin{center}
 	    \includegraphics[scale=0.5]{./Imagens/glossy-2d.png}
 	\end{center}
-	\legend{Apresenta tanto reflexão difusa quando especular}
+	\legend{\footnotesize  Fonte: Autor}
 \end{figure}
 
 
@@ -270,6 +305,7 @@ Uma superfície retro-refletora reflete a luz incidente de volta na direção de
 	\begin{center}
 	    \includegraphics[scale=0.5]{./Imagens/retro-reflection-2d.png}
 	\end{center}
+	\legend{\footnotesize  Fonte: Autor}
 \end{figure}
 
 
@@ -290,7 +326,7 @@ Um compilador pode ser visto como um transformação entre linguagens $ L_1 $ e 
 
 \subsection{Gramática} \label{gramatica}
 
-Para auxiliar na criação de um compilador é necessario entender as regras que auxiliam na validação e geração da linguagem de interesse, esse entedimento pode ser alcaçando pela gramática. Uma gramática $ G $ é um sistema formal composto por um conjunto de regras de produção que especificam como cadeias válidas na linguagem podem ser geradas \cite{language_theory}. Ela inclui terminais, não-terminais, regras de produção e um símbolo inicial.
+Para auxiliar na criação de um compilador é necessario entender as regras que auxiliam na validação da linguagem de entrada, esse entedimento pode ser alcaçando pela gramática. Uma gramática $ G $ é um sistema formal composto por um conjunto de regras de produção que especificam como cadeias válidas na linguagem podem ser geradas \cite{language_theory}. Ela inclui terminais, não-terminais, regras de produção e um símbolo inicial.
 
 \begin{itemize}
   \item Terminais: são os símbolos básicos a partir dos quais as cadeias são formadas. Eles representam as unidades elementares da sintaxe da linguagem.
@@ -318,7 +354,7 @@ Um tipo comum de gramática usado na definição de linguagens é a gramática l
 
 O processo de gerar uma cadeia na linguagem definida por uma gramática é chamado de derivação. Isso envolve aplicar regras de produção sucessivamente, começando pelo símbolo inicial $S$ até restarem apenas símbolos terminais.
 
-Uma árvore sintática é uma representação gráfica do processo de derivação, onde cada nó representa um símbolo na cadeia e cada aresta representa a aplicação de uma regra de produção. Em código, essa árvore é gerada e usada como representação intermediária que auxilia na geração na linguagem alvo $L_2$.
+Uma árvore sintática é uma representação gráfica do processo de derivação, onde cada nó representa um símbolo na cadeia. As aresta representam a aplicação de uma regra de produção. Em código, essa árvore é gerada e usada como representação intermediária auxiliando na geração na linguagem alvo $L_2$.
 
 
 \subsection{Análise Léxica}
@@ -328,9 +364,9 @@ A análise léxica, também conhecida como \textit{lexing} ou \textit{tokenizati
 A análise sintática é a segunda fase do processo de compilação, na qual os tokens gerados pela análise léxica são organizados e verificados quanto à conformidade com a gramática da linguagem. Essa etapa envolve a construção de uma árvore sintática, ou estrutura de dados equivalente, que representa a estrutura hierárquica das expressões e instruções do programa. O analisador sintático utiliza regras de produção gramatical para validar a sintaxe do código fonte e identificar possíveis erros.
 
 \subsection{Pratt Parsing}
-O Pratt Parsing, introduzida por Vaughan Pratt, é uma técnica de análise sintática recursiva que permite analisar expressões com precedência de operadores de forma eficiente e sem ambiguidades \cite{pratt}. Uma das características distintivas é determinar ordem de avaliação das expressões, ao contrário da análise descendente recursiva tradicional, na qual cada não-terminal possui uma função de \textit{parsing}, a análise Pratt associa funções de manipulação (\textit{handlers}) com \textit{tokens}.
+O Pratt Parsing, introduzida por Vaughan Pratt, é uma técnica de análise sintática recursiva que permite analisar expressões com precedência de operadores de forma eficiente e sem ambiguidades \cite{pratt}. Uma das suas características distintivas é determinar a ordem de avaliação das expressões. Ao contrário da análise descendente recursiva tradicional, na qual cada não-terminal possui uma função de \textit{parsing}, a análise Pratt associa funções de manipulação (\textit{handlers}) com \textit{tokens}.
 
-A precedência das expressões é definida por meio de uma tabela, na qual cada operador é associado a um valor que permita o \textit{parser} decidir dinamicamente a ordem de avaliação das expressões com base nos operadores encontrados durante a análise. Essa abordagem simplifica significativamente a implementação do parser e elimina a necessidade de criar uma grammática que encapsula a precendencia em sua definição, também evita recursão profunda para lidar com diferentes níveis de precedência.
+A precedência das expressões é definida por meio de uma tabela, na qual cada operador é associado a um valor que permita o \textit{parser} decidir dinamicamente a ordem de avaliação das expressões com base nos operadores encontrados durante a análise. Essa abordagem simplifica significativamente a implementação do parser e elimina a necessidade de criar uma gramática que encapsula a precendencia em sua definição. Ela também evita recursão profunda para lidar com diferentes níveis de precedência.
 
 \subsubsection{Árvores Inclinadas}
 

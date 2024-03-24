@@ -1,3 +1,12 @@
+# Questions
+
+I understand that radians needs a starting line and know is counter or clock wise  to inform exact position. Sterradian though, does not define position or exacty shape of the area, is just a number to say how much of area is covered
+
+Solid angles are a way to measure the area occupied by a tridimensional region as viewed from
+a given point p. This way, given some 3D region in space, its solid angle is the area of its
+projection over a unit sphere around p (see Figure 2.1). The solid angles are measured in
+steradians (sr), and are usually represented by the symbol ω
+
 # Radiometry
 
 
