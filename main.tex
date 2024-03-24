@@ -263,18 +263,15 @@ f(\omega_i, \omega_o) = k_s \cdot \delta(\omega_i - \omega_o)
 	\begin{center}
 	    \includegraphics[scale=0.5]{./Imagens/specular-2d.png}
 	\end{center}
-	\legend{ \footnotesize O angulo de saída é identico ao angulo de entrada em relação à normal da superficie.
-  Em vermelho está o raio indicente, e em azul o raio de saída.
+	\legend{ \footnotesize Em vermelho está o raio indicente, e em azul o raio de saída.
   Fonte: Autor}
 \end{figure}
 
 \subsection{BRDF Difusa Ideal}
 Uma BRDF difusa ideal reflete a luz incidente uniformemente em todas as direções, sem preferência por ângulos específicos. É representada pela função $f$ na \autoref{eq-diffuse}, onde $\rho_d$ é o albedo da superfície e $\theta$ é o ângulo entre a direção da luz incidente e a normal da superfície. O termo cosseno garante que a radiância refletida seja proporcional ao cosseno do ângulo entre a direção da luz incidente e a normal da superfície como na \autoref{diffuse}. Esse modelo pode representar superfícies como tinta fosca ou papel.
 
-\begin{equation}\label{eq-diffuse}
-  
+\begin{equation} \label{eq-diffuse}
 f(\omega_i, \omega_o) = \frac{\rho_d}{\pi} \cdot \cos \theta
-
 \end{equation}
 
 \begin{figure}[H]
@@ -326,7 +323,7 @@ Um compilador pode ser visto como um transformação entre linguagens $ L_1 $ e 
 
 \subsection{Gramática} \label{gramatica}
 
-Para auxiliar na criação de um compilador é necessario entender as regras que auxiliam na validação da linguagem de entrada, esse entedimento pode ser alcaçando pela gramática. Uma gramática $ G $ é um sistema formal composto por um conjunto de regras de produção que especificam como cadeias válidas na linguagem podem ser geradas \cite{language_theory}. Ela inclui terminais, não-terminais, regras de produção e um símbolo inicial.
+Para auxiliar na criação de um compilador é necessario entender as regras que auxiliam na validação da linguagem de entrada, esse entedimento pode ser alcaçando pela gramática. Uma gramática $G$ é um sistema formal composto por um conjunto de regras de produção que especificam como cadeias válidas na linguagem podem ser geradas \cite{language_theory}. Ela inclui terminais, não-terminais, regras de produção e um símbolo inicial.
 
 \begin{itemize}
   \item Terminais: são os símbolos básicos a partir dos quais as cadeias são formadas. Eles representam as unidades elementares da sintaxe da linguagem.
@@ -415,11 +412,18 @@ Nesta fase, fazemos a transição da representação intermediária  da linguage
 
 Dado um programa $a \in L_1$ existem varios programas $b_{i=1,2,3,...} \in L_2$ que possui estrutura semanticamente equivalentes à $a$. Ao explorar esse conjunto, é possivel escolher um $b_j \in L_2$ tal que esse programa seja otimizado em algum sentido, como uso eficiente de memoria ou executar menos instruções de \textit{hardware}. Nosso foco neste trabalho está na tradução semanticamente correta, sem envolver explorão das saídas  equivalentes.
 
-Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) para \( L_2 \):
+Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \), \LaTeX, para \( L_2 \), GLSL, o cálculo abaixo pertence a $L_1$. 
 
 \[
  \quad \mathbf{v} = (\mathbf{a} + \mathbf{b}) \cdot \mathbf{c} - (\mathbf{d} \times \mathbf{e})
 \]
+
+O texto usado para compilar o calculo acima:
+\begin{verbatim}
+ \quad \mathbf{v} = (\mathbf{a} + \mathbf{b}) \cdot \mathbf{c} - (\mathbf{d} \times \mathbf{e})
+\end{verbatim}
+
+
 
 Após a tradução da expressão matematica para \( L_2 \), o cálculo pode ser convertido para o trecho de programa abaixo. Esse código é válido na linguagem GLSL.
 
