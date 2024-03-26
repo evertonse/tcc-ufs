@@ -126,14 +126,14 @@ O \autoref{resultadosiniciais} descreve os resultados preliminares deste trabalh
 
 \chapter{Conceitos} \label{conceitos}
 
-Neste capítulo, abordaremos os conceitos fundamentais da interação da luz com os materiais na computação gráfica. Destacaremos a importância da reflexão da luz, explorando as BRDFs e modelos comuns. Além disso, discutiremos elementos-chave na criação de compiladores e o processo de shading na GPU.
+Neste capítulo, abordamos os conceitos fundamentais da interação da luz com os materiais na computação gráfica. Destacamos a importância da reflexão da luz, explorando as BRDFs e modelos comuns. Além disso, discutimos elementos-chave na criação de compiladores e o processo de \textit{shading} na GPU.
 
 Especificamente na \autoref{radiometria}, tratamos dos conceitos fundamentais relacionados à luz, como a capacidade de um material refletir raios de luz e sua importância na computação gráfica e renderização. Destacamos a relação entre a intensidade de um pixel de imagem, a iluminação, a orientação da superfície e  a definição de funções de refletância, as BRDFs. 
 Já na \autoref{brdfmodels}, destacamos alguns modelos comuns de BRDFs.  
 
 A \autoref{compiladores} fornece uma visão abrangente dos elementos essenciais na criação de compiladores. Ela começa com a definição de conceitos fundamentais, como cadeias de símbolos e alfabetos, necessários para entender linguagens formais. Além disso, a seção discute a importância das gramáticas na definição de linguagens e descreve o processo de compilação, incluindo a análise léxica, a análise sintática e o Pratt \textit{Parsing}.
 
-No \autoref{shading}, é abordado o processo de \textit{shading} e o funcionamento do \textit{pipeline} de renderização da GPU. Nele, é descrito a transformação de vértices e a determinação da cor dos fragmentos, mostrando exemplos de código. 
+Na \autoref{shading}, é abordado o processo de \textit{shading} e o funcionamento do \textit{pipeline} de renderização da GPU. Nele, é descrito a transformação de vértices e a determinação da cor dos fragmentos, mostrando exemplos de código. 
 
 \section{Radiometria} \label{radiometria}
 
@@ -174,7 +174,7 @@ $$
 
 \subsection{Radiância e BRDF} \label{brdf}
 
-A radiância,  denotada como \( L \), caracteriza a densidade de fluxo por unidade de área \( A \), por ângulo sólido \(\omega \) (ver \autoref{radiance-img} para representação visual). Os ângulos sólidos representam a projeção da região no espaço sobre uma esfera unitária centrada em \( p \), conforme a \autoref{solid-angle}.   ngulo sólido é a medida da área ocupada por uma região tridimensional conforme vista de um ponto específico \( p \). É expresso em esterradianos (sr), e são frequentemente representados pelo símbolo \( \omega \).
+A radiância,  denotada como \( L \), caracteriza a densidade de fluxo por unidade de área \( A \), por ângulo sólido \(\omega \) (ver \autoref{radiance-img} para representação visual). Os ângulos sólidos representam a projeção da região no espaço sobre uma esfera unitária centrada em \( p \), conforme a \autoref{solid-angle}.  Ângulo sólido é a medida da área ocupada por uma região tridimensional conforme vista de um ponto específico \( p \). É expresso em esterradianos (sr), e são frequentemente representados pelo símbolo \( \omega \).
 
 Assim, é possível definir radiância conforme a \autoref{eq-radiance}. Ao invés de usar diretamente a área \( A \), a convenção estabelecida nessa definição é utilizar a projeção da área em um plano perpendicular à direção da câmera \cite{weyrich}.
 
@@ -193,7 +193,7 @@ Assim, é possível definir radiância conforme a \autoref{eq-radiance}. Ao inv�
 
 
 \begin{figure}[htb]
-	\caption{\label{solid-angle} \small   ngulo sólido s do objeto B visto pelo ponto p}
+  \caption{\label{solid-angle} \small   Ângulo sólido s do objeto B visto pelo ponto p}
 	\begin{center}
 	    \includegraphics[scale=0.5]{./Imagens/solid_angle.png}
 	\end{center}
@@ -222,7 +222,7 @@ A radiância pode fornecer informação sobre o quanto um ponto específico est�
 \end{align*}
 
 
-A principal funcionalidade de uma renderizador fotorrealista é estimar a radiancia em um ponto $p$ numa dada direção ${\omega}_o$. Essa radiância é dada pela equação de renderização apresentada por \cite{rendering_equation}. Note que essa equação envolve um termo de radiância recursivo, o caso base ocorre quando não há mais o termo recursivo, isto é, um fonte de luz na qual sua radiância é contribuída apenas por radiância emitida $L_e$.
+A principal funcionalidade de um renderizador fotorrealista é estimar a radiancia em um ponto $p$ numa dada direção ${\omega}_o$. Essa radiância é dada pela equação de renderização apresentada por \cite{rendering_equation}. Note que essa equação envolve um termo de radiância recursivo, o caso base ocorre quando não há mais o termo recursivo, isto é, um fonte de luz na qual sua radiância é contribuída apenas por radiância emitida $L_e$.
 
 \begin{align*}
   &L_o(p, {\omega}_o) = L_e(p, {\omega}_o) + 
@@ -279,7 +279,7 @@ f(\omega_i, \omega_o) = \frac{\rho_d}{\pi} \cdot \cos \theta
 	\begin{center}
 	    \includegraphics[scale=0.5]{./Imagens/diffuse-2d.png}
 	\end{center}
-	\legend{ \footnotesize Note que os raios refletidos não dependem o angulo de entrada. Fonte: Autor }
+	\legend{ \footnotesize Note que os raios refletidos não dependem do ângulo de entrada. Fonte: Autor }
 \end{figure}
 
 \subsection{BRDF \textit{Glossy}}
@@ -310,7 +310,7 @@ Uma superfície retro-refletora reflete a luz incidente de volta na direção de
 
 \subsection{Cadeia de Símbolos e Alfabeto} \label{símbolos}
 
-Um \textbf{cadeia de símbolos} é uma sequência finita de símbolos retirados de um alfabeto $ \Sigma $. Formalmente, ums cadeia $ w $ é representada como $ [w_1, w_2, ..., w_n] $, onde cada $ w_i $ pertence ao alfabeto $ \Sigma $. O \textbf{alfabeto} $ \Sigma $ é um conjunto finito de símbolos distintos usados para construir cadeias em uma linguagem. Ele define os blocos de construção a partir dos quais cadeias válidas na linguagem são formadas.
+Um \textbf{cadeia de símbolos} é uma sequência finita de símbolos retirados de um alfabeto $ \Sigma $. Formalmente, uma cadeia $ w $ é representada como $ [w_1, w_2, ..., w_n] $, onde cada $ w_i $ pertence ao alfabeto $ \Sigma $. O \textbf{alfabeto} $ \Sigma $ é um conjunto finito de símbolos distintos usados para construir cadeias em uma linguagem. Ele define os blocos de construção a partir dos quais cadeias válidas na linguagem são formadas.
 
 \subsection{Definições de Linguagens} \label{linguagem}
 
@@ -410,7 +410,7 @@ Por fim, \textbf{precedencia\_anterior} representa a precedência do token anter
 
 Nesta fase, fazemos a transição da representação intermediária  da linguagem origem \( L_1 \)  para  a linguagem de destino \( L_2 \), o processo que envolve traduzir construções de \( L_1 \) para equivalentes em $L_2$. Podemos realizar essa tradução ao percorrer recursivamente os nós da árvore sintática usando as informações contidas nesses nós para gerar partes do programa final em $L_2$.
 
-Dado um programa $a \in L_1$ existem varios programas $b_{i=1,2,3,...} \in L_2$ que possui estrutura semanticamente equivalentes à $a$. Ao explorar esse conjunto, é possivel escolher um $b_j \in L_2$ tal que esse programa seja otimizado em algum sentido, como uso eficiente de memoria ou executar menos instruções de \textit{hardware}. Nosso foco neste trabalho está na tradução semanticamente correta, sem envolver exploração das saídas  equivalentes.
+Dado um programa $a \in L_1$ existem vários programas $b_{i=1,2,3,...} \in L_2$ que possui estrutura semanticamente equivalentes à $a$. Ao explorar esse conjunto, é possível escolher um $b_j \in L_2$ tal que esse programa seja otimizado em algum sentido, como uso eficiente de memória ou executar menos instruções de \textit{hardware}. Nosso foco neste trabalho está na tradução semanticamente correta, sem envolver exploração das saídas  equivalentes.
 
 Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) (\LaTeX), para \( L_2 \) ( GLSL). O cálculo abaixo pertence a $L_1$. O \autoref{cod-fonte-calculo} mostra o código fonte do cálculo. 
 
@@ -445,9 +445,9 @@ Após a tradução da expressão matemática para \( L_2 \), o cálculo pode ser
 A interação com as GPUs é facilitada por meio de uma 
 API, sendo o OpenGL uma API padrão para o uso de funções na GPU \cite{opengl_spec}. O \textit{pipeline} de renderização do OpenGL é composto por várias etapas, incluindo definição de dados de vértices, \textit{shaders} de vértice e fragmento, \textit{shaders} de tesselação e geometria opcionais, configuração de primitivas, recorte e rasterização.
 
-Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. As etapas mais importantes para o nosso trabalho são os \textit{shaders} de fragmento e de vértice, representados na \autoref{fig-pipeline}, os quais executam a manipulação dos vértices e determinam cores de pixels, respectivamente.
+% Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. As etapas mais importantes para o nosso trabalho são os \textit{shaders} de fragmento e de vértice, representados na \autoref{fig-pipeline}, os quais executam a manipulação dos vértices e determinam cores de pixels, respectivamente.
 
-Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. Uma representação visual desse processo pode ser observada na Figura \autoref{fig-pipeline}. Nela, é representado que o CPU envia os dados da cena para a GPU, que utiliza essas informações nos \textit{shaders} de vértice e fragmento. O shader de vértice manipula os vértices da cena, enquanto o shader de fragmento determina as cores dos pixels. Além disso, a CPU também pode enviar variáveis uniformes (\textit{uniform variables}) para os shaders, que são essenciais para a etapa de renderização e contribuem para a geração da imagem final.
+Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. Uma representação visual desse processo pode ser observada na Figura \autoref{fig-pipeline}. Nela, é representado o CPU enviando os dados da cena para a GPU, que utiliza essas informações nos \textit{shaders} de vértice e fragmento. O \textit{shader} de vértice manipula os vértices da cena, enquanto o shader de fragmento determina as cores dos pixels. Os fragmentos são unidades de processamento de imagem individuais, correspondendo a pontos discretos na tela onde a cor final será determinada. Além disso, a CPU também pode enviar variáveis uniformes (\textit{uniform variables}) para os shaders, que são essenciais para a etapa de renderização e contribuem para a geração da imagem final.
 
 \begin{figure}[H]
 	\caption{\label{fig-pipeline}\textit{pipeline} Grafico}
@@ -485,7 +485,7 @@ void main() {
 
 \subsection{Shader de Fragmento}
 
-O \textit{shader} de fragmento opera sobre os fragmentos produzidos pela etapa de rasterização. Sua principal responsabilidade é determinar a cor final de cada fragmento com base na iluminação, texturização e propriedades da superfície. Uma possível interpretação é que esse programa é repetido para todos os pixeis da imagem paralelamente.  Esse programa recebe dados interpolados, como vértices e normais, ou seja, cada instância deste programa possui entradas potencialmente diferentes uma das outras. Na API OpenGL, valores como normais e cores são interpolados usando coordenadas baricêntrica.
+O \textit{shader} de fragmento opera sobre os fragmentos produzidos pela etapa de rasterização. Sua principal responsabilidade é determinar a cor final de cada fragmento com base na iluminação, texturização e propriedades da superfície. Uma possível interpretação é que esse programa é repetido para todos os pixels da imagem paralelamente.  Esse programa recebe dados interpolados, como vértices e normais, ou seja, cada instância deste programa possui entradas potencialmente diferentes uma das outras. Na API OpenGL, valores como normais e cores são interpolados usando coordenadas baricêntrica.
 
 As BRDFs devem ser implementadas nesse estágio do pipeline para atingir um nível de \textit{shading} mais preciso, pois temos mais dados do que os definidos na geometria, devido à interpolação. Isso resulta em um nível de detalhamento potencialmente maior, considerando uma transição mais suave de um ponto para outro dentro de um triângulo,  como representado na \autoref{better-with-fragment}.
 
@@ -500,7 +500,7 @@ As BRDFs devem ser implementadas nesse estágio do pipeline para atingir um nív
 
 \chapter{Revisão Bibliográfica} \label{revisao}
 
-Para esta seção, será conduzida uma revisão literária abrangente com o objetivo de explorar trabalhos relacionados ao desenvolvimento de compiladores para tradução de BRDFs expressas em \LaTeX  para a linguagem de \textit{shading}, empregando, técnicas de \textit{parsing}. O processo de busca será conduzido em duas etapas distintas. Primeiro, será realizado um levantamento dos trabalhos existentes nas bases de dados  com relevantes periodicos, anais de eventos, artigos e trabalhos. 
+Para esta seção, será conduzida uma revisão literária abrangente com o objetivo de explorar trabalhos relacionados ao desenvolvimento de compiladores para tradução de BRDFs expressas em \LaTeX  para a linguagem de \textit{shading}, empregando, técnicas de \textit{parsing}. O processo de busca será conduzido em duas etapas distintas. Primeiro, será realizado um levantamento dos trabalhos existentes nas bases de dados  com relevantes periódicos, anais de eventos, artigos e trabalhos. 
 
 
 Por fim, será realizada uma busca por produtos ou ferramentas similares no mercado, utilizando \textit{strings} de busca específicas em repositórios digitais, especificamente GitHub e SourceForge. Esses processos de busca permitirão identificar referências relevantes e estabelecer um panorama do estado da arte no campo dos compiladores de BRDFs  para \textit{shaders}, contribuindo para a compreensão do contexto acadêmico e prático no qual este trabalho se insere.
@@ -682,7 +682,7 @@ Assim como o nosso trabalho, esse artigo se concentra em facilitar o processo pa
 
 \subsubsection{A Real-Time Configurable \textit{shader} Based on Lookup Tables}
 
-Esse trabalho propõe uma arquitetura de \textit{hardware} que permite cálculos de \textit{shading} por pixel em tempo real, utilizando \textit{lookup-tables} \cite{configurable}. Para isso, são projetados circuitos configurávei baseado nessas tabelas, memórias de acesso aleatório (RAMs) e memórias somente leitura (ROMs). Varios circuitos base foram projetados para as operações mais comuns, por exemplo, circuitos para calcular produto interno entre dois vetores e circuitos de rotação de um vetor por um angulo, um exemplo desses diagramas é representado na \autoref{fig_circuit}. Ademais, é usado interpolação em um sistema de coordenadas polares em vez da interpolação vetorial convencional com normalização, com o objetivo de reduzir o tamanho dos circuitos e melhorar o desempenho.
+Esse trabalho propõe uma arquitetura de \textit{hardware} que permite cálculos de \textit{shading} por pixel em tempo real, utilizando \textit{lookup-tables} \cite{configurable}. Para isso, são projetados circuitos configurávei baseado nessas tabelas, memórias de acesso aleatório (RAMs) e memórias somente leitura (ROMs). Varios circuitos base foram projetados para as operações mais comuns, por exemplo, circuitos para calcular produto interno entre dois vetores e circuitos de rotação de um vetor por um ângulo, um exemplo desses diagramas é representado na \autoref{fig_circuit}. Ademais, é usado interpolação em um sistema de coordenadas polares em vez da interpolação vetorial convencional com normalização, com o objetivo de reduzir o tamanho dos circuitos e melhorar o desempenho.
 
 
 \begin{figure}[H]
@@ -1164,6 +1164,7 @@ O mecanismo central do \textit{ray tracer} envolve traçar raios pela cena para 
 % \include{Pos_Textual/Anexos}
 
 \end{document}
+
 
 
 
