@@ -27,7 +27,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%Compila o indice
+%Compila o índice
 \makeindex
 
 \begin{document}
@@ -89,7 +89,7 @@
 Na computação gráfica, a representação realista de cenas tridimensionais depende fortemente da modelagem da luz e dos materiais que compõem os objetos na cena. A interação da luminosidade incidente com esses materiais é crucial para a geração de imagens fiéis à realidade. Uma abordagem fundamental para modelar essa interação é por meio das funções de distribuição de refletância bidirecional, conhecidas como BRDFs (do inglês, \textit{Bidirectional Reflectance Distribution Functions}).
 
 
-As BRDFs, essencialmente, calculam a proporção entre a energia luminosa que atinge um ponto na superfície e como essa energia é refletida, transmitida ou absorvida \cite{pbr}. Na renderização, essas funções são implementadas por meio programas especializados nas unidades de processamento gráfico (GPUs), chamados de \textit{shaders}. Cada interface de programação, do inglês \textit{ Application Programming Interface} (API),  disponibiliza etapas diferentes onde esses executaveis podem ser programados durante o processo de renderização. Esses \textit{shaders} concedem a capacidade de cada objeto renderizado ter sua aparência configurada por meio de um código que implementa uma BRDF.
+As BRDFs, essencialmente, calculam a proporção entre a energia luminosa que atinge um ponto na superfície e como essa energia é refletida, transmitida ou absorvida \cite{pbr}. Na renderização, essas funções são implementadas por meio de programas especializados nas unidades de processamento gráfico (GPUs), chamados de \textit{shaders}. Cada interface de programação, do inglês \textit{ Application Programming Interface} (API),  disponibiliza etapas diferentes onde esses executáveis podem ser programados durante o processo de renderização. Esses \textit{shaders} concedem a capacidade de cada objeto renderizado ter sua aparência configurada por meio de um código que implementa uma BRDF.
 
 
 \section{Motivação}
@@ -105,7 +105,7 @@ Este trabalho visa projetar e implementar um compilador que, a partir de BRDFs e
 \section{Estrutura do Documento}
 No \autoref{conceitos}, descrevemos os conhecimentos necessários para entender BRDFs, incluindo quantificação de luminosidade e radiação, e  conceitos de compiladores, como tokenização e construção da árvore sintática.
 
-O \autoref{revisao} faz um mapeamento sistemático, utilizando termos de busca para identificar trabalhos relevantes sobre o desenvolvimento de compiladores para traduzir BRDFs de \LaTeX  para \textit{shaders}. Os critérios de inclusão e exclusão são definidos para filtrar os resultados. Além disso, são descritos os resultados encontrados em diversas bases de dados, como IEEE Xplore, BDTD, CAPES, ACM Digital Library e Google Scholar, bem como a análise de repositórios online como GitHub e SourceForge. 
+O \autoref{revisão} faz um mapeamento sistemático, utilizando termos de busca para identificar trabalhos relevantes sobre o desenvolvimento de compiladores para traduzir BRDFs de \LaTeX  para \textit{shaders}. Os critérios de inclusão e exclusão são definidos para filtrar os resultados. Além disso, são descritos os resultados encontrados em diversas bases de dados, como IEEE Xplore, BDTD, CAPES, ACM Digital Library e Google Scholar, bem como a análise de repositórios online como GitHub e SourceForge. 
 
 No \autoref{metodologia} é descrito o método para desenvolver o compilador proposto. São definidas etapas para alcançar os objetivos especificados neste trabalho e casos de teste são projetados para validação. Este capítulo também inclui o plano de continuação deste trabalho, que detalha as etapas futuras com datas previstas.
 
@@ -133,7 +133,7 @@ Já na \autoref{brdfmodels}, destacamos alguns modelos comuns de BRDFs.
 
 A \autoref{compiladores} fornece uma visão abrangente dos elementos essenciais na criação de compiladores. Ela começa com a definição de conceitos fundamentais, como cadeias de símbolos e alfabetos, necessários para entender linguagens formais. Além disso, a seção discute a importância das gramáticas na definição de linguagens e descreve o processo de compilação, incluindo a análise léxica, a análise sintática e o Pratt \textit{Parsing}.
 
-Na \autoref{shading}, é abordado o processo de \textit{shading} e o funcionamento do \textit{pipeline} de renderização da GPU. Nele, é descrito a transformação de vértices e a determinação da cor dos fragmentos, mostrando exemplos de código. 
+No \autoref{shader}, é abordado o processo de \textit{shading} e o funcionamento do \textit{pipeline} de renderização da GPU. Nele, é descrito a transformação de vértices e a determinação da cor dos fragmentos, mostrando exemplos de código. 
 
 \section{Radiometria} \label{radiometria}
 
@@ -144,11 +144,11 @@ Na renderização, a intensidade de um pixel da imagem depende de vários fatore
 
 Para compreender e interpretar a intensidade de um pixel em uma imagem, é essencial compreender os conceitos radiométricos. A radiometria quantifica o brilho de uma fonte de luz, a iluminação de uma superfície, a radiância de uma cena e a refletância da superfície.
 
-Renderizar uma imagem envolve mais do que capturar cor \cite{radiometry_color}, requer conhecimento da intensidade de luz em cada ponto da imagem, isto é, a quantidade de luz incidente na cena que alcança a câmera. A radiometria ajuda na criação de sistemas e unidades para quantificar a radiação eletromagnética, considerando um modelo simplicado no qual a luz é tratada como fótons que viajam em linha reta. 
+Renderizar uma imagem envolve mais do que capturar cor \cite{radiometry_color}, requer conhecimento da intensidade de luz em cada ponto da imagem, isto é, a quantidade de luz incidente na cena que alcança a câmera. A radiometria ajuda na criação de sistemas e unidades para quantificar a radiação eletromagnética, considerando um modelo simplificado no qual a luz é tratada como fótons que viajam em linha reta. 
 
 \subsection{Energia Radiante e Fluxo} \label{fluxo}
 
-Vários processos físicos convertem energia em fótons, como radiação de corpo negro e fusão nuclear em estrelas \cite{black_body_radiation}. Quantificar a energia radiante total de uma cena é necessario para quantificar o brilho da imagem, que envolve entender a energia dos fótons colidindo com objetos \cite{rendering_judice}.
+Vários processos físicos convertem energia em fótons, como radiação de corpo negro e fusão nuclear em estrelas \cite{black_body_radiation}. Quantificar a energia radiante total de uma cena é necessário para quantificar o brilho da imagem, que envolve entender a energia dos fótons colidindo com objetos \cite{rendering_judice}.
 
 A \autoref{eq-radiant-energy} expressa a energia radiante \( Q \) \cite{pbr}, que considera a energia total de todos os fótons atingindo a cena durante toda a duração, onde:  \( c  \approx 3,00 \times 10^8 \) m/s (metros por segundo) é a velocidade da luz; \( \lambda \) representa o comprimento de onda, uma variável que abrange o espectro visível, aproximadamente entre \( 389 \times 10^{-3} \)m e \(700 \times 10^{-3} \)m; \( h \) denota a constante de Planck, aproximadamente \( 6,626 \times 10^{-34} \) J$\cdot$s (joule-segundo).
 
@@ -159,7 +159,7 @@ Q = \frac{hc}{\lambda}
 
 
 
-É interessante observar a evolução da energia radiante ($Q$) ao longo do tempo. Isso dá origem ao conceito de fluxo radiante $\phi$, que é medida em impactos de cada fóton por segundo em uma superficie. Sua unidade é joules por segundo.
+É interessante observar a evolução da energia radiante ($Q$) ao longo do tempo. Isso dá origem ao conceito de fluxo radiante $\phi$, que é medida em impactos de cada fóton por segundo em uma superfície. Sua unidade é joules por segundo.
 
 \begin{align*} 
   \phi &= \frac{dQ}{dt} [\text{J/s}] 
@@ -174,7 +174,7 @@ $$
 
 \subsection{Radiância e BRDF} \label{brdf}
 
-A radiância,  denotada como \( L \), caracteriza a densidade de fluxo por unidade de área \( A \), por ângulo sólido \(\omega \) (ver \autoref{radiance-img} para representação visual). Os ângulos sólidos representam a projeção da região no espaço sobre uma esfera unitária centrada em \( p \), conforme a \autoref{solid-angle}. Ângulo sólido é a medida da área ocupada por uma região tridimensional conforme vista de um ponto específico \( p \). É expresso em esteradianos (sr), e são frequentemente representados pelo símbolo \( \omega \).
+A radiância,  denotada como \( L \), caracteriza a densidade de fluxo por unidade de área \( A \), por ângulo sólido \(\omega \) (ver \autoref{radiance-img} para representação visual). Os ângulos sólidos representam a projeção da região no espaço sobre uma esfera unitária centrada em \( p \), conforme a \autoref{solid-angle}.  ngulo sólido é a medida da área ocupada por uma região tridimensional conforme vista de um ponto específico \( p \). É expresso em esterradianos (sr), e são frequentemente representados pelo símbolo \( \omega \).
 
 Assim, é possível definir radiância conforme a \autoref{eq-radiance}. Ao invés de usar diretamente a área \( A \), a convenção estabelecida nessa definição é utilizar a projeção da área em um plano perpendicular à direção da câmera \cite{weyrich}.
 
@@ -184,7 +184,7 @@ Assim, é possível definir radiância conforme a \autoref{eq-radiance}. Ao inv�
 
 
 \begin{figure}[h]
-	\caption{\label{radiance-img} \small Visualização da radiancia em uma direção específica do hemisfério}
+	\caption{\label{radiance-img} \small Visualização da radiância em uma direção específica do hemisfério}
 	\begin{center}
 	    \includegraphics[scale=0.5]{./Imagens/irradiance_hemisphere.png}
 	\end{center}
@@ -193,7 +193,7 @@ Assim, é possível definir radiância conforme a \autoref{eq-radiance}. Ao inv�
 
 
 \begin{figure}[htb]
-	\caption{\label{solid-angle} \small Ângulo sólido s do objeto B visto pelo ponto p}
+	\caption{\label{solid-angle} \small  ngulo sólido s do objeto B visto pelo ponto p}
 	\begin{center}
 	    \includegraphics[scale=0.5]{./Imagens/solid_angle.png}
 	\end{center}
@@ -203,41 +203,41 @@ Assim, é possível definir radiância conforme a \autoref{eq-radiance}. Ao inv�
 
 % \begin{align*} 
 %   L(p,{\omega}) &= \frac{dE_{\omega}(p)}{d{\omega}} \qquad \left[\frac{J}{s\cdot m^2\cdot \text{sr}}\right]\\ 
-% E_{\omega} &\text{ é função de irradiancia numa direção ${\omega}$ } 
+% E_{\omega} &\text{ é função de irradiância numa direção ${\omega}$ } 
 % \end{align*}
 
-Equivalentemente, podemos definir radiancia para diferentes orientações da superfície e direção do raio ao introduzir o fator $\cos(\theta)$, tal que $\theta$ é o angulo entre a normal da superficie e a direção do ${\omega}$ \cite[5.4.1]{pbr}. Essa definição é dada pela \autoref{eq-radiance-2}. 
+Equivalentemente, podemos definir radiância para diferentes orientações da superfície e direção do raio ao introduzir o fator $\cos(\theta)$, tal que $\theta$ é o ângulo entre a normal da superfície e a direção do ${\omega}$ \cite[5.4.1]{pbr}. Essa definição é dada pela \autoref{eq-radiance-2}. 
 
 \begin{equation} \label{eq-radiance-2}
   L(p,{\omega}) = \frac{d^2\phi(p)}{dAd{\omega} \cos(\theta)} = \frac{dE(p)}{d{\omega} \cos(\theta)} 
 \end{equation}
 
 
-A radiância pode fornecer informação sobre o quanto um ponto específico está iluminado na direção da câmera. Ela depende não apenas da direção do raio que incide, mas também das propriedades de refletância da superfície. E, no contexto de renderização, a radiância de uma superfície na cena se correlaciona com a irradiância de um pixel em uma imagem pela \autoref{eq-radiance-2}. Isolando o termo $E(p)$, encontramos essa relação de maneira explicita:
+A radiância pode fornecer informação sobre o quanto um ponto específico está iluminado na direção da câmera. Ela depende não apenas da direção do raio que incide, mas também das propriedades de refletância da superfície. E, no contexto de renderização, a radiância de uma superfície na cena se correlaciona com a irradiância de um pixel em uma imagem pela \autoref{eq-radiance-2}. Isolando o termo $E(p)$, encontramos essa relação de maneira explícita:
 
 \begin{align*}
  \label{ep-Ep}
   &E(p) = \int_{H^2}{L(p,{\omega})\cos(\theta)d{\omega}}\\
-  &H^2 \text{ é o hemisfério no plano tangente à superficie no ponto $p$}
+  &H^2 \text{ é o hemisfério no plano tangente à superfície no ponto $p$}
 \end{align*}
 
 
-A principal funcionalidade de uma renderizador fotorrealista é estimar a radiancia em um ponto $p$ numa dada direção ${\omega}_o$. Essa radiancia é dada pela equação de renderização apresentada por \cite{rendering_equation}. Note que essa equação envolve um termo de radiancia recursivo, o caso base ocorre quando não há mais o termo recursivo, isto é, um fonte de luz na qual sua radiancia é contribuida apenas por randianca emitida $L_e$.
+A principal funcionalidade de uma renderizador fotorrealista é estimar a radiancia em um ponto $p$ numa dada direção ${\omega}_o$. Essa radiância é dada pela equação de renderização apresentada por \cite{rendering_equation}. Note que essa equação envolve um termo de radiância recursivo, o caso base ocorre quando não há mais o termo recursivo, isto é, um fonte de luz na qual sua radiância é contribuída apenas por radiância emitida $L_e$.
 
 \begin{align*}
   &L_o(p, {\omega}_o) = L_e(p, {\omega}_o) + 
 \int_{H^2}f(p, {\omega}_i, {\omega}_o){L_i(p,{\omega}_i)\cos(\theta_i)d{\omega}_i}\\
-    &L_o \text{ é radiancia de saída (\textit{outgoing})}\\
-    &L_e \text{ é radiancia emitida pela superficie (i.e. fonte de luz)}\\
-    &L_i \text{ é radiancia incidente na superficie}\\
+    &L_o \text{ é radiância de saída (\textit{outgoing})}\\
+    &L_e \text{ é radiância emitida pela superfície (i.e. fonte de luz)}\\
+    &L_i \text{ é radiância incidente na superfície}\\
     &{\omega}_i \text{ é a direção incidente}\\
     &{\omega}_o \text{ é a direção de saída}\\
     &H^2 \text{ são todas as direções no hemisfério no ponto $p$}\\
-    &\theta_i \text{ angulo entre direção incidente e a normal da superficie}\\
-    &f \text{ função de refletancia}\\
+    &\theta_i \text{ ângulo entre direção incidente e a normal da superfície}\\
+    &f \text{ função de refletância}\\
 \end{align*}
 
-A Função de Distribuição Bidirecional de Reflectância (BRDF) descreve como a luz reflete de uma superficie em diferentes direções afetando a radiância de saída \cite{overview_brdf}. Assim, BRDFs encapsulam as propriedades de reflexão de um material, considerando fatores como a rugosidade da superfície, o ângulo de incidência e o ângulo de reflexão. Formalmente uma BRDF pode ser definida por $f({\omega}_i, {\omega}_o)$, onde ${\omega}_i$ é a direção indicente de luz e ${\omega}_o$ é a direção de saída. Para BRDFs fisicamente realistas algumas propriedades devem ser respeitadas \cite[5.6]{pbr}.
+A Função de Distribuição Bidirecional de Reflectância (BRDF) descreve como a luz reflete de uma superfície em diferentes direções afetando a radiância de saída \cite{overview_brdf}. Assim, BRDFs encapsulam as propriedades de reflexão de um material, considerando fatores como a rugosidade da superfície, o ângulo de incidência e o ângulo de reflexão. Formalmente uma BRDF pode ser definida por $f({\omega}_i, {\omega}_o)$, onde ${\omega}_i$ é a direção incidente de luz e ${\omega}_o$ é a direção de saída. Para BRDFs fisicamente realistas algumas propriedades devem ser respeitadas \cite[5.6]{pbr}.
 
 \begin{itemize}
   \item A propriedade de positividade, $f(\omega_i, \omega_o) \geq 0 $, que garante não existência de energia negativa. 
@@ -248,11 +248,11 @@ A Função de Distribuição Bidirecional de Reflectância (BRDF) descreve como 
 \end{itemize}
 
 \section{Modelos de BRDFs } \label{brdfmodels}
-As próximas seções apresentam algums modelos comuns de BRDFs  na literatura \cite{overview_brdf}.
+As próximas seções apresentam alguns modelos comuns de BRDFs  na literatura \cite{overview_brdf}.
 
 
 \subsection{BRDF Pura Especular}
-Uma superfície puramente especular reflete a luz apenas em uma direção, seguindo a lei fisica da reflexão \cite{laws_of_refletion}, ela produz reflexões nítidas, semelhantes a espelhos. A BRDF para essa superfície é frequentemente representada pela \autoref{eq-specular}, onde $\omega_i$ é a direção da luz incidente, $\omega_o$ é a direção refletida e $\delta$ é a função delta de Dirac que garante que toda a luz incidente seja refletida na direção perfeitamente espelhada como na \autoref{specular}. Esse tipo de superfície é comum em materiais como metal polido ou vidro.
+Uma superfície puramente especular reflete a luz apenas em uma direção, seguindo a lei física da reflexão \cite{laws_of_refletion}, ela produz reflexões nítidas, semelhantes a espelhos. A BRDF para essa superfície é frequentemente representada pela \autoref{eq-specular}, onde $\omega_i$ é a direção da luz incidente, $\omega_o$ é a direção refletida e $\delta$ é a função delta de Dirac que garante que toda a luz incidente seja refletida na direção perfeitamente espelhada como na \autoref{specular}. Esse tipo de superfície é comum em materiais como metal polido ou vidro.
 
 \begin{equation} \label{eq-specular}
 f(\omega_i, \omega_o) = k_s \cdot \delta(\omega_i - \omega_o)
@@ -263,7 +263,7 @@ f(\omega_i, \omega_o) = k_s \cdot \delta(\omega_i - \omega_o)
 	\begin{center}
 	    \includegraphics[scale=0.5]{./Imagens/specular-2d.png}
 	\end{center}
-	\legend{ \footnotesize Em vermelho está o raio indicente, e em azul o raio de saída.
+	\legend{ \footnotesize Em vermelho está o raio incidente, e em azul o raio de saída.
   Fonte: Autor}
 \end{figure}
 
@@ -308,22 +308,22 @@ Uma superfície retro-refletora reflete a luz incidente de volta na direção de
 
 \section{Compiladores} \label{compiladores}
 
-\subsection{Cadeia de Símbolos e Alfabeto} \label{simbolos}
+\subsection{Cadeia de Símbolos e Alfabeto} \label{símbolos}
 
-Um \textbf{cadeia de símbolos} é uma sequência finita de símbolos retirados de um alfabeto $ \Sigma $. Formalmente, um cadeia $ w $ é representado como $ [w_1, w_2, ..., w_n] $, onde cada $ w_i $ pertence ao alfabeto $ \Sigma $. O \textbf{alfabeto} $ \Sigma $ é um conjunto finito de símbolos distintos usados para construir cadeias em uma linguagem. Ele define os blocos de construção a partir dos quais cadeias válidas na linguagem são formadas.
+Um \textbf{cadeia de símbolos} é uma sequência finita de símbolos retirados de um alfabeto $ \Sigma $. Formalmente, ums cadeia $ w $ é representada como $ [w_1, w_2, ..., w_n] $, onde cada $ w_i $ pertence ao alfabeto $ \Sigma $. O \textbf{alfabeto} $ \Sigma $ é um conjunto finito de símbolos distintos usados para construir cadeias em uma linguagem. Ele define os blocos de construção a partir dos quais cadeias válidas na linguagem são formadas.
 
 \subsection{Definições de Linguagens} \label{linguagem}
 
-Na ciência da computação, as linguagens são sistemas formais compostos por símbolos e regras que são muito uteis para definir um significado algoritimico. Uma \textbf{linguagem} $L$ é definida como um conjunto de cadeias sobre um alfabeto finito $ \Sigma $, $ L \subseteq \Sigma^* $, onde  $ \Sigma^* $ denota o conjunto de todas as cadeias possíveis sobre $ \Sigma $ \cite{language_theory}. A estrutura semântica de uma linguagem  inclue seu alfabeto $ \Sigma $, sintaxe e regras de gramática.
+Na ciência da computação, as linguagens são sistemas formais compostos por símbolos e regras que são muito úteis para definir um significado algorítmico. Uma \textbf{linguagem} $L$ é definida como um conjunto de cadeias sobre um alfabeto finito $ \Sigma $, $ L \subseteq \Sigma^* $, onde  $ \Sigma^* $ denota o conjunto de todas as cadeias possíveis sobre $ \Sigma $ \cite{language_theory}. A estrutura semântica de uma linguagem inclui seu alfabeto $ \Sigma $, sintaxe e regras de gramática.
 
 \subsection{Compilador como um Transformação}
 
-Um compilador pode ser visto como um transformação entre linguagens $ L_1 $ e $ L_2 $ que preserva a estrutura interna dos conjuntos, isto é, deve manter o mesmo significado algoritmico. Assim, o compilador $ C: L_1 \rightarrow L_2 $ mapeia programas escritos na linguagem de origem $ L_1 $ para programas equivalentes na linguagem de destino $ L_2 $. Essa transformação garante a preservação semântica, mantendo o comportamento pretendido do programa original durante a tradução.
+Um compilador pode ser visto como uma transformação entre linguagens $ L_1 $ e $ L_2 $ que preserva a estrutura interna dos conjuntos, isto é, deve manter o mesmo significado algorítmico. Assim, o compilador $ C: L_1 \rightarrow L_2 $ mapeia programas escritos na linguagem de origem $ L_1 $ para programas equivalentes na linguagem de destino $ L_2 $. Essa transformação garante a preservação semântica, mantendo o comportamento pretendido do programa original durante a tradução.
 
 
 \subsection{Gramática} \label{gramatica}
 
-Para auxiliar na criação de um compilador é necessario entender as regras que auxiliam na validação da linguagem de entrada, esse entedimento pode ser alcaçando pela gramática. Uma gramática $G$ é um sistema formal composto por um conjunto de regras de produção que especificam como cadeias válidas na linguagem podem ser geradas \cite{language_theory}. Ela inclui terminais, não-terminais, regras de produção e um símbolo inicial.
+Para auxiliar na criação de um compilador é necessário entender as regras que auxiliam na validação da linguagem de entrada, esse entendimento pode ser alcançado pela gramática. Uma gramática $G$ é um sistema formal composto por um conjunto de regras de produção que especificam como cadeias válidas na linguagem podem ser geradas \cite{language_theory}. Ela inclui terminais, não-terminais, regras de produção e um símbolo inicial.
 
 \begin{itemize}
   \item Terminais: são os símbolos básicos a partir dos quais as cadeias são formadas. Eles representam as unidades elementares da sintaxe da linguagem.
@@ -351,43 +351,43 @@ Um tipo comum de gramática usado na definição de linguagens é a gramática l
 
 O processo de gerar uma cadeia na linguagem definida por uma gramática é chamado de derivação. Isso envolve aplicar regras de produção sucessivamente, começando pelo símbolo inicial $S$ até restarem apenas símbolos terminais.
 
-Uma árvore sintática é uma representação gráfica do processo de derivação, onde cada nó representa um símbolo na cadeia. As aresta representam a aplicação de uma regra de produção. Em código, essa árvore é gerada e usada como representação intermediária auxiliando na geração na linguagem alvo $L_2$.
+Uma árvore sintática é uma representação gráfica do processo de derivação, onde cada nó representa um símbolo na cadeia. As arestas representam a aplicação de regras de produção. Em código, essa árvore é gerada e usada como representação intermediária auxiliando na geração da linguagem alvo $L_2$.
 
 
 \subsection{Análise Léxica}
-A análise léxica, também conhecida como \textit{lexing} ou \textit{tokenization}, é a primeira etapa do processo de compilação, na qual a entrada textual é dividida em unidades léxicas significativas chamadas de \textit{tokens}. Esses tokens representam os componentes básicos da linguagem, como palavras-chave, identificadores, operadores e literais. O analisador léxico percorre o código fonte caractere por caractere, agrupando-os em tokens conforme regras pré-definidas pela gramática da linguagem. Essa linguagem é, geralmente, reconhecível por maquinas de estado \cite{automata}.
+A análise léxica, também conhecida como \textit{lexing} ou \textit{tokenization}, é a primeira etapa do processo de compilação, na qual a entrada textual é dividida em unidades léxicas significativas chamadas de \textit{tokens}. Esses tokens representam os componentes básicos da linguagem, como palavras-chave, identificadores, operadores e literais. O analisador léxico percorre o código fonte caractere por caractere, agrupando-os em tokens conforme regras pré-definidas pela gramática da linguagem. Essa linguagem é, geralmente, reconhecível por máquinas de estado \cite{automata}.
 
 \subsection{Análise Sintática ou \textit{Parsing}}
 A análise sintática é a segunda fase do processo de compilação, na qual os tokens gerados pela análise léxica são organizados e verificados quanto à conformidade com a gramática da linguagem. Essa etapa envolve a construção de uma árvore sintática, ou estrutura de dados equivalente, que representa a estrutura hierárquica das expressões e instruções do programa. O analisador sintático utiliza regras de produção gramatical para validar a sintaxe do código fonte e identificar possíveis erros.
 
 \subsection{Pratt Parsing}
-O Pratt Parsing, introduzida por Vaughan Pratt, é uma técnica de análise sintática recursiva que permite analisar expressões com precedência de operadores de forma eficiente e sem ambiguidades \cite{pratt}. Uma das suas características distintivas é determinar a ordem de avaliação das expressões. Ao contrário da análise descendente recursiva tradicional, na qual cada não-terminal possui uma função de \textit{parsing}, a análise Pratt associa funções de manipulação (\textit{handlers}) com \textit{tokens}.
+O Pratt Parsing, introduzido por Vaughan Pratt, é uma técnica de análise sintática recursiva que permite analisar expressões com precedência de operadores de forma eficiente e sem ambiguidades \cite{pratt}. Uma das suas características distintivas é determinar a ordem de avaliação das expressões. Ao contrário da análise descendente recursiva tradicional, na qual cada não-terminal possui uma função de \textit{parsing}, a análise Pratt associa funções de manipulação (\textit{handlers}) com \textit{tokens}.
 
-A precedência das expressões é definida por meio de uma tabela, na qual cada operador é associado a um valor que permita o \textit{parser} decidir dinamicamente a ordem de avaliação das expressões com base nos operadores encontrados durante a análise. Essa abordagem simplifica significativamente a implementação do parser e elimina a necessidade de criar uma gramática que encapsula a precendencia em sua definição. Ela também evita recursão profunda para lidar com diferentes níveis de precedência.
+A precedência das expressões é definida por meio de uma tabela, na qual cada operador é associado a um valor que permita o \textit{parser} decidir dinamicamente a ordem de avaliação das expressões com base nos operadores encontrados durante a análise. Essa abordagem simplifica significativamente a implementação do parser e elimina a necessidade de criar uma gramática que encapsula a precedência em sua definição. Ela também evita a recursão profunda para lidar com diferentes níveis de precedência.
 
-\subsubsection{Árvores Inclinadas}
-
-Em uma árvore inclinada à direita, operadores com maior precedência são resolvidos primeiro, mesmo que apareçam na direita da expressão. Isso resulta em uma árvore onde os operadores com maior precedência estão mais próximos da raiz, indicando que eles são avaliados primeiro. Considere a expressão ``1 + 2 * 3'', apesar de ``*'' aparecer após ``+'',  ``*'' tem uma precedência mais alta e, portanto, forma uma subárvore que é resolvida antes da adição.
-
-
-\begin{verbatim}
-               +
-              / \
-             1   *
-                / \
-               2   3
-\end{verbatim}
-
-Por outro lado, em uma árvore inclinada à esquerda, operadores com maior precedência são resolvidos por último, seguindo uma ordem de avaliação da esquerda para a direita. As árvores inclinadas à esquerda estão tipicamente associadas a chamadas recursivas de \textit{parsing}, já as inclinadas à direita estão associadas a iteração. Para alcançar a estrutura correta da árvore, o Pratt \textit{parsing} alterna entre recursão e iteração com base na precedência dos operadores para saber o momento de gerar uma subarvores inclinada para esquerda ou direita.
+% \subsubsection{Árvores Inclinadas}
+%
+% Em uma árvore inclinada à direita, operadores com maior precedência são resolvidos primeiro, mesmo que apareçam na direita da expressão. Isso resulta em uma árvore onde os operadores com maior precedência estão mais próximos da raiz, indicando que eles são avaliados primeiro. Considere a expressão ``1 + 2 * 3'', apesar de ``*'' aparecer após ``+'',  ``*'' tem uma precedência mais alta e, portanto, forma uma subárvore que é resolvida antes da adição.
+%
+%
+% \begin{verbatim}
+%                +
+%               / \
+%              1   *
+%                 / \
+%                2   3
+% \end{verbatim}
+%
+% Por outro lado, em uma árvore inclinada à esquerda, operadores com maior precedência são resolvidos por último, seguindo uma ordem de avaliação da esquerda para a direita. As árvores inclinadas à esquerda estão tipicamente associadas a chamadas recursivas de \textit{parsing}, já as inclinadas à direita estão associadas a iteração. Para alcançar a estrutura correta da árvore, o Pratt \textit{parsing} alterna entre recursão e iteração com base na precedência dos operadores para saber o momento de gerar uma subárvore inclinada para esquerda ou direita.
 
 \subsubsection{Pseudo-código para Análise de Expressões}
 
 O pseudo-código \ref{alg1},
 demonstra o Pratt \textit{parsing} para a construção de árvores de expressão. Esse algoritmo também é robusto mesmo quando um operador é tanto infixo quanto prefixo, por exemplo ``$-$'' pode ser um \textit{token} de subtração ou de negação. Assim, cada \textit{token} tem uma função de prefixo e infixo associada.
 
-Nesse algoritimo, 
+Nesse algoritmo, 
 \textbf{proximo\_token()} recupera o próximo elemento da lista de tokens,
-\textbf{token.precedencia}() retorna a precedencia do token atual, \textbf{token.prefixo()} é a função associada ao \textit{token} que faz o parsing de uma expressão quando o \textit{token} é o primeiro em uma subexpressão (e.g. o token "$-$" é o primeiro na expressão "$-3$"). Já o \textbf{token.infixo(esquerda)} é a função associada ao \textit{token} que utiliza outra subarvore já criada como entrada, por exemplo a subárvore \textbf{esquerda} pode ser a expressão "$-3$", o token atual ser "$*$" e o o retorno gera a expressão completa "$-3 * 1$"
+\textbf{token.precedencia}() retorna a precedencia do token atual, \textbf{token.prefixo()} é a função associada ao \textit{token} que faz o parsing de uma expressão quando o \textit{token} é o primeiro em uma subexpressão (e.g. o token "$-$" é o primeiro na expressão "$-3$"). Já o \textbf{token.infixo(esquerda)} é a função associada ao \textit{token} que utiliza outra subarvore já criada como entrada. Por exemplo a subárvore \textbf{esquerda} pode ser a expressão "$-3$", o token atual ser "$*$" e o o retorno gera a expressão completa "$-3 * 1$"
 
 Tanto \textbf{token.infixo} quanto \textbf{token.prefixo} podem ser indiretamente recursivas, isto é, ambas podem chamar a função \textbf{expressao} no algortimo \ref{alg1}. 
 Por fim, \textbf{precedencia\_anterior} representa a precedência do token anterior.
@@ -1164,3 +1164,6 @@ O mecanismo central do \textit{ray tracer} envolve traçar raios pela cena para 
 % \include{Pos_Textual/Anexos}
 
 \end{document}
+
+
+

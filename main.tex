@@ -105,7 +105,7 @@ Este trabalho visa projetar e implementar um compilador que, a partir de BRDFs e
 \section{Estrutura do Documento}
 No \autoref{conceitos}, descrevemos os conhecimentos necessários para entender BRDFs, incluindo quantificação de luminosidade e radiação, e  conceitos de compiladores, como tokenização e construção da árvore sintática.
 
-O \autoref{revisão} faz um mapeamento sistemático, utilizando termos de busca para identificar trabalhos relevantes sobre o desenvolvimento de compiladores para traduzir BRDFs de \LaTeX  para \textit{shaders}. Os critérios de inclusão e exclusão são definidos para filtrar os resultados. Além disso, são descritos os resultados encontrados em diversas bases de dados, como IEEE Xplore, BDTD, CAPES, ACM Digital Library e Google Scholar, bem como a análise de repositórios online como GitHub e SourceForge. 
+O \autoref{revisao} faz um mapeamento sistemático, utilizando termos de busca para identificar trabalhos relevantes sobre o desenvolvimento de compiladores para traduzir BRDFs de \LaTeX  para \textit{shaders}. Os critérios de inclusão e exclusão são definidos para filtrar os resultados. Além disso, são descritos os resultados encontrados em diversas bases de dados, como IEEE Xplore, BDTD, CAPES, ACM Digital Library e Google Scholar, bem como a análise de repositórios online como GitHub e SourceForge. 
 
 No \autoref{metodologia} é descrito o método para desenvolver o compilador proposto. São definidas etapas para alcançar os objetivos especificados neste trabalho e casos de teste são projetados para validação. Este capítulo também inclui o plano de continuação deste trabalho, que detalha as etapas futuras com datas previstas.
 
@@ -133,7 +133,7 @@ Já na \autoref{brdfmodels}, destacamos alguns modelos comuns de BRDFs.
 
 A \autoref{compiladores} fornece uma visão abrangente dos elementos essenciais na criação de compiladores. Ela começa com a definição de conceitos fundamentais, como cadeias de símbolos e alfabetos, necessários para entender linguagens formais. Além disso, a seção discute a importância das gramáticas na definição de linguagens e descreve o processo de compilação, incluindo a análise léxica, a análise sintática e o Pratt \textit{Parsing}.
 
-No \autoref{shader}, é abordado o processo de \textit{shading} e o funcionamento do \textit{pipeline} de renderização da GPU. Nele, é descrito a transformação de vértices e a determinação da cor dos fragmentos, mostrando exemplos de código. 
+No \autoref{shading}, é abordado o processo de \textit{shading} e o funcionamento do \textit{pipeline} de renderização da GPU. Nele, é descrito a transformação de vértices e a determinação da cor dos fragmentos, mostrando exemplos de código. 
 
 \section{Radiometria} \label{radiometria}
 
@@ -174,7 +174,7 @@ $$
 
 \subsection{Radiância e BRDF} \label{brdf}
 
-A radiância,  denotada como \( L \), caracteriza a densidade de fluxo por unidade de área \( A \), por ângulo sólido \(\omega \) (ver \autoref{radiance-img} para representação visual). Os ângulos sólidos representam a projeção da região no espaço sobre uma esfera unitária centrada em \( p \), conforme a \autoref{solid-angle}.  ngulo sólido é a medida da área ocupada por uma região tridimensional conforme vista de um ponto específico \( p \). É expresso em esterradianos (sr), e são frequentemente representados pelo símbolo \( \omega \).
+A radiância,  denotada como \( L \), caracteriza a densidade de fluxo por unidade de área \( A \), por ângulo sólido \(\omega \) (ver \autoref{radiance-img} para representação visual). Os ângulos sólidos representam a projeção da região no espaço sobre uma esfera unitária centrada em \( p \), conforme a \autoref{solid-angle}.   ngulo sólido é a medida da área ocupada por uma região tridimensional conforme vista de um ponto específico \( p \). É expresso em esterradianos (sr), e são frequentemente representados pelo símbolo \( \omega \).
 
 Assim, é possível definir radiância conforme a \autoref{eq-radiance}. Ao invés de usar diretamente a área \( A \), a convenção estabelecida nessa definição é utilizar a projeção da área em um plano perpendicular à direção da câmera \cite{weyrich}.
 
@@ -193,7 +193,7 @@ Assim, é possível definir radiância conforme a \autoref{eq-radiance}. Ao inv�
 
 
 \begin{figure}[htb]
-	\caption{\label{solid-angle} \small  ngulo sólido s do objeto B visto pelo ponto p}
+	\caption{\label{solid-angle} \small   ngulo sólido s do objeto B visto pelo ponto p}
 	\begin{center}
 	    \includegraphics[scale=0.5]{./Imagens/solid_angle.png}
 	\end{center}
@@ -351,7 +351,7 @@ Um tipo comum de gramática usado na definição de linguagens é a gramática l
 
 O processo de gerar uma cadeia na linguagem definida por uma gramática é chamado de derivação. Isso envolve aplicar regras de produção sucessivamente, começando pelo símbolo inicial $S$ até restarem apenas símbolos terminais.
 
-Uma árvore sintática é uma representação gráfica do processo de derivação, onde cada nó representa um símbolo na cadeia. As arestas representam a aplicação de regras de produção. Em código, essa árvore é gerada e usada como representação intermediária auxiliando da geração na linguagem alvo $L_2$.
+Uma árvore sintática é uma representação gráfica do processo de derivação, onde cada nó representa um símbolo na cadeia. As arestas representam a aplicação de regras de produção. Em código, essa árvore é gerada e usada como representação intermediária auxiliando na geração da linguagem alvo $L_2$.
 
 
 \subsection{Análise Léxica}
@@ -365,20 +365,20 @@ O Pratt Parsing, introduzido por Vaughan Pratt, é uma técnica de análise sint
 
 A precedência das expressões é definida por meio de uma tabela, na qual cada operador é associado a um valor que permita o \textit{parser} decidir dinamicamente a ordem de avaliação das expressões com base nos operadores encontrados durante a análise. Essa abordagem simplifica significativamente a implementação do parser e elimina a necessidade de criar uma gramática que encapsula a precedência em sua definição. Ela também evita a recursão profunda para lidar com diferentes níveis de precedência.
 
-\subsubsection{Árvores Inclinadas}
-
-Em uma árvore inclinada à direita, operadores com maior precedência são resolvidos primeiro, mesmo que apareçam na direita da expressão. Isso resulta em uma árvore onde os operadores com maior precedência estão mais próximos da raiz, indicando que eles são avaliados primeiro. Considere a expressão ``1 + 2 * 3'', apesar de ``*'' aparecer após ``+'',  ``*'' tem uma precedência mais alta e, portanto, forma uma subárvore que é resolvida antes da adição.
-
-
-\begin{verbatim}
-               +
-              / \
-             1   *
-                / \
-               2   3
-\end{verbatim}
-
-Por outro lado, em uma árvore inclinada à esquerda, operadores com maior precedência são resolvidos por último, seguindo uma ordem de avaliação da esquerda para a direita. As árvores inclinadas à esquerda estão tipicamente associadas a chamadas recursivas de \textit{parsing}, já as inclinadas à direita estão associadas a iteração. Para alcançar a estrutura correta da árvore, o Pratt \textit{parsing} alterna entre recursão e iteração com base na precedência dos operadores para saber o momento de gerar uma subárvore inclinada para esquerda ou direita.
+% \subsubsection{Árvores Inclinadas}
+%
+% Em uma árvore inclinada à direita, operadores com maior precedência são resolvidos primeiro, mesmo que apareçam na direita da expressão. Isso resulta em uma árvore onde os operadores com maior precedência estão mais próximos da raiz, indicando que eles são avaliados primeiro. Considere a expressão ``1 + 2 * 3'', apesar de ``*'' aparecer após ``+'',  ``*'' tem uma precedência mais alta e, portanto, forma uma subárvore que é resolvida antes da adição.
+%
+%
+% \begin{verbatim}
+%                +
+%               / \
+%              1   *
+%                 / \
+%                2   3
+% \end{verbatim}
+%
+% Por outro lado, em uma árvore inclinada à esquerda, operadores com maior precedência são resolvidos por último, seguindo uma ordem de avaliação da esquerda para a direita. As árvores inclinadas à esquerda estão tipicamente associadas a chamadas recursivas de \textit{parsing}, já as inclinadas à direita estão associadas a iteração. Para alcançar a estrutura correta da árvore, o Pratt \textit{parsing} alterna entre recursão e iteração com base na precedência dos operadores para saber o momento de gerar uma subárvore inclinada para esquerda ou direita.
 
 \subsubsection{Pseudo-código para Análise de Expressões}
 
@@ -387,9 +387,9 @@ demonstra o Pratt \textit{parsing} para a construção de árvores de expressão
 
 Nesse algoritmo, 
 \textbf{proximo\_token()} recupera o próximo elemento da lista de tokens,
-\textbf{token.precedencia}() retorna a precedencia do token atual, \textbf{token.prefixo()} é a função associada ao \textit{token} que faz o parsing de uma expressão quando o \textit{token} é o primeiro em uma subexpressão (e.g. o token "$-$" é o primeiro na expressão "$-3$"). Já o \textbf{token.infixo(esquerda)} é a função associada ao \textit{token} que utiliza outra subarvore já criada como entrada, por exemplo a subárvore \textbf{esquerda} pode ser a expressão "$-3$", o token atual ser "$*$" e o o retorno gera a expressão completa "$-3 * 1$"
+\textbf{token.precedencia}() retorna a procedência do token atual, \textbf{token.prefixo()} é a função associada ao \textit{token} que faz o parsing de uma expressão quando o \textit{token} é o primeiro em uma subexpressão (e.g. o token "$-$" é o primeiro na expressão "$-3$"). Já o \textbf{token.infixo(esquerda)} é a função associada ao \textit{token} que utiliza outra subárvore já criada como entrada. Por exemplo a subárvore \textbf{esquerda} pode ser a expressão "$-3$", o token atual ser "$*$" e o retorno gera a expressão completa "$-3 * 1$"
 
-Tanto \textbf{token.infixo} quanto \textbf{token.prefixo} podem ser indiretamente recursivas, isto é, ambas podem chamar a função \textbf{expressao} no algortimo \ref{alg1}. 
+Tanto \textbf{token.infixo} quanto \textbf{token.prefixo} podem ser indiretamente recursivas, isto é, ambas podem chamar a função \textbf{expressão} no algoritmo \ref{alg1}. 
 Por fim, \textbf{precedencia\_anterior} representa a precedência do token anterior.
 
 \begin{algoritmo}[H]
@@ -408,11 +408,11 @@ Por fim, \textbf{precedencia\_anterior} representa a precedência do token anter
 
 \subsection{Geração da Linguagem Alvo} \label{codegen}
 
-Nesta fase, fazemos a transição da representação intermediária  da linguagem origem \( L_1 \)  para  a linguagem de destino \( L_2 \), o processo envolve traduzir construções de \( L_1 \) para equivalentes em $L_2$. Podemos realizar essa tradução ao percorrer recursivamente os nós da arvóre sintatica usando as informações contidas nesses nós para gerar partes do programa final em $L_2$.
+Nesta fase, fazemos a transição da representação intermediária  da linguagem origem \( L_1 \)  para  a linguagem de destino \( L_2 \), o processo que envolve traduzir construções de \( L_1 \) para equivalentes em $L_2$. Podemos realizar essa tradução ao percorrer recursivamente os nós da árvore sintática usando as informações contidas nesses nós para gerar partes do programa final em $L_2$.
 
-Dado um programa $a \in L_1$ existem varios programas $b_{i=1,2,3,...} \in L_2$ que possui estrutura semanticamente equivalentes à $a$. Ao explorar esse conjunto, é possivel escolher um $b_j \in L_2$ tal que esse programa seja otimizado em algum sentido, como uso eficiente de memoria ou executar menos instruções de \textit{hardware}. Nosso foco neste trabalho está na tradução semanticamente correta, sem envolver explorão das saídas  equivalentes.
+Dado um programa $a \in L_1$ existem varios programas $b_{i=1,2,3,...} \in L_2$ que possui estrutura semanticamente equivalentes à $a$. Ao explorar esse conjunto, é possivel escolher um $b_j \in L_2$ tal que esse programa seja otimizado em algum sentido, como uso eficiente de memoria ou executar menos instruções de \textit{hardware}. Nosso foco neste trabalho está na tradução semanticamente correta, sem envolver exploração das saídas  equivalentes.
 
-Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) (\LaTeX), para \( L_2 \) ( GLSL). O cálculo abaixo pertence a $L_1$. O \autoref{cod-fonte-calculo} mostra o código fonte do cáculo. 
+Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) (\LaTeX), para \( L_2 \) ( GLSL). O cálculo abaixo pertence a $L_1$. O \autoref{cod-fonte-calculo} mostra o código fonte do cálculo. 
 
 \[
  \quad \mathbf{v} = (\mathbf{a} + \mathbf{b}) \cdot
@@ -420,7 +420,7 @@ Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) (\L
 \]
 
 \begin{codigo}
-\caption{Cáculo vetorial}
+\caption{Cálculo vetorial}
   \label{cod-fonte-calculo}
 \begin{lstlisting}
  \mathbf{v} = (\mathbf{a} + \mathbf{b}) \cdot
@@ -430,7 +430,7 @@ Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) (\L
 
 
 
-Após a tradução da expressão matematica para \( L_2 \), o cálculo pode ser convertido para o trecho de programa abaixo. Esse código é válido na linguagem GLSL.
+Após a tradução da expressão matemática para \( L_2 \), o cálculo pode ser convertido para o trecho de programa abaixo. Esse código é válido na linguagem GLSL.
 
 \[
 \quad \text{{vec3 v = dot(a + b, c) - cross(d, e);}}
@@ -460,7 +460,7 @@ Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformaçõe
 
 O \textit{shader} de vértice opera em vértices individuais de primitivas geométricas antes de serem rasterizados em fragmentos. Sua principal tarefa é transformar vértices do espaço de coordenadas local do objeto para o espaço de coordenadas global da cena e passar os dados necessários para o \textit{shader} fragmento.
 
-Esses \textit{shaders} geralmente realizam várias transformações nos dados dos vértices, permitindo que objetos sejam posicionados, orientados e projetados em uma tela 2D, um exemplo desse \textit{shader} está no \autoref{vertex_code1}. Ao fim dessa estapa, os vértices são normalizados para coordenadas homogêneas, que é útil para realizar a projeção perspectiva e outros cálculos no \textit{pipeline} de renderização.
+Esses \textit{shaders} geralmente realizam várias transformações nos dados dos vértices, permitindo que objetos sejam posicionados, orientados e projetados em uma tela 2D, um exemplo desse \textit{shader} está no \autoref{vertex_code1}. Ao fim dessa etapa, os vértices são normalizados para coordenadas homogêneas, que é útil para realizar a projeção perspectiva e outros cálculos no \textit{pipeline} de renderização.
 
 
 \begin{codigo}[H]
@@ -485,9 +485,9 @@ void main() {
 
 \subsection{Shader de Fragmento}
 
-O \textit{shader} de fragmento, opera em fragmentos produzidos pela etapa de rasterização. Sua principal responsabilidade é determinar a cor final de cada fragmento com base na iluminação, texturização e propriedades da superfície. Uma possível interpretação é que esse programa é repetido para todos os pixeis da imagem paralelamente.  Esse programa recebe dados interpolados, como vértices e normais, ou seja, cada instancia desse programa possue entradas diferentes uma das outras. Os valores interpolados são calculados usando interpolação bariêntrica.
+O \textit{shader} de fragmento, opera em fragmentos produzidos pela etapa de rasterização. Sua principal responsabilidade é determinar a cor final de cada fragmento com base na iluminação, texturização e propriedades da superfície. Uma possível interpretação é que esse programa é repetido para todos os pixeis da imagem paralelamente.  Esse programa recebe dados interpolados, como vértices e normais, ou seja, cada instância deste programa possui entradas diferentes uma das outras. Os valores interpolados são calculados usando interpolação baricêntrica.
 
-Neste \textit{shader} é onde as BRDFs devem ser implementadas para atingir um nível de \textit{shading} mais preciso, pois temos mais dados do que os definidos na geometria, devido à interpolação. Isso resulta em um nível de granularidade maior, considerando uma transição mais suave de um ponto para outro dentro de um triângulo,  como represetado na \autoref{better-with-fragment}.
+Neste \textit{shader} é onde as BRDFs devem ser implementadas para atingir um nível de \textit{shading} mais preciso, pois temos mais dados do que os definidos na geometria, devido à interpolação. Isso resulta em um nível de granularidade maior, considerando uma transição mais suave de um ponto para outro dentro de um triângulo,  como representado na \autoref{better-with-fragment}.
 
 
 \begin{figure}[H]
@@ -1164,6 +1164,8 @@ O mecanismo central do \textit{ray tracer} envolve traçar raios pela cena para 
 % \include{Pos_Textual/Anexos}
 
 \end{document}
+
+
 
 
 
