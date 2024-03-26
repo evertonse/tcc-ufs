@@ -447,6 +447,8 @@ API, sendo o OpenGL uma API padrão para o uso de funções na GPU \cite{opengl_
 
 Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. As etapas mais importantes para o nosso trabalho são os \textit{shaders} de fragmento e de vértice, representados na \autoref{fig-pipeline}, os quais executam a manipulação dos vértices e determinam cores de pixels, respectivamente.
 
+Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. Uma representação visual desse processo pode ser observada na Figura \autoref{fig-pipeline}. Nela, é representado que o CPU envia os dados da cena para a GPU, que utiliza essas informações nos \textit{shaders} de vértice e fragmento. O shader de vértice manipula os vértices da cena, enquanto o shader de fragmento determina as cores dos pixels. Além disso, a CPU também pode enviar variáveis uniformes (\textit{uniform variables}) para os shaders, que são essenciais para a etapa de renderização e contribuem para a geração da imagem final.
+
 \begin{figure}[H]
 	\caption{\label{fig-pipeline}\textit{pipeline} Grafico}
 	\begin{center}
@@ -458,9 +460,7 @@ Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformaçõe
 
 \subsection{Shader de Vértice}
 
-O \textit{shader} de vértice opera em vértices individuais de primitivas geométricas antes de serem rasterizados em fragmentos. Sua principal tarefa é transformar vértices do espaço de coordenadas local do objeto para o espaço de coordenadas global da cena e passar os dados necessários para o \textit{shader} fragmento.
-
-Esses \textit{shaders} geralmente realizam várias transformações nos dados dos vértices, permitindo que objetos sejam posicionados, orientados e projetados em uma tela 2D, um exemplo desse \textit{shader} está no \autoref{vertex_code1}. Ao fim dessa etapa, os vértices são normalizados para coordenadas homogêneas, que é útil para realizar a projeção perspectiva e outros cálculos no \textit{pipeline} de renderização.
+O \textit{shader} de vértice opera em vértices individuais de primitivas geométricas antes de serem rasterizados em fragmentos. Sua principal tarefa é transformar vértices e passar os dados necessários para o \textit{shader} fragmento. Esses \textit{shaders} geralmente realizam várias transformações nos dados dos vértices, permitindo que objetos sejam posicionados, orientados e projetados em uma tela 2D. Um exemplo desse \textit{shader} está no \autoref{vertex_code1}, que usa matriz para realizar essas transformações. Ao fim dessa etapa, os vértices são normalizados para coordenadas homogêneas, que é útil para realizar a projeção perspectiva e outros cálculos no \textit{pipeline} de renderização.
 
 
 \begin{codigo}[H]
@@ -485,9 +485,9 @@ void main() {
 
 \subsection{Shader de Fragmento}
 
-O \textit{shader} de fragmento, opera em fragmentos produzidos pela etapa de rasterização. Sua principal responsabilidade é determinar a cor final de cada fragmento com base na iluminação, texturização e propriedades da superfície. Uma possível interpretação é que esse programa é repetido para todos os pixeis da imagem paralelamente.  Esse programa recebe dados interpolados, como vértices e normais, ou seja, cada instância deste programa possui entradas diferentes uma das outras. Os valores interpolados são calculados usando interpolação baricêntrica.
+O \textit{shader} de fragmento opera sobre os fragmentos produzidos pela etapa de rasterização. Sua principal responsabilidade é determinar a cor final de cada fragmento com base na iluminação, texturização e propriedades da superfície. Uma possível interpretação é que esse programa é repetido para todos os pixeis da imagem paralelamente.  Esse programa recebe dados interpolados, como vértices e normais, ou seja, cada instância deste programa possui entradas potencialmente diferentes uma das outras. Na API OpenGL, valores como normais e cores são interpolados usando coordenadas baricêntrica.
 
-Neste \textit{shader} é onde as BRDFs devem ser implementadas para atingir um nível de \textit{shading} mais preciso, pois temos mais dados do que os definidos na geometria, devido à interpolação. Isso resulta em um nível de granularidade maior, considerando uma transição mais suave de um ponto para outro dentro de um triângulo,  como representado na \autoref{better-with-fragment}.
+As BRDFs devem ser implementadas nesse estágio do pipeline para atingir um nível de \textit{shading} mais preciso, pois temos mais dados do que os definidos na geometria, devido à interpolação. Isso resulta em um nível de detalhamento potencialmente maior, considerando uma transição mais suave de um ponto para outro dentro de um triângulo,  como representado na \autoref{better-with-fragment}.
 
 
 \begin{figure}[H]
