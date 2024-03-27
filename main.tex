@@ -124,18 +124,18 @@ O \autoref{resultadosiniciais} descreve os resultados preliminares deste trabalh
 % Revisão Bibliográfica 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% \chapter{Conceitos} \label{conceitos}
+%
+% Neste capítulo, são abordamos os conceitos fundamentais da interação da luz com os materiais na computação gráfica. Destacamos a importância da reflexão da luz, explorando as BRDFs e modelos comuns. Além disso, discutimos elementos-chave na criação de compiladores e o processo de \textit{shading} na GPU.
+%
+% Especificamente na \autoref{radiometria}, tratamos dos conceitos fundamentais relacionados à luz, como a capacidade de um material refletir raios de luz e sua importância na computação gráfica e renderização. Destacamos a relação entre a intensidade de um pixel de imagem, a iluminação, a orientação da superfície e  a definição de funções de refletância, as BRDFs. 
+% Já na \autoref{brdfmodels}, destacamos alguns modelos comuns de BRDFs.  
+%
+% A \autoref{compiladores} fornece uma visão abrangente dos elementos essenciais na criação de compiladores. Ela começa com a definição de conceitos fundamentais, como cadeias de símbolos e alfabetos, necessários para entender linguagens formais. Além disso, a seção discute a importância das gramáticas na definição de linguagens e descreve o processo de compilação, incluindo a análise léxica, a análise sintática e o Pratt \textit{Parsing}.
+%
+% Na \autoref{shading}, é abordado o processo de \textit{shading} e o funcionamento do \textit{pipeline} de renderização da GPU. 
+
 \chapter{Conceitos} \label{conceitos}
-
-Neste capítulo, são abordamos os conceitos fundamentais da interação da luz com os materiais na computação gráfica. Destacamos a importância da reflexão da luz, explorando as BRDFs e modelos comuns. Além disso, discutimos elementos-chave na criação de compiladores e o processo de \textit{shading} na GPU.
-
-Especificamente na \autoref{radiometria}, tratamos dos conceitos fundamentais relacionados à luz, como a capacidade de um material refletir raios de luz e sua importância na computação gráfica e renderização. Destacamos a relação entre a intensidade de um pixel de imagem, a iluminação, a orientação da superfície e  a definição de funções de refletância, as BRDFs. 
-Já na \autoref{brdfmodels}, destacamos alguns modelos comuns de BRDFs.  
-
-A \autoref{compiladores} fornece uma visão abrangente dos elementos essenciais na criação de compiladores. Ela começa com a definição de conceitos fundamentais, como cadeias de símbolos e alfabetos, necessários para entender linguagens formais. Além disso, a seção discute a importância das gramáticas na definição de linguagens e descreve o processo de compilação, incluindo a análise léxica, a análise sintática e o Pratt \textit{Parsing}.
-
-Na \autoref{shading}, é abordado o processo de \textit{shading} e o funcionamento do \textit{pipeline} de renderização da GPU. 
-
-\chapter{Conceitos 2} \label{conceitos}
 
 Neste capítulo, abordam-se os conceitos fundamentais da interação da luz com os materiais na computação gráfica. Destaca-se a importância da reflexão da luz, explorando as BRDFs e modelos comuns. Além disso, são discutidos elementos-chave na criação de compiladores e no processo de \textit{shading} na GPU.
 
@@ -335,7 +335,7 @@ Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformaçõe
 \begin{figure}[H]
 	\caption{\label{fig-pipeline} O \textit{pipeline}}
 	\begin{center}
-	    \includegraphics[scale=0.6]{./Imagens/gpu_pipeline.png}
+	    \includegraphics[scale=0.45]{./Imagens/gpu_pipeline.png}
 	\end{center}
   \legend{Fonte: \cite{video_pipeline}}
 \end{figure}
@@ -343,7 +343,7 @@ Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformaçõe
 
 \subsection{Shader de Vértice}
 
-O \textit{shader} de vértice opera em vértices individuais de primitivas geométricas antes de serem rasterizados em fragmentos. Sua principal tarefa é transformar vértices e passar os dados necessários para o \textit{shader} fragmento. Esses \textit{shaders} geralmente realizam várias transformações nos dados dos vértices, permitindo que objetos sejam posicionados, orientados e projetados em uma tela 2D. Um exemplo desse \textit{shader} está no \autoref{vertex_code1}, que usa uma matriz para realizar essas transformações. Ao fim dessa etapa, os vértices são normalizados para coordenadas homogêneas, que é útil para realizar a projeção perspectiva e outros cálculos no \textit{pipeline} de renderização.
+O \textit{shader} de vértice opera em vértices individuais de primitivas geométricas antes de serem rasterizados em fragmentos. Sua principal tarefa é transformar vértices e passar os dados necessários para o \textit{shader} fragmento. Esses \textit{shaders} geralmente realizam várias transformações nos dados dos vértices, permitindo que objetos sejam posicionados, orientados e projetados em uma tela 2D. Um exemplo desse \textit{shader} está no \autoref{vertex_code1}, que usa uma matriz para realizar essas transformações. Ao fim dessa etapa, os vértices são normalizados para coordenadas homogêneas. Essa normalização é essencial para realizar a projeção perspectiva e outros cálculos no \textit{pipeline} de renderização.
 
 
 \begin{codigo}[H]
@@ -370,7 +370,7 @@ void main() {
 
 O \textit{shader} de fragmento opera sobre os fragmentos produzidos pela etapa de rasterização. Sua principal responsabilidade é determinar a cor final de cada fragmento com base na iluminação, texturização e propriedades da superfície. Uma possível interpretação é que esse programa é repetido para todos os pixels da imagem paralelamente.  Esse programa recebe dados interpolados, como vértices e normais, ou seja, cada instância deste programa possui entradas potencialmente diferentes uma das outras. Na API OpenGL, valores como normais e vértices são interpolados usando coordenadas baricêntricas \cite{opengl_interpolation}.
 
-As BRDFs devem ser implementadas nesse estágio do pipeline para atingir um nível de \textit{shading} mais preciso, pois temos mais dados do que os definidos na geometria, devido à interpolação. Isso resulta em um nível de detalhamento potencialmente maior, considerando uma transição mais suave de um ponto para outro dentro de um triângulo,  como representado na \autoref{better-with-fragment}.
+As BRDFs podem ser implementadas nesse estágio do pipeline para atingir um nível de \textit{shading} mais preciso, pois podemos ter mais dados do que os definidos na geometria, devido à interpolação. Isso resulta em um nível de detalhamento potencialmente maior, considerando uma transição mais suave de um ponto para outro dentro de um triângulo,  como representado na \autoref{better-with-fragment}.
 
 
 \begin{figure}[H]
@@ -485,18 +485,22 @@ Por fim, \textbf{precedencia\_anterior} representa a precedência do token anter
 
 A análise semântica é uma etapa essencial no processo de compilação, responsável por garantir a corretude semântica das declarações e instruções do programa. Durante esta fase, são aplicadas verificações para garantir que as operações sejam realizadas com tipos compatíveis.
 
-Um exemplo típico de verificação semântica é a inferência de tipos em expressões. Por exemplo, no código a seguir:
+Um exemplo típico de verificação semântica é a inferência de tipos em expressões. Por exemplo, no \autoref{cod-exemplo-c}, o analisador semântico infere que o número inteiro $30$ deve ser convertido para o tipo \textit{float} antes da multiplicação, garantindo consistência de tipos. Além da verificação de tipos, o analisador semântico identifica e reporta outros erros comuns, como variáveis não declaradas e falhas no controle de fluxo do programa.
 
+\begin{codigo}
+\caption{\small Exemplo de código escrito em C.}
+  \label{cod-exemplo-c}
 \begin{lstlisting}[language=C]
 float x = 10.1;
 float y = x * 30;
 \end{lstlisting}
+\end{codigo}
 
-O analisador semântico infere que o número inteiro 30 deve ser convertido para o tipo float antes da multiplicação, garantindo consistência de tipos.
+\begin{lstlisting}
+\end{lstlisting}
 
-Além da verificação de tipos, o analisador semântico identifica e reporta outros erros comuns, como variáveis não declaradas e falhas no controle de fluxo do programa.
 
-No contexto deste trabalho, no desenvolvimento de \textit{shaders} em OpenGL (GLSL), a análise semântica é importante para validar expressões e funções relacionadas à renderização de materiais. Por exemplo, ao escrever uma função BRDF em GLSL, o analisador deve verificar se os tipos de dados e operações são compatíveis tanto com a definição da função BRDF quanto com as dimensões de vetores, matrizes e outras grandezas definidas.
+No contexto deste trabalho, no desenvolvimento de \textit{shaders} em OpenGL (GLSL), a análise semântica é importante para validar expressões e funções relacionadas à renderização de materiais. Por exemplo, ao escrever uma função BRDF em GLSL, o analisador deve verificar se os tipos de dados e operações são compatíveis tanto com a definição da função BRDF quanto com as dimensões de vetores e outras grandezas definidas.
 
 \subsection{Geração da Linguagem Alvo} \label{codegen}
 
@@ -513,7 +517,7 @@ Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) (\L
 \end{equation}
 
 \begin{codigo}
-\caption{Cálculo vetorial em código fonte \LaTeX}
+\caption{\small Cálculo vetorial em código fonte \LaTeX}
   \label{cod-fonte-calculo}
 \begin{lstlisting}
  \mathbf{v} = (\mathbf{a} + \mathbf{b}) \cdot
@@ -526,9 +530,9 @@ Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) (\L
 Após a tradução da expressão matemática para \( L_2 \), o cálculo pode ser convertido para o trecho de programa apresentado no \autoref{cod-calculo-vetorial-glsl}. Esse código é válido na linguagem GLSL.
 
 \begin{codigo}
-\caption{Cálculo vetorial em código GLSL}
+\caption{\small Cálculo vetorial em código GLSL}
 \label{cod-calculo-vetorial-glsl}
-\begin{lstlisting}[language = c]
+\begin{lstlisting}[language = C]
     vec3 v = dot(a + b, c) - cross(d, e);
 \end{lstlisting}
 \end{codigo}
@@ -536,17 +540,14 @@ Após a tradução da expressão matemática para \( L_2 \), o cálculo pode ser
 
 \chapter{Revisão Bibliográfica} \label{revisao}
 
-Para esta seção, será conduzida uma revisão literária abrangente com o objetivo de explorar trabalhos relacionados ao desenvolvimento de compiladores para tradução de BRDFs expressas em \LaTeX  para a linguagem de \textit{shading}, empregando, técnicas de \textit{parsing}. O processo de busca será conduzido em duas etapas distintas. Primeiro, será realizado um levantamento dos trabalhos existentes nas bases de dados  com relevantes periódicos, anais de eventos, artigos e trabalhos. 
-
-
-Por fim, será realizada uma busca por produtos ou ferramentas similares no mercado, utilizando \textit{strings} de busca específicas em repositórios digitais, especificamente GitHub e SourceForge. Esses processos de busca permitirão identificar referências relevantes e estabelecer um panorama do estado da arte no campo dos compiladores de BRDFs  para \textit{shaders}, contribuindo para a compreensão do contexto acadêmico e prático no qual este trabalho se insere.
+Para esta seção, será conduzida uma revisão literária abrangente com o objetivo de explorar trabalhos relacionados ao desenvolvimento de compiladores para tradução de BRDFs expressas em \LaTeX  para a linguagem de \textit{shading}, empregando técnicas de \textit{parsing}. O processo de busca será conduzido em duas etapas distintas. Primeiro, será realizado um levantamento dos trabalhos existentes nas bases de dados  com relevantes periódicos, anais de eventos, artigos e trabalhos. Por fim, será realizada uma busca por produtos ou ferramentas similares no mercado, utilizando \textit{strings} de busca específicas em repositórios digitais, especificamente GitHub e SourceForge. Esses processos de busca permitirão identificar referências relevantes e estabelecer um panorama do estado da arte no campo dos compiladores de BRDFs  para \textit{shaders}, contribuindo para a compreensão do contexto acadêmico e prático no qual este trabalho se insere.
 
 \section{Mapeamento Sistemático}
 
-Com o intuito de obter resultados relevantes para a pesquisa, foram elaboradas frases de busca com base nos termos-chave relacionados ao tema deste trabalho. Assim como foram criadas questões de pesquisa para guiar a seleção dos trabalhos.
+Com o intuito de obter resultados relevantes para a pesquisa, foram elaboradas frases de busca com base nos termos-chave relacionados ao tema deste trabalho. Também foram criadas questões de pesquisa para guiar a seleção dos trabalhos.
 
 \subsection{Seleção das Bases}
-As bases escolhidas foram: ACM Digital Library \footnote{\url{https://dl.acm.org/}},  IEEE Xplorer Digital Library \footnote{\url{https://ieeexplore.ieee.org/}},  Biblioteca Digital Brasileira de Teses e Dissertações (BDTD) \footnote{\url{https://bdtd.ibict.br/}}, Portal de Periódicos da CAPES \footnote{\url{https://www-periodicos-capes-gov-br.ezl.periodicos.capes.gov.br/index.php?}},  Google Acadêmico \footnote{\url{https://scholar.google.com/}}. Essas foram escolhidas por serem acessíveis gratuitamente pela afiliação à Universidade Federal de Sergipe, já o Google Scholar foi escolhido para agregar pesquisas em outras bases que possam ter trabalhos relevantes.
+As bases escolhidas foram: ACM Digital Library \footnote{\url{https://dl.acm.org/}},  IEEE Xplorer Digital Library \footnote{\url{https://ieeexplore.ieee.org/}},  Biblioteca Digital Brasileira de Teses e Dissertações (BDTD) \footnote{\url{https://bdtd.ibict.br/}}, Portal de Periódicos da CAPES \footnote{\url{https://www-periodicos-capes-gov-br.ezl.periodicos.capes.gov.br/index.php?}},  Google Acadêmico \footnote{\url{https://scholar.google.com/}}. Essas foram escolhidas por serem acessíveis gratuitamente pela afiliação à Universidade Federal de Sergipe, já o Google Scholar foi escolhido por agregar pesquisas em outras bases que possam ter trabalhos relevantes.
 
 % 
 %
@@ -564,20 +565,20 @@ Foram elaboradas questões de pesquisa específicas, que guiam as frases-chave q
 \begin{enumerate}
   \item Quais são as abordagens mais comuns utilizadas na criação de compiladores para tradução de BRDFs expressas em alguma linguagem de texto, com \LaTeX , para \textit{shaders}?
 
-  \item Quais as técnicas de \textit{parsing} que têm sido aplicadas no desenvolvimento de compiladores para linguagens matemáticas como \LaTeX ?
+  \item Quais as técnicas de \textit{parsing} têm sido aplicadas no desenvolvimento de compiladores para linguagens matemáticas como \LaTeX ?
 
-  \item O trabalho utiliza arvores ou gramáticas livre de contexto para representar uma BRDF?
+  \item O trabalho utiliza árvores ou gramáticas livre de contexto para representar uma BRDF?
 
  \item Quais são os principais desafios enfrentados ao traduzir funções matemáticas complexas, como as BRDFs, em \textit{shaders}?
 
- \item Quais são as ferramentas e recursos disponíveis para auxiliar no desenvolvimento de compiladores para BRDFs e \textit{shaders}, e como elas podem ser integradas ao processo de desenvolvimento?
+ \item Quais são as ferramentas e recursos disponíveis para auxiliar no desenvolvimento de compiladores para BRDFs e \textit{shaders}, e como eles podem ser integrados ao processo de desenvolvimento?
 
 \end{enumerate}
 
 
 
 \subsection{Termos de Busca}
- As frases foram construidas considerando suas variações equivalentes através de operadores lógicos. Posteriormente, as frases de pesquisa foram adaptadas de acordo com as características individuais de cada base de dados utilizada. Os termos-chave escolhidos foram: "shader", "BRDF", "compiler", "parser" e "grammar", conforme demonstrado na \autoref{tab-bases}
+ As frases foram construidas considerando suas variações equivalentes através de operadores lógicos. Posteriormente, as frases de pesquisa foram adaptadas de acordo com as características individuais de cada base de dados utilizada. Os termos-chave escolhidos foram: ("shader" AND "BRDF" AND ("compiler" OR "parser" OR "grammar")), conforme demonstrado na \autoref{tab-bases}
 
 
 \begin{table}[H]
@@ -622,7 +623,7 @@ AND (("Full Text \& Metadata":compiler) OR  ("Full Text \& Metadata":parsing) OR
 
 \subsection{Critérios}
 
-Para garantir relevancia dos resultados obtivos, seguimos os critérios de inclusão e exclusão estabelecidos, de forma a filtrar os resultados. Ao fim desse procedimento, apenas os resultados com maior compatibilidade com este trabalho foram análisados e descritos de maneira detalhada. O resultados se encontram na \autoref{tab-result}
+Para garantir relevancia dos resultados obtidos, seguimos os critérios de inclusão e exclusão estabelecidos, de forma a filtrar os resultados. Ao fim desse procedimento, apenas os resultados com maior compatibilidade com este trabalho foram analisados e descritos de maneira detalhada. O resultados se encontram na \autoref{tab-result}
 
 \subsubsection{Critérios de Inclusão}
 
@@ -635,12 +636,12 @@ Para garantir relevancia dos resultados obtivos, seguimos os critérios de inclu
 \subsubsection{Critérios de Exclusão}
 
 \begin{enumerate}
-  \item Foram excluídos artigos dos quais dispunham de links incorretos e ou quebrados;
+  \item Foram excluídos artigos que dispunham de links incorretos e ou quebrados;
   \item Foram excluídos artigos no quais os projetos são muito similares;
   \item Foram excluídos artigos que não respodem as questões de pesquisa na \autoref{questoes-pesquisa};
-  \item Foram excluídos artigos que não têm como entrada uma BRDF no formato de equação, ou seja, está utilizam a representação diretamente como código;
-  \item Foram excluídos artigos que não consideram a geração de \textit{shaders} como saída ou estrutura da BRDF em arvore;
-  \item Foram excluídos artigos que não citam BRDFs e compilador em seu resumo;
+  \item Foram excluídos artigos que não têm como entrada uma BRDF no formato de equação, ou seja, utilizam a representação diretamente como código;
+  \item Foram excluídos artigos que não consideram a geração de \textit{shaders} como saída ou estrutura da BRDF em árvore;
+  \item Foram excluídos artigos que não citam BRDFs e compilador ou arvóres em seu resumo;
   \item Se após a leitura completa, o artigo não concerne os interesses deste trabalho, esse foi excluído.
 \end{enumerate}
 
@@ -718,7 +719,7 @@ Assim como o nosso trabalho, esse artigo se concentra em facilitar o processo pa
 
 \subsubsection{A Real-Time Configurable \textit{shader} Based on Lookup Tables}
 
-Esse trabalho propõe uma arquitetura de \textit{hardware} que permite cálculos de \textit{shading} por pixel em tempo real, utilizando \textit{lookup-tables} \cite{configurable}. Para isso, são projetados circuitos configurávei baseado nessas tabelas, memórias de acesso aleatório (RAMs) e memórias somente leitura (ROMs). Varios circuitos base foram projetados para as operações mais comuns, por exemplo, circuitos para calcular produto interno entre dois vetores e circuitos de rotação de um vetor por um ângulo, um exemplo desses diagramas é representado na \autoref{fig_circuit}. Ademais, é usado interpolação em um sistema de coordenadas polares em vez da interpolação vetorial convencional com normalização, com o objetivo de reduzir o tamanho dos circuitos e melhorar o desempenho.
+Esse trabalho propõe uma arquitetura de \textit{hardware} que permite cálculos de \textit{shading} por pixel em tempo real, utilizando \textit{lookup-tables} \cite{configurable}. Para isso, são projetados circuitos configurávei baseado nessas tabelas, memórias de acesso aleatório (RAMs) e memórias somente leitura (ROMs). Varios circuitos base foram projetados para as operações mais comuns. Por exemplo, circuitos para calcular o produto interno entre dois vetores e circuitos de rotação de um vetor por um ângulo, um exemplo desses diagramas é representado na \autoref{fig_circuit}. Ademais, é usado interpolação em um sistema de coordenadas polares em vez da interpolação vetorial convencional com normalização, com o objetivo de reduzir o tamanho dos circuitos e melhorar o desempenho.
 
 
 \begin{figure}[H]
@@ -730,11 +731,13 @@ Esse trabalho propõe uma arquitetura de \textit{hardware} que permite cálculos
 \end{figure}
 
 
-Além disso, o circuito suporta diversas BRDFs, como Blinn-Phong, Cook-Torrance, Ward e modelos baseados em microfacetas, com tabelas  específicas para cada modelo. O uso de tabelas de pesquisa permite a representação organizada da parametrização das BRDFs, tornando o processo de transformação de BRDF para \textit{shaders} mais acessível. Assim como este trabalho, a abordagem facilita a geração de \textit{shaders} a partir da descrição de BRDFs, apesar da metologia ser diferente.
+Além disso, o circuito suporta diversas BRDFs, como Blinn-Phong, Cook-Torrance, Ward e modelos baseados em microfacetas, com tabelas específicas para cada modelo. O uso de tabelas de pesquisa permite a representação organizada da parametrização das BRDFs, tornando o processo de transformação de BRDF para \textit{shaders} mais acessível. Esse trabalho foi aceito por incluir o processo de tradução estruturada de BRDFs para os circuitos. Assim como árvores, eles são hierárquicos e são usados em composição para representar uma BRDF. Assim como este trabalho, a abordagem facilita a geração de \textit{shaders} a partir da descrição de BRDFs, apesar da metologia ser diferente.
 
 \section{Pesquisa por Repositórios online}
-Também foram analisados repositórios no github e SourceForge, cada um com uma \textit{string} de busca especifica. Os repositórios encontrados foram filtrados baseados em seus resumos, caso não haja a menção da criação de um compilador ou não citar uma transformação de BRDF para outra estrutura, esse repositório foi excluido. O resultado se encontra na \autoref{tab-repo}.
+Também foram analisados repositórios no github e SourceForge, cada um com uma \textit{string} de busca especifica. Os repositórios encontrados foram filtrados baseados em seus resumos, caso não haja a menção da criação de um compilador ou não seja citada uma transformação de BRDF para outra estrutura, esse repositório foi excluido. O resultado se encontra na \autoref{tab-repo}.
 
+
+% @IMPORTANT 'preciso incluir o trabalho de conclusão de tulasi, que tem um repositório associado. Você pode colocar em uma seção diferente aqui neste capítulo. também é importante mencionar no capítulo 1 que esse trabalho existe, e que a abordagem do seu difere nas técnicas usadas.
 
 \begin{table}[H]
 \ABNTEXfontereduzida
@@ -758,7 +761,7 @@ Também foram analisados repositórios no github e SourceForge, cada um com uma 
 \end{table}
 
 
-Após ler por completo os resumos dos repostiórios do GitHub, é evidente que nenhum desses projetos é relacionado com o proposto neste trabalhos, apesar de comentarem sobre BRDFs, esses projetos não implementam compiladores, não fazem \textit{parsing} de equações de BRDFs e nem mesmo geram \textit{shaders} a partir de BRDFs.
+Após ler por completo os resumos dos repositórios do GitHub, é evidente que nenhum desses projetos é relacionado com o proposto neste trabalho, apesar de comentarem sobre BRDFs, esses projetos não implementam compiladores, não fazem \textit{parsing} de equações de BRDFs e nem mesmo geram \textit{shaders} a partir de BRDFs.
 
 \chapter{Metodologia} \label{metodologia}
 
