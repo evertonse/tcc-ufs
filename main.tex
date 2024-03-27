@@ -126,14 +126,26 @@ O \autoref{resultadosiniciais} descreve os resultados preliminares deste trabalh
 
 \chapter{Conceitos} \label{conceitos}
 
-Neste capítulo, abordamos os conceitos fundamentais da interação da luz com os materiais na computação gráfica. Destacamos a importância da reflexão da luz, explorando as BRDFs e modelos comuns. Além disso, discutimos elementos-chave na criação de compiladores e o processo de \textit{shading} na GPU.
+Neste capítulo, são abordamos os conceitos fundamentais da interação da luz com os materiais na computação gráfica. Destacamos a importância da reflexão da luz, explorando as BRDFs e modelos comuns. Além disso, discutimos elementos-chave na criação de compiladores e o processo de \textit{shading} na GPU.
 
 Especificamente na \autoref{radiometria}, tratamos dos conceitos fundamentais relacionados à luz, como a capacidade de um material refletir raios de luz e sua importância na computação gráfica e renderização. Destacamos a relação entre a intensidade de um pixel de imagem, a iluminação, a orientação da superfície e  a definição de funções de refletância, as BRDFs. 
 Já na \autoref{brdfmodels}, destacamos alguns modelos comuns de BRDFs.  
 
 A \autoref{compiladores} fornece uma visão abrangente dos elementos essenciais na criação de compiladores. Ela começa com a definição de conceitos fundamentais, como cadeias de símbolos e alfabetos, necessários para entender linguagens formais. Além disso, a seção discute a importância das gramáticas na definição de linguagens e descreve o processo de compilação, incluindo a análise léxica, a análise sintática e o Pratt \textit{Parsing}.
 
-Na \autoref{shading}, é abordado o processo de \textit{shading} e o funcionamento do \textit{pipeline} de renderização da GPU. Nele, é descrito a transformação de vértices e a determinação da cor dos fragmentos, mostrando exemplos de código. 
+Na \autoref{shading}, é abordado o processo de \textit{shading} e o funcionamento do \textit{pipeline} de renderização da GPU. 
+
+\chapter{Conceitos 2} \label{conceitos}
+
+Neste capítulo, abordam-se os conceitos fundamentais da interação da luz com os materiais na computação gráfica. Destaca-se a importância da reflexão da luz, explorando as BRDFs e modelos comuns. Além disso, são discutidos elementos-chave na criação de compiladores e no processo de \textit{shading} na GPU.
+
+Especificamente na \autoref{radiometria}, são apresentados os conceitos fundamentais relacionados à luz, como a capacidade de um material refletir raios de luz e sua importância na computação gráfica e renderização. Destaca-se a relação entre a intensidade de um pixel de imagem, a iluminação, a orientação da superfície e a definição de funções de refletância, as BRDFs. Já na \autoref{brdfmodels}, são destacados alguns modelos comuns de BRDFs.
+
+A \autoref{shading} aborda o processo de \textit{shading} e o funcionamento do \textit{pipeline} de renderização na GPU. Nela, são introduzidos os processos de transformação de vértices e de determinação da cor dos fragmentos, mostrando exemplos de código. 
+
+Na \autoref{compiladores}, é fornecida uma visão abrangente dos elementos essenciais na criação de compiladores. Ela começa com a definição de conceitos fundamentais, como cadeias de símbolos e alfabetos, necessários para entender linguagens formais. Além disso, é discutido a importância das gramáticas na definição de linguagens e é descrito o processo de compilação, incluindo a análise léxica, a análise sintática, o Pratt \textit{Parsing} e análise semântica.
+
+
 
 \section{Radiometria} \label{radiometria}
 
@@ -144,7 +156,7 @@ Na renderização, a intensidade de um pixel da imagem depende de vários fatore
 
 Para compreender e interpretar a intensidade de um pixel em uma imagem, é essencial compreender os conceitos radiométricos. A radiometria quantifica o brilho de uma fonte de luz, a iluminação de uma superfície, a radiância de uma cena e a refletância da superfície.
 
-Renderizar uma imagem envolve mais do que capturar cor \cite{radiometry_color}, requer conhecimento da intensidade de luz em cada ponto da imagem, isto é, a quantidade de luz incidente na cena que alcança a câmera. A radiometria ajuda na criação de sistemas e unidades para quantificar a radiação eletromagnética, considerando um modelo simplificado no qual a luz é tratada como fótons que viajam em linha reta. 
+Renderizar uma imagem envolve mais do que capturar cor \cite{radiometry_color}; requer conhecimento da intensidade de luz em cada ponto da imagem, isto é, a quantidade de luz incidente na cena que alcança a câmera. A radiometria ajuda na criação de sistemas e unidades para quantificar a radiação eletromagnética, considerando um modelo simplificado no qual a luz é tratada como fótons que viajam em linha reta. 
 
 \subsection{Energia Radiante e Fluxo} \label{fluxo}
 
@@ -159,7 +171,7 @@ Q = \frac{hc}{\lambda}
 
 
 
-É interessante observar a evolução da energia radiante ($Q$) ao longo do tempo. Isso dá origem ao conceito de fluxo radiante $\phi$, que é medida em impactos de cada fóton por segundo em uma superfície. Sua unidade é joules por segundo.
+É interessante observar a evolução da energia radiante ($Q$) ao longo do tempo. Isso dá origem ao conceito de fluxo radiante $\phi$, que é medido em impactos de cada fóton por segundo em uma superfície. Sua unidade é joules por segundo.
 
 \begin{align*} 
   \phi &= \frac{dQ}{dt} [\text{J/s}] 
@@ -174,7 +186,7 @@ $$
 
 \subsection{Radiância e BRDF} \label{brdf}
 
-A radiância,  denotada como \( L \), caracteriza a densidade de fluxo por unidade de área \( A \), por ângulo sólido \(\omega \) (ver \autoref{radiance-img} para representação visual). Os ângulos sólidos representam a projeção da região no espaço sobre uma esfera unitária centrada em \( p \), conforme a \autoref{solid-angle}.  Ângulo sólido é a medida da área ocupada por uma região tridimensional conforme vista de um ponto específico \( p \). É expresso em esterradianos (sr), e são frequentemente representados pelo símbolo \( \omega \).
+A radiância,  denotada como \( L \), caracteriza a densidade de fluxo por unidade de área \( A \), por ângulo sólido \(\omega \) (ver \autoref{radiance-img} para representação visual). Os ângulos sólidos representam a projeção da região no espaço sobre uma esfera unitária centrada em \( p \), como ilustrado na \autoref{solid-angle}. Ângulo sólido é a medida da área ocupada por uma região tridimensional conforme vista de um ponto específico \( p \). Seu valor é expresso em esterradianos (sr), e são frequentemente representados pelo símbolo \( \omega \).
 
 Assim, é possível definir radiância conforme a \autoref{eq-radiance}. Ao invés de usar diretamente a área \( A \), a convenção estabelecida nessa definição é utilizar a projeção da área em um plano perpendicular à direção da câmera \cite{weyrich}.
 
@@ -188,7 +200,7 @@ Assim, é possível definir radiância conforme a \autoref{eq-radiance}. Ao inv�
 	\begin{center}
 	    \includegraphics[scale=0.5]{./Imagens/irradiance_hemisphere.png}
 	\end{center}
-  \legend{ \small Fonte: \cite{pbr}}
+  \legend{ \small Fonte: \cite{pbr}. Adaptada}
 \end{figure}
 
 
@@ -305,6 +317,67 @@ Uma superfície retro-refletora reflete a luz incidente de volta na direção de
 	\legend{\footnotesize  Fonte: Autor}
 \end{figure}
 
+
+\section{Introdução ao Shading e ao \textit{pipeline} de GPU} \label{shading}
+
+\textit{Shading} refere-se ao processo de determinar a cor e o brilho dos pixels em uma imagem renderizada. Isso envolve simular a interação da luz com as superfícies, levando em consideração as propriedades dos materiais, condições de iluminação e orientação da superfície. Isso é alcançado por meio de pequenos programas chamados shaders, que são compilados e executados na unidade de processamento gráfico (GPU).
+
+
+A interação com as GPUs é facilitada por meio de uma 
+API, sendo o OpenGL uma API padrão para o uso de funções na GPU \cite{opengl_spec}. O \textit{pipeline} de renderização do OpenGL é composto por várias etapas, incluindo definição de dados de vértices, \textit{shaders} de vértice e fragmento, \textit{shaders} de tesselação e geometria opcionais, configuração de primitivas, recorte e rasterização.
+
+% Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. As etapas mais importantes para o nosso trabalho são os \textit{shaders} de fragmento e de vértice, representados na \autoref{fig-pipeline}, os quais executam a manipulação dos vértices e determinam cores de pixels, respectivamente.
+
+Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. Uma representação visual desse processo pode ser observada na \autoref{fig-pipeline}. Nela, é representado o CPU enviando os dados da cena para a GPU, que utiliza essas informações nos \textit{shaders} de vértice e fragmento. O \textit{shader} de vértice manipula os vértices da cena, enquanto o shader de fragmento determina as cores dos pixels. Os fragmentos são unidades de processamento de imagem individuais, correspondendo a pontos discretos na tela onde a cor final será determinada. Além disso, a CPU também pode enviar variáveis uniformes (\textit{uniform variables}) para os shaders, que são essenciais para a etapa de renderização e contribuem para a geração da imagem final.
+
+\begin{figure}[H]
+	\caption{\label{fig-pipeline}\textit{pipeline} Grafico}
+	\begin{center}
+	    \includegraphics[scale=0.6]{./Imagens/gpu_pipeline.png}
+	\end{center}
+  \legend{Fonte: \cite{video_pipeline}}
+\end{figure}
+
+
+\subsection{Shader de Vértice}
+
+O \textit{shader} de vértice opera em vértices individuais de primitivas geométricas antes de serem rasterizados em fragmentos. Sua principal tarefa é transformar vértices e passar os dados necessários para o \textit{shader} fragmento. Esses \textit{shaders} geralmente realizam várias transformações nos dados dos vértices, permitindo que objetos sejam posicionados, orientados e projetados em uma tela 2D. Um exemplo desse \textit{shader} está no \autoref{vertex_code1}, que usa uma matriz para realizar essas transformações. Ao fim dessa etapa, os vértices são normalizados para coordenadas homogêneas, que é útil para realizar a projeção perspectiva e outros cálculos no \textit{pipeline} de renderização.
+
+
+\begin{codigo}[H]
+  \caption{Exemplo GLSL de \textit{shader} de vértice}
+ \label{vertex_code1}
+\begin{lstlisting}
+#version 330 core
+layout(location = 0) in vec3 inPosition;
+layout(location = 1) in vec3 inNormal;
+
+uniform mat4 modelViewProjection;
+
+out vec3 fragNormal;
+
+void main() {
+    vec3 manipulatedPosition = inPosition + (sin(gl_VertexID * 0.1) * 0.1);
+    fragNormal = inNormal;
+    gl_Position = modelViewProjection * vec4(manipulatedPosition, 1.0);
+}
+\end{lstlisting}
+\end{codigo}
+
+\subsection{Shader de Fragmento}
+
+O \textit{shader} de fragmento opera sobre os fragmentos produzidos pela etapa de rasterização. Sua principal responsabilidade é determinar a cor final de cada fragmento com base na iluminação, texturização e propriedades da superfície. Uma possível interpretação é que esse programa é repetido para todos os pixels da imagem paralelamente.  Esse programa recebe dados interpolados, como vértices e normais, ou seja, cada instância deste programa possui entradas potencialmente diferentes uma das outras. Na API OpenGL, valores como normais e cores são interpolados usando coordenadas baricêntrica.
+
+As BRDFs devem ser implementadas nesse estágio do pipeline para atingir um nível de \textit{shading} mais preciso, pois temos mais dados do que os definidos na geometria, devido à interpolação. Isso resulta em um nível de detalhamento potencialmente maior, considerando uma transição mais suave de um ponto para outro dentro de um triângulo,  como representado na \autoref{better-with-fragment}.
+
+
+\begin{figure}[H]
+	\caption{\label{better-with-fragment} \small Diferença entre shading a nível de vértice e shading a nível de fragmento}
+	\begin{center}
+	    \includegraphics[scale=0.5]{./Imagens/per_vertex_per_frag.png}
+	\end{center}
+  \legend{ Fonte: \cite{pervertex_perfrag}}
+\end{figure}
 
 \section{Compiladores} \label{compiladores}
 
@@ -437,66 +510,6 @@ Após a tradução da expressão matemática para \( L_2 \), o cálculo pode ser
 \]
 
 
-\section{Introdução ao Shading e ao \textit{pipeline} de GPU} \label{shading}
-
-\textit{Shading} refere-se ao processo de determinar a cor e o brilho dos pixels em uma imagem renderizada. Isso envolve simular a interação da luz com as superfícies, levando em consideração as propriedades dos materiais, condições de iluminação e orientação da superfície. Isso é alcançado por meio de pequenos programas chamados shaders, que são compilados e executados na unidade de processamento gráfico (GPU).
-
-
-A interação com as GPUs é facilitada por meio de uma 
-API, sendo o OpenGL uma API padrão para o uso de funções na GPU \cite{opengl_spec}. O \textit{pipeline} de renderização do OpenGL é composto por várias etapas, incluindo definição de dados de vértices, \textit{shaders} de vértice e fragmento, \textit{shaders} de tesselação e geometria opcionais, configuração de primitivas, recorte e rasterização.
-
-% Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. As etapas mais importantes para o nosso trabalho são os \textit{shaders} de fragmento e de vértice, representados na \autoref{fig-pipeline}, os quais executam a manipulação dos vértices e determinam cores de pixels, respectivamente.
-
-Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. Uma representação visual desse processo pode ser observada na \autoref{fig-pipeline}. Nela, é representado o CPU enviando os dados da cena para a GPU, que utiliza essas informações nos \textit{shaders} de vértice e fragmento. O \textit{shader} de vértice manipula os vértices da cena, enquanto o shader de fragmento determina as cores dos pixels. Os fragmentos são unidades de processamento de imagem individuais, correspondendo a pontos discretos na tela onde a cor final será determinada. Além disso, a CPU também pode enviar variáveis uniformes (\textit{uniform variables}) para os shaders, que são essenciais para a etapa de renderização e contribuem para a geração da imagem final.
-
-\begin{figure}[H]
-	\caption{\label{fig-pipeline}\textit{pipeline} Grafico}
-	\begin{center}
-	    \includegraphics[scale=0.6]{./Imagens/gpu_pipeline.png}
-	\end{center}
-  \legend{Fonte: \cite{video_pipeline}}
-\end{figure}
-
-
-\subsection{Shader de Vértice}
-
-O \textit{shader} de vértice opera em vértices individuais de primitivas geométricas antes de serem rasterizados em fragmentos. Sua principal tarefa é transformar vértices e passar os dados necessários para o \textit{shader} fragmento. Esses \textit{shaders} geralmente realizam várias transformações nos dados dos vértices, permitindo que objetos sejam posicionados, orientados e projetados em uma tela 2D. Um exemplo desse \textit{shader} está no \autoref{vertex_code1}, que usa uma matriz para realizar essas transformações. Ao fim dessa etapa, os vértices são normalizados para coordenadas homogêneas, que é útil para realizar a projeção perspectiva e outros cálculos no \textit{pipeline} de renderização.
-
-
-\begin{codigo}[H]
-  \caption{Exemplo GLSL de \textit{shader} de vértice}
- \label{vertex_code1}
-\begin{lstlisting}
-#version 330 core
-layout(location = 0) in vec3 inPosition;
-layout(location = 1) in vec3 inNormal;
-
-uniform mat4 modelViewProjection;
-
-out vec3 fragNormal;
-
-void main() {
-    vec3 manipulatedPosition = inPosition + (sin(gl_VertexID * 0.1) * 0.1);
-    fragNormal = inNormal;
-    gl_Position = modelViewProjection * vec4(manipulatedPosition, 1.0);
-}
-\end{lstlisting}
-\end{codigo}
-
-\subsection{Shader de Fragmento}
-
-O \textit{shader} de fragmento opera sobre os fragmentos produzidos pela etapa de rasterização. Sua principal responsabilidade é determinar a cor final de cada fragmento com base na iluminação, texturização e propriedades da superfície. Uma possível interpretação é que esse programa é repetido para todos os pixels da imagem paralelamente.  Esse programa recebe dados interpolados, como vértices e normais, ou seja, cada instância deste programa possui entradas potencialmente diferentes uma das outras. Na API OpenGL, valores como normais e cores são interpolados usando coordenadas baricêntrica.
-
-As BRDFs devem ser implementadas nesse estágio do pipeline para atingir um nível de \textit{shading} mais preciso, pois temos mais dados do que os definidos na geometria, devido à interpolação. Isso resulta em um nível de detalhamento potencialmente maior, considerando uma transição mais suave de um ponto para outro dentro de um triângulo,  como representado na \autoref{better-with-fragment}.
-
-
-\begin{figure}[H]
-	\caption{\label{better-with-fragment} \small Diferença entre shading a nível de vértice e shading a nível de fragmento}
-	\begin{center}
-	    \includegraphics[scale=0.5]{./Imagens/per_vertex_per_frag.png}
-	\end{center}
-  \legend{ Fonte: \cite{pervertex_perfrag}}
-\end{figure}
 
 \chapter{Revisão Bibliográfica} \label{revisao}
 
