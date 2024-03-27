@@ -234,9 +234,10 @@ A radiância pode fornecer informação sobre o quanto um ponto específico est�
 \end{align*}
 
 
-A principal funcionalidade de um renderizador fotorrealista é estimar a radiancia em um ponto $p$ numa dada direção ${\omega}_o$. Essa radiância é dada pela equação de renderização apresentada por \cite{rendering_equation}. Note que essa equação envolve um termo de radiância recursivo, o caso base ocorre quando não há mais o termo recursivo, isto é, um fonte de luz na qual sua radiância é contribuída apenas por radiância emitida $L_e$.
+A principal funcionalidade de um renderizador fotorrealista é estimar a radiância em um ponto $p$ numa dada direção ${\omega}_o$. Essa radiância é dada pela \autoref{eq-rendering-equation}, conhecida como equação de renderização apresentada por \cite{rendering_equation}. Note que essa equação envolve um termo de radiância recursivo; o caso base ocorre quando não há mais o termo recursivo, isto é, um fonte de luz na qual sua radiância é contribuída apenas por radiância emitida $L_e$.
 
-\begin{align*}
+\begin{equation}\label{eq-rendering-equation}
+\begin{aligned}
   &L_o(p, {\omega}_o) = L_e(p, {\omega}_o) + 
 \int_{H^2}f(p, {\omega}_i, {\omega}_o){L_i(p,{\omega}_i)\cos(\theta_i)d{\omega}_i}\\
     &L_o \text{ é radiância de saída (\textit{outgoing})}\\
@@ -247,12 +248,13 @@ A principal funcionalidade de um renderizador fotorrealista é estimar a radianc
     &H^2 \text{ são todas as direções no hemisfério no ponto $p$}\\
     &\theta_i \text{ ângulo entre direção incidente e a normal da superfície}\\
     &f \text{ função de refletância}\\
-\end{align*}
+\end{aligned}
+\end{equation}
 
-A Função de Distribuição Bidirecional de Reflectância (BRDF) descreve como a luz reflete de uma superfície em diferentes direções afetando a radiância de saída \cite{overview_brdf}. Assim, BRDFs encapsulam as propriedades de reflexão de um material, considerando fatores como a rugosidade da superfície, o ângulo de incidência e o ângulo de reflexão. Formalmente uma BRDF pode ser definida por $f({\omega}_i, {\omega}_o)$, onde ${\omega}_i$ é a direção incidente de luz e ${\omega}_o$ é a direção de saída. Para BRDFs fisicamente realistas algumas propriedades devem ser respeitadas \cite[5.6]{pbr}.
+A Função de Distribuição Bidirecional de Reflectância (BRDF) descreve como a luz reflete de uma superfície em diferentes direções, afetando a radiância de saída \cite{overview_brdf}. Assim, BRDFs encapsulam as propriedades de reflexão de um material, considerando fatores como a rugosidade da superfície, o ângulo de incidência e o ângulo de reflexão. Formalmente uma BRDF pode ser definida por $f({\omega}_i, {\omega}_o)$, onde ${\omega}_i$ é a direção incidente de luz e ${\omega}_o$ é a direção de saída. Para BRDFs fisicamente realistas, algumas propriedades devem ser respeitadas \cite[5.6]{pbr}:
 
 \begin{itemize}
-  \item A propriedade de positividade, $f(\omega_i, \omega_o) \geq 0 $, que garante não existência de energia negativa. 
+  \item A positividade, $f(\omega_i, \omega_o) \geq 0 $, que garante não existência de energia negativa. 
 
   \item A reciprocidade de Helmhotz, $f(\omega_i, \omega_o) = f(\omega_o, \omega_i)$, é o princípio que indica que a função de refletância de uma superfície permanece inalterada quando os ângulos de incidência e reflexão da luz são trocados. Isso é utilizado na otimização do traçado de raios durante a renderização, permitindo traçar os raios da câmera para a fonte de luz. Essa abordagem evita o desperdício computacional em raios que não contribuem significativamente para a intensidade de um pixel na imagem final.
 
@@ -271,16 +273,16 @@ f(\omega_i, \omega_o) = k_s \cdot \delta(\omega_i - \omega_o)
 \end{equation}
 
 \begin{figure}[H]
-	\caption{\label{specular} \small Reflexão especular.}
+	\caption{\label{specular} \small Reflexão especular. Em vermelho está o raio incidente, e em azul o raio de saída.}
 	\begin{center}
 	    \includegraphics[scale=0.5]{./Imagens/specular-2d.png}
 	\end{center}
-	\legend{ \footnotesize Em vermelho está o raio incidente, e em azul o raio de saída.
+	\legend{ \footnotesize 
   Fonte: Autor}
 \end{figure}
 
 \subsection{BRDF Difusa Ideal}
-Uma BRDF difusa ideal reflete a luz incidente uniformemente em todas as direções, sem preferência por ângulos específicos. É representada pela função $f$ na \autoref{eq-diffuse}, onde $\rho_d$ é o albedo da superfície e $\theta$ é o ângulo entre a direção da luz incidente e a normal da superfície. O termo cosseno garante que a radiância refletida seja proporcional ao cosseno do ângulo entre a direção da luz incidente e a normal da superfície como na \autoref{diffuse}. Esse modelo pode representar superfícies como tinta fosca ou papel.
+Uma BRDF difusa ideal reflete a luz incidente uniformemente em todas as direções, sem preferência por ângulos específicos. É representada pela função $f$ na \autoref{eq-diffuse}, onde $\rho_d$ é o albedo da superfície e $\theta$ é o ângulo entre a direção da luz incidente e a normal da superfície. O termo cosseno garante que a radiância refletida seja proporcional ao cosseno do ângulo entre a direção da luz incidente e a normal da superfície, como ilustrado na \autoref{diffuse}. Esse modelo pode representar superfícies como tinta fosca ou papel.
 
 \begin{equation} \label{eq-diffuse}
 f(\omega_i, \omega_o) = \frac{\rho_d}{\pi} \cdot \cos \theta
@@ -396,7 +398,7 @@ Um compilador pode ser visto como uma transformação entre linguagens $ L_1 $ e
 
 \subsection{Gramática} \label{gramatica}
 
-Para auxiliar na criação de um compilador é necessário entender as regras que auxiliam na validação da linguagem de entrada, esse entendimento pode ser alcançado pela gramática. Uma gramática $G$ é um sistema formal composto por um conjunto de regras de produção que especificam como cadeias válidas na linguagem podem ser geradas \cite{language_theory}. Ela inclui terminais, não-terminais, regras de produção e um símbolo inicial.
+Durante a criação de um compilador, é necessário entender as regras que auxiliam na validação da linguagem de entrada, essas regras podem ser formalizadas pela gramática. Uma gramática $G$ é um sistema formal composto por um conjunto de regras de produção que especificam como cadeias válidas na linguagem podem ser geradas \cite{language_theory}. Ela inclui terminais, não-terminais, regras de produção e um símbolo inicial.
 
 \begin{itemize}
   \item Terminais: são os símbolos básicos a partir dos quais as cadeias são formadas. Eles representam as unidades elementares da sintaxe da linguagem.
@@ -424,7 +426,7 @@ Um tipo comum de gramática usado na definição de linguagens é a gramática l
 
 O processo de gerar uma cadeia na linguagem definida por uma gramática é chamado de derivação. Isso envolve aplicar regras de produção sucessivamente, começando pelo símbolo inicial $S$ até restarem apenas símbolos terminais.
 
-Uma árvore sintática é uma representação gráfica do processo de derivação, onde cada nó representa um símbolo na cadeia. As arestas representam a aplicação de regras de produção. Em código, essa árvore é gerada e usada como representação intermediária auxiliando na geração da linguagem alvo $L_2$.
+Uma árvore sintática é uma representação gráfica do processo de derivação, onde cada nó representa um símbolo na cadeia. As arestas representam a aplicação de regras de produção. Em código, essa árvore é gerada e usada como representação intermediária,  auxiliando na geração da linguagem alvo $L_2$.
 
 
 \subsection{Análise Léxica}
@@ -433,7 +435,7 @@ A análise léxica, também conhecida como \textit{lexing} ou \textit{tokenizati
 \subsection{Análise Sintática ou \textit{Parsing}}
 A análise sintática é a segunda fase do processo de compilação, na qual os tokens gerados pela análise léxica são organizados e verificados quanto à conformidade com a gramática da linguagem. Essa etapa envolve a construção de uma árvore sintática, ou estrutura de dados equivalente, que representa a estrutura hierárquica das expressões e instruções do programa. O analisador sintático utiliza regras de produção gramatical para validar a sintaxe do código fonte e identificar possíveis erros.
 
-\subsection{Pratt Parsing}
+\subsubsection{Pratt Parsing}
 O Pratt Parsing, introduzido por Vaughan Pratt, é uma técnica de análise sintática recursiva que permite analisar expressões com precedência de operadores de forma eficiente e sem ambiguidades \cite{pratt}. Uma das suas características distintivas é determinar a ordem de avaliação das expressões. Ao contrário da análise descendente recursiva tradicional, na qual cada não-terminal possui uma função de \textit{parsing}, a análise Pratt associa funções de manipulação (\textit{handlers}) com \textit{tokens}.
 
 A precedência das expressões é definida por meio de uma tabela, na qual cada operador é associado a um valor que permita o \textit{parser} decidir dinamicamente a ordem de avaliação das expressões com base nos operadores encontrados durante a análise. Essa abordagem simplifica significativamente a implementação do parser e elimina a necessidade de criar uma gramática que encapsula a precedência em sua definição. Ela também evita a recursão profunda para lidar com diferentes níveis de precedência.
@@ -455,14 +457,14 @@ A precedência das expressões é definida por meio de uma tabela, na qual cada 
 
 \subsubsection{Pseudo-código para Análise de Expressões}
 
-O pseudo-código \ref{alg1},
+O pseudo-código \ref{alg1}
 demonstra o Pratt \textit{parsing} para a construção de árvores de expressão. Esse algoritmo também é robusto mesmo quando um operador é tanto infixo quanto prefixo, por exemplo ``$-$'' pode ser um \textit{token} de subtração ou de negação. Assim, cada \textit{token} tem uma função de prefixo e infixo associada.
 
 Nesse algoritmo, 
 \textbf{proximo\_token()} recupera o próximo elemento da lista de tokens,
-\textbf{token.precedencia}() retorna a procedência do token atual, \textbf{token.prefixo()} é a função associada ao \textit{token} que faz o parsing de uma expressão quando o \textit{token} é o primeiro em uma subexpressão (e.g. o token "$-$" é o primeiro na expressão "$-3$"). Já o \textbf{token.infixo(esquerda)} é a função associada ao \textit{token} que utiliza outra subárvore já criada como entrada. Por exemplo a subárvore \textbf{esquerda} pode ser a expressão "$-3$", o token atual ser "$*$" e o retorno gera a expressão completa "$-3 * 1$"
+\textbf{token.precedencia}() retorna a procedência do token atual, \textbf{token.prefixo()} é a função associada ao \textit{token} que faz o parsing de uma expressão quando o \textit{token} é o primeiro símbolo em uma subexpressão (e.g. o token ``$-$'' é o primeiro na expressão ``$-3$''). Já o \textbf{token.infixo(esquerda)} é a função associada ao \textit{token} que utiliza outra subárvore já criada como entrada. Por exemplo a subárvore \textbf{esquerda} pode ser a expressão ``$-3$'', o token atual ser ``$*$'' e o retorno gera a expressão completa ``$-3 * 1$''.
 
-Tanto \textbf{token.infixo} quanto \textbf{token.prefixo} podem ser indiretamente recursivas, isto é, ambas podem chamar a função \textbf{expressão} no algoritmo \ref{alg1}. 
+Tanto \textbf{token.infixo} quanto \textbf{token.prefixo} podem ser indiretamente recursivas, isto é, ambas podem chamar a função \textbf{expressão} no \autoref{alg1}. 
 Por fim, \textbf{precedencia\_anterior} representa a precedência do token anterior.
 
 \begin{algoritmo}[H]
@@ -479,21 +481,39 @@ Por fim, \textbf{precedencia\_anterior} representa a precedência do token anter
   \end{lstlisting}
 \end{algoritmo}
 
+\subsection{Análise Semântica}
+
+A análise semântica é uma etapa essencial no processo de compilação, responsável por garantir a corretude semântica das declarações e instruções do programa. Durante esta fase, são aplicadas verificações para garantir que as operações sejam realizadas com tipos compatíveis.
+
+Um exemplo típico de verificação semântica é a inferência de tipos em expressões. Por exemplo, no código a seguir:
+
+\begin{lstlisting}[language=C]
+float x = 10.1;
+float y = x * 30;
+\end{lstlisting}
+
+O analisador semântico infere que o número inteiro 30 deve ser convertido para o tipo float antes da multiplicação, garantindo consistência de tipos.
+
+Além da verificação de tipos, o analisador semântico identifica e reporta outros erros comuns, como variáveis não declaradas e falhas no controle de fluxo do programa.
+
+No contexto deste trabalho, no desenvolvimento de \textit{shaders} em OpenGL (GLSL), a análise semântica é importante para validar expressões e funções relacionadas à renderização de materiais. Por exemplo, ao escrever uma função BRDF em GLSL, o analisador deve verificar se os tipos de dados e operações são compatíveis tanto com a definição da função BRDF quanto com as dimensões de vetores, matrizes e outras grandezas definidas.
+
 \subsection{Geração da Linguagem Alvo} \label{codegen}
 
-Nesta fase, fazemos a transição da representação intermediária  da linguagem origem \( L_1 \)  para  a linguagem de destino \( L_2 \), o processo que envolve traduzir construções de \( L_1 \) para equivalentes em $L_2$. Podemos realizar essa tradução ao percorrer recursivamente os nós da árvore sintática usando as informações contidas nesses nós para gerar partes do programa final em $L_2$.
+Nesta fase, fazemos a transição da representação intermediária  da linguagem origem \( L_1 \)  para  a linguagem de destino \( L_2 \), processo que envolve traduzir construções de \( L_1 \) para equivalentes em $L_2$. Podemos realizar essa tradução ao percorrer recursivamente os nós da árvore sintática usando as informações contidas nesses nós para gerar partes do programa final em $L_2$.
 
 Dado um programa $a \in L_1$ existem vários programas $b_{i=1,2,3,...} \in L_2$ que possui estrutura semanticamente equivalentes à $a$. Ao explorar esse conjunto, é possível escolher um $b_j \in L_2$ tal que esse programa seja otimizado em algum sentido, como uso eficiente de memória ou executar menos instruções de \textit{hardware}. Nosso foco neste trabalho está na tradução semanticamente correta, sem envolver exploração das saídas  equivalentes.
 
-Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) (\LaTeX), para \( L_2 \) ( GLSL). O cálculo abaixo pertence a $L_1$. O \autoref{cod-fonte-calculo} mostra o código fonte do cálculo. 
+Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) (\LaTeX), para \( L_2 \) ( GLSL). O cálculo apresentado na \autoref{eq-calculo-vetorial} pertence a $L_1$. O \autoref{cod-fonte-calculo} mostra o código fonte desse cálculo. 
 
-\[
+
+\begin{equation} \label{eq-calculo-vetorial}
  \quad \mathbf{v} = (\mathbf{a} + \mathbf{b}) \cdot
  \mathbf{c} - (\mathbf{d} \times \mathbf{e})
-\]
+\end{equation}
 
 \begin{codigo}
-\caption{Cálculo vetorial}
+\caption{Cálculo vetorial em código fonte \LaTeX}
   \label{cod-fonte-calculo}
 \begin{lstlisting}
  \mathbf{v} = (\mathbf{a} + \mathbf{b}) \cdot
@@ -503,12 +523,15 @@ Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) (\L
 
 
 
-Após a tradução da expressão matemática para \( L_2 \), o cálculo pode ser convertido para o trecho de programa abaixo. Esse código é válido na linguagem GLSL.
+Após a tradução da expressão matemática para \( L_2 \), o cálculo pode ser convertido para o trecho de programa apresentado no \autoref{cod-calculo-vetorial-glsl}. Esse código é válido na linguagem GLSL.
 
-\[
-\quad \text{{vec3 v = dot(a + b, c) - cross(d, e);}}
-\]
-
+\begin{codigo}
+\caption{Cálculo vetorial em código GLSL}
+\label{cod-calculo-vetorial-glsl}
+\begin{lstlisting}[language = c]
+    vec3 v = dot(a + b, c) - cross(d, e);
+\end{lstlisting}
+\end{codigo}
 
 
 \chapter{Revisão Bibliográfica} \label{revisao}
@@ -1090,7 +1113,7 @@ Ao testar a geração de árvore de sintaxe, precedência de operadores e interp
 
 Este capítulo apresenta o desenvolvimento e implementação de um simples \textit{ray tracer} usando métodos estocásticos de colisão de raios na linguagem de programação Odin com a biblioteca RayLib \footnote{\url{https://www.raylib.com/}} para renderização de imagens em uma janela. Isso foi feito para começar a entender melhor BRDFs e a equação de renderização.
 
-O \textit{ray tracer} foi construído com instruções do livro "Ray Tracing in One Weekend" \footnote{\url{https://raytracing.github.io/books/RayTracingInOneWeekend.html}}. Ele opera inteiramente na unidade de processamento central, e a funcionalidade principal do \textit{ray tracer} envolve a modelagem de raios e sua reflexão dos \textit{pixels} da imagem para a cena. A cena consiste exclusivamente de esferas, empregando cálculos de colisão padrão entre um raio e uma esfera.
+O \textit{ray tracer} foi construído com instruções do livro ``Ray Tracing in One Weekend'' \footnote{\url{https://raytracing.github.io/books/RayTracingInOneWeekend.html}}. Ele opera inteiramente na unidade de processamento central, e a funcionalidade principal do \textit{ray tracer} envolve a modelagem de raios e sua reflexão dos \textit{pixels} da imagem para a cena. A cena consiste exclusivamente de esferas, empregando cálculos de colisão padrão entre um raio e uma esfera.
 \subsection{Implementação de Materiais}
 
 O \textit{ray tracer} inclui vários materiais que ditam o comportamento dos raios ao interagir com superfícies, embora não garantidos de estar fisicamente vinculados, considerando a conservação de energia discutida no capítulo \ref{brdf}. Cada material é implementado como uma estrutura contendo um ponteiro de função de dispersão responsável por calcular a atenuação e o raio disperso após a interação com uma superfície. Como demonstrando no \autoref{odin-materiais}, os seguintes materiais foram implementados:
