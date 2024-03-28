@@ -131,8 +131,13 @@ Podendo varia na frequencia absorvida ou refletida, quais a direções que a luz
 geometric optics, defraction is not accounted
 
 
-Ideial specular, D
---- 
+# Cook-Torance
+
+- https://www.youtube.com/watch?v=RRE-F57fbXw
+
+
+$  Ideial specular, D
+
 both wi and wo are positions on the hemisphere and therefore 2 dimension so BRDFs are 4 dimensional functions
 em shading estamos interessado em um wo apenas de todas essa BRDF que é o wo que é a direção dada pelo vetor do ponto p até a camera
 propriedades, isso permite ir da camera para a luz ao invez da luz para a acmera

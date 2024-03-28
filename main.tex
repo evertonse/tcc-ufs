@@ -430,15 +430,15 @@ Uma árvore sintática é uma representação gráfica do processo de derivaçã
 
 
 \subsection{Análise Léxica}
-A análise léxica, também conhecida como \textit{lexing} ou \textit{tokenization}, é a primeira etapa do processo de compilação, na qual a entrada textual é dividida em unidades léxicas significativas chamadas de \textit{tokens}. Esses tokens representam os componentes básicos da linguagem, como palavras-chave, identificadores, operadores e literais. O analisador léxico percorre o código fonte caractere por caractere, agrupando-os em tokens conforme regras pré-definidas pela gramática da linguagem. Essa linguagem é, geralmente, reconhecível por máquinas de estado \cite{automata}.
+A análise léxica, também conhecida como \textit{lexing} ou \textit{tokenization}, é a primeira etapa do processo de compilação, na qual a entrada textual é dividida em unidades léxicas significativas chamadas de \textit{tokens}. Esses \textit{tokens} representam os componentes básicos da linguagem, como palavras-chave, identificadores, operadores e literais. O analisador léxico percorre o código fonte caractere por caractere, agrupando-os em \textit{tokens} conforme regras pré-definidas pela gramática da linguagem. Essa linguagem é, geralmente, reconhecível por máquinas de estado \cite{automata}.
 
 \subsection{Análise Sintática ou \textit{Parsing}}
-A análise sintática é a segunda fase do processo de compilação, na qual os tokens gerados pela análise léxica são organizados e verificados quanto à conformidade com a gramática da linguagem. Essa etapa envolve a construção de uma árvore sintática, ou estrutura de dados equivalente, que representa a estrutura hierárquica das expressões e instruções do programa. O analisador sintático utiliza regras de produção gramatical para validar a sintaxe do código fonte e identificar possíveis erros.
+A análise sintática é a segunda fase do processo de compilação, na qual os \textit{tokens} gerados pela análise léxica são organizados e verificados quanto à conformidade com a gramática da linguagem. Essa etapa envolve a construção de uma árvore sintática, ou estrutura de dados equivalente, que representa a estrutura hierárquica das expressões e instruções do programa. O analisador sintático utiliza regras de produção gramatical para validar a sintaxe do código fonte e identificar possíveis erros.
 
 \subsubsection{Pratt Parsing}
 O Pratt Parsing, introduzido por Vaughan Pratt, é uma técnica de análise sintática recursiva que permite analisar expressões com precedência de operadores de forma eficiente e sem ambiguidades \cite{pratt}. Uma das suas características distintivas é determinar a ordem de avaliação das expressões. Ao contrário da análise descendente recursiva tradicional, na qual cada não-terminal possui uma função de \textit{parsing}, a análise Pratt associa funções de manipulação (\textit{handlers}) com \textit{tokens}.
 
-A precedência das expressões é definida por meio de uma tabela, na qual cada operador é associado a um valor que permita o \textit{parser} decidir dinamicamente a ordem de avaliação das expressões com base nos operadores encontrados durante a análise. Essa abordagem simplifica significativamente a implementação do parser e elimina a necessidade de criar uma gramática que encapsula a precedência em sua definição. Ela também evita a recursão profunda para lidar com diferentes níveis de precedência.
+A precedência das expressões é definida por meio de uma tabela, na qual cada operador é associado a um valor que permita o \textit{parser} decidir dinamicamente a ordem de avaliação das expressões com base nos operadores encontrados durante a análise. Essa abordagem simplifica significativamente a implementação do \textit{parser} e elimina a necessidade de criar uma gramática que encapsula a precedência em sua definição. Ela também evita a recursão profunda para lidar com diferentes níveis de precedência.
 
 % \subsubsection{Árvores Inclinadas}
 %
@@ -461,7 +461,7 @@ O pseudo-código \ref{alg1}
 demonstra o Pratt \textit{parsing} para a construção de árvores de expressão. Esse algoritmo também é robusto mesmo quando um operador é tanto infixo quanto prefixo, por exemplo ``$-$'' pode ser um \textit{token} de subtração ou de negação. Assim, cada \textit{token} tem uma função de prefixo e infixo associada.
 
 Nesse algoritmo, 
-\textbf{proximo\_token()} recupera o próximo elemento da lista de tokens,
+\textbf{proximo\_token()} recupera o próximo elemento da lista de \textit{tokens},
 \textbf{token.precedencia}() retorna a procedência do token atual, \textbf{token.prefixo()} é a função associada ao \textit{token} que faz o parsing de uma expressão quando o \textit{token} é o primeiro símbolo em uma subexpressão (e.g. o token ``$-$'' é o primeiro na expressão ``$-3$''). Já o \textbf{token.infixo(esquerda)} é a função associada ao \textit{token} que utiliza outra subárvore já criada como entrada. Por exemplo a subárvore \textbf{esquerda} pode ser a expressão ``$-3$'', o token atual ser ``$*$'' e o retorno gera a expressão completa ``$-3 * 1$''.
 
 Tanto \textbf{token.infixo} quanto \textbf{token.prefixo} podem ser indiretamente recursivas, isto é, ambas podem chamar a função \textbf{expressão} no \autoref{alg1}. 
@@ -765,68 +765,72 @@ Após ler por completo os resumos dos repositórios do GitHub, é evidente que n
 
 \chapter{Metodologia} \label{metodologia}
 
-A metodologia para desenvolver o compilador proposto envolve uma abordagem prática, as etapas são:  uma análise aprofundada das informações pertinentes a BRDFs e compilação de \textit{shaders}; exploração de técnicas existentes dentro do domínio;  especificação da linguagem subcojunto \LaTeX de entrada;  a implementação do compilador; a avaliação de seu desempenho por meio de experimentos de renderização.
+A metodologia para desenvolver o compilador proposto envolve uma abordagem prática. As suas prinipais etapas são: uma análise das informações pertinentes a BRDFs e compilação de \textit{shaders}; exploração de técnicas existentes dentro do domínio; especificação da linguagem subcojunto \LaTeX de entrada;  a implementação do compilador; a avaliação de seu desempenho por meio de experimentos de renderização.
+
+Inicialmente, o metódo para realizar a análise detalhada e exploração das tecnicas é descrito na (\autoref{analise}). Em seguida, a especificação da linguagem de entrada e saída é definida (\autoref{especificacao-linguagem}). Posteriormente, uma idea de como o design dos casos de teste devem ser elaborados para validar a correção e precisão do compilador é apresentado na (\autoref{testes}). A implementação do compilador é então detalhada (\autoref{implementacao-compilador}), seguida pelos experimentos de renderização para avaliar o desempenho e a qualidade visual dos shaders compilados (\autoref{experimentos-renderizacao}). Por fim, um plano de continuação é delineado, abordando as próximas etapas para completar o desenvolvimento do compilador proposto (\autoref{plano-continuacao}).
+
+\section{Análise e Técnicas} \label{analise}
 
 
-\section{Análise } \label{analise}
+O primeiro passo envolve a realização de uma análise detalhada das áreas relacionadas ao desenvolvimento da ferramenta proposta. Isso inclui a revisão da literatura (\cite{revisao}) sobre BRDFs, linguagens de \textit{shaders}, design de compiladores e técnicas de renderização gráfica. Além disso, envolve o estudo de ferramentas e bibliotecas pertinentes. Durante essa análise, foram estudados conceitos de Radiometria para compreender tecnicamente as BRDFs. A principal fonte de informação sobre radiância e BRDFs foi o livro ``Physically Based Rendering: From Theory To Implementation'' \cite{pbr}.
 
-O primeiro passo envolve a realização de uma análise detalhada das áreas relacionadas ao desenvolvimento da ferramenta proposta. Isso inclui a revisão da literatura sobre BRDFs, linguagens de \textit{shaders}, \textit{design} de compiladores e técnicas de renderização gráfica. Também envolve estudo de ferramentas e bibliotecas pertinentes.
+Ademais, foram exploradas diversas técnicas para compilação e renderização, como o método de Pratt \textit{Parsing} para a construção de um compilador, conforme detalhado na \ref{parser}, e a técnica de \textit{ray tracing} para compreensão e prática da equação de renderização (\autoref{eq-rendering-equation}). A implementação do \textit{ray tracing} permitiu a familiarização com o desenvolvimento de BRDFs sem o uso de bibliotecas, fornecendo uma base sólida para a compreensão do mapeamento da equação para código, aspecto fundamental para o desenvolvimento do compilador proposto neste trabalho.
 
+\section{Especificação da Linguagem}\label{especificacao-linguagem}
 
-\section{Especificação da Linguagem}
+As especificações da linguagem de entrada e saída para o compilador são definidas. A linguagem de entrada é uma versão simplificada do \LaTeX, na qual as expressões matemáticas nos ambientes \texttt{equation} ou \texttt{align} são suficientes para descrever BRDFs. O \LaTeX\  é um sistema de composição amplamente utilizado para documentos matemáticos e científicos. O ambiente \texttt{equation} é especificamente projetado para exibir equações individuais. O \autoref{equation-latex} é um exemplo de código fonte \LaTeX\  usando o ambiente \texttt{equation}:
 
-As especificações da linguagem de entrada e saída para o compilador são definidas. A linguagem de entrada é uma versão simplificada do \LaTeX ,na qual as expressões matemáticas nos ambientes \texttt{equation} ou \texttt{align} são suficientes para descrever BRDFs. O \LaTeX  é um sistema de composição amplamente utilizado para documentos matemáticos e científicos. O ambiente \texttt{equation} é especificamente projetado para exibir equações individuais. A equação \ref{equation-latex} é um exemplo de código \LaTeX  usando o ambiente \texttt{equation}:
-
-
+\begin{codigo}[H]
+\caption{Código fonte de função quadrática}
 \label{equation-latex}
-\begin{verbatim}
+\begin{lstlisting}
 \begin{equation}
-    f(x) = ax^2 + bx + c
+    g(x) = ax^2 + bx + c
 \end{equation}
-\end{verbatim}
+\end{lstlisting}
+\end{codigo}
 
 
-Este código representa uma equação quadrática \( f(x) = ax^2 + bx + c \), onde \( a \), \( b \) e \( c \) são coeficientes, o \textit{shader} GLSL correspondente gerado a partir dessa equação pode ser:  
+Este código representa uma equação quadrática \( g(x) = ax^2 + bx + c \), onde \( a \), \( b \) e \( c \) são coeficientes. O código GLSL correspondente gerado a partir dessa equação pode ser:  
 \begin{verbatim}
-float quadratic(float x, float a, float b, float c) {
+float g(float x, float a, float b, float c) {
     return a * x * x + b * x + c;
 }
 \end{verbatim}
 
 \section{Design de Casos de Teste} \label{testes}
 
+Os casos de teste são essenciais para validar a precisão e correção do processo de tradução do compilador. Eles estabelecem uma correspondência entre as equações \LaTeX\ de entrada, que descrevem as BRDFs, e o código de \textit{shader} GLSL esperado como saída. Um exemplo específico que demonstra a eficácia do compilador pode ser construído com a BRDF de Cook-Torrance. Sua função, \texttt{cook\_torrance}, é representada pela \autoref{eq-cook-torrance}, onde \(D\) é a função de distribuição normal, \(G\) é a função de sombreamento geométrico e \(F\) é a função de Fresnel. Embora não tenham sido definidas explicitamente as funções \(D\), \(G\), \(F\), é importante ressaltar que, caso essas funções fossem definidas na equação \LaTeX, elas devem ser definidas no \autoref{cod-glsl-esperado} GLSL esperado.  
 
+Além disso, algumas variáveis, como a normal representada por \( n \), seriam passadas como entradas no \textit{shader} de fragmentos ou declaradas como variáveis uniformes, portanto não estão definidas explicitamente na função \texttt{cook\_torrance} do GLSL de saída; elas são variáveis implícitas. No momento, estamos focados em definir casos de teste para avaliar a geração das operações e precedências. No entanto, é importante considerar que, posteriormente, o GLSL não deverá apenas gerar a função BRDF, mas sim o \textit{shader} completo, incluindo as variáveis uniformes e a passagem da cor calculada para as próximas etapas do \textit{pipeline} gráfico.
 
-Os casos de teste devem ser projetados para validar a correção e precisão do processo de tradução do compilador. Eles emparelham equações \LaTeX  de entrada descrevendo BRDFs com o código de \textit{shader} GLSL de saída esperado. Um caso específico que demonstra a capacidade do compilador pode ser criado com a BRDF de Cook-Torrance.
+\begin{equation} \label{eq-cook-torrance}
+  \text{cook\_torrance}(\omega_i, \omega_o) = \frac{D(h)F(\omega_i, h)G(\omega_i, \omega_o, h)}{4(\omega_i \cdot n)(\omega_o \cdot n)}
+\end{equation}
 
 \textbf{LaTeX Input (Cook-Torrance BRDF):}
-\begin{verbatim}
-\begin{equation}
-f_{\text{CT}}(\omega_i, \omega_o) = \frac{D(h)F(\omega_i, h)G(\omega_i, \omega_o, h)}{4(\omega_i \cdot n)(\omega_o \cdot n)}
-\end{equation}
-\end{verbatim}
+\begin{codigo}[H]
+\caption{Entrada em Latex}
+\label{cod-input-latex}
+\begin{lstlisting}
+  \text{cook\_torrance}(\omega_i, \omega_o) = \frac{D(h)F(\omega_i, h)G(\omega_i, \omega_o, h)}{4(\omega_i \cdot n)(\omega_o \cdot n)}
+\end{lstlisting}
+\end{codigo}
 
 \textbf{GLSL Output esperado:}
-\begin{verbatim}
-float CookTorrance(vec3 normal, vec3 viewDir, vec3 lightDir, float roughness, float F0) {
-    // halfway vector
-    vec3 halfwayDir = normalize(viewDir + lightDir);
-
-    // microfacet distribution function
-    float D = ...; // D(h)
-
-    // Calculate Fresnel term
-    float F = ...; //F(wi, h) 
-
-    // Calculate geometric attenuation factor
-    float G = ...; //G(wi, wo, h)
-
-    float denominator = 4.0 * max(dot(viewDir, normal), 0.0) * max(dot(lightDir, normal), 0.0);
-
-    // Final BRDF value
-    return (D * F * G) / denominator;
+\begin{codigo}[H]
+\caption{Saída em GLSL esperada}
+\label{cod-glsl-esperado}
+\begin{lstlisting}[language=C]
+vec3 cook_torrance(vec3 wi, vec3 wo) {
+    float D_RESULT = D(h);
+    vec3  F_RESULT = F(wi, wo);
+    float G_RESULT = G(wi, wo, h); 
+    float denominador = 4.0 * dot(n, wi) * dot(n, wo);
+    return D_RESULT * F_RESULT * G_RESULT / denominador;
 }
-\end{verbatim}
+\end{lstlisting}
+\end{codigo}
 
 \section{Implementação do Compilador} \label{compiladorimplementacao}
 
@@ -843,46 +847,50 @@ Seguindo esa metodologia, a ferramenta proposta visa compilar efetivamente descr
 
 \section{Plano de Continuação} \label{continuacao}
 
-A continuação deste trabalho envolve várias tarefas-chave destinadas a completar o desenvolvimento do compilador proposto para converter equações \LaTeX  que descrevem BRDFs em código de \textit{shader} GLSL. As tarefas incluem: atualizar o \textit{lexer} e o \textit{parser} escritos em Odin para aceitar equações \LaTeX; testar o \textit{lexer} para garantir o reconhecimento correto dos \textit{tokens}; testar o \textit{parser} para garantir que a árvore sintática está com precedência correta; definir símbolos predefinidos e constantes matemáticas; implementar o processo de geração de código GLSL usando a árvore sintática com o padrão de visitante; expandir os casos de teste para cobrir uma melhor variedade de BRDFs; testar o código gerado quanto à correção e eficácia, incluindo as visualizações das BRDFs em algumas cenas; preparar a apresentação final; escrever o documento do trabalho (TCC).
+A continuação deste trabalho envolve várias tarefas-chave destinadas a completar o desenvolvimento do compilador proposto para converter equações \LaTeX  que descrevem BRDFs em código de \textit{shader} GLSL. As tarefas incluem: atualizar o \textit{lexer} e o \textit{parser} escritos em Odin para aceitar equações \LaTeX; testar o \textit{lexer} para garantir o reconhecimento correto dos \textit{tokens}; testar o \textit{parser} para garantir que a árvore sintática está com precedência correta; definir símbolos predefinidos e constantes matemáticas; implementar o processo de geração de código GLSL usando a árvore sintática com o padrão de \textit{design} visitante (\textit{Visitor}); expandir os casos de teste para cobrir uma melhor variedade de BRDFs; testar o código gerado quanto à correção e eficácia, incluindo as visualizações das BRDFs em algumas cenas; preparar a apresentação final; escrever o documento do trabalho (TCC). Cada etapa e seus períodos de execução são ilustrados na \autoref{chart} e listados a seguir:
 
-\begin{enumerate}
-  \item 06/05/2024 - 20/05/2024: Atualizar o \textit{lexer} e o \textit{parser} para aceitar equações \LaTeX.
-
-\item 06/05/2024 - 27/05/2024: Testar o lexer para garantir o reconhecimento correto de todos os tokens \LaTeX  Math.
-\item 06/05/2024 - 27/05/2024: Testar o parser para garantir a árvore de sintaxe com a precedência correta.
-\item 13/05/2024 - 03/06/2024: Definir símbolos predefinidos como constantes matemáticas e outras quantidades.
-\item 03/06/2024 - 10/07/2024: Implementar o processo de geração de código GLSL.
+\begin{enumerate} 
+\item 06/05/2024 - 10/06/2024: Atualizar o \textit{lexer} e o \textit{parser} para aceitar equações \LaTeX.
+\item 10/05/2024 - 18/05/2024: Testar o \textit{lexer} para garantir o reconhecimento correto de todos os \textit{tokens} \LaTeX .
+\item 18/05/2024 - 10/06/2024: Testar o \textit{parser} para garantir a árvore de sintaxe com a precedência correta.
+\item 10/06/2024 - 25/06/2024: Definir símbolos predefinidos como constantes matemáticas e outras quantidades.
+\item 25/06/2024 - 24/08/2024: Implementar o processo de geração de código GLSL.
 \item 10/07/2024 - 17/07/2024: Expandir os casos de teste para cobrir uma ampla gama de BRDFs.
 \item 17/07/2024 - 24/08/2024: Testar o código gerado quanto à correção e eficácia, tanto em código quanto em visualização e corrigir se necessário.
-\item 17/06/2024 - 06/09/2024: Escrever o documento da tese.
-\item 10/06/2024 - 01/07/2024: Preparar a apresentação final.
+\item 01/06/2024 - 06/09/2024: Escrever o documento da tese.
+\item 25/08/2024 - 06/09/2024: Preparar a apresentação final.
 \end{enumerate}
 
-
-\begin{adjustwidth}{-1.3cm}{-1cm}
-
+% \begin{adjustwidth}{-1.3cm}{-1cm}
+\begin{landscape}
+\begin{figure}[htb]
+\caption{\label{chart} Chart das tarefas previstas. }
+\begin{center}
 \begin{ganttchart}[
 vgrid,
 hgrid,
-x unit=1.01mm,
+x unit=1.12mm,
 time slot format=isodate,
+% time slot format=isodate-yearmonth,
 bar label font=\footnotesize,
 group label font=\footnotesize,
 milestone label font=\footnotesize,
-]{2024-05-06}{2024-09-06}
+]{2024-05-06}{2024-9-10}
     \gantttitlecalendar{year, month=shortname} \\
-    \ganttbar{1. Atualizar lexer e parser}{2024-05-06}{2024-05-10} \\
-    \ganttbar{2. Testar lexer para todos os tokens}{2024-05-10}{2024-05-15} \\
-    \ganttbar{3. Testar parser para precedência}{2024-05-15}{2024-05-20} \\
-    \ganttbar{4. Definir símbolos matemáticos}{2024-05-20}{2024-05-25} \\
-    \ganttbar{5. Implementar geração de GLSL}{2024-06-03}{2024-07-10} \\
+    \ganttbar{1. Atualizar lexer e parser}{2024-05-06}{2024-06-10} \\
+    \ganttbar{2. Testar lexer para todos os tokens}{2024-05-10}{2024-05-18} \\
+    \ganttbar{3. Testar parser para precedência}{2024-05-18}{2024-06-10} \\
+    \ganttbar{4. Definir símbolos matemáticos}{2024-06-10}{2024-6-25} \\
+    \ganttbar{5. Implementar geração de GLSL}{2024-06-25}{2024-08-24} \\
     \ganttbar{6. Expandir casos de teste para GLSL}{2024-07-10}{2024-07-17} \\
     \ganttbar{7. Testar correção do código}{2024-07-17}{2024-08-24} \\
     \ganttbar{8. Escrita do trabalho}{2024-06-01}{2024-09-06} \\
     \ganttbar{9. Preparar apresentação final}{2024-08-25}{2024-09-06}
 \end{ganttchart}
-
-\end{adjustwidth}
+\end{center}
+\end{figure}
+\end{landscape}
+% \end{adjustwidth}
 
 
 \chapter{Resultados Iniciais}
@@ -900,7 +908,7 @@ Ao contrário dos \textit{parser} de descida recursiva tradicionais, que muitas 
 \begin{algoritmo}[H]
   \caption{Parte principal do parsing de expressão em código Odin, nessa implementação usamos a notação original de @ref(pratt) null\_denotations and left\_denotations que o mesmo que funções de parsing para operadore prefix e infixo respectivamente}
 	\label{alg-pratt-parsing}
-  \begin{lstlisting}
+  \begin{lstlisting}[language=C]
 
 parse_expr :: proc(prec_prev: i64) -> ^Expr {
     /* expressions that takes nothing (null) as left operand */
@@ -1004,7 +1012,7 @@ Cada símbolo na tabela de símbolos é representado pela estrutura \texttt{Symb
     \item \texttt{name}: o nome do símbolo.
     \item \texttt{val}: o valor associado ao símbolo (para variáveis).
     \item \texttt{is\_function}: um sinalizador booleano indicando se o símbolo é uma função.
-    \item \texttt{params}: uma lista de tokens representando os parâmetros da função.
+    \item \texttt{params}: uma lista de \textit{tokens} representando os parâmetros da função.
     \item \texttt{body}: um ponteiro para a expressão que representa o corpo da função (se aplicável).
 \end{itemize}
 
