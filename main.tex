@@ -238,7 +238,7 @@ Q = \frac{hc}{\lambda}
 
 
 
-É interessante observar a evolução da energia radiante ($Q$) ao longo do tempo. Isso dá origem ao conceito de fluxo radiante $\phi$, que é medido em impactos de cada fóton por segundo em uma superfície. Sua unidade é joules por segundo, representada na \autoref{eq-fluxo-radiante}.
+É interessante observar a evolução da energia radiante ($Q$) ao longo do tempo. Isso dá origem ao conceito de fluxo radiante $\phi$, que é medido em impactos de cada fóton por segundo em uma superfície. Sua unidade é joules por segundo e está representada na \autoref{eq-fluxo-radiante}.
 
 
 
@@ -247,12 +247,12 @@ Q = \frac{hc}{\lambda}
 \end{equation}
 
 
-A irradiância quantifica o número de impactos dos fótons em uma superfície por segundo por unidade de área. Mais precisamente, podemos definir a irradiância $E$ ao considerar o limite do fluxo radiante $\phi$ diferencial por área $A$ diferencial em um ponto $p$ \cite[~5.4.1]{pbr}. Assim, temos uma métrica mais específica para renderizar imagens com precisão.
+A irradiância quantifica o número de impactos dos fótons em uma superfície por segundo por unidade de área. Mais precisamente, podemos definir a irradiância $E$ ao considerar o limite do fluxo radiante $\phi$ diferencial por área $A$ diferencial em um ponto $p$ \cite[~5.4.1]{pbr}. Assim, temos uma métrica mais específica para renderizar imagens com precisão. Sua fórmula é demonstrada na \autoref{eq-irradiance}.
 
 
-$$
+\begin{equation} \label{eq-irradiance}
  E(p) = \frac{d\phi(p)}{dA} \left[ \frac{\text{J}} {s\cdot m^2} \right]
-$$
+\end{equation}
 
 
 
@@ -271,8 +271,6 @@ Assim, é possível definir radiância conforme a \autoref{eq-radiance}. Ao inv�
 \end{equation}
 
 
-
-
 \begin{figure}[h]
         \caption{\label{radiance-img} \small Visualização da radiância em uma direção específica do hemisfério. }
         \begin{center}
@@ -282,9 +280,7 @@ Assim, é possível definir radiância conforme a \autoref{eq-radiance}. Ao inv�
 \end{figure}
 
 
-
-
-\begin{figure}[htb]
+\begin{figure}[h]
   \caption{\label{solid-angle} \small   Ângulo sólido s do objeto B visto pelo ponto p. }
         \begin{center}
             \includegraphics[scale=0.5]{./Imagens/solid_angle.png}
@@ -301,7 +297,7 @@ Assim, é possível definir radiância conforme a \autoref{eq-radiance}. Ao inv�
 % \end{align*}
 
 
-Equivalentemente, podemos definir radiância para diferentes orientações da superfície e direção do raio ao introduzir o fator $\cos(\theta)$, tal que $\theta$ é o ângulo entre a normal da superfície e a direção do ${\omega}$ \cite[5.4.1]{pbr}. Essa definição é dada pela \autoref{eq-radiance-2}. 
+Equivalentemente, podemos definir radiância para diferentes orientações da superfície e direção do raio ao introduzir o fator $\cos(\theta)$, tal que $\theta$ é o ângulo entre a normal da superfície e a direção ${\omega}$ \cite[5.4.1]{pbr}. Essa definição é dada pela \autoref{eq-radiance-2}. 
 
 
 \begin{equation} \label{eq-radiance-2}
@@ -311,14 +307,15 @@ Equivalentemente, podemos definir radiância para diferentes orientações da su
 
 
 
-A radiância pode fornecer informação sobre o quanto um ponto específico está iluminado na direção da câmera. Ela depende não apenas da direção do raio que incide, mas também das propriedades de refletância da superfície. E, no contexto de renderização, a radiância de uma superfície na cena se correlaciona com a irradiância de um pixel em uma imagem pela \autoref{eq-radiance-2}. Isolando o termo $E(p)$, encontramos essa relação de maneira explícita:
+A radiância pode fornecer informação sobre o quanto um ponto específico está iluminado na direção da câmera. Ela depende não apenas da direção do raio que incide, mas também das propriedades de refletância da superfície. E, no contexto de renderização, a radiância de uma superfície na cena se correlaciona com a irradiância de um pixel em uma imagem pela \autoref{eq-radiance-2}. Isolando o termo $E(p)$, encontramos essa relação de maneira explícita na \autoref{eq-irradiance-explicit}.
 
 
-\begin{align*}
- \label{ep-Ep}
+\begin{equation} \label{eq-irradiance-explicit}
+  \begin{aligned}
   &E(p) = \int_{H^2}{L(p,{\omega})\cos(\theta)d{\omega}}\\
   &H^2 \text{ é o hemisfério no plano tangente à superfície no ponto $p$}
-\end{align*}
+  \end{aligned}
+\end{equation}
 
 
 
