@@ -1220,7 +1220,7 @@ Ao contrário dos \textit{parser} de descida recursiva tradicionais, que muitas 
 
 
 
-\begin{algoritmo}[H]
+\begin{codigo}[H]
   \caption{\small Parsing de expressão em código Odin.}
         \label{alg-pratt-parsing}
   \begin{lstlisting}[language=C]
@@ -1243,7 +1243,7 @@ parse_expr :: proc(prec_prev: i64) -> ^Expr {
 
 
   \end{lstlisting}
-\end{algoritmo}
+\end{codigo}
 
 
 \begin{figure}[H]
@@ -1258,12 +1258,40 @@ parse_expr :: proc(prec_prev: i64) -> ^Expr {
 
 Para formalizar a gramática da linguagem de entrada (\texttt{SimpleLang}) deste compilador, definimos suas regras no \autoref{lst-gramatica}. Um exemplo de código-fonte válido em \texttt{SimpleLang} é apresentado no \autoref{code-gramatica}.
 
-Utilizamos uma notação leve de sintaxe para representar esta gramática. Palavras com todas as letras minúsculas são não-terminais, enquanto palavras entre aspas simples representam literalmente um \textit{token} com esse conteúdo. Palavras em letras maiúsculas representam um \textit{token} que pode variar, mas mantém o mesmo significado semântico. Por exemplo, NUMBER pode ser 2.0 ou 1.0, mas nas regras de produção eles são tratados de maneira idêntica. O símbolo ``$*$'' indica zero ou mais ocorrências, ``$()$'' indica agrupamento para aplicar um operador a ele, ``$|$'' simboliza o início de uma regra alternativa para o mesmo não-terminal e ``$=$'' indica uma produção.
 
-% \begin{lstlisting}[frame=bt,numbers=none]
+\begin{codigo}[htb]
+        \caption{\small Exemplo código escrito na linguagem \texttt{SimpleLang}. }
+        \label{code-gramatica}
+  \begin{lstlisting}[language = python]
+    epsilon = 0.001; # proximidade em float
 
 
-\begin{lstlisting}[numbers=none, frame=none,caption=Gramática para \texttt{SimpleLang}.,label=lst-gramatica]
+    abs = fn(a) a lt 0 or a lt -0 ? -a : a;
+
+
+    float_close = fn(a, b) 
+        abs(a - b) lt epsilon ? 
+            1 : 0;
+
+
+    # Classical fibonacci
+    fib = fn(n)  
+        float_close(n, 0) ? 
+            0
+        :float_close(n, 1) ?
+            1
+        :fib(n-1)  + fib(n-2);
+
+
+    fib(10)  # Ultima expressao significa retorno do main
+  \end{lstlisting}
+\end{codigo}
+
+\begin{codigo}[H]
+        \caption{\small Gramática para \texttt{SimpleLang}.}
+        \label{lst-gramatica}
+% \begin{lstlisting}[numbers=none, frame=none,caption=,label=]
+\begin{lstlisting}[numbers=none, frame=none]
 start = assign* expr ;
 
 
@@ -1299,6 +1327,14 @@ infix   = '+' | '-' | '*' | '/' | '^'
             | 'eq' | 'lt' | 'gt' | 'or' | 'and'
             ;
 \end{lstlisting}
+\end{codigo}
+
+
+  Na definição da gramática (\autoref{lst-gramatica}), utilizamos uma notação leve de sintaxe para representá-la. Palavras com todas as letras minúsculas são não-terminais, enquanto palavras entre aspas simples representam literalmente um \textit{token} com esse conteúdo. Palavras em letras maiúsculas representam um \textit{token} que pode variar, mas mantém o mesmo significado semântico. Por exemplo, NUMBER pode ser 2.0 ou 1.0, mas nas regras de produção eles são tratados de maneira idêntica. O símbolo ``$*$'' indica zero ou mais ocorrências, ``$()$'' indica agrupamento para aplicar um operador a ele, ``$|$'' simboliza o início de uma regra alternativa para o mesmo não-terminal e ``$=$'' indica uma produção.
+
+% \begin{lstlisting}[frame=bt,numbers=none]
+
+
 
 
 Essa gramática define regras para expressões, atribuições, chamadas de função e vários operadores, como \texttt{postfix}, \texttt{prefix} e \texttt{infix}, com o intuito de criar uma vasta coleção de operadores com diferentes precedências para facilitar a transição da sintaxe de \texttt{SimpleLang} para a sintaxe \LaTeX\  futuramente.
@@ -1306,33 +1342,6 @@ Essa gramática define regras para expressões, atribuições, chamadas de funç
 
 
 
-\begin{algoritmo}[H]
-        \caption{\small Exemplo código escrito na linguagem \texttt{SimpleLang}. }
-        \label{code-gramatica}
-  \begin{lstlisting}[language = python]
-    epsilon = 0.001; # proximidade em float
-
-
-    abs = fn(a) a lt 0 or a lt -0 ? -a : a;
-
-
-    float_close = fn(a, b) 
-        abs(a - b) lt epsilon ? 
-            1 : 0;
-
-
-    # Classical fibonacci
-    fib = fn(n)  
-        float_close(n, 0) ? 
-            0
-        :float_close(n, 1) ?
-            1
-        :fib(n-1)  + fib(n-2);
-
-
-    fib(10)  # Ultima expressao significa retorno do main
-  \end{lstlisting}
-\end{algoritmo}
 
 
 \subsection{Tabela de Símbolos}
