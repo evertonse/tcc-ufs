@@ -458,7 +458,7 @@ Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformaçõe
 \subsection{Shader de Vértice}
 
 
-O \textit{shader} de vértice opera em vértices individuais de primitivas geométricas antes de serem rasterizados em fragmentos. Sua principal tarefa é transformar vértices e passar os dados necessários para o \textit{shader} fragmento. Esses \textit{shaders} geralmente realizam várias transformações nos dados dos vértices, permitindo que objetos sejam posicionados, orientados e projetados em uma tela 2D. Um exemplo desse \textit{shader} está no \autoref{vertex_code1}, que usa uma matriz para realizar essas transformações. Ao fim dessa etapa, os vértices são normalizados para coordenadas homogêneas. Essa normalização é essencial para realizar a projeção perspectiva e outros cálculos no \textit{pipeline} de renderização.
+O \textit{shader} de vértice opera em vértices individuais de primitivas geométricas antes de serem rasterizados em fragmentos. Sua principal tarefa é transformar vértices e passar os dados necessários para o \textit{shader} de fragmentos. Esses \textit{shaders} geralmente realizam várias transformações nos dados dos vértices, permitindo que objetos sejam posicionados, orientados e projetados em uma tela bidimensional (2D). Um exemplo desse \textit{shader} está no \autoref{vertex_code1}, que usa uma matriz para realizar essas transformações. Ao fim dessa etapa, os vértices são normalizados para coordenadas homogêneas. Essa normalização é essencial para realizar a projeção perspectiva e outros cálculos no \textit{pipeline} de renderização.
 
 
 
@@ -490,10 +490,10 @@ void main() {
 \subsection{Shader de Fragmento}
 
 
-O \textit{shader} de fragmento opera sobre os fragmentos produzidos pela etapa de rasterização. Sua principal responsabilidade é determinar a cor final de cada fragmento com base na iluminação, texturização e propriedades da superfície. Uma possível interpretação é que esse programa é repetido para todos os pixels da imagem paralelamente.  Esse programa recebe dados interpolados, como vértices e normais, ou seja, cada instância deste programa possui entradas potencialmente diferentes uma das outras. Na API OpenGL, valores como normais e vértices são interpolados usando coordenadas baricêntricas \cite{opengl_interpolation}.
+O \textit{shader} de fragmento opera sobre os fragmentos produzidos pela etapa de rasterização. Sua principal responsabilidade é determinar a cor final de cada fragmento com base na iluminação, texturização e propriedades da superfície. Uma possível interpretação é que esse programa é repetido para todos os pixels da imagem paralelamente.  Ele recebe dados interpolados, como vértices e normais, ou seja, cada instância desse programa possui entradas potencialmente diferentes uma das outras. Na API OpenGL, valores como normais e vértices são interpolados usando coordenadas baricêntricas \cite{opengl_interpolation}.
 
 
-As BRDFs podem ser implementadas nesse estágio do pipeline para atingir um nível de \textit{shading} mais preciso, pois podemos ter mais dados do que os definidos na geometria, devido à interpolação. Isso resulta em um nível de detalhamento potencialmente maior, considerando uma transição mais suave de um ponto para outro dentro de um triângulo,  como representado na \autoref{better-with-fragment}.
+As BRDFs podem ser implementadas nesse estágio do \textit{pipeline} para atingir um nível de \textit{shading} mais preciso, pois é possível ter mais dados do que os definidos na geometria devido à interpolação. Isso resulta em um nível de detalhamento potencialmente maior, considerando uma transição mais suave de um ponto para outro dentro de um triângulo,  como representado na \autoref{better-with-fragment}.
 
 
 
@@ -579,11 +579,11 @@ Uma árvore sintática é uma representação gráfica do processo de derivaçã
 
 
 \subsection{Análise Léxica}
-A análise léxica, também conhecida como \textit{lexing} ou \textit{tokenization}, é a primeira etapa do processo de compilação, na qual a entrada textual é dividida em unidades léxicas significativas chamadas de \textit{tokens}. Esses \textit{tokens} representam os componentes básicos da linguagem, como palavras-chave, identificadores, operadores e literais. O analisador léxico percorre o código fonte caractere por caractere, agrupando-os em \textit{tokens} conforme regras pré-definidas pela gramática da linguagem. Essa linguagem é, geralmente, reconhecível por máquinas de estado \cite{automata}.
+A análise léxica, também conhecida como \textit{lexing} ou \textit{tokenization}, é a primeira etapa do processo de compilação, na qual a entrada textual é dividida em unidades léxicas significativas chamadas de \textit{tokens}. Esses \textit{tokens} representam os componentes básicos da linguagem, como palavras-chave, identificadores, operadores e literais. O analisador léxico percorre o código-fonte caractere por caractere, agrupando-os em \textit{tokens} conforme regras pré-definidas pela gramática da linguagem. Essa linguagem é, geralmente, reconhecível por máquinas de estado \cite{automata}.
 
 
 \subsection{Análise Sintática ou \textit{Parsing}}
-A análise sintática é a segunda fase do processo de compilação, na qual os \textit{tokens} gerados pela análise léxica são organizados e verificados quanto à conformidade com a gramática da linguagem. Essa etapa envolve a construção de uma árvore sintática, ou estrutura de dados equivalente, que representa a estrutura hierárquica das expressões e instruções do programa. O analisador sintático utiliza regras de produção gramatical para validar a sintaxe do código fonte e identificar possíveis erros.
+A análise sintática é a segunda fase do processo de compilação, na qual os \textit{tokens} gerados pela análise léxica são organizados e verificados quanto à conformidade com a gramática da linguagem. Essa etapa envolve a construção de uma árvore sintática, ou estrutura de dados equivalente, que representa a estrutura hierárquica das expressões e instruções do programa. O analisador sintático utiliza regras de produção gramatical para validar a sintaxe do código-fonte e identificar possíveis erros.
 
 
 \subsubsection{Pratt Parsing}
@@ -618,11 +618,11 @@ demonstra o Pratt \textit{parsing} para a construção de árvores de expressão
 
 Nesse algoritmo, 
 \textbf{proximo\_token()} recupera o próximo elemento da lista de \textit{tokens},
-\textbf{token.precedencia}() retorna a procedência do token atual, \textbf{token.prefixo()} é a função associada ao \textit{token} que faz o \textit{parsing} de uma expressão quando o \textit{token} é o primeiro símbolo em uma subexpressão (e.g. o token ``$-$'' é o primeiro na expressão ``$-3$''). Já o \textbf{token.infixo(esquerda)} é a função associada ao \textit{token} que utiliza outra subárvore já criada como entrada. Por exemplo a subárvore \textbf{esquerda} pode ser a expressão ``$-3$'', o token atual ser ``$*$'' e o retorno gera a expressão completa ``$-3 * 1$''.
+\textbf{token.precedencia}() retorna a procedência do token atual, \textbf{token.prefixo()} é a função associada ao \textit{token} que faz o \textit{parsing} de uma expressão quando o \textit{token} é o primeiro símbolo em uma subexpressão (e.g. o token ``$-$'' é o primeiro na expressão ``$-3$''). Enquanto o \textbf{token.infixo(esquerda)} é a função associada ao \textit{token} que utiliza outra subárvore já criada como entrada. Por exemplo a subárvore \textbf{esquerda} pode ser a expressão ``$-3$'', o \textit{token} atual ser ``$*$'' e o retorno gera a expressão completa ``$-3 * 1$''.
 
 
 Tanto \textbf{token.infixo} quanto \textbf{token.prefixo} podem ser indiretamente recursivas, isto é, ambas podem chamar a função \textbf{expressão} no \autoref{alg1}. 
-Por fim, \textbf{precedencia\_anterior} representa a precedência do token anterior.
+Por fim, \textbf{precedencia\_anterior} representa a precedência do \textit{token} anterior.
 
 
 \begin{algoritmo}[H]
@@ -672,7 +672,7 @@ Nesta fase, fazemos a transição da representação intermediária  da linguage
 Dado um programa $a \in L_1$ existem vários programas $b_{i=1,2,3,...} \in L_2$ que possui estrutura semanticamente equivalentes à $a$. Ao explorar esse conjunto, é possível escolher um $b_j \in L_2$ tal que esse programa seja otimizado em algum sentido, como uso eficiente de memória ou executar menos instruções de \textit{hardware}. Nosso foco neste trabalho está na tradução semanticamente correta, sem envolver exploração das saídas  equivalentes.
 
 
-Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) (\LaTeX), para \( L_2 \) ( GLSL). O cálculo apresentado na \autoref{eq-calculo-vetorial} pertence a $L_1$. O \autoref{cod-fonte-calculo} mostra o código fonte desse cálculo. 
+Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) (\LaTeX), para \( L_2 \) (GLSL). O cálculo apresentado na \autoref{eq-calculo-vetorial} pertence a $L_1$. O \autoref{cod-fonte-calculo} mostra o código-fonte desse cálculo. 
 
 
 
@@ -684,7 +684,7 @@ Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) (\L
 
 
 \begin{codigo}
-\caption{\small Cálculo vetorial em código fonte \LaTeX}
+\caption{\small Cálculo vetorial em código-fonte \LaTeX.}
   \label{cod-fonte-calculo}
 \begin{lstlisting}
  \mathbf{v} = (\mathbf{a} + \mathbf{b}) \cdot
@@ -701,7 +701,7 @@ Após a tradução da expressão matemática para \( L_2 \), o cálculo pode ser
 
 
 \begin{codigo}
-\caption{\small Cálculo vetorial em código GLSL}
+\caption{\small Cálculo vetorial em código GLSL.}
 \label{cod-calculo-vetorial-glsl}
 \begin{lstlisting}[language = C]
     vec3 v = dot(a + b, c) - cross(d, e);
@@ -1024,11 +1024,11 @@ Ademais, foram exploradas diversas técnicas para compilação e renderização,
 \section{Especificação da Linguagem}\label{especificacao-linguagem}
 
 
-As especificações da linguagem de entrada e saída para o compilador são definidas. A linguagem de entrada é uma versão simplificada do \LaTeX, na qual as expressões matemáticas nos ambientes \texttt{equation} ou \texttt{align} são suficientes para descrever BRDFs. O \LaTeX\  é um sistema de composição amplamente utilizado para documentos matemáticos e científicos. O ambiente \texttt{equation} é especificamente projetado para exibir equações individuais. O \autoref{equation-latex} é um exemplo de código fonte \LaTeX\  usando o ambiente \texttt{equation}.
+As especificações da linguagem de entrada e saída para o compilador são definidas. A linguagem de entrada é uma versão simplificada do \LaTeX, na qual as expressões matemáticas nos ambientes \texttt{equation} ou \texttt{align} são suficientes para descrever BRDFs. O \LaTeX\  é um sistema de composição amplamente utilizado para documentos matemáticos e científicos. O ambiente \texttt{equation} é especificamente projetado para exibir equações individuais. O \autoref{equation-latex} é um exemplo de código-fonte \LaTeX\  usando o ambiente \texttt{equation}.
 
 
 \begin{codigo}[H]
-\caption{\small Código fonte de função quadrática.}
+\caption{\small Código-fonte de função quadrática.}
 \label{equation-latex}
 \begin{lstlisting}
 \begin{equation}
@@ -1056,7 +1056,7 @@ float g(float x, float a, float b, float c) {
 \section{Design de Casos de Teste} \label{testes}
 
 
-Os casos de teste são essenciais para validar a precisão e correção do processo de tradução do compilador. Eles estabelecem uma correspondência entre as equações \LaTeX\ de entrada, que descrevem as BRDFs, e o código de \textit{shader} GLSL esperado como saída. Um exemplo específico que demonstra a eficácia do compilador pode ser construído com a BRDF de Cook-Torrance. Sua função, \texttt{cook\_torrance}, é representada pela \autoref{eq-cook-torrance} (seu código fonte está definido no \autoref{cod-input-latex}), onde \(D\) é a função de distribuição normal, \(G\) é a função de sombreamento geométrico e \(F\) é a função de Fresnel. Embora as funções \(D\), \(G\), \(F\) não tenham sido definidas explicitamente, é importante ressaltar que, caso essas funções fossem definidas na equação \LaTeX, elas também devem ser definidas no \autoref{cod-glsl-esperado}, GLSL esperado de saída.  
+Os casos de teste são essenciais para validar a precisão e correção do processo de tradução do compilador. Eles estabelecem uma correspondência entre as equações \LaTeX\ de entrada, que descrevem as BRDFs, e o código de \textit{shader} GLSL esperado como saída. Um exemplo específico que demonstra a eficácia do compilador pode ser construído com a BRDF de Cook-Torrance. Sua função, \texttt{cook\_torrance}, é representada pela \autoref{eq-cook-torrance} (seu código-fonte está definido no \autoref{cod-input-latex}), onde \(D\) é a função de distribuição normal, \(G\) é a função de sombreamento geométrico e \(F\) é a função de Fresnel. Embora as funções \(D\), \(G\), \(F\) não tenham sido definidas explicitamente, é importante ressaltar que, caso essas funções fossem definidas na equação \LaTeX, elas também devem ser definidas no \autoref{cod-glsl-esperado}, GLSL esperado de saída.  
 
 
 Além disso, algumas variáveis, como a normal representada por \( n \), seriam passadas como entrada no \textit{shader} de fragmentos ou declaradas como variáveis uniformes, portanto não estão definidas explicitamente na função \texttt{cook\_torrance} no \autoref{cod-glsl-esperado}; elas são variáveis implícitas. Inicialmente, o foco é definir casos de teste para avaliar apenas a geração das operações e precedências. No entanto, é importante considerar que, posteriormente, o GLSL não deverá apenas gerar a função BRDF, mas sim o \textit{shader} completo, incluindo as variáveis uniformes e a passagem da cor calculada para as próximas etapas do \textit{pipeline} gráfico.
@@ -1195,7 +1195,7 @@ milestone label font=\footnotesize,
 Este capítulo apresenta os resultados iniciais de dois experimentos distintos, cada um focado em explorar aspectos importantes para este trabalho. Inicialmente, abordaremos o desenvolvimento de um compilador, seguido por uma investigação prática sobre técnicas de \textit{ray tracing}. 
 
 
-O experimento com o compilador visa proporcionar uma compreensão mais profunda  do desenvolvimento de compiladores. Isso foi realizado através da escolha de uma linguagem simples para implementação, que será chamada \texttt{SimpleLang}. Por ser uma linguagem com menos regras de sintaxe que o \LaTeX, é possível a exploração do processo de compilação incluindo a tokenização, criação da árvore sintática e interpretação do código fonte por meio dessa árvore sintática. Esse compilador foi desenvolvido sem o uso de bibliotecas externas, o que amplia o entendimento sobre os fundamentos do desenvolvimento de compiladores.
+O experimento com o compilador visa proporcionar uma compreensão mais profunda  do desenvolvimento de compiladores. Isso foi realizado através da escolha de uma linguagem simples para implementação, que será chamada \texttt{SimpleLang}. Por ser uma linguagem com menos regras de sintaxe que o \LaTeX, é possível a exploração do processo de compilação incluindo a tokenização, criação da árvore sintática e interpretação do código-fonte por meio dessa árvore sintática. Esse compilador foi desenvolvido sem o uso de bibliotecas externas, o que amplia o entendimento sobre os fundamentos do desenvolvimento de compiladores.
 
 
 
@@ -1256,7 +1256,7 @@ parse_expr :: proc(prec_prev: i64) -> ^Expr {
 
 \subsection{Gramática}
 
-Para formalizar a gramática da linguagem de entrada (\texttt{SimpleLang}) deste compilador, definimos suas regras no \autoref{lst-gramatica}. Um exemplo de código fonte válido em \texttt{SimpleLang} é apresentado no \autoref{code-gramatica}.
+Para formalizar a gramática da linguagem de entrada (\texttt{SimpleLang}) deste compilador, definimos suas regras no \autoref{lst-gramatica}. Um exemplo de código-fonte válido em \texttt{SimpleLang} é apresentado no \autoref{code-gramatica}.
 
 Utilizamos uma notação leve de sintaxe para representar esta gramática. Palavras com todas as letras minúsculas são não-terminais, enquanto palavras entre aspas simples representam literalmente um \textit{token} com esse conteúdo. Palavras em letras maiúsculas representam um \textit{token} que pode variar, mas mantém o mesmo significado semântico. Por exemplo, NUMBER pode ser 2.0 ou 1.0, mas nas regras de produção eles são tratados de maneira idêntica. O símbolo ``$*$'' indica zero ou mais ocorrências, ``$()$'' indica agrupamento para aplicar um operador a ele, ``$|$'' simboliza o início de uma regra alternativa para o mesmo não-terminal e ``$=$'' indica uma produção.
 
