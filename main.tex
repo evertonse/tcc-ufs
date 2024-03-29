@@ -721,7 +721,7 @@ Após a tradução da expressão matemática para \( L_2 \), o cálculo pode ser
 \chapter{Revisão Bibliográfica} \label{revisao}
 
 
-Para esta seção, será conduzida uma revisão literária abrangente com o objetivo de explorar trabalhos relacionados ao desenvolvimento de compiladores para tradução de BRDFs expressas em \LaTeX  para a linguagem de \textit{shading}, empregando técnicas de \textit{parsing}. O processo de busca será conduzido em duas etapas distintas. Primeiro, será realizado um levantamento dos trabalhos existentes nas bases de dados  com relevantes periódicos, anais de eventos, artigos e trabalhos. Por fim, será realizada uma busca por produtos ou ferramentas similares no mercado, utilizando \textit{strings} de busca específicas em repositórios digitais, especificamente GitHub e SourceForge. Esses processos de busca permitirão identificar referências relevantes e estabelecer um panorama do estado da arte no campo dos compiladores de BRDFs  para \textit{shaders}, contribuindo para a compreensão do contexto acadêmico e prático no qual este trabalho se insere.
+Para esta seção, será conduzida uma revisão literária abrangente com o objetivo de explorar trabalhos relacionados ao desenvolvimento de compiladores para tradução de BRDFs expressas em \LaTeX  para a linguagem de \textit{shading}, empregando técnicas de \textit{parsing}. O processo de busca será conduzido em duas etapas distintas. Inicialmente, será realizado um levantamento dos trabalhos existentes nas bases de dados  com relevantes periódicos, anais de eventos, artigos e trabalhos. Por fim, será realizada uma busca por produtos ou ferramentas similares no mercado, utilizando \textit{strings} de busca específicas em repositórios digitais, especificamente GitHub e SourceForge. Esses processos de busca permitirão identificar referências relevantes e estabelecer um panorama do estado da arte no campo dos compiladores de BRDFs  para \textit{shaders}, contribuindo para a compreensão do contexto acadêmico e prático no qual este trabalho se insere.
 
 
 \section{Mapeamento Sistemático}
@@ -755,10 +755,10 @@ Foram elaboradas questões de pesquisa específicas, que guiam as frases-chave q
 
 
 \begin{enumerate}
-  \item Quais são as abordagens mais comuns utilizadas na criação de compiladores para tradução de BRDFs expressas em alguma linguagem de texto, com \LaTeX , para \textit{shaders}?
+  \item Quais são as abordagens mais comuns utilizadas na criação de compiladores para tradução de BRDFs expressas em alguma linguagem de texto, como \LaTeX, para \textit{shaders}?
 
 
-  \item Quais as técnicas de \textit{parsing} têm sido aplicadas no desenvolvimento de compiladores para linguagens matemáticas como \LaTeX ?
+  \item Quais as técnicas de \textit{parsing} têm sido aplicadas no desenvolvimento de compiladores para linguagens matemáticas?
 
 
   \item O trabalho utiliza árvores ou gramáticas livres de contexto para representar uma BRDF?
@@ -778,14 +778,14 @@ Foram elaboradas questões de pesquisa específicas, que guiam as frases-chave q
 
 
 \subsection{Termos de Busca}
- As frases foram construídas considerando suas variações equivalentes através de operadores lógicos. Posteriormente, as frases de pesquisa foram adaptadas de acordo com as características individuais de cada base de dados utilizada. Os termos-chave escolhidos foram: ("shader" AND "BRDF" AND ("compiler" OR "parser" OR "grammar")), conforme demonstrado na \autoref{tab-bases}
+ As frases foram construídas considerando suas variações equivalentes através de operadores lógicos. Posteriormente, as frases de pesquisa foram adaptadas de acordo com as características individuais de cada base de dados utilizada. Os termos-chave escolhidos foram: ("shader" AND "BRDF" AND ("compiler"\ OR "parser"\ OR "grammar")), conforme demonstrado na \autoref{tab-bases}.
 
 
 
 
 \begin{table}[H]
 \ABNTEXfontereduzida
-\caption[bases]{Tabela de pesquisa}
+\caption[bases]{Tabela de pesquisa.}
 \label{tab-bases}
 \begin{tabular}{p{2.6cm}|p{6.0cm}|p{2.25cm}|p{3.40cm}}
   %\hline
@@ -830,7 +830,7 @@ AND (("Full Text \& Metadata":compiler) OR  ("Full Text \& Metadata":parsing) OR
 \subsection{Critérios}
 
 
-Para garantir a relevância dos resultados obtidos, seguimos os critérios de inclusão e exclusão estabelecidos, de forma a filtrar os resultados. Ao fim desse procedimento, apenas os resultados com maior compatibilidade com este trabalho foram analisados e descritos de maneira detalhada. O resultados se encontram na \autoref{tab-result}
+Para garantir a relevância dos resultados obtidos, seguimos os critérios de inclusão e exclusão estabelecidos, de forma a filtrar os resultados. Ao fim desse procedimento, apenas os resultados com maior compatibilidade com este trabalho foram analisados e descritos de maneira detalhada. O resultados se encontram na \autoref{tab-result}.
 
 
 \subsubsection{Critérios de Inclusão}
@@ -838,7 +838,7 @@ Para garantir a relevância dos resultados obtidos, seguimos os critérios de in
 
 \begin{enumerate}
   \item Foram incluídos artigos relacionados às palavras-chaves;
-  \item Foram incluídos artigos que de alguma forma incluam a criação de um compilador ou um \textit{parser};
+  \item Foram incluídos artigos que de alguma forma citem a criação de um compilador ou um \textit{parser};
   \item Foram incluídos artigos que sintetizam uma árvore como representação de BRDFs.
 \end{enumerate}
 
@@ -847,13 +847,13 @@ Para garantir a relevância dos resultados obtidos, seguimos os critérios de in
 
 
 \begin{enumerate}
-  \item Foram excluídos artigos que dispunham de links incorretos e ou quebrados;
+  \item Foram excluídos artigos que dispunham de \textit{links} incorretos e ou quebrados;
   \item Foram excluídos artigos no quais os projetos são muito similares;
   \item Foram excluídos artigos que não respondem as questões de pesquisa na \autoref{questoes-pesquisa};
   \item Foram excluídos artigos que não têm como entrada uma BRDF no formato de equação, ou seja, utilizam a representação diretamente como código;
   \item Foram excluídos artigos que não consideram a geração de \textit{shaders} como saída ou estrutura da BRDF em árvore;
   \item Foram excluídos artigos que não citam BRDFs e compilador ou árvores em seu resumo;
-  \item Se após a leitura completa, o artigo não concerne os interesses deste trabalho, esse foi excluído.
+  \item Se, após a leitura completa, o artigo não concerne os interesses deste trabalho, esse foi excluído.
 \end{enumerate}
 
 
@@ -861,7 +861,7 @@ Para garantir a relevância dos resultados obtidos, seguimos os critérios de in
 
 \begin{table}[H]
 \ABNTEXfontereduzida
-  \caption[bases]{Resultados da Base após aplicar os critérios}
+  \caption[bases]{Resultados das bases após aplicar os critérios.}
 \label{tab-result}
 \begin{tabular}{p{6.6cm}|p{6.6cm}}
   %\hline
@@ -899,7 +899,7 @@ Para garantir a relevância dos resultados obtidos, seguimos os critérios de in
 \subsubsection{genBRDF: Discovering New Analytic BRDFs with Genetic Programming}
 
 
-Neste artigo é introduzido uma  \textit{framework} chamada genBRDF, a qual aplica técnicas de programação genética para explorar e descobrir novas BRDFs de maneira analitica \cite{genbrdf}. O processo inicia utilizando uma BRDF existente, e interativamente aplica mutações e recombinações de partes das expressões matemáticas que compõem essas BRDFs a medida que novas gerações surgem. Essas mutações são guiadas por uma função \textit{fitness}, que seria o inverso de uma função de erro, ela é baseada em um \textit{dataset} de materiais já medidos. Por meio da avaliação de milhares de expressões, a  \textit{framework} identifica as viávies.
+Neste artigo é introduzido uma  \textit{framework} chamada genBRDF, a qual aplica técnicas de programação genética para explorar e descobrir novas BRDFs de maneira analítica \cite{genbrdf}. O processo inicia utilizando uma BRDF existente, e interativamente aplica mutações e recombinações de partes das expressões matemáticas que compõem essas BRDFs à medida que novas gerações surgem. Essas mutações são guiadas por uma função \textit{fitness}, que seria o inverso de uma função de erro, elas são baseadas em um \textit{dataset} de materiais já medidos. Por meio da avaliação de milhares de expressões, a  \textit{framework} identifica as viáveis.
 
 
 Os autores geraram uma gramática que inclui constantes e operadores matemáticos comuns encontrados em equações BRDF. A gramática é compilada, e a árvore de sintaxe abstrata resultante passa por modificações realizadas pelo algoritmo genético. Nós na árvore podem ser trocados, substituídos, removidos e novos nós podem ser adicionados. Esse processo, após refinamento e análise, resulta em novas BRDFs. Alguns dos novos modelos BRDF apresentados no documento incluem aqueles que superam os modelos existentes em termos de precisão e simplicidade.
@@ -1103,7 +1103,9 @@ vec3 cook_torrance(vec3 wi, vec3 wo) {
 \section{Implementação do Compilador} \label{compiladorimplementacao}
 
 
-A implementação do compilador é realizada utilizando a linguagem de programação Odin, conhecida por ser uma linguagem de propósito geral com foco em programação orientada a dados. Sua escolha se deve à sua capacidade de oferecer controle de baixo nível e à sua adequação para o desenvolvimento de sistemas complexos. Além disso, nenhuma biblioteca externa foi utilizada, sendo empregadas apenas as bibliotecas padrões básicas que acompanham a instalação da linguagem. Técnicas de análise recursiva são utilizadas, especificamente o Pratt \textit{Parsing}. Inicialmente, um \textit{lexer} e um \textit{parser} foram implementados para uma linguagem mais simples do que o \LaTeX\  para garantir que os fundamentos do compilador estejam funcionais, com precedência totalmente testada para a árvore sintática.
+A implementação do compilador é realizada utilizando a linguagem de programação Odin, conhecida por ser uma linguagem de propósito geral com foco em programação orientada a dados. Sua escolha se deve à sua capacidade de oferecer controle de baixo nível e a sua adequação para o desenvolvimento de sistemas complexos. Além disso, nenhuma biblioteca externa foi utilizada, sendo usada apenas as bibliotecas padrões básicas que acompanham a instalação da linguagem.
+
+Técnicas de análise recursiva são utilizadas, especificamente o Pratt \textit{Parsing}. Inicialmente, um \textit{lexer} e um \textit{parser} foram implementados para uma linguagem mais simples do que o \LaTeX\  para garantir que os fundamentos do compilador estejam funcionais, com precedência totalmente testada para a árvore sintática.
 
 
 
@@ -1111,18 +1113,16 @@ A implementação do compilador é realizada utilizando a linguagem de programa�
 \section{Experimentos de Renderização} \label{experimentos-renderizacao}
 
 
-
-
 Por fim, experimentos de renderização são realizados usando os \textit{shaders} gerados pelo compilador. Isso permite a avaliação do desempenho e da qualidade visual das imagens renderizadas produzidas pelos \textit{shaders} compilados. A plataforma escolhida para os testes é a ferramenta Disney BRDF \footnote{\url{https://github.com/wdas/brdf}}, compilada localmente para modificar e adicionar outros \textit{shaders}.
 
 
-Essa ferramenta é composto por um renderizador e uma interface que permite ajustar parâmetros de BRDFs através de controles deslizantes em tempo real, fornecendo uma visualização interativa do efeito das mudanças nos parâmetros na aparência do objeto renderizado, como ilustrado na \autoref{fig-disney-tool}. O código que informa a ferramenta qual a BRDF a ser renderizada e seus possíveis parâmetros pode ser vista na \autoref{fig-disney-code}. Esse código possui um formato específico, onde se encontram algumas seções. Existe a seção para código GLSL e também outra seção entre \texttt{::begin parameters} e \texttt{::end parameters}, na qual podemos definir os parâmetros que se tornam constantes desta BRDF.
+Essa ferramenta é composta por um renderizador e uma interface que permite ajustar parâmetros de BRDFs através de controles deslizantes em tempo real, fornecendo uma visualização interativa do efeito das mudanças nos parâmetros que afetam a aparência do objeto renderizado, como ilustrado na \autoref{fig-disney-tool}. O código que informa à ferramenta qual a BRDF a ser renderizada e seus possíveis parâmetros pode ser visto na \autoref{fig-disney-code}. Esse código possui um formato específico, onde se encontram algumas seções. Existe a seção para código GLSL e outra seção delimitada por \texttt{::begin parameters} e \texttt{::end parameters}, na qual podemos definir os parâmetros que se tornam constantes dessa BRDF.
 
 
 
 
 \begin{figure}[htb]
-        \caption{\label{fig-disney-tool} \small Ferramenta de visualização de BRDFs da Disney}
+        \caption{\label{fig-disney-tool} \small Ferramenta de visualização de BRDFs da Disney.}
         \begin{center}
             \includegraphics[scale=0.7]{./Imagens/disney-brdf-tool.png}
         \end{center}
@@ -1130,7 +1130,7 @@ Essa ferramenta é composto por um renderizador e uma interface que permite ajus
 \end{figure}
 
 
-\begin{figure}[htb]
+\begin{figure}[h]
         \caption{\label{fig-disney-code} \small O código GLSL com sintaxe extra para definir parâmetros.}
         \begin{center}
             \includegraphics[scale=0.7]{./Imagens/disney-brdf-code.png}
@@ -1145,7 +1145,7 @@ Essa ferramenta é composto por um renderizador e uma interface que permite ajus
 \section{Plano de Continuação} \label{continuacao}
 
 
-A continuação deste trabalho envolve várias tarefas-chave destinadas a completar o desenvolvimento do compilador proposto para converter equações \LaTeX  que descrevem BRDFs em código de \textit{shader} GLSL. As tarefas incluem: atualizar o \textit{lexer} e o \textit{parser} escritos em Odin para aceitar equações \LaTeX; testar o \textit{lexer} para garantir o reconhecimento correto dos \textit{tokens}; testar o \textit{parser} para garantir que a árvore sintática está com precedência correta; definir símbolos predefinidos e constantes matemáticas; implementar o processo de geração de código GLSL usando a árvore sintática com o padrão de \textit{design} visitante (\textit{Visitor}); expandir os casos de teste para cobrir uma melhor variedade de BRDFs; testar o código gerado quanto à correção e eficácia, incluindo as visualizações das BRDFs em algumas cenas; preparar a apresentação final; escrever o documento do trabalho (TCC). Cada etapa e seus períodos de execução são ilustrados na \autoref{chart} e listados a seguir:
+A continuação deste trabalho envolve várias tarefas-chave destinadas a completar o desenvolvimento do compilador proposto para converter equações \LaTeX  que descrevem BRDFs em código de \textit{shader} GLSL. As tarefas incluem: atualizar o \textit{lexer} e o \textit{parser} escritos em Odin para aceitar equações \LaTeX; testar o \textit{lexer} para garantir o reconhecimento correto dos \textit{tokens}; testar o \textit{parser} para garantir que a árvore sintática está com precedência correta; definir símbolos predefinidos e constantes matemáticas; implementar o processo de geração de código GLSL usando a árvore sintática com o padrão de \textit{design} visitante (\textit{Visitor}); expandir os casos de teste para cobrir uma melhor variedade de BRDFs; testar o código gerado quanto à correção e eficácia, incluindo as visualizações das BRDFs em algumas cenas; preparar a apresentação final; escrever o documento do trabalho de conclusão (TCC). Cada etapa e seus períodos de execução são ilustrados na \autoref{chart} e listados a seguir:
 
 
 \begin{enumerate} 
