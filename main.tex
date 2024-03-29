@@ -1214,13 +1214,13 @@ Esses experimentos se complementam, proporcionando uma abordagem que explora tan
 \section{Parser e Lexer em Odin}\label{parser}
 
 
-Desenvolvemos um \textit{lexer}, \textit{parser} e interpretador para uma linguagem simples chamada \texttt{SimpleLang}, juntamente com sua gramática, utilizando o Pratt \textit{Parsing} na linguagem de programação Odin. O repositório pode ser encontrado em \url{https://github.com/evertonse/pratt-parser}. Esse \textit{parser} é implementado por descida recursiva, o que significa que cada regra de produção tem uma função de análise associada. A implementação prioriza a simplicidade de código e a clareza de ideias, com extensos comentários para auxiliar na compreensão. Isso é importante, pois esse \textit{parser} será modificado para aceitar \textit{tokens} de \LaTeX.
+Desenvolvemos um \textit{lexer}, \textit{parser} e interpretador para uma linguagem simples chamada \texttt{SimpleLang}, juntamente com sua gramática, utilizando o Pratt \textit{Parsing} na linguagem de programação Odin. O repositório pode ser encontrado em \url{https://github.com/evertonse/pratt-parser}. Esse \textit{parser} é implementado por descida recursiva, o que significa que cada regra de produção tem uma função de análise associada. A implementação prioriza a simplicidade de código e a clareza de ideias, com extensos comentários para auxiliar na compreensão. Isso é importante, pois esse \textit{parser} será modificado para aceitar \textit{tokens} e sintaxe de \LaTeX.
 
 
 \subsection{Parser}
 
 
-Ao contrário dos \textit{parser} de descida recursiva tradicionais, que muitas vezes exigem várias chamadas de função aninhadas para cada nível de precedência, o nosso \textit{parser} organiza as funções de análise hierarquicamente com base na precedência do operador, como demonstrado no \autoref{alg-pratt-parsing}. Esse código é a parte principal do \textit{parsing} de expressões. Nessa implementação usamos a notação original de \cite{pratt}, as funções \texttt{null\_denotations} e \texttt{left\_denotations} são equivalente as funções \texttt{token.prefix} e \texttt{token.infixo} declaradas no \autoref{alg1}, respectivamente. Os pacotes desse projeto estão definidos na \autoref{folder}.
+Ao contrário dos \textit{parser} de descida recursiva tradicionais, que muitas vezes exigem várias chamadas de função aninhadas para cada nível de precedência, o nosso \textit{parser} organiza as funções de análise hierarquicamente com base na precedência do operador, como demonstrado no \autoref{alg-pratt-parsing}. Esse código é a parte principal do \textit{parsing} de expressões. Nessa implementação usamos a notação original de Pratt \cite{pratt}, as funções \texttt{null\_denotations} e \texttt{left\_denotations} são equivalentes as funções \texttt{token.prefix} e \texttt{token.infixo} declaradas no \autoref{alg1}, respectivamente. Os pacotes desse projeto estão definidos na \autoref{folder}.
 
 
 
@@ -1251,10 +1251,8 @@ parse_expr :: proc(prec_prev: i64) -> ^Expr {
 \end{algoritmo}
 
 
-
-
 \begin{figure}[H]
-        \caption{\label{folder} \small estrutura de pacotes do compilador}
+        \caption{\label{folder} \small Estrutura de pacotes do compilador.}
         \begin{center}
             \includegraphics[scale=0.5]{./Imagens/folder_structuer_odin_parser_lexer.png}
         \end{center}
@@ -1263,14 +1261,14 @@ parse_expr :: proc(prec_prev: i64) -> ^Expr {
 
 \subsection{Gramática}
 
-Para formalizar a gramática da linguagem de entrada (\texttt{SimpleLang}) deste compilador, definimos suas regras no \autoref{lst-gramatica}. Um exemplo de código fonte válido em \texttt{SimpleLang}, de acordo com essa gramática, é apresentado em \autoref{code-gramatica}.
+Para formalizar a gramática da linguagem de entrada (\texttt{SimpleLang}) deste compilador, definimos suas regras no \autoref{lst-gramatica}. Um exemplo de código fonte válido em \texttt{SimpleLang} é apresentado no \autoref{code-gramatica}.
 
-Utilizamos uma notação leve de sintaxe para representar esta gramática. Palavras com todas as letras minúsculas são não-terminais, enquanto palavras entre aspas simples representam literalmente um \textit{token} com esse conteúdo. Palavras em letras maiúsculas representam um \textit{token} que pode variar, mas mantém o mesmo significado semântico. Por exemplo, NUMBER pode ser 2.0 ou 1.0, mas nas regras de produção, eles são tratados de maneira idêntica. O símbolo ``$*$'' indica zero ou mais ocorrências, ``$()$'' indica agrupamento para aplicar um operador a ele, ``$|$'' simboliza o início de uma regra alternativa para o mesmo não-terminal, e ``$=$'' indica uma produção.
+Utilizamos uma notação leve de sintaxe para representar esta gramática. Palavras com todas as letras minúsculas são não-terminais, enquanto palavras entre aspas simples representam literalmente um \textit{token} com esse conteúdo. Palavras em letras maiúsculas representam um \textit{token} que pode variar, mas mantém o mesmo significado semântico. Por exemplo, NUMBER pode ser 2.0 ou 1.0, mas nas regras de produção eles são tratados de maneira idêntica. O símbolo ``$*$'' indica zero ou mais ocorrências, ``$()$'' indica agrupamento para aplicar um operador a ele, ``$|$'' simboliza o início de uma regra alternativa para o mesmo não-terminal e ``$=$'' indica uma produção.
 
 % \begin{lstlisting}[frame=bt,numbers=none]
 
 
-\begin{lstlisting}[numbers=none, frame=none,caption=Gramática para \texttt{SimpleLang},label=lst-gramatica]
+\begin{lstlisting}[numbers=none, frame=none,caption=Gramática para \texttt{SimpleLang}.,label=lst-gramatica]
 start = assign* expr ;
 
 
@@ -1308,7 +1306,7 @@ infix   = '+' | '-' | '*' | '/' | '^'
 \end{lstlisting}
 
 
-Essa gramática define regras para expressões, atribuições, chamadas de função e vários operadores, como \texttt{postfix}, \texttt{prefix} e \texttt{infix} com o intuito de criar uma vasta coleção de operadores com diferentes precedências para facilitar a transição da sintaxe de \texttt{SimpleLang} para a sintaxe \LaTeX\  futuramente.
+Essa gramática define regras para expressões, atribuições, chamadas de função e vários operadores, como \texttt{postfix}, \texttt{prefix} e \texttt{infix}, com o intuito de criar uma vasta coleção de operadores com diferentes precedências para facilitar a transição da sintaxe de \texttt{SimpleLang} para a sintaxe \LaTeX\  futuramente.
 
 
 
@@ -1345,13 +1343,13 @@ Essa gramática define regras para expressões, atribuições, chamadas de funç
 \subsection{Tabela de Símbolos}
 
 
-Nesse projeto também foi desenvolvido uma tabela de símbolos simples, que será reaproveitado na análise semântica e na geração de código GLSL futuramente. A implementação da tabela de símbolos fornecida aqui é baseada em uma estrutura de escopo hierárquico, onde cada escopo mantém um mapeamento entre os nomes dos símbolos e seus atributos correspondentes. No \autoref{struct-symbol} temos a estrutura \texttt{Scope}, que representa um mapeamento de nomes de símbolos para objetos de símbolo dentro de um \textbf{único} escopo, e também a estrutura \texttt{Scope\_Table} mantém uma pilha de escopos, permitindo aninhamento.
+Nesse projeto, foi desenvolvido também uma tabela de símbolos simples, cuja implementação será reaproveitada na análise semântica e na geração de código GLSL futuramente. A implementação da tabela de símbolos fornecida aqui é baseada em uma estrutura de escopo hierárquico, onde cada escopo mantém um mapeamento entre os nomes dos símbolos e seus atributos correspondentes. No \autoref{struct-symbol} temos a estrutura \texttt{Scope}, que representa um mapeamento de nomes para objetos de símbolo dentro de um \textbf{único escopo}, e também a estrutura \texttt{Scope\_Table}, que mantém uma \textbf{pilha de escopos}, permitindo aninhamento.
 
 
 \subsubsection{Estrutura de Símbolos}
 
 
-Cada símbolo na tabela de símbolos é representado pela estrutura \texttt{Symbol}, que contém os seguintes atributos:
+Cada objeto na tabela de símbolos é representado pela estrutura \texttt{Symbol}, que contém os seguintes atributos:
 \begin{itemize}
     \item \texttt{name}: o nome do símbolo.
     \item \texttt{val}: o valor associado ao símbolo (para variáveis).
@@ -1364,7 +1362,7 @@ Cada símbolo na tabela de símbolos é representado pela estrutura \texttt{Symb
 
 
 \begin{codigo}[htb]
-\caption{\small Código da estrutura de símbolos escrito em Odin}
+\caption{\small Código da estrutura de símbolos escrito em Odin.}
 \label{struct-symbol}
 \begin{lstlisting}[language=C]
 Scope :: #type map[string]Symbol
@@ -1379,18 +1377,16 @@ Symbol :: struct  {
     body: ^Expr,
 }
 
-
 \end{lstlisting}
 \end{codigo}
 
 
 \subsubsection{Gerenciamento de Escopo}
 
-
 A tabela de símbolos fornece funções para gerenciar escopos, incluindo:
 \begin{itemize}
     \item \texttt{scope\_enter}: entrar em um novo escopo, anexando-o à pilha de escopos.
-    \item \texttt{scope\_exit}: sai do escopo atual, removendo-o da pilha de escopos e retornando-o.
+    \item \texttt{scope\_exit}: sai do escopo atual, removendo-o da pilha de escopos e o retornando.
     \item \texttt{scope\_reset}: redefine a tabela de símbolos limpando todos os escopos.
     \item \texttt{scope\_get}: recupera um símbolo da tabela de símbolos pelo seu identificador.
     \item \texttt{scope\_add}: adiciona um novo símbolo ao escopo atual.
@@ -1405,22 +1401,22 @@ Essa tabela de símbolos será adaptada para a fase de geração de código e tr
 
 
 \subsubsection{Estrutura da Árvore de Sintaxe}
-Nesta seção, apresentamos os tipos de nós que compõem a árvore sintática utilizada no compilador da linguagem \texttt{SimpleLang}. Diferente da gramática definida no \autoref{lst-gramatica}, aqui os nós são representados em nível de código. A seguir, listamos a representação semântica de cada nó:
+Nesta seção, apresentamos os tipos de nós que compõem a árvore de sintaxe abstrata (AST), utilizada no compilador da linguagem \texttt{SimpleLang}. A estrutura da AST é definida com vários tipos de nós para capturar diferentes elementos da sintaxe. Diferente da gramática definida no \autoref{lst-gramatica}, aqui os nós são representados em nível de código. A seguir, listamos a representação semântica de cada nó:
 
 
 \begin{itemize}
 \item \textbf{Ast}: a estrutura base para todos os nós da AST.
 \item \textbf{Start}: representa o ponto de partida do programa, contendo uma sequência de atribuições seguidas de uma expressão.
 \item \textbf{Assign}: representa atribuições de variáveis, incluindo um identificador, operador de atribuição e expressão.
-\item \textbf{Assign\_Function}: estende Assign e representa definições de funções, incluindo parâmetros.
-\item \textbf{Expr}: representa expressões, servindo como a estrutura base para diferentes tipos de expressões.
+\item \textbf{Assign\_Function}: estende \textit{Assign} e representa definições de funções, incluindo parâmetros.
+\item \textbf{Expr}: representa expressões de maneira abstrata, servindo como a estrutura base tipos concretos de expressões.
 \item \textbf{Expr\_Identifier}: representa identificadores dentro de expressões.
 \item \textbf{Expr\_Number}: representa literais numéricos dentro de expressões.
 \item \textbf{Expr\_Grouped}: representa expressões agrupadas dentro de parênteses.
-\item \textbf{Expr\_Prefix}: representa operações unárias de prefixo.
-\item \textbf{Expr\_Infix}: representa operações binárias de infixo.
-\item \textbf{Expr\_Postfix}: representa operações unárias de sufixo.
-\item \textbf{Expr\_Mixfix}: representa operações ternárias de mixfix.
+\item \textbf{Expr\_Prefix}: representa operações unárias (prefixo).
+\item \textbf{Expr\_Infix}: representa operações binárias (infixo).
+\item \textbf{Expr\_Postfix}: representa operações unárias (sufixo).
+\item \textbf{Expr\_Mixfix}: representa operações ternárias.
 \item \textbf{Expr\_Function\_Call}: representa chamadas de função com argumentos.
 
 
@@ -1430,13 +1426,12 @@ Nesta seção, apresentamos os tipos de nós que compõem a árvore sintática u
 \subsection{Implementação do Padrão de Visitante}
 
 
-O padrão visitante foi empregado para percorrer e operar em uma árvore de sintaxe abstrata (AST). A estrutura da AST é definida com vários tipos de nó para capturar diferentes elementos da sintaxe.
-Três procedimentos incorporam o padrão de visitante para percorrer e manipular a AST:
+O padrão visitante foi empregado para percorrer e operar em uma AST. Três procedimentos implementam esse padrão e manipulam a AST:
 
 
 \begin{itemize}
   \item \textbf{walker\_interp}: interpreta a AST, calculando o valor numérico das expressões.
-  \item \textbf{walker\_paren}: gera uma representação de string entre parênteses da AST, auxiliando na legibilidade e garantindo a ordem correta de avaliação.
+  \item \textbf{walker\_paren}: gera uma representação de \textit{string} entre parênteses da AST, auxiliando na legibilidade e garantindo a ordem correta de avaliação.
   \item \textbf{walker\_print}: imprime os nós da AST e seus atributos, facilitando a depuração e compreensão da estrutura da AST.
 \end{itemize}
 
@@ -1444,7 +1439,7 @@ Três procedimentos incorporam o padrão de visitante para percorrer e manipular
 \subsection{Testes}
 
 
-Foi desenvolvida uma série de testes que  abrangem vários aspectos da funcionalidade do parser, incluindo geração de árvore de sintaxe, precedência de operadores e interpretação semântica.
+Foi desenvolvida uma série de testes que  abrangem vários aspectos da funcionalidade do \textit{parser}, incluindo geração de árvore de sintaxe, precedência de operadores e interpretação semântica.
 
 
 \subsubsection{Geração de Árvore de Sintaxe}
@@ -1456,26 +1451,12 @@ Um aspecto crucial dos testes envolve verificar a correta geração de árvores 
 \begin{itemize}
     \item O manuseio correto de operadores unários e binários, garantindo a precedência e associatividade adequadas.
     \item A representação precisa de chamadas de função e seus argumentos dentro da árvore de sintaxe.
-    \item O agrupamento adequado de expressões dentro de parênteses para impor regras de precedência.
+    \item O agrupamento adequado de expressões dentro de parênteses para confirmar regras de precedência.
 \end{itemize}
 
-
-% \subsubsection{Precedência de Operadores e Associatividade}
-%
-% Testes são conduzidos para validar a precedência e associatividade de operadores na gramática da linguagem. Isso inclui garantir que operadores com maior precedência sejam avaliados antes daqueles com menor precedência e que operadores associativos à esquerda ou à direita sejam analisados corretamente.
-%
-% Exemplos de testes para precedência de operadores e associatividade incluem:
-%
-% \begin{itemize}
-%     \item Verificar a correta parantezização de expressões envolvendo múltiplos operadores com níveis de precedência variados.
-%     \item Garantir que operadores unários sejam aplicados antes de operadores binários, de acordo com suas regras de precedência.
-%     \item Validar o agrupamento adequado de expressões para impor associatividade à esquerda ou à direita conforme especificado na gramática.
-% \end{itemize}
-%
 \subsubsection{Interpretação Semântica}
 
-
-Além da geração da árvore de sintaxe e da definição de precedência de operadores, foram realizados testes para garantir a interpretação semântica das expressões. Isso envolve avaliar as entradas e comparar a saída com os valores esperados. Quanto à verificação de tipos, é bastante simples: cada variável pode ser uma função ou um número. Portanto, permitimos apenas operadores entre números e, além disso, booleanos são considerados números também, sendo que $0$ é interpretado como falso e $1$ como verdadeiro. Os testes de interpretação semântica realizados para \textit{SimpleLang} abrangem:
+Além da geração da árvore de sintaxe e da definição de precedência de operadores, foram realizados testes para garantir a interpretação semântica das expressões. Isso envolve avaliar as entradas e comparar a saída com os valores esperados. Quanto à verificação de tipos, é simples: cada variável pode ser uma função ou um número. Portanto, permitimos apenas operadores entre números e, além disso, booleanos também são considerados números, sendo $0$ interpretado como falso e $1$ como verdadeiro. Os testes de interpretação semântica realizados para \texttt{SimpleLang} abrangem:
 
 
 \begin{itemize}
@@ -1484,7 +1465,7 @@ Além da geração da árvore de sintaxe e da definição de precedência de ope
 \end{itemize}
 
 
-Ao testar a geração de árvore de sintaxe, precedência de operadores e interpretação semântica, a implementação do Pratt \textit{Parsing} foi validada quanto à correção e confiabilidade, e obteve um desempenho robusto em vários cenários de entrada.
+Ao testar geração de árvore de sintaxe, precedência de operadores e interpretação semântica, a implementação do Pratt \textit{Parsing} foi validada quanto à correção e confiabilidade, pois obteve um desempenho robusto em vários cenários de entrada.
 
 
 \section{\textit{Ray Tracing} } \label{raytracer}
@@ -1492,16 +1473,16 @@ Ao testar a geração de árvore de sintaxe, precedência de operadores e interp
 
 
 
-Este capítulo apresenta o desenvolvimento e implementação de um simples \textit{ray tracer} usando métodos estocásticos de colisão de raios na linguagem de programação Odin com a biblioteca RayLib \footnote{\url{https://www.raylib.com/}} para renderização de imagens em uma janela. Isso foi feito para começar a entender melhor as BRDFs e a equação de renderização.
+Este capítulo apresenta o desenvolvimento e implementação de um simples \textit{ray tracer} usando métodos estocásticos de colisão de raios na linguagem de programação Odin com a biblioteca RayLib \footnote{\url{https://www.raylib.com/}}, usada na renderização de imagens em uma janela. Isso foi feito para começar a entender melhor as BRDFs e a equação de renderização (\autoref{eq-rendering-equation}).
 
 
-O \textit{ray tracer} foi construído com instruções do livro ``Ray Tracing in One Weekend'' \footnote{\url{https://raytracing.github.io/books/RayTracingInOneWeekend.html}}. Ele opera inteiramente na unidade de processamento central, e a funcionalidade principal do \textit{ray tracer} envolve a modelagem de raios e sua reflexão dos \textit{pixels} da imagem para a cena. A cena consiste exclusivamente em esferas, empregando cálculos de colisão padrão entre um raio e uma esfera.
+O \textit{ray tracer}, que foi construído baseado no livro ``Ray Tracing in One Weekend'' \footnote{\url{https://raytracing.github.io/books/RayTracingInOneWeekend.html}}, opera inteiramente na unidade de processamento central (CPU). Sua funcionalidade principal envolve a modelagem de raios e a reflexão da cena para os \textit{pixels} da imagem. A cena consiste exclusivamente em esferas, empregando cálculos de colisão padrão entre um raio e uma esfera.
 
 
 \subsection{Implementação de Materiais}
 
 
-O \textit{ray tracer} inclui vários materiais que ditam o comportamento dos raios ao interagir com superfícies, embora não garantidos de estar fisicamente vinculados, considerando a conservação de energia discutida no capítulo \ref{brdf}. Cada material é implementado como uma estrutura contendo um ponteiro de função de dispersão responsável por calcular a atenuação e o raio disperso após a interação com uma superfície. Como demonstrado no \autoref{odin-materiais}, os seguintes materiais foram implementados:
+O \textit{ray tracer} inclui vários materiais que ditam o comportamento dos raios ao interagir com superfícies, os quais não são garantidos de serem fisicamente realistas em relação as propriedades de reflexão discutidas na \autoref{brdf}. Cada material é implementado como uma estrutura contendo um ponteiro de função de dispersão responsável por calcular a atenuação e o raio disperso após a interação com uma superfície. Como demonstrado no \autoref{odin-materiais}, os seguintes materiais foram implementados:
 
 
 \begin{itemize}
