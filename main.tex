@@ -1,9 +1,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 % abnTeX2: Modelo de Trabalho Acadêmico em conformidade com 
 % as normas da ABNT
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \documentclass[english, 
                brazil, 
@@ -11,38 +14,52 @@
                {dcomp-abntex2}
 
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Área para adição de pacotes extras
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 % \usepackage{lipsum} % Retirar para a versão final do documento
 \usepackage{float}
 \usepackage{pgfgantt}
 \usepackage{lscape}
 
+
 \restylefloat{table}
+
 
 %Utilize aqui seu pacote preferido para algoritmos
 \usepackage[linesnumbered]{algorithm2e}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %Compila o índice
 \makeindex
 
+
 \begin{document}
+
 
 % Seleciona o idioma do documento (conforme pacotes do babel)
 \selectlanguage{brazil}
 
+
 % Retira espaço extra obsoleto entre as frases.
 \frenchspacing 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ELEMENTOS PRÉ-TEXTUAIS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 \pretextual
+
+
 
 
 \titulo{Desenvolvimento de um Compilador de BRDFs em \LaTeX  para linguagem de shading GLSL, através da técnica Pratt Parsing} 
@@ -51,16 +68,21 @@
 \coorientador{Dr. Gastao Florencio Miranda Junior}
 \curso{Ciência da Computação}
 
+
 \inserirInformacoesPDF
+
 
 \imprimircapa
 \imprimirfolhaderosto*
+
 
 % \include{Pre_Textual/Dedicatoria}
 % \include{Pre_Textual/Agradecimentos}
 % \include{Pre_Textual/Epigrafe}
 \include{Pre_Textual/Resumo}
 % \include{Pre_Textual/Abstract}
+
+
 
 
 % \mostrarlistadeILUSTRACOES
@@ -74,11 +96,14 @@
     
 \mostrarSUMARIO
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ELEMENTOS TEXTUAIS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 \textual
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Introdução
@@ -86,28 +111,42 @@
 \chapter{Introdução}
 \label{introduction}
 
+
 Na computação gráfica, a representação realista de cenas tridimensionais depende fortemente da modelagem da luz e dos materiais que compõem os objetos na cena. A interação da luminosidade incidente com esses materiais é crucial para a geração de imagens fiéis à realidade. Uma abordagem fundamental para modelar essa interação é por meio das funções de distribuição de refletância bidirecional, conhecidas como BRDFs (do inglês, \textit{Bidirectional Reflectance Distribution Functions}).
+
+
 
 
 As BRDFs, essencialmente, calculam a proporção entre a energia luminosa que atinge um ponto na superfície e como essa energia é refletida, transmitida ou absorvida \cite{pbr}. Na renderização, essas funções são implementadas por meio de programas especializados nas unidades de processamento gráfico (GPUs), chamados de \textit{shaders}. Cada interface de programação, do inglês \textit{ Application Programming Interface} (API),  disponibiliza etapas diferentes onde esses executáveis podem ser programados durante o processo de renderização. Esses \textit{shaders} concedem a capacidade de cada objeto renderizado ter sua aparência configurada por meio de um código que implementa uma BRDF.
 
 
+
+
 \section{Motivação}
+
+
 
 
 Existem linguagens específicas para a programação de \textit{shaders}, as quais permitem a modificação de procedimentos que representam uma BRDF. No entanto, essa aplicação requer conhecimento especializado em programação. Essa barreira técnica pode restringir a exploração dos efeitos visuais por profissionais de áreas não relacionadas à programação. Diante disso, surge a necessidade de ferramentas mais acessíveis para a criação de \textit{shaders}.
 
+
 No meio acadêmico, as BRDFs são comumente descritas por fórmulas escritas em \LaTeX, Desta forma, uma abordagem promissora para simplificar a criação de \textit{shaders} é o desenvolvimento de um compilador capaz de traduzir BRDFs   escritas em \LaTeX  para \textit{shaders}. Isso permitiria uma maior acessibilidade e democratização na criação de efeitos visuais complexos.
+
 
 \section{Objetivo}
 Este trabalho visa projetar e implementar um compilador que, a partir de BRDFs escritas como equações em \LaTeX, seja capaz de gerar código de \textit{shading} na linguagem alvo da API OpenGL. O resultado será um \textit{shader} capaz de reproduzir as características de reflexão da BRDF original ou, ao menos, alcançar uma aproximação satisfatória dessas características, levando em conta as limitações da linguagem de \textit{shading} da API, principalmente as representações de dados de forma discreta. 
 
+
 \section{Estrutura do Documento}
 No \autoref{conceitos}, descrevemos os conhecimentos necessários para entender BRDFs, incluindo quantificação de luminosidade e radiação, e  conceitos de compiladores, como tokenização e construção da árvore sintática.
 
+
 O \autoref{revisao} faz um mapeamento sistemático, utilizando termos de busca para identificar trabalhos relevantes sobre o desenvolvimento de compiladores para traduzir BRDFs de \LaTeX  para \textit{shaders}. Os critérios de inclusão e exclusão são definidos para filtrar os resultados. Além disso, são descritos os resultados encontrados em diversas bases de dados, como IEEE Xplore, BDTD, CAPES, ACM Digital Library e Google Scholar, bem como a análise de repositórios online como GitHub e SourceForge. 
 
+
 No \autoref{metodologia} é descrito o método para desenvolver o compilador proposto. São definidas etapas para alcançar os objetivos especificados neste trabalho e casos de teste são projetados para validação. Este capítulo também inclui o plano de continuação deste trabalho, que detalha as etapas futuras com datas previstas.
+
+
 
 
 O \autoref{resultadosiniciais} descreve os resultados preliminares deste trabalho, que consistem na implementação de um analisador léxico, sintático e interpretador na linguagem de programação Odin \footnote{\url{https://odin-lang.org/}}, incluindo o método de análise sintática de Pratt. A linguagem desenvolvida possui uma gramática simplificada em comparação com \LaTeX, de forma a garantir o funcionamento dos algoritmos de análise léxica e sintática antes de avançar para uma linguagem mais complexa. O capítulo também descreve os testes elaborados para validar a implementação. Além disso, o capítulo apresenta o desenvolvimento de um \textit{ray tracer} em Odin, que modela raios e materiais para a renderização de imagens, utilizando a biblioteca Raylib \footnote{\url{https://www.raylib.com/}} para exibir as imagens renderizadas.
@@ -117,12 +156,20 @@ O \autoref{resultadosiniciais} descreve os resultados preliminares deste trabalh
 
 
 
+
+
+
+
+
+
 % Apesar da importância de usar técnicas confiáveis para avaliar um BRDF, há uma falta de trabalhos na literatura que reúnam e comparem essas técnicas.
 % Este artigo propõe uma compilação de técnicas usadas para avaliar representações de BRDF, juntamente com suas definições formais. Essas técnicas foram classificadas em três grupos diferentes - funções de comparação, imagens renderizadas e gráficos - e, para ilustrar seu uso, três modelos clássicos e amplamente adotados e uma representação de BRDF de ponta foram avaliados quanto à sua capacidade de preservar a aparência de materiais medidos. Com base em nossa pesquisa sobre funções de comparação, uma técnica de avaliação de BRDF estável e robusta é proposta. Observou-se tanto durante a revisão da literatura quanto nos experimentos que cada grupo de técnicas fornece informações complementares sobre os BRDFs avaliados, o que sugere que pelo menos um modelo de cada categoria deve ser adotado durante a escolha de critérios para avaliar um BRDF.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Revisão Bibliográfica 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 % \chapter{Conceitos} \label{conceitos}
 %
@@ -135,34 +182,51 @@ O \autoref{resultadosiniciais} descreve os resultados preliminares deste trabalh
 %
 % Na \autoref{shading}, é abordado o processo de \textit{shading} e o funcionamento do \textit{pipeline} de renderização da GPU. 
 
+
 \chapter{Conceitos} \label{conceitos}
+
 
 Neste capítulo, abordam-se os conceitos fundamentais da interação da luz com os materiais na computação gráfica. Destaca-se a importância da reflexão da luz, explorando as BRDFs e modelos comuns. Além disso, são discutidos elementos-chave na criação de compiladores e no processo de \textit{shading} na GPU.
 
+
 Especificamente na \autoref{radiometria}, são apresentados os conceitos fundamentais relacionados à luz, como a capacidade de um material refletir raios de luz e sua importância na computação gráfica e renderização. Destaca-se a relação entre a intensidade de um pixel de imagem, a iluminação, a orientação da superfície e a definição de funções de refletância, as BRDFs. Já na \autoref{brdfmodels}, são destacados alguns modelos comuns de BRDFs.
+
 
 A \autoref{shading} aborda o processo de \textit{shading} e o funcionamento do \textit{pipeline} de renderização na GPU. Nela, são introduzidos os processos de transformação de vértices e de determinação da cor dos fragmentos, mostrando exemplos de código. 
 
-Na \autoref{compiladores}, é fornecida uma visão abrangente dos elementos essenciais na criação de compiladores. Ela começa com a definição de conceitos fundamentais, como cadeias de símbolos e alfabetos, necessários para entender linguagens formais. Além disso, é discutido a importância das gramáticas na definição de linguagens e é descrito o processo de compilação, incluindo a análise léxica, a análise sintática, o Pratt \textit{Parsing} e análise semântica.
+
+Na \autoref{compiladores}, é fornecida uma visão abrangente dos elementos essenciais na criação de compiladores. Ela começa com a definição de conceitos fundamentais, como cadeias de símbolos e alfabetos, necessários para entender linguagens formais. Além disso, é discutida a importância das gramáticas na definição de linguagens e é descrito o processo de compilação, incluindo a análise léxica, a análise sintática, o Pratt \textit{Parsing} e análise semântica.
+
+
+
 
 
 
 \section{Radiometria} \label{radiometria}
 
+
 A radiometria trata de conceitos fundamentais relacionados à luz. Ela abrange a capacidade de um material de superfície receber raios de luz de uma direção e refleti-los em outra 
 \cite{radiometry_introduction}. No contexto da computação gráfica, a radiometria desempenha um papel crucial na compreensão do comportamento da luz em uma cena.
 
+
 Na renderização, a intensidade de um pixel da imagem depende de vários fatores, como iluminação, orientação e refletância da superfície. A orientação da superfície é determinada pelo vetor normal em um dado ponto, enquanto a refletância da superfície diz respeito às propriedades materiais da mesma.
+
 
 Para compreender e interpretar a intensidade de um pixel em uma imagem, é essencial compreender os conceitos radiométricos. A radiometria quantifica o brilho de uma fonte de luz, a iluminação de uma superfície, a radiância de uma cena e a refletância da superfície.
 
+
 Renderizar uma imagem envolve mais do que capturar cor \cite{radiometry_color}; requer conhecimento da intensidade de luz em cada ponto da imagem, isto é, a quantidade de luz incidente na cena que alcança a câmera. A radiometria ajuda na criação de sistemas e unidades para quantificar a radiação eletromagnética, considerando um modelo simplificado no qual a luz é tratada como fótons que viajam em linha reta. 
+
 
 \subsection{Energia Radiante e Fluxo} \label{fluxo}
 
+
 Vários processos físicos convertem energia em fótons, como radiação de corpo negro e fusão nuclear em estrelas \cite{black_body_radiation}. Quantificar a energia radiante total de uma cena é necessário para quantificar o brilho da imagem, que envolve entender a energia dos fótons colidindo com objetos \cite{rendering_judice}.
 
+
 A \autoref{eq-radiant-energy} expressa a energia radiante \( Q \) \cite{pbr}, que considera a energia total de todos os fótons atingindo a cena durante toda a duração, onde:  \( c  \approx 3,00 \times 10^8 \) m/s (metros por segundo) é a velocidade da luz; \( \lambda \) representa o comprimento de onda, uma variável que abrange o espectro visível, aproximadamente entre \( 389 \times 10^{-3} \)m e \(700 \times 10^{-3} \)m; \( h \) denota a constante de Planck, aproximadamente \( 6,626 \times 10^{-34} \) J$\cdot$s (joule-segundo).
+
+
 
 
 \begin{equation}\label{eq-radiant-energy}
@@ -171,46 +235,63 @@ Q = \frac{hc}{\lambda}
 
 
 
+
+
+
 É interessante observar a evolução da energia radiante ($Q$) ao longo do tempo. Isso dá origem ao conceito de fluxo radiante $\phi$, que é medido em impactos de cada fóton por segundo em uma superfície. Sua unidade é joules por segundo.
+
 
 \begin{align*} 
   \phi &= \frac{dQ}{dt} [\text{J/s}] 
 \end{align*}
 
+
 A irradiância quantifica o número de impactos dos fótons em uma superfície por segundo por unidade de área. Mais precisamente, podemos definir a irradiância $E$ ao considerar o limite do fluxo radiante $\phi$ diferencial por área $A$ diferencial em um ponto $p$ \cite[~5.4.1]{pbr}. Assim, temos uma métrica mais específica para renderizar imagens com precisão.
+
 
 $$
  E(p) = \frac{d\phi(p)}{dA} \left[ \frac{\text{J}} {s\cdot m^2} \right]
 $$
 
 
+
+
 \subsection{Radiância e BRDF} \label{brdf}
+
 
 A radiância,  denotada como \( L \), caracteriza a densidade de fluxo por unidade de área \( A \), por ângulo sólido \(\omega \) (ver \autoref{radiance-img} para representação visual). Os ângulos sólidos representam a projeção da região no espaço sobre uma esfera unitária centrada em \( p \), como ilustrado na \autoref{solid-angle}. Ângulo sólido é a medida da área ocupada por uma região tridimensional conforme vista de um ponto específico \( p \). Seu valor é expresso em esterradianos (sr), e são frequentemente representados pelo símbolo \( \omega \).
 
+
 Assim, é possível definir radiância conforme a \autoref{eq-radiance}. Ao invés de usar diretamente a área \( A \), a convenção estabelecida nessa definição é utilizar a projeção da área em um plano perpendicular à direção da câmera \cite{weyrich}.
+
 
 \begin{equation} \label{eq-radiance}
   L = \frac{d\Phi}{d\omega \, dA_\perp} \, \left[W \cdot m^{-2} \cdot \text{sr}^{-1}\right]
 \end{equation}
 
 
+
+
 \begin{figure}[h]
-	\caption{\label{radiance-img} \small Visualização da radiância em uma direção específica do hemisfério}
-	\begin{center}
-	    \includegraphics[scale=0.5]{./Imagens/irradiance_hemisphere.png}
-	\end{center}
+        \caption{\label{radiance-img} \small Visualização da radiância em uma direção específica do hemisfério}
+        \begin{center}
+            \includegraphics[scale=0.5]{./Imagens/irradiance_hemisphere.png}
+        \end{center}
   % \legend{ \small Fonte: \cite{pbr}. Adaptada}
 \end{figure}
 
 
+
+
 \begin{figure}[htb]
   \caption{\label{solid-angle} \small   Ângulo sólido s do objeto B visto pelo ponto p}
-	\begin{center}
-	    \includegraphics[scale=0.5]{./Imagens/solid_angle.png}
-	\end{center}
+        \begin{center}
+            \includegraphics[scale=0.5]{./Imagens/solid_angle.png}
+        \end{center}
   \legend{ \small Fonte: \cite{pbr}}
 \end{figure}
+
+
 
 
 % \begin{align*} 
@@ -218,14 +299,19 @@ Assim, é possível definir radiância conforme a \autoref{eq-radiance}. Ao inv�
 % E_{\omega} &\text{ é função de irradiância numa direção ${\omega}$ } 
 % \end{align*}
 
+
 Equivalentemente, podemos definir radiância para diferentes orientações da superfície e direção do raio ao introduzir o fator $\cos(\theta)$, tal que $\theta$ é o ângulo entre a normal da superfície e a direção do ${\omega}$ \cite[5.4.1]{pbr}. Essa definição é dada pela \autoref{eq-radiance-2}. 
+
 
 \begin{equation} \label{eq-radiance-2}
   L(p,{\omega}) = \frac{d^2\phi(p)}{dAd{\omega} \cos(\theta)} = \frac{dE(p)}{d{\omega} \cos(\theta)} 
 \end{equation}
 
 
+
+
 A radiância pode fornecer informação sobre o quanto um ponto específico está iluminado na direção da câmera. Ela depende não apenas da direção do raio que incide, mas também das propriedades de refletância da superfície. E, no contexto de renderização, a radiância de uma superfície na cena se correlaciona com a irradiância de um pixel em uma imagem pela \autoref{eq-radiance-2}. Isolando o termo $E(p)$, encontramos essa relação de maneira explícita:
+
 
 \begin{align*}
  \label{ep-Ep}
@@ -234,7 +320,10 @@ A radiância pode fornecer informação sobre o quanto um ponto específico est�
 \end{align*}
 
 
+
+
 A principal funcionalidade de um renderizador fotorrealista é estimar a radiância em um ponto $p$ numa dada direção ${\omega}_o$. Essa radiância é dada pela \autoref{eq-rendering-equation}, conhecida como equação de renderização apresentada por \cite{rendering_equation}. Note que essa equação envolve um termo de radiância recursivo; o caso base ocorre quando não há mais o termo recursivo, isto é, um fonte de luz na qual sua radiância é contribuída apenas por radiância emitida $L_e$.
+
 
 \begin{equation}\label{eq-rendering-equation}
 \begin{aligned}
@@ -251,99 +340,129 @@ A principal funcionalidade de um renderizador fotorrealista é estimar a radiân
 \end{aligned}
 \end{equation}
 
+
 A Função de Distribuição Bidirecional de Reflectância (BRDF) descreve como a luz reflete de uma superfície em diferentes direções, afetando a radiância de saída \cite{overview_brdf}. Assim, BRDFs encapsulam as propriedades de reflexão de um material, considerando fatores como a rugosidade da superfície, o ângulo de incidência e o ângulo de reflexão. Formalmente uma BRDF pode ser definida por $f({\omega}_i, {\omega}_o)$, onde ${\omega}_i$ é a direção incidente de luz e ${\omega}_o$ é a direção de saída. Para BRDFs fisicamente realistas, algumas propriedades devem ser respeitadas \cite[5.6]{pbr}:
+
 
 \begin{itemize}
   \item A positividade, $f(\omega_i, \omega_o) \geq 0 $, que garante não existência de energia negativa. 
 
+
   \item A reciprocidade de Helmhotz, $f(\omega_i, \omega_o) = f(\omega_o, \omega_i)$, é o princípio que indica que a função de refletância de uma superfície permanece inalterada quando os ângulos de incidência e reflexão da luz são trocados. Isso é utilizado na otimização do traçado de raios durante a renderização, permitindo traçar os raios da câmera para a fonte de luz. Essa abordagem evita o desperdício computacional em raios que não contribuem significativamente para a intensidade de um pixel na imagem final.
+
 
   \item A conservação de energia, expressa por $\forall \omega_i, \int_{H^2}{f(\omega_i, \omega_o)cos(\theta_o) d\omega_o} \leq 1$, implica que parte da energia pode ser absorvida, transformando-se em outras formas de energia, como calor. Portanto, a soma infinitesimal pode atingir no máximo 1, mas nunca ultrapassá-la.
 \end{itemize}
+
 
 \section{Modelos de BRDFs } \label{brdfmodels}
 As próximas seções apresentam alguns modelos comuns de BRDFs  na literatura \cite{overview_brdf}.
 
 
+
+
 \subsection{BRDF Pura Especular}
 Uma superfície puramente especular reflete a luz apenas em uma direção, seguindo a lei física da reflexão \cite{laws_of_refletion}, ela produz reflexões nítidas, semelhantes a espelhos. A BRDF para essa superfície é frequentemente representada pela \autoref{eq-specular}, onde $\omega_i$ é a direção da luz incidente, $\omega_o$ é a direção refletida e $\delta$ é a função delta de Dirac que garante que toda a luz incidente seja refletida na direção perfeitamente espelhada como na \autoref{specular}. Esse tipo de superfície é comum em materiais como metal polido ou vidro.
+
 
 \begin{equation} \label{eq-specular}
 f(\omega_i, \omega_o) = k_s \cdot \delta(\omega_i - \omega_o)
 \end{equation}
 
+
 \begin{figure}[H]
-	\caption{\label{specular} \small Reflexão especular. Em vermelho está o raio incidente, e em azul o raio de saída.}
-	\begin{center}
-	    \includegraphics[scale=0.5]{./Imagens/specular-2d.png}
-	\end{center}
-	\legend{ \footnotesize 
+        \caption{\label{specular} \small Reflexão especular. Em vermelho está o raio incidente, e em azul o raio de saída.}
+        \begin{center}
+            \includegraphics[scale=0.5]{./Imagens/specular-2d.png}
+        \end{center}
+        \legend{ \footnotesize 
   Fonte: Autor}
 \end{figure}
 
+
 \subsection{BRDF Difusa Ideal}
 Uma BRDF difusa ideal reflete a luz incidente uniformemente em todas as direções, sem preferência por ângulos específicos. É representada pela função $f$ na \autoref{eq-diffuse}, onde $\rho_d$ é o albedo da superfície e $\theta$ é o ângulo entre a direção da luz incidente e a normal da superfície. O termo cosseno garante que a radiância refletida seja proporcional ao cosseno do ângulo entre a direção da luz incidente e a normal da superfície, como ilustrado na \autoref{diffuse}. Esse modelo pode representar superfícies como tinta fosca ou papel.
+
 
 \begin{equation} \label{eq-diffuse}
 f(\omega_i, \omega_o) = \frac{\rho_d}{\pi} \cdot \cos \theta
 \end{equation}
 
+
 \begin{figure}[H]
-	\caption{\label{diffuse} \small Reflexão Difusa. }
-	\begin{center}
-	    \includegraphics[scale=0.5]{./Imagens/diffuse-2d.png}
-	\end{center}
-	\legend{ \footnotesize Note que os raios refletidos não dependem do ângulo de entrada. Fonte: Autor }
+        \caption{\label{diffuse} \small Reflexão Difusa. }
+        \begin{center}
+            \includegraphics[scale=0.5]{./Imagens/diffuse-2d.png}
+        \end{center}
+        \legend{ \footnotesize Note que os raios refletidos não dependem do ângulo de entrada. Fonte: Autor }
 \end{figure}
+
 
 \subsection{BRDF \textit{Glossy}}
 Uma superfície pode exibir propriedades de reflexão tanto especulares quanto difusas, como na \autoref{glossy}. Uma BRDF para uma superfície brilhante é frequentemente representada por uma combinação de termos especulares e difusos, como o modelo de Blinn-Phong \cite{blinn_phong}
 
+
 \begin{figure}[H]
   \caption{\label{glossy} \small Reflexão \textit{glossy}. }
-	\begin{center}
-	    \includegraphics[scale=0.5]{./Imagens/glossy-2d.png}
-	\end{center}
-	\legend{\footnotesize  Fonte: Autor}
+        \begin{center}
+            \includegraphics[scale=0.5]{./Imagens/glossy-2d.png}
+        \end{center}
+        \legend{\footnotesize  Fonte: Autor}
 \end{figure}
+
+
 
 
 \subsection{BRDF Retro-Refletora}
 Uma superfície retro-refletora reflete a luz incidente de volta na direção de onde veio, como na \autoref{retro_refletora}. A BRDF para uma superfície retro-refletora envolve tipicamente geometria especializada ou revestimentos projetados para redirecionar a luz de volta para a fonte.
 
+
 \begin{figure}[H]
   \caption{\label{retro_refletora} \small Reflexão \textit{retro-refletora}}
-	\begin{center}
-	    \includegraphics[scale=0.5]{./Imagens/retro-reflection-2d.png}
-	\end{center}
-	\legend{\footnotesize  Fonte: Autor}
+        \begin{center}
+            \includegraphics[scale=0.5]{./Imagens/retro-reflection-2d.png}
+        \end{center}
+        \legend{\footnotesize  Fonte: Autor}
 \end{figure}
+
+
 
 
 \section{Introdução ao Shading e ao \textit{pipeline} de GPU} \label{shading}
 
+
 \textit{Shading} refere-se ao processo de determinar a cor e o brilho dos pixels em uma imagem renderizada. Isso envolve simular a interação da luz com as superfícies, levando em consideração as propriedades dos materiais, condições de iluminação e orientação da superfície. Isso é alcançado por meio de pequenos programas chamados shaders, que são compilados e executados na unidade de processamento gráfico (GPU).
+
+
 
 
 A interação com as GPUs é facilitada por meio de uma 
 API, sendo o OpenGL uma API padrão para o uso de funções na GPU \cite{opengl_spec}. O \textit{pipeline} de renderização do OpenGL é composto por várias etapas, incluindo definição de dados de vértices, \textit{shaders} de vértice e fragmento, \textit{shaders} de tesselação e geometria opcionais, configuração de primitivas, recorte e rasterização.
 
+
 % Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. As etapas mais importantes para o nosso trabalho são os \textit{shaders} de fragmento e de vértice, representados na \autoref{fig-pipeline}, os quais executam a manipulação dos vértices e determinam cores de pixels, respectivamente.
 
-Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. Uma representação visual desse processo pode ser observada na \autoref{fig-pipeline}. Nela, é representado a CPU enviando os dados da cena para a GPU, que utiliza essas informações nos \textit{shaders} de vértice e fragmento. O \textit{shader} de vértice manipula os vértices da cena, enquanto o shader de fragmento determina as cores dos pixels. Os fragmentos são elementos gerados durante o processamento das primitivas geometricas, como triagulos. Eles correspondem a pontos discretos na tela onde a cor final será determinada. Além disso, a CPU também pode enviar variáveis uniformes (\textit{uniform variables}) para os shaders, que são essenciais para a etapa de renderização e contribuem para a geração da imagem final.
+
+Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. Uma representação visual desse processo pode ser observada na \autoref{fig-pipeline}. Nela, é representado a CPU enviando os dados da cena para a GPU, que utiliza essas informações nos \textit{shaders} de vértice e fragmento. O \textit{shader} de vértice manipula os vértices da cena, enquanto o shader de fragmento determina as cores dos pixels. Os fragmentos são elementos gerados durante o processamento das primitivas geométricas, como triângulos. Eles correspondem a pontos discretos na tela onde a cor final será determinada. Além disso, a CPU também pode enviar variáveis uniformes (\textit{uniform variables}) para os shaders, que são essenciais para a etapa de renderização e contribuem para a geração da imagem final.
+
 
 \begin{figure}[H]
-	\caption{\label{fig-pipeline} O \textit{pipeline}}
-	\begin{center}
-	    \includegraphics[scale=0.45]{./Imagens/gpu_pipeline.png}
-	\end{center}
+        \caption{\label{fig-pipeline} O \textit{pipeline}}
+        \begin{center}
+            \includegraphics[scale=0.45]{./Imagens/gpu_pipeline.png}
+        \end{center}
   \legend{Fonte: \cite{video_pipeline}}
 \end{figure}
 
 
+
+
 \subsection{Shader de Vértice}
 
+
 O \textit{shader} de vértice opera em vértices individuais de primitivas geométricas antes de serem rasterizados em fragmentos. Sua principal tarefa é transformar vértices e passar os dados necessários para o \textit{shader} fragmento. Esses \textit{shaders} geralmente realizam várias transformações nos dados dos vértices, permitindo que objetos sejam posicionados, orientados e projetados em uma tela 2D. Um exemplo desse \textit{shader} está no \autoref{vertex_code1}, que usa uma matriz para realizar essas transformações. Ao fim dessa etapa, os vértices são normalizados para coordenadas homogêneas. Essa normalização é essencial para realizar a projeção perspectiva e outros cálculos no \textit{pipeline} de renderização.
+
+
 
 
 \begin{codigo}[H]
@@ -354,9 +473,12 @@ O \textit{shader} de vértice opera em vértices individuais de primitivas geom�
 layout(location = 0) in vec3 inPosition;
 layout(location = 1) in vec3 inNormal;
 
+
 uniform mat4 modelViewProjection;
 
+
 out vec3 fragNormal;
+
 
 void main() {
     vec3 manipulatedPosition = inPosition + (sin(gl_VertexID * 0.1) * 0.1);
@@ -366,79 +488,112 @@ void main() {
 \end{lstlisting}
 \end{codigo}
 
+
 \subsection{Shader de Fragmento}
 
+
 O \textit{shader} de fragmento opera sobre os fragmentos produzidos pela etapa de rasterização. Sua principal responsabilidade é determinar a cor final de cada fragmento com base na iluminação, texturização e propriedades da superfície. Uma possível interpretação é que esse programa é repetido para todos os pixels da imagem paralelamente.  Esse programa recebe dados interpolados, como vértices e normais, ou seja, cada instância deste programa possui entradas potencialmente diferentes uma das outras. Na API OpenGL, valores como normais e vértices são interpolados usando coordenadas baricêntricas \cite{opengl_interpolation}.
+
 
 As BRDFs podem ser implementadas nesse estágio do pipeline para atingir um nível de \textit{shading} mais preciso, pois podemos ter mais dados do que os definidos na geometria, devido à interpolação. Isso resulta em um nível de detalhamento potencialmente maior, considerando uma transição mais suave de um ponto para outro dentro de um triângulo,  como representado na \autoref{better-with-fragment}.
 
 
+
+
 \begin{figure}[H]
-	\caption{\label{better-with-fragment} \small Diferença entre shading a nível de vértice e shading a nível de fragmento}
-	\begin{center}
-	    \includegraphics[scale=0.5]{./Imagens/per_vertex_per_frag.png}
-	\end{center}
+        \caption{\label{better-with-fragment} \small Diferença entre shading a nível de vértice e shading a nível de fragmento}
+        \begin{center}
+            \includegraphics[scale=0.5]{./Imagens/per_vertex_per_frag.png}
+        \end{center}
   \legend{ Fonte: \cite{pervertex_perfrag}}
 \end{figure}
 
+
 \section{Compiladores} \label{compiladores}
+
 
 \subsection{Cadeia de Símbolos e Alfabeto} \label{símbolos}
 
+
 Um \textbf{cadeia de símbolos} é uma sequência finita de símbolos retirados de um alfabeto $ \Sigma $. Formalmente, uma cadeia $ w $ é representada como $ [w_1, w_2, ..., w_n] $, onde cada $ w_i $ pertence ao alfabeto $ \Sigma $. O \textbf{alfabeto} $ \Sigma $ é um conjunto finito de símbolos distintos usados para construir cadeias em uma linguagem. Ele define os blocos de construção a partir dos quais cadeias válidas na linguagem são formadas.
+
 
 \subsection{Definições de Linguagens} \label{linguagem}
 
+
 Na ciência da computação, as linguagens são sistemas formais compostos por símbolos e regras que são muito úteis para definir um significado algorítmico. Uma \textbf{linguagem} $L$ é definida como um conjunto de cadeias sobre um alfabeto finito $ \Sigma $, $ L \subseteq \Sigma^* $, onde  $ \Sigma^* $ denota o conjunto de todas as cadeias possíveis sobre $ \Sigma $ \cite{language_theory}. A estrutura semântica de uma linguagem inclui seu alfabeto $ \Sigma $, sintaxe e regras de gramática.
 
+
 \subsection{Compilador como um Transformação}
+
 
 Um compilador pode ser visto como uma transformação entre linguagens $ L_1 $ e $ L_2 $ que preserva a estrutura interna dos conjuntos, isto é, deve manter o mesmo significado algorítmico. Assim, o compilador $ C: L_1 \rightarrow L_2 $ mapeia programas escritos na linguagem de origem $ L_1 $ para programas equivalentes na linguagem de destino $ L_2 $. Essa transformação garante a preservação semântica, mantendo o comportamento pretendido do programa original durante a tradução.
 
 
+
+
 \subsection{Gramática} \label{gramatica}
 
+
 Durante a criação de um compilador, é necessário entender as regras que auxiliam na validação da linguagem de entrada, essas regras podem ser formalizadas pela gramática. Uma gramática $G$ é um sistema formal composto por um conjunto de regras de produção que especificam como cadeias válidas na linguagem podem ser geradas \cite{language_theory}. Ela inclui terminais, não-terminais, regras de produção e um símbolo inicial.
+
 
 \begin{itemize}
   \item Terminais: são os símbolos básicos a partir dos quais as cadeias são formadas. Eles representam as unidades elementares da sintaxe da linguagem.
   \item Não-terminais: são espaços reservados que podem ser substituídos por terminais ou outros não-terminais de acordo com as regras de produção.
 
+
   \item Regras de Produção: definem a transformação ou substituição de não-terminais em sequências de terminais e/ou não-terminais.
+
 
   \item Símbolo Inicial: é um não-terminal especial a partir do qual a derivação de cadeias válidas na linguagem começa.
 \end{itemize}
 
 
+
+
 \subsubsection{Gramáticas Livres de Contexto (GLCs)}
 
+
 Um tipo comum de gramática usado na definição de linguagens é a gramática livre de contexto (GLC).  Uma GLC pode ser descrita formalmente como $ G=(V,\Sigma,R,S)$:
+
 
 \begin{itemize}
   \item $V$ é um conjunto finito de símbolos não-terminais.
 
+
   \item $\Sigma$ é um conjunto finito de símbolos terminais disjunto de $V$.
 
+
   \item $R$ é um conjunto finito de regras de produção, cada regra no formato $A \rightarrow \beta$, onde $A$ é um não-terminal e $\beta$ é uma cadeia de terminais e não-terminais.
+
 
   \item $S$ é o símbolo inicial, que pertence a $V$.
 \end{itemize}
 
+
 O processo de gerar uma cadeia na linguagem definida por uma gramática é chamado de derivação. Isso envolve aplicar regras de produção sucessivamente, começando pelo símbolo inicial $S$ até restarem apenas símbolos terminais.
 
+
 Uma árvore sintática é uma representação gráfica do processo de derivação, onde cada nó representa um símbolo na cadeia. As arestas representam a aplicação de regras de produção. Em código, essa árvore é gerada e usada como representação intermediária,  auxiliando na geração da linguagem alvo $L_2$.
+
+
 
 
 \subsection{Análise Léxica}
 A análise léxica, também conhecida como \textit{lexing} ou \textit{tokenization}, é a primeira etapa do processo de compilação, na qual a entrada textual é dividida em unidades léxicas significativas chamadas de \textit{tokens}. Esses \textit{tokens} representam os componentes básicos da linguagem, como palavras-chave, identificadores, operadores e literais. O analisador léxico percorre o código fonte caractere por caractere, agrupando-os em \textit{tokens} conforme regras pré-definidas pela gramática da linguagem. Essa linguagem é, geralmente, reconhecível por máquinas de estado \cite{automata}.
 
+
 \subsection{Análise Sintática ou \textit{Parsing}}
 A análise sintática é a segunda fase do processo de compilação, na qual os \textit{tokens} gerados pela análise léxica são organizados e verificados quanto à conformidade com a gramática da linguagem. Essa etapa envolve a construção de uma árvore sintática, ou estrutura de dados equivalente, que representa a estrutura hierárquica das expressões e instruções do programa. O analisador sintático utiliza regras de produção gramatical para validar a sintaxe do código fonte e identificar possíveis erros.
+
 
 \subsubsection{Pratt Parsing}
 O Pratt Parsing, introduzido por Vaughan Pratt, é uma técnica de análise sintática recursiva que permite analisar expressões com precedência de operadores de forma eficiente e sem ambiguidades \cite{pratt}. Uma das suas características distintivas é determinar a ordem de avaliação das expressões. Ao contrário da análise descendente recursiva tradicional, na qual cada não-terminal possui uma função de \textit{parsing}, a análise Pratt associa funções de manipulação (\textit{handlers}) com \textit{tokens}.
 
+
 A precedência das expressões é definida por meio de uma tabela, na qual cada operador é associado a um valor que permita o \textit{parser} decidir dinamicamente a ordem de avaliação das expressões com base nos operadores encontrados durante a análise. Essa abordagem simplifica significativamente a implementação do \textit{parser} e elimina a necessidade de criar uma gramática que encapsula a precedência em sua definição. Ela também evita a recursão profunda para lidar com diferentes níveis de precedência.
+
 
 % \subsubsection{Árvores Inclinadas}
 %
@@ -455,21 +610,26 @@ A precedência das expressões é definida por meio de uma tabela, na qual cada 
 %
 % Por outro lado, em uma árvore inclinada à esquerda, operadores com maior precedência são resolvidos por último, seguindo uma ordem de avaliação da esquerda para a direita. As árvores inclinadas à esquerda estão tipicamente associadas a chamadas recursivas de \textit{parsing}, já as inclinadas à direita estão associadas a iteração. Para alcançar a estrutura correta da árvore, o Pratt \textit{parsing} alterna entre recursão e iteração com base na precedência dos operadores para saber o momento de gerar uma subárvore inclinada para esquerda ou direita.
 
+
 \subsubsection{Pseudo-código para Análise de Expressões}
+
 
 O pseudo-código \ref{alg1}
 demonstra o Pratt \textit{parsing} para a construção de árvores de expressão. Esse algoritmo também é robusto mesmo quando um operador é tanto infixo quanto prefixo, por exemplo ``$-$'' pode ser um \textit{token} de subtração ou de negação. Assim, cada \textit{token} tem uma função de prefixo e infixo associada.
+
 
 Nesse algoritmo, 
 \textbf{proximo\_token()} recupera o próximo elemento da lista de \textit{tokens},
 \textbf{token.precedencia}() retorna a procedência do token atual, \textbf{token.prefixo()} é a função associada ao \textit{token} que faz o parsing de uma expressão quando o \textit{token} é o primeiro símbolo em uma subexpressão (e.g. o token ``$-$'' é o primeiro na expressão ``$-3$''). Já o \textbf{token.infixo(esquerda)} é a função associada ao \textit{token} que utiliza outra subárvore já criada como entrada. Por exemplo a subárvore \textbf{esquerda} pode ser a expressão ``$-3$'', o token atual ser ``$*$'' e o retorno gera a expressão completa ``$-3 * 1$''.
 
+
 Tanto \textbf{token.infixo} quanto \textbf{token.prefixo} podem ser indiretamente recursivas, isto é, ambas podem chamar a função \textbf{expressão} no \autoref{alg1}. 
 Por fim, \textbf{precedencia\_anterior} representa a precedência do token anterior.
 
+
 \begin{algoritmo}[H]
-	\caption{Função Pratt Parsing de Expressão}
-	\label{alg1}
+        \caption{Função Pratt Parsing de Expressão}
+        \label{alg1}
   \begin{lstlisting}
   function expressao(precedencia_anterior:=0):
       token := proximo_token()
@@ -481,11 +641,15 @@ Por fim, \textbf{precedencia\_anterior} representa a precedência do token anter
   \end{lstlisting}
 \end{algoritmo}
 
+
 \subsection{Análise Semântica}
+
 
 A análise semântica é uma etapa essencial no processo de compilação, responsável por garantir a corretude semântica das declarações e instruções do programa. Durante esta fase, são aplicadas verificações para garantir que as operações sejam realizadas com tipos compatíveis.
 
+
 Um exemplo típico de verificação semântica é a inferência de tipos em expressões. Por exemplo, no \autoref{cod-exemplo-c}, o analisador semântico infere que o número inteiro $30$ deve ser convertido para o tipo \textit{float} antes da multiplicação, garantindo consistência de tipos. Além da verificação de tipos, o analisador semântico identifica e reporta outros erros comuns, como variáveis não declaradas e falhas no controle de fluxo do programa.
+
 
 \begin{codigo}
 \caption{\small Exemplo de código escrito em C.}
@@ -496,25 +660,35 @@ float y = x * 30;
 \end{lstlisting}
 \end{codigo}
 
+
 \begin{lstlisting}
 \end{lstlisting}
 
 
+
+
 No contexto deste trabalho, no desenvolvimento de \textit{shaders} em OpenGL (GLSL), a análise semântica é importante para validar expressões e funções relacionadas à renderização de materiais. Por exemplo, ao escrever uma função BRDF em GLSL, o analisador deve verificar se os tipos de dados e operações são compatíveis tanto com a definição da função BRDF quanto com as dimensões de vetores e outras grandezas definidas.
+
 
 \subsection{Geração da Linguagem Alvo} \label{codegen}
 
+
 Nesta fase, fazemos a transição da representação intermediária  da linguagem origem \( L_1 \)  para  a linguagem de destino \( L_2 \), processo que envolve traduzir construções de \( L_1 \) para equivalentes em $L_2$. Podemos realizar essa tradução ao percorrer recursivamente os nós da árvore sintática usando as informações contidas nesses nós para gerar partes do programa final em $L_2$.
+
 
 Dado um programa $a \in L_1$ existem vários programas $b_{i=1,2,3,...} \in L_2$ que possui estrutura semanticamente equivalentes à $a$. Ao explorar esse conjunto, é possível escolher um $b_j \in L_2$ tal que esse programa seja otimizado em algum sentido, como uso eficiente de memória ou executar menos instruções de \textit{hardware}. Nosso foco neste trabalho está na tradução semanticamente correta, sem envolver exploração das saídas  equivalentes.
 
+
 Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) (\LaTeX), para \( L_2 \) ( GLSL). O cálculo apresentado na \autoref{eq-calculo-vetorial} pertence a $L_1$. O \autoref{cod-fonte-calculo} mostra o código fonte desse cálculo. 
+
+
 
 
 \begin{equation} \label{eq-calculo-vetorial}
  \quad \mathbf{v} = (\mathbf{a} + \mathbf{b}) \cdot
  \mathbf{c} - (\mathbf{d} \times \mathbf{e})
 \end{equation}
+
 
 \begin{codigo}
 \caption{\small Cálculo vetorial em código fonte \LaTeX}
@@ -527,7 +701,11 @@ Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) (\L
 
 
 
+
+
+
 Após a tradução da expressão matemática para \( L_2 \), o cálculo pode ser convertido para o trecho de programa apresentado no \autoref{cod-calculo-vetorial-glsl}. Esse código é válido na linguagem GLSL.
+
 
 \begin{codigo}
 \caption{\small Cálculo vetorial em código GLSL}
@@ -538,19 +716,27 @@ Após a tradução da expressão matemática para \( L_2 \), o cálculo pode ser
 \end{codigo}
 
 
+
+
 \chapter{Revisão Bibliográfica} \label{revisao}
+
 
 Para esta seção, será conduzida uma revisão literária abrangente com o objetivo de explorar trabalhos relacionados ao desenvolvimento de compiladores para tradução de BRDFs expressas em \LaTeX  para a linguagem de \textit{shading}, empregando técnicas de \textit{parsing}. O processo de busca será conduzido em duas etapas distintas. Primeiro, será realizado um levantamento dos trabalhos existentes nas bases de dados  com relevantes periódicos, anais de eventos, artigos e trabalhos. Por fim, será realizada uma busca por produtos ou ferramentas similares no mercado, utilizando \textit{strings} de busca específicas em repositórios digitais, especificamente GitHub e SourceForge. Esses processos de busca permitirão identificar referências relevantes e estabelecer um panorama do estado da arte no campo dos compiladores de BRDFs  para \textit{shaders}, contribuindo para a compreensão do contexto acadêmico e prático no qual este trabalho se insere.
 
+
 \section{Mapeamento Sistemático}
 
+
 Com o intuito de obter resultados relevantes para a pesquisa, foram elaboradas frases de busca com base nos termos-chave relacionados ao tema deste trabalho. Também foram criadas questões de pesquisa para guiar a seleção dos trabalhos.
+
 
 \subsection{Seleção das Bases}
 As bases escolhidas foram: ACM Digital Library \footnote{\url{https://dl.acm.org/}},  IEEE Xplorer Digital Library \footnote{\url{https://ieeexplore.ieee.org/}},  Biblioteca Digital Brasileira de Teses e Dissertações (BDTD) \footnote{\url{https://bdtd.ibict.br/}}, Portal de Periódicos da CAPES \footnote{\url{https://www-periodicos-capes-gov-br.ezl.periodicos.capes.gov.br/index.php?}},  Google Acadêmico \footnote{\url{https://scholar.google.com/}}. Essas foram escolhidas por serem acessíveis gratuitamente pela afiliação à Universidade Federal de Sergipe, já o Google Scholar foi escolhido por agregar pesquisas em outras bases que possam ter trabalhos relevantes.
 
+
 % 
 %
+
 
 %
 % \url{https://www-periodicos-capes-gov-br.ezl.periodicos.capes.gov.br/}
@@ -558,27 +744,43 @@ As bases escolhidas foram: ACM Digital Library \footnote{\url{https://dl.acm.org
 
 
 
+
+
+
+
 \subsection{Questões de Pequisa}  \label{questoes-pesquisa}
 
+
 Foram elaboradas questões de pesquisa específicas, que guiam as frases-chave que refletem os principais aspectos do tema em questão. A partir desse processo, foram identificados e selecionados os trabalhos que melhor atendiam às questões propostas, garantindo maior relevância para este estudo.
+
 
 \begin{enumerate}
   \item Quais são as abordagens mais comuns utilizadas na criação de compiladores para tradução de BRDFs expressas em alguma linguagem de texto, com \LaTeX , para \textit{shaders}?
 
+
   \item Quais as técnicas de \textit{parsing} têm sido aplicadas no desenvolvimento de compiladores para linguagens matemáticas como \LaTeX ?
 
-  \item O trabalho utiliza árvores ou gramáticas livre de contexto para representar uma BRDF?
+
+  \item O trabalho utiliza árvores ou gramáticas livres de contexto para representar uma BRDF?
+
 
  \item Quais são os principais desafios enfrentados ao traduzir funções matemáticas complexas, como as BRDFs, em \textit{shaders}?
 
+
  \item Quais são as ferramentas e recursos disponíveis para auxiliar no desenvolvimento de compiladores para BRDFs e \textit{shaders}, e como eles podem ser integrados ao processo de desenvolvimento?
+
 
 \end{enumerate}
 
 
 
+
+
+
 \subsection{Termos de Busca}
- As frases foram construidas considerando suas variações equivalentes através de operadores lógicos. Posteriormente, as frases de pesquisa foram adaptadas de acordo com as características individuais de cada base de dados utilizada. Os termos-chave escolhidos foram: ("shader" AND "BRDF" AND ("compiler" OR "parser" OR "grammar")), conforme demonstrado na \autoref{tab-bases}
+ As frases foram construídas considerando suas variações equivalentes através de operadores lógicos. Posteriormente, as frases de pesquisa foram adaptadas de acordo com as características individuais de cada base de dados utilizada. Os termos-chave escolhidos foram: ("shader" AND "BRDF" AND ("compiler" OR "parser" OR "grammar")), conforme demonstrado na \autoref{tab-bases}
+
+
 
 
 \begin{table}[H]
@@ -597,22 +799,25 @@ AND (("Full Text \& Metadata":compiler) OR  ("Full Text \& Metadata":parsing) OR
    & 36
     \\ \hline
 
+
     BDTD
     & (Todos os campos:compiler OU Todos os campos:parsing OU Todos os campos:parser OU Todos os campos:compilador) E (Todos os campos:shader OU Todos os campos:shading) E (Todos os campos:brdf)
     & 0
     \\ \hline
-    CAPES Periodico
+    CAPES Periódico
     &  Qualquer campo contém brdf E 
  Qualquer campo contém compi* E shad*  
     & 0
     \\ \hline
+
 
   ACM Digital Library
   & AllField:((shader OR shading) AND brdf AND (compiler OR compiling) AND (parser OR grammar OR parsing))
   & 46
     \\ \hline
 
- Google Academico 
+
+ Google Acadêmico 
   & 
   ("BRDF" AND ("COMPILER" OR "COMPILING") AND( "PARSER" OR "PARSING") AND ("SHADER" OR "SHADING"))
   & 69
@@ -621,29 +826,37 @@ AND (("Full Text \& Metadata":compiler) OR  ("Full Text \& Metadata":parsing) OR
 % \legend{Fonte: \citeonline{van86}}
 \end{table}
 
+
 \subsection{Critérios}
 
-Para garantir relevancia dos resultados obtidos, seguimos os critérios de inclusão e exclusão estabelecidos, de forma a filtrar os resultados. Ao fim desse procedimento, apenas os resultados com maior compatibilidade com este trabalho foram analisados e descritos de maneira detalhada. O resultados se encontram na \autoref{tab-result}
+
+Para garantir a relevância dos resultados obtidos, seguimos os critérios de inclusão e exclusão estabelecidos, de forma a filtrar os resultados. Ao fim desse procedimento, apenas os resultados com maior compatibilidade com este trabalho foram analisados e descritos de maneira detalhada. O resultados se encontram na \autoref{tab-result}
+
 
 \subsubsection{Critérios de Inclusão}
+
 
 \begin{enumerate}
   \item Foram incluídos artigos relacionados às palavras-chaves;
   \item Foram incluídos artigos que de alguma forma incluam a criação de um compilador ou um \textit{parser};
-  \item Foram incluídos artigos que sintetize uma arvóre como representação de BRDFs.
+  \item Foram incluídos artigos que sintetizam uma árvore como representação de BRDFs.
 \end{enumerate}
 
+
 \subsubsection{Critérios de Exclusão}
+
 
 \begin{enumerate}
   \item Foram excluídos artigos que dispunham de links incorretos e ou quebrados;
   \item Foram excluídos artigos no quais os projetos são muito similares;
-  \item Foram excluídos artigos que não respodem as questões de pesquisa na \autoref{questoes-pesquisa};
+  \item Foram excluídos artigos que não respondem as questões de pesquisa na \autoref{questoes-pesquisa};
   \item Foram excluídos artigos que não têm como entrada uma BRDF no formato de equação, ou seja, utilizam a representação diretamente como código;
   \item Foram excluídos artigos que não consideram a geração de \textit{shaders} como saída ou estrutura da BRDF em árvore;
-  \item Foram excluídos artigos que não citam BRDFs e compilador ou arvóres em seu resumo;
+  \item Foram excluídos artigos que não citam BRDFs e compilador ou árvores em seu resumo;
   \item Se após a leitura completa, o artigo não concerne os interesses deste trabalho, esse foi excluído.
 \end{enumerate}
+
+
 
 
 \begin{table}[H]
@@ -660,14 +873,15 @@ Para garantir relevancia dos resultados obtidos, seguimos os critérios de inclu
     BDTD
     & 0
     \\ \hline
-    CAPES Periodico
+    CAPES Periódico
     & 0
     \\ \hline
+
 
   ACM Digital Library
   & 1
     \\ \hline
- Google Academico 
+ Google Acadêmico 
   & 1
    % \hline
 \end{tabular}
@@ -676,68 +890,96 @@ Para garantir relevancia dos resultados obtidos, seguimos os critérios de inclu
 
 
 
+
+
+
 \subsection{Descrição dos Trabalhos Relacionados}
+
 
 \subsubsection{genBRDF: Discovering New Analytic BRDFs with Genetic Programming}
 
-Neste artigo é introduzido uma  \textit{framework} chamada genBRDF, a qual aplica tecnicas de programação genética para explorar e descobrir novas BRDFs de maneira analitica \cite{genbrdf}. O processo inicia utilizando uma BRDF existente, e iterativamente aplica mutações e recombinações de partes das expressões matematicas que compões essas BRDFs a medida que novas gerações surgem. Essas mutações são guiadas por uma função \textit{fitness}, que seria o inverso de uma função de erro, ela é baseada em um \textit{dataset} de materiais já medidos. Por meio da avaliação de milhares de expressões, a  \textit{framework} identifica as viávies.
+
+Neste artigo é introduzido uma  \textit{framework} chamada genBRDF, a qual aplica técnicas de programação genética para explorar e descobrir novas BRDFs de maneira analitica \cite{genbrdf}. O processo inicia utilizando uma BRDF existente, e interativamente aplica mutações e recombinações de partes das expressões matemáticas que compõem essas BRDFs a medida que novas gerações surgem. Essas mutações são guiadas por uma função \textit{fitness}, que seria o inverso de uma função de erro, ela é baseada em um \textit{dataset} de materiais já medidos. Por meio da avaliação de milhares de expressões, a  \textit{framework} identifica as viávies.
+
 
 Os autores geraram uma gramática que inclui constantes e operadores matemáticos comuns encontrados em equações BRDF. A gramática é compilada, e a árvore de sintaxe abstrata resultante passa por modificações realizadas pelo algoritmo genético. Nós na árvore podem ser trocados, substituídos, removidos e novos nós podem ser adicionados. Esse processo, após refinamento e análise, resulta em novas BRDFs. Alguns dos novos modelos BRDF apresentados no documento incluem aqueles que superam os modelos existentes em termos de precisão e simplicidade.
  
 Esse artigo se concentra em automaticamente encontrar novos modelos analíticos de BRDF, em vez de compilar diretamente equações BRDF em linguagens de \textit{shading}. Embora a representação das expressões das BRDFs possam potencialmente inspirar o nosso trabalho, o principal objetivo do artigo difere do nosso tema.
 
+
 \subsubsection{Slang: language mechanisms for extensible real-time shading systems}
+
 
 O artigo descreve a linguagem Slang, uma extensão da amplamente utilizada linguagem de \textit{shading} HLSL, projetada para melhorar o suporte à modularidade e extensibilidade \cite{slang}. A abordagem de design da Slang é baseada em dois princípios fundamentais: manter a compatibilidade com o HLSL existente sempre que possível e introduzir recursos com precedentes em linguagens de programação \textit{mainstream} para facilitar a familiaridade e intuição dos desenvolvedores.
 
+
 O autor enfatiza que cada extensão da Slang busca oferecer uma progressão incremental para a adoção a partir do código HLSL existente, eliminando a necessidade de uma migração completa. Algumas dessas extensões incluem: funções genéricas, estruturas genéricas e tipos que implementam interfaces específicas, semelhantes ao funcionamento das interfaces em Java, mas aplicadas a estruturas. Um exemplo de função genérica escrita em Slang é:
+
 
 \begin{verbatim}
 float3 integrateSingleRay<B:IBxDF>(B bxdf,
 SurfaceGeometry geom, float3 wi, float3 wo, float3 Li)
 { return bxdf.eval(wo, wi) * Li * max(0, dot(wi, geom.n)); }
 
+
 \end{verbatim}
+
+
 
 
 Enquanto o artigo tenta melhorar a eficiência e a extensibilidade dos sistemas de \textit{shading} em tempo real, o nosso trabalho se concentra na compilação de equações BRDF em linguagens de \textit{shading}. Embora ambos os projetos façam uso de \textit{shaders} e compilação, as abordagens e focos são diferentes.
 
+
 \subsubsection{Tree-Structured Shading Decomposition}
+
 
 Esse trabalho propõe uma abordagem para inferir uma representação de BRDF estruturada em árvore a partir de uma única imagem para a sombreamento de objetos \cite{tree_decomposition}. Em vez de usar representações paramétricas, como é comum, é proposta uma abordagem que utiliza uma representação em árvore de \textit{shading}, combinando nós básicos e métodos para decompor o \textit{shading} da superfície do objeto, representado na \autoref{fig_decomp}.
 
+
 \begin{figure}[H]
-	\caption{\label{fig_decomp} Exemplo de decomposição de BRDFs em nós de uma arvóre}
-	\begin{center}
-	    \includegraphics[scale=0.5]{./Imagens/tree-shading.png}
-	\end{center}
-	\legend{Fonte: \citeonline[]{radiometry_introduction}}
+        \caption{\label{fig_decomp} Exemplo de decomposição de BRDFs em nós de uma árvore}
+        \begin{center}
+            \includegraphics[scale=0.5]{./Imagens/tree-shading.png}
+        \end{center}
+        \legend{Fonte: \citeonline[]{radiometry_introduction}}
 \end{figure}
+
+
 
 
 Assim como o nosso trabalho, esse artigo se concentra em facilitar o processo para usuários inexperientes, pois ambos visam fornecer ferramentas acessíveis para manipular representações de \textit{shading} sem exigir conhecimento avançado em programação. Esse artigo também emprega uma representação em árvore, embora para um propósito diferente.
 
+
 \subsubsection{A Real-Time Configurable \textit{shader} Based on Lookup Tables}
 
-Esse trabalho propõe uma arquitetura de \textit{hardware} que permite cálculos de \textit{shading} por pixel em tempo real, utilizando \textit{lookup-tables} \cite{configurable}. Para isso, são projetados circuitos configurávei baseado nessas tabelas, memórias de acesso aleatório (RAMs) e memórias somente leitura (ROMs). Varios circuitos base foram projetados para as operações mais comuns. Por exemplo, circuitos para calcular o produto interno entre dois vetores e circuitos de rotação de um vetor por um ângulo, um exemplo desses diagramas é representado na \autoref{fig_circuit}. Ademais, é usado interpolação em um sistema de coordenadas polares em vez da interpolação vetorial convencional com normalização, com o objetivo de reduzir o tamanho dos circuitos e melhorar o desempenho.
+
+Esse trabalho propõe uma arquitetura de \textit{hardware} que permite cálculos de \textit{shading} por pixel em tempo real, utilizando \textit{lookup-tables} \cite{configurable}. Para isso, são projetados circuitos configurável baseado nessas tabelas, memórias de acesso aleatório (RAMs) e memórias somente leitura (ROMs). Vários circuitos base foram projetados para as operações mais comuns. Por exemplo, circuitos para calcular o produto interno entre dois vetores e circuitos de rotação de um vetor por um ângulo, um exemplo desses diagramas é representado na \autoref{fig_circuit}. Ademais, é usado interpolação em um sistema de coordenadas polares em vez da interpolação vetorial convencional com normalização, com o objetivo de reduzir o tamanho dos circuitos e melhorar o desempenho.
+
+
 
 
 \begin{figure}[H]
-	\caption{\label{fig_circuit} Exemplo de circuito de produto interno entre vetores}
-	\begin{center}
-	    \includegraphics[scale=0.7]{./Imagens/rom-cos-lookup-table.png}
-	\end{center}
+        \caption{\label{fig_circuit} Exemplo de circuito de produto interno entre vetores}
+        \begin{center}
+            \includegraphics[scale=0.7]{./Imagens/rom-cos-lookup-table.png}
+        \end{center}
   \legend{Fonte: \cite{configurable}}
 \end{figure}
 
 
-Além disso, o circuito suporta diversas BRDFs, como Blinn-Phong, Cook-Torrance, Ward e modelos baseados em microfacetas, com tabelas específicas para cada modelo. O uso de tabelas de pesquisa permite a representação organizada da parametrização das BRDFs, tornando o processo de transformação de BRDF para \textit{shaders} mais acessível. Esse trabalho foi aceito por incluir o processo de tradução estruturada de BRDFs para os circuitos. Assim como árvores, eles são hierárquicos e são usados em composição para representar uma BRDF. Assim como este trabalho, a abordagem facilita a geração de \textit{shaders} a partir da descrição de BRDFs, apesar da metologia ser diferente.
+
+
+Além disso, o circuito suporta diversas BRDFs, como Blinn-Phong, Cook-Torrance, Ward e modelos baseados em microfacetas, com tabelas específicas para cada modelo. O uso de tabelas de pesquisa permite a representação organizada da parametrização das BRDFs, tornando o processo de transformação de BRDF para \textit{shaders} mais acessível. Esse trabalho foi aceito por incluir o processo de tradução estruturada de BRDFs para os circuitos. Assim como as árvores, eles são hierárquicos e são usados em composição para representar uma BRDF. Assim como este trabalho, a abordagem facilita a geração de \textit{shaders} a partir da descrição de BRDFs, apesar da metodologia ser diferente.
+
 
 \section{Pesquisa por Repositórios online}
-Também foram analisados repositórios no github e SourceForge, cada um com uma \textit{string} de busca especifica. Os repositórios encontrados foram filtrados baseados em seus resumos, caso não haja a menção da criação de um compilador ou não seja citada uma transformação de BRDF para outra estrutura, esse repositório foi excluido. O resultado se encontra na \autoref{tab-repo}.
+Também foram analisados repositórios no github e SourceForge, cada um com uma \textit{string} de busca específica. Os repositórios encontrados foram filtrados baseados em seus resumos, caso não haja a menção da criação de um compilador ou não seja citada uma transformação de BRDF para outra estrutura, esse repositório foi excluído. O resultado se encontra na \autoref{tab-repo}.
+
+
 
 
 % @IMPORTANT 'preciso incluir o trabalho de conclusão de tulasi, que tem um repositório associado. Você pode colocar em uma seção diferente aqui neste capítulo. também é importante mencionar no capítulo 1 que esse trabalho existe, e que a abordagem do seu difere nas técnicas usadas.
+
 
 \begin{table}[H]
 \ABNTEXfontereduzida
@@ -761,26 +1003,39 @@ Também foram analisados repositórios no github e SourceForge, cada um com uma 
 \end{table}
 
 
+
+
 Após ler por completo os resumos dos repositórios do GitHub, é evidente que nenhum desses projetos é relacionado com o proposto neste trabalho, apesar de comentarem sobre BRDFs, esses projetos não implementam compiladores, não fazem \textit{parsing} de equações de BRDFs e nem mesmo geram \textit{shaders} a partir de BRDFs.
+
 
 \chapter{Metodologia} \label{metodologia}
 
-A metodologia para desenvolver o compilador proposto envolve uma abordagem prática. As suas prinipais etapas são: uma análise das informações pertinentes a BRDFs e compilação de \textit{shaders}; exploração de técnicas existentes dentro do domínio; especificação da linguagem subcojunto \LaTeX de entrada;  a implementação do compilador; a avaliação de seu desempenho por meio de experimentos de renderização.
+
+A metodologia para desenvolver o compilador proposto envolve uma abordagem prática. As suas principais etapas são: uma análise das informações pertinentes a BRDFs e compilação de \textit{shaders}; exploração de técnicas existentes dentro do domínio; especificação da linguagem subconjunto \LaTeX de entrada;  a implementação do compilador; a avaliação de seu desempenho por meio de experimentos de renderização.
 
 
-Inicialmente, o metódo para realizar a análise e exploração das tecnicas é descrito na \autoref{analise}. Em seguida, a especificação da linguagem de entrada e saída é definida na \autoref{especificacao-linguagem}. Posteriormente, uma idea de como o design dos casos de teste devem ser elaborados para validar a correção e precisão do compilador é apresentado na \autoref{testes}. O método de implementação do compilador é detalhado na \autoref{compiladorimplementacao}. A \autoref{experimentos-renderizacao} planeja o método de avaliação dos experimentos de renderização quanto a qualidade visual dos shaders compilados. Por fim, um plano de continuação é delineado, abordando as próximas etapas para completar o desenvolvimento do compilador proposto (\autoref{continuacao}).
+
+
+Inicialmente, o método para realizar a análise e exploração das técnicas é descrito na \autoref{analise}. Em seguida, a especificação da linguagem de entrada e saída é definida na \autoref{especificacao-linguagem}. Posteriormente, uma ideia de como o design dos casos de teste devem ser elaborados para validar a correção e precisão do compilador é apresentado na \autoref{testes}. O método de implementação do compilador é detalhado na \autoref{compiladorimplementacao}. A \autoref{experimentos-renderizacao} planeja o método de avaliação dos experimentos de renderização quanto a qualidade visual dos shaders compilados. Por fim, um plano de continuação é delineado, abordando as próximas etapas para completar o desenvolvimento do compilador proposto (\autoref{continuacao}).
 Seguindo essa metodologia, a ferramenta proposta visa compilar efetivamente descrições de BRDF em \textit{shaders} GLSL.
+
 
 \section{Análise e Técnicas} \label{analise}
 
 
+
+
 O primeiro passo envolve a realização de uma análise detalhada das áreas relacionadas ao desenvolvimento da ferramenta proposta. Isso inclui a revisão da literatura \cite{revisao} sobre BRDFs, linguagens de \textit{shaders}, design de compiladores e técnicas de renderização gráfica. Além disso, envolve o estudo de ferramentas e bibliotecas pertinentes. Durante essa análise, foram estudados conceitos de Radiometria para compreender tecnicamente as BRDFs. A principal fonte de informação sobre radiância e BRDFs foi o livro ``Physically Based Rendering: From Theory To Implementation'' \cite{pbr}.
+
 
 Ademais, foram exploradas diversas técnicas para compilação e renderização, como o método de Pratt \textit{Parsing} para a construção de um compilador, conforme detalhado na \ref{parser}, e a técnica de \textit{ray tracing} para compreensão e prática da equação de renderização (\autoref{eq-rendering-equation}). A implementação do \textit{ray tracing} permitiu a familiarização com o desenvolvimento de BRDFs sem o uso de bibliotecas, fornecendo uma base sólida para a compreensão do mapeamento da equação para código, aspecto fundamental para o desenvolvimento do compilador proposto neste trabalho.
 
+
 \section{Especificação da Linguagem}\label{especificacao-linguagem}
 
+
 As especificações da linguagem de entrada e saída para o compilador são definidas. A linguagem de entrada é uma versão simplificada do \LaTeX, na qual as expressões matemáticas nos ambientes \texttt{equation} ou \texttt{align} são suficientes para descrever BRDFs. O \LaTeX\  é um sistema de composição amplamente utilizado para documentos matemáticos e científicos. O ambiente \texttt{equation} é especificamente projetado para exibir equações individuais. O \autoref{equation-latex} é um exemplo de código fonte \LaTeX\  usando o ambiente \texttt{equation}:
+
 
 \begin{codigo}[H]
 \caption{Código fonte de função quadrática}
@@ -793,6 +1048,8 @@ As especificações da linguagem de entrada e saída para o compilador são defi
 \end{codigo}
 
 
+
+
 Este código representa uma equação quadrática \( g(x) = ax^2 + bx + c \), onde \( a \), \( b \) e \( c \) são coeficientes. O código GLSL correspondente gerado a partir dessa equação pode ser:  
 \begin{verbatim}
 float g(float x, float a, float b, float c) {
@@ -800,15 +1057,20 @@ float g(float x, float a, float b, float c) {
 }
 \end{verbatim}
 
+
 \section{Design de Casos de Teste} \label{testes}
+
 
 Os casos de teste são essenciais para validar a precisão e correção do processo de tradução do compilador. Eles estabelecem uma correspondência entre as equações \LaTeX\ de entrada, que descrevem as BRDFs, e o código de \textit{shader} GLSL esperado como saída. Um exemplo específico que demonstra a eficácia do compilador pode ser construído com a BRDF de Cook-Torrance. Sua função, \texttt{cook\_torrance}, é representada pela \autoref{eq-cook-torrance} (seu código fonte está definido no \autoref{cod-input-latex}), onde \(D\) é a função de distribuição normal, \(G\) é a função de sombreamento geométrico e \(F\) é a função de Fresnel. Embora as funções \(D\), \(G\), \(F\) não tenham sido definidas explicitamente, é importante ressaltar que, caso essas funções fossem definidas na equação \LaTeX, elas devem ser definidas no \autoref{cod-glsl-esperado} GLSL esperado.  
 
+
 Além disso, algumas variáveis, como a normal representada por \( n \), seriam passadas como entradas no \textit{shader} de fragmentos ou declaradas como variáveis uniformes, portanto não estão definidas explicitamente na função \texttt{cook\_torrance} do GLSL de saída; elas são variáveis implícitas. No momento, estamos focados em definir casos de teste para avaliar a geração das operações e precedências. No entanto, é importante considerar que, posteriormente, o GLSL não deverá apenas gerar a função BRDF, mas sim o \textit{shader} completo, incluindo as variáveis uniformes e a passagem da cor calculada para as próximas etapas do \textit{pipeline} gráfico.
+
 
 \begin{equation} \label{eq-cook-torrance}
   \text{cook\_torrance}(\omega_i, \omega_o) = \frac{D(h)F(\omega_i, h)G(\omega_i, \omega_o, h)}{4(\omega_i \cdot n)(\omega_o \cdot n)}
 \end{equation}
+
 
 \textbf{LaTeX Input (Cook-Torrance BRDF):}
 \begin{codigo}[H]
@@ -818,6 +1080,7 @@ Além disso, algumas variáveis, como a normal representada por \( n \), seriam 
   \text{cook\_torrance}(\omega_i, \omega_o) = \frac{D(h)F(\omega_i, h)G(\omega_i, \omega_o, h)}{4(\omega_i \cdot n)(\omega_o \cdot n)}
 \end{lstlisting}
 \end{codigo}
+
 
 \textbf{GLSL Output esperado:}
 \begin{codigo}[H]
@@ -834,51 +1097,67 @@ vec3 cook_torrance(vec3 wi, vec3 wo) {
 \end{lstlisting}
 \end{codigo}
 
+
 \section{Implementação do Compilador} \label{compiladorimplementacao}
 
-A implementação do compilador é realizada utilizando a linguagem de programação Odin, conhecida por ser uma linguagem de propósito geral com foco em programação orientada a dados. Sua escolha se deve à sua capacidade de oferecer controle de baixo nível e à sua adequação para o desenvolvimento de sistemas complexos. Além disso, nenhuma biblioteca externa foi utilizada, sendo empregadas apenas as bibliotecas padrões básicas que acompanham a instalação da lingaugem. Técnicas de análise recursiva são utilizadas, especificamente o Pratt \textit{Parsing}. Inicialmente, um \textit{lexer} e um \textit{parser} foram implementados para uma linguagem mais simples do que o \LaTeX\  para garantir que os fundamentos do compilador estejam funcionais, com precedência totalmente testada para a árvore sintática.
+
+A implementação do compilador é realizada utilizando a linguagem de programação Odin, conhecida por ser uma linguagem de propósito geral com foco em programação orientada a dados. Sua escolha se deve à sua capacidade de oferecer controle de baixo nível e à sua adequação para o desenvolvimento de sistemas complexos. Além disso, nenhuma biblioteca externa foi utilizada, sendo empregadas apenas as bibliotecas padrões básicas que acompanham a instalação da linguagem. Técnicas de análise recursiva são utilizadas, especificamente o Pratt \textit{Parsing}. Inicialmente, um \textit{lexer} e um \textit{parser} foram implementados para uma linguagem mais simples do que o \LaTeX\  para garantir que os fundamentos do compilador estejam funcionais, com precedência totalmente testada para a árvore sintática.
+
+
 
 
 \section{Experimentos de Renderização} \label{experimentos-renderizacao}
 
 
+
+
 Por fim, experimentos de renderização são realizados usando os \textit{shaders} gerados pelo compilador. Isso permite a avaliação do desempenho e da qualidade visual das imagens renderizadas produzidas pelos \textit{shaders} compilados. A plataforma escolhida para os testes é a ferramenta Disney BRDF \footnote{\url{https://github.com/wdas/brdf}}, compilada localmente para modificar e adicionar outros \textit{shaders}.
 
-Essa ferramenta é composto por um renderizador e uma interface que permite ajustar parâmetros de BRDFs através de controles deslizantes em tempo real, fornecendo uma visualização interativa do efeito das mudanças nos parâmetros na aparência do objeto renderizado, como ilustrado na \autoref{fig-disney-tool}. O código que informa a ferramenta qual a BRDF a ser renderizada e seus possiveis parametros pode ser vista na \autoref{fig-disney-code}. Esse código possui um formato especifico, onde se encontram algumas seção. Existe a seção para código GLSL e também outra secção entre \texttt{::begin parameters} e \texttt{::end parameters}, na qual podemos definir os parametros que se tornam constantes dessa BRDF.
+
+Essa ferramenta é composto por um renderizador e uma interface que permite ajustar parâmetros de BRDFs através de controles deslizantes em tempo real, fornecendo uma visualização interativa do efeito das mudanças nos parâmetros na aparência do objeto renderizado, como ilustrado na \autoref{fig-disney-tool}. O código que informa a ferramenta qual a BRDF a ser renderizada e seus possíveis parâmetros pode ser vista na \autoref{fig-disney-code}. Esse código possui um formato específico, onde se encontram algumas seções. Existe a seção para código GLSL e também outra seção entre \texttt{::begin parameters} e \texttt{::end parameters}, na qual podemos definir os parâmetros que se tornam constantes desta BRDF.
+
+
 
 
 \begin{figure}[htb]
-	\caption{\label{fig-disney-tool} \small Ferramenta de visualização de BRDFs da Disney}
-	\begin{center}
-	    \includegraphics[scale=0.7]{./Imagens/disney-brdf-tool.png}
-	\end{center}
+        \caption{\label{fig-disney-tool} \small Ferramenta de visualização de BRDFs da Disney}
+        \begin{center}
+            \includegraphics[scale=0.7]{./Imagens/disney-brdf-tool.png}
+        \end{center}
   \legend{ \small Fonte: \cite{disney-site}.}
 \end{figure}
 
+
 \begin{figure}[htb]
-	\caption{\label{fig-disney-code} \small O códgio GLSL com alguma sintaxe a mais para definir parametros.}
-	\begin{center}
-	    \includegraphics[scale=0.7]{./Imagens/disney-brdf-code.png}
-	\end{center}
+        \caption{\label{fig-disney-code} \small O código GLSL com sintaxe extra para definir parâmetros.}
+        \begin{center}
+            \includegraphics[scale=0.7]{./Imagens/disney-brdf-code.png}
+        \end{center}
 \end{figure}
+
+
+
 
 
 
 \section{Plano de Continuação} \label{continuacao}
 
+
 A continuação deste trabalho envolve várias tarefas-chave destinadas a completar o desenvolvimento do compilador proposto para converter equações \LaTeX  que descrevem BRDFs em código de \textit{shader} GLSL. As tarefas incluem: atualizar o \textit{lexer} e o \textit{parser} escritos em Odin para aceitar equações \LaTeX; testar o \textit{lexer} para garantir o reconhecimento correto dos \textit{tokens}; testar o \textit{parser} para garantir que a árvore sintática está com precedência correta; definir símbolos predefinidos e constantes matemáticas; implementar o processo de geração de código GLSL usando a árvore sintática com o padrão de \textit{design} visitante (\textit{Visitor}); expandir os casos de teste para cobrir uma melhor variedade de BRDFs; testar o código gerado quanto à correção e eficácia, incluindo as visualizações das BRDFs em algumas cenas; preparar a apresentação final; escrever o documento do trabalho (TCC). Cada etapa e seus períodos de execução são ilustrados na \autoref{chart} e listados a seguir:
+
 
 \begin{enumerate} 
 \item 06/05/2024 - 10/06/2024: Atualizar o \textit{lexer} e o \textit{parser} para aceitar equações \LaTeX.
 \item 10/05/2024 - 18/05/2024: Testar o \textit{lexer} para garantir o reconhecimento correto de todos os \textit{tokens} \LaTeX .
 \item 18/05/2024 - 10/06/2024: Testar o \textit{parser} para garantir a árvore de sintaxe com a precedência correta.
-\item 10/06/2024 - 25/06/2024: Definir símbolos predefinidos como constantes matemáticas e outras quantidades.
+\item 10/06/2024 - 25/06/2024: Definir símbolos pré-definidos como constantes matemáticas e outras quantidades.
 \item 25/06/2024 - 24/08/2024: Implementar o processo de geração de código GLSL.
 \item 10/07/2024 - 17/07/2024: Expandir os casos de teste para cobrir uma ampla gama de BRDFs.
 \item 17/07/2024 - 24/08/2024: Testar o código gerado quanto à correção e eficácia, tanto em código quanto em visualização e corrigir se necessário.
 \item 01/06/2024 - 06/09/2024: Escrever o documento da tese.
 \item 25/08/2024 - 06/09/2024: Preparar a apresentação final.
 \end{enumerate}
+
 
 % \begin{adjustwidth}{-1.3cm}{-1cm}
 \begin{landscape}
@@ -912,33 +1191,48 @@ milestone label font=\footnotesize,
 % \end{adjustwidth}
 
 
+
+
 \chapter{Resultados Iniciais}
 \label{resultadosiniciais}
 
+
 Este capítulo apresenta os resultados iniciais de dois experimentos distintos, cada um focado em explorar aspectos importantes para este trabalho. Inicialmente, abordaremos o desenvolvimento de um compilador, seguido por uma investigação prática sobre técnicas de \textit{ray tracing}. 
 
-O experimento com o compilador visa proporcionar uma compreensão mais profunda  do desenvolvimento de compiladores. Isso foi realizado através da escolha de uma linguagem simples para implementação. Por ser uma linguagem com menos regras de sintaxe que o \LaTeX, é possivel a exploração do processo de compilação incluindo a tokenização, criação da árvore sintática e interpretação do código fonte por meio dessa árvore sintatica. Esse compilador foi desenvolvido sem o uso de bibliotecas externas, o que amplia o entendimento sobre os fundamentos do desenvolvimento de compiladores.
+
+O experimento com o compilador visa proporcionar uma compreensão mais profunda  do desenvolvimento de compiladores. Isso foi realizado através da escolha de uma linguagem simples para implementação. Por ser uma linguagem com menos regras de sintaxe que o \LaTeX, é possível a exploração do processo de compilação incluindo a tokenização, criação da árvore sintática e interpretação do código fonte por meio dessa árvore sintática. Esse compilador foi desenvolvido sem o uso de bibliotecas externas, o que amplia o entendimento sobre os fundamentos do desenvolvimento de compiladores.
 
 
-Por outro lado, o experimento com o \textit{ray tracing} representa um estudo prático sobre BRDFs e a linguagem Odin. Embora o objetivo principal seja compreender melhor o funcionamento das funções de distribuição de reflectância bidirecional (BRDFs), há uma conexão futura com o compilador, pois há a possibilidade de integração do \textit{ray tracer} implementado como um pré-visualizador das BRDFs. No entanto, o foco principal permanece no compilador, enquanto o \textit{ray tracer} serve como uma oportunidade para explorar as capacidades da linguagem Odin e aplicar os conceitos de Radiomatria.
+
+
+Por outro lado, o experimento com o \textit{ray tracing} representa um estudo prático sobre BRDFs e a linguagem Odin. Embora o objetivo principal seja compreender melhor o funcionamento das funções de distribuição de reflectância bidirecional (BRDFs), há uma conexão futura com o compilador, pois há a possibilidade de integração do \textit{ray tracer} implementado como um pré-visualizador das BRDFs. No entanto, o foco principal permanece no compilador, enquanto o \textit{ray tracer} serve como uma oportunidade para explorar as capacidades da linguagem Odin e aplicar os conceitos de Radiometria.
+
 
 Esses experimentos se complementam, proporcionando uma abordagem que explora tanto os aspectos teóricos quanto práticos relacionados ao desenvolvimento de compiladores e à aplicação de conceitos como BRDFs
 
+
 ----
+
 
 \section{Parser e Lexer em Odin}\label{parser}
 
-Desenvolvemos um \textit{lexer}, \textit{parser} e interpretador para uma linguagem simples chamada \texttt{SimpleLang}, juntamente com sua gramática, utilizando o Pratt \textit{Parsing} na linguagem de programação Odin. O repositório pode ser encontrado em \url{https://github.com/evertonse/pratt-parser}. Esse \textit{parser} é implemetado por descida recursiva, o que significa que cada regra de produção tem uma função de análise associada. A implementação prioriza a simplicidade de código e a clareza de ideias, com extensos comentários para auxiliar na compreensão. Isso é importante, pois esse \textit{parser} será modificado para aceitar \textit{tokens} de \LaTeX.
+
+Desenvolvemos um \textit{lexer}, \textit{parser} e interpretador para uma linguagem simples chamada \texttt{SimpleLang}, juntamente com sua gramática, utilizando o Pratt \textit{Parsing} na linguagem de programação Odin. O repositório pode ser encontrado em \url{https://github.com/evertonse/pratt-parser}. Esse \textit{parser} é implementado por descida recursiva, o que significa que cada regra de produção tem uma função de análise associada. A implementação prioriza a simplicidade de código e a clareza de ideias, com extensos comentários para auxiliar na compreensão. Isso é importante, pois esse \textit{parser} será modificado para aceitar \textit{tokens} de \LaTeX.
+
 
 \subsection{Parser}
+
 
 Ao contrário dos \textit{parser} de descida recursiva tradicionais, que muitas vezes exigem várias chamadas de função aninhadas para cada nível de precedência, o nosso \textit{parser} organiza as funções de análise hierarquicamente com base na precedência do operador, como demonstrado no \autoref{alg-pratt-parsing}. Esse código é a parte principal do \textit{parsing} de expressões. Nessa implementação usamos a notação original de \cite{pratt}, as funções \texttt{null\_denotations} e \texttt{left\_denotations} são equivalente as funções \texttt{token.prefix} e \texttt{token.infixo} declaradas no \autoref{alg1}, respectivamente. Os pacotes desse projeto estão definidos na \autoref{folder}.
 
 
+
+
 \begin{algoritmo}[H]
   \caption{\small Parsing de expressão em código Odin.}
-	\label{alg-pratt-parsing}
+        \label{alg-pratt-parsing}
   \begin{lstlisting}[language=C]
+
 
 parse_expr :: proc(prec_prev: i64) -> ^Expr {
     /* expressions that takes nothing (null) as left operand */
@@ -955,25 +1249,33 @@ parse_expr :: proc(prec_prev: i64) -> ^Expr {
     return left
 }
 
+
   \end{lstlisting}
 \end{algoritmo}
 
 
+
+
 \begin{figure}[H]
-	\caption{\label{folder} \small estrutura de pacotes do compilador}
-	\begin{center}
-	    \includegraphics[scale=0.5]{./Imagens/folder_structuer_odin_parser_lexer.png}
-	\end{center}
+        \caption{\label{folder} \small estrutura de pacotes do compilador}
+        \begin{center}
+            \includegraphics[scale=0.5]{./Imagens/folder_structuer_odin_parser_lexer.png}
+        \end{center}
 \end{figure}
+
 
 \subsection{Gramática}
 
-Para ilustrar formalmente a gramatica da linguagem de entrada (\texttt{SimpleLang}) desse compilador, definimos as regras da gramática no \autoref{lst-gramatica}. Utilizamos uma notação leve de sintaxe para descrevê-la, todas as palavras em minúsculas são regras, o símbolo ``$*$'' significa zero ou mais ocorrências, ``$()$'' indica agrupamento para aplicar um operador a ele, ``$|$'' é o operador ou, palavras entre aspas simples significam literalmente um \textit{token} com esse conteúdo, e todas as letras maiúsculas representam um \textit{token} que pode ter conteúdo diferente, mas possui o mesmo significado semântico. Por exemplo, NUMBER pode ser 2.0 ou 1.0, mas nas regras de produção eles são tratados da mesma forma. O símbolo ``$=$ '' indica uma produção. Um exemplo de código fonte escrito em \texttt{SimpleLang} válido para essa gramática é dado em \autoref{code-gramatica}.
+
+Para ilustrar formalmente a gramática da linguagem de entrada (\texttt{SimpleLang}) desse compilador, definimos as regras da gramática no \autoref{lst-gramatica}. Utilizamos uma notação leve de sintaxe para descrevê-la, todas as palavras em minúsculas são regras, o símbolo ``$*$'' significa zero ou mais ocorrências, ``$()$'' indica agrupamento para aplicar um operador a ele, ``$|$'' é o operador ou, palavras entre aspas simples significam literalmente um \textit{token} com esse conteúdo, e todas as letras maiusculas representam um \textit{token} que pode ter conteúdo diferente, mas possui o mesmo significado semântico. Por exemplo, NUMBER pode ser 2.0 ou 1.0, mas nas regras de produção eles são tratados da mesma forma. O símbolo ``$=$ '' indica uma produção. Um exemplo de código fonte escrito em \texttt{SimpleLang} válido para essa gramática é dado em \autoref{code-gramatica}.
+
 
 % \begin{lstlisting}[frame=bt,numbers=none]
 
+
 \begin{lstlisting}[numbers=none, frame=none,caption=Gramática para \texttt{SimpleLang},label=lst-gramatica]
 start = assign* expr ;
+
 
 expr = prefix expr 
        | expr postfix  
@@ -984,9 +1286,11 @@ expr = prefix expr
        | IDENTIFIER
        ;
 
+
 assign = IDENTIFIER '=' expr ';'
          | IDENTIFIER '=' 'fn' (' params ')' expr ';'
          ; 
+
 
 call = expr '(' args ')';
 args = expr
@@ -998,6 +1302,7 @@ params = IDENTIFIER
          | 
         ;
 
+
 postfix = '+' | '-' | '~' | '!';
 prefix  = '+' | '-' | '~' | '!';
 infix   = '+' | '-' | '*' | '/' | '^'
@@ -1005,20 +1310,26 @@ infix   = '+' | '-' | '*' | '/' | '^'
             ;
 \end{lstlisting}
 
-Essa gramática define regras para expressões, atribuições, chamadas de função e vários operadores, como \texttt{postfix}, \texttt{prefix} e \texttt{infix} com o intuito de criar uma vasta coleção de operadores com diferentes precendecias para facilitar a transição da sintaxe de \texttt{SimpleLang} para a sintaxe \LaTeX\  futuramente.
+
+Essa gramática define regras para expressões, atribuições, chamadas de função e vários operadores, como \texttt{postfix}, \texttt{prefix} e \texttt{infix} com o intuito de criar uma vasta coleção de operadores com diferentes procedências para facilitar a transição da sintaxe de \texttt{SimpleLang} para a sintaxe \LaTeX\  futuramente.
+
+
 
 
 \begin{algoritmo}[H]
-	\caption{Exemplo código escrito na linguagem \texttt{SimpleLang}. }
-	\label{code-gramatica}
+        \caption{Exemplo código escrito na linguagem \texttt{SimpleLang}. }
+        \label{code-gramatica}
   \begin{lstlisting}[language = python]
     epsilon = 0.001; # proximidade em float
 
+
     abs = fn(a) a lt 0 or a lt -0 ? -a : a;
+
 
     float_close = fn(a, b) 
         abs(a - b) lt epsilon ? 
             1 : 0;
+
 
     # Classical fibonacci
     fib = fn(n)  
@@ -1028,15 +1339,20 @@ Essa gramática define regras para expressões, atribuições, chamadas de funç
             1
         :fib(n-1)  + fib(n-2);
 
+
     fib(10)  # Ultima expressao significa retorno do main
   \end{lstlisting}
 \end{algoritmo}
 
+
 \subsection{Tabela de Símbolos}
+
 
 Nesse projeto também foi desenvolvido uma tabela de símbolos simples, que será reaproveitado na análise semântica e na geração de código GLSL futuramente. A implementação da tabela de símbolos fornecida aqui é baseada em uma estrutura de escopo hierárquico, onde cada escopo mantém um mapeamento entre os nomes dos símbolos e seus atributos correspondentes. No \autoref{struct-symbol} temos a estrutura \texttt{Scope}, que representa um mapeamento de nomes de símbolos para objetos de símbolo dentro de um \textbf{único} escopo, e também a estrutura \texttt{Scope\_Table} mantém uma pilha de escopos, permitindo aninhamento.
 
+
 \subsubsection{Estrutura de Símbolos}
+
 
 Cada símbolo na tabela de símbolos é representado pela estrutura \texttt{Symbol}, que contém os seguintes atributos:
 \begin{itemize}
@@ -1048,12 +1364,15 @@ Cada símbolo na tabela de símbolos é representado pela estrutura \texttt{Symb
 \end{itemize}
 
 
+
+
 \begin{codigo}[htb]
-\caption{\small Código da estrutura de simbolos escrito em Odin}
+\caption{\small Código da estrutura de símbolos escrito em Odin}
 \label{struct-symbol}
 \begin{lstlisting}[language=C]
 Scope :: #type map[string]Symbol
 Scope_Table :: [dynamic]Scope
+
 
 Symbol :: struct  {
     name : string,
@@ -1063,10 +1382,13 @@ Symbol :: struct  {
     body: ^Expr,
 }
 
+
 \end{lstlisting}
 \end{codigo}
 
+
 \subsubsection{Gerenciamento de Escopo}
+
 
 A tabela de símbolos fornece funções para gerenciar escopos, incluindo:
 \begin{itemize}
@@ -1078,15 +1400,20 @@ A tabela de símbolos fornece funções para gerenciar escopos, incluindo:
 \end{itemize}
 
 
-Essa tabela de símbolos será apdatada para a fase de geração de código e tradução adequada do código-fonte em \textit{shaders} GLSL.
+
+
+Essa tabela de símbolos será adaptada para a fase de geração de código e tradução adequada do código-fonte em \textit{shaders} GLSL.
+
+
 
 
 \subsubsection{Estrutura da Árvore de Sintaxe}
 Nesta seção, apresentamos os tipos de nós que compõem a árvore sintática utilizada no compilador da linguagem \texttt{SimpleLang}. Diferente da gramática definida no \autoref{lst-gramatica}, aqui os nós são representados em nível de código. A seguir, listamos a representação semântica de cada nó:
 
+
 \begin{itemize}
 \item \textbf{Ast}: a estrutura base para todos os nós da AST.
-\item \textbf{Start}: representa o ponto de partida do programa, contendo uma sequência de atribuições seguida de uma expressão.
+\item \textbf{Start}: representa o ponto de partida do programa, contendo uma sequência de atribuições seguidas de uma expressão.
 \item \textbf{Assign}: representa atribuições de variáveis, incluindo um identificador, operador de atribuição e expressão.
 \item \textbf{Assign\_Function}: estende Assign e representa definições de funções, incluindo parâmetros.
 \item \textbf{Expr}: representa expressões, servindo como a estrutura base para diferentes tipos de expressões.
@@ -1099,12 +1426,16 @@ Nesta seção, apresentamos os tipos de nós que compõem a árvore sintática u
 \item \textbf{Expr\_Mixfix}: representa operações ternárias de mixfix.
 \item \textbf{Expr\_Function\_Call}: representa chamadas de função com argumentos.
 
+
 \end{itemize}
+
 
 \subsection{Implementação do Padrão de Visitante}
 
+
 O padrão visitante foi empregado para percorrer e operar em uma árvore de sintaxe abstrata (AST). A estrutura da AST é definida com vários tipos de nó para capturar diferentes elementos da sintaxe.
 Três procedimentos incorporam o padrão de visitante para percorrer e manipular a AST:
+
 
 \begin{itemize}
   \item \textbf{walker\_interp}: interpreta a AST, calculando o valor numérico das expressões.
@@ -1112,19 +1443,25 @@ Três procedimentos incorporam o padrão de visitante para percorrer e manipular
   \item \textbf{walker\_print}: imprime os nós da AST e seus atributos, facilitando a depuração e compreensão da estrutura da AST.
 \end{itemize}
 
+
 \subsection{Testes}
 
-Foi desenvolvida uma serie de testes que  abrangem vários aspectos da funcionalidade do parser, incluindo geração de árvore de sintaxe, precedência de operadores e interpretação semântica.
+
+Foi desenvolvida uma série de testes que  abrangem vários aspectos da funcionalidade do parser, incluindo geração de árvore de sintaxe, precedência de operadores e interpretação semântica.
+
 
 \subsubsection{Geração de Árvore de Sintaxe}
 
-Um aspecto crucial dos testes envolve verificar a correta geração de árvores sintática a partir de expressões de entrada. Os testes são projetados para cobrir diferentes cenários, incluindo operações aritméticas simples, expressões complexas com subexpressões aninhadas e chamadas de funções. São eles:
+
+Um aspecto crucial dos testes envolve verificar a correta geração de árvores sintáticas a partir de expressões de entrada. Os testes são projetados para cobrir diferentes cenários, incluindo operações aritméticas simples, expressões complexas com sub-expressões aninhadas e chamadas de funções. São eles:
+
 
 \begin{itemize}
     \item O manuseio correto de operadores unários e binários, garantindo a precedência e associatividade adequadas.
     \item A representação precisa de chamadas de função e seus argumentos dentro da árvore de sintaxe.
     \item O agrupamento adequado de expressões dentro de parênteses para impor regras de precedência.
 \end{itemize}
+
 
 % \subsubsection{Precedência de Operadores e Associatividade}
 %
@@ -1140,25 +1477,35 @@ Um aspecto crucial dos testes envolve verificar a correta geração de árvores 
 %
 \subsubsection{Interpretação Semântica}
 
+
 Além da geração da árvore de sintaxe e da definição de precedência de operadores, foram realizados testes para garantir a interpretação semântica das expressões. Isso envolve avaliar as entradas e comparar a saída com os valores esperados. Quanto à verificação de tipos, é bastante simples: cada variável pode ser uma função ou um número. Portanto, permitimos apenas operadores entre números e, além disso, booleanos são considerados números também, sendo que $0$ é interpretado como falso e $1$ como verdadeiro. Os testes de interpretação semântica realizados para \textit{SimpleLang} abrangem:
+
 
 \begin{itemize}
     \item Avaliar expressões aritméticas envolvendo constantes, variáveis e chamadas de função recursivas.
     \item Verificar o comportamento de expressões condicionais (por exemplo, operador ternário) sob diferentes condições.
 \end{itemize}
 
+
 Ao testar a geração de árvore de sintaxe, precedência de operadores e interpretação semântica, a implementação do Pratt \textit{Parsing} foi validada quanto à correção e confiabilidade, e obteve um desempenho robusto em vários cenários de entrada.
+
 
 \section{\textit{Ray Tracing} } \label{raytracer}
 
 
-Este capítulo apresenta o desenvolvimento e implementação de um simples \textit{ray tracer} usando métodos estocásticos de colisão de raios na linguagem de programação Odin com a biblioteca RayLib \footnote{\url{https://www.raylib.com/}} para renderização de imagens em uma janela. Isso foi feito para começar a entender melhor BRDFs e a equação de renderização.
+
+
+Este capítulo apresenta o desenvolvimento e implementação de um simples \textit{ray tracer} usando métodos estocásticos de colisão de raios na linguagem de programação Odin com a biblioteca RayLib \footnote{\url{https://www.raylib.com/}} para renderização de imagens em uma janela. Isso foi feito para começar a entender melhor as BRDFs e a equação de renderização.
+
 
 O \textit{ray tracer} foi construído com instruções do livro ``Ray Tracing in One Weekend'' \footnote{\url{https://raytracing.github.io/books/RayTracingInOneWeekend.html}}. Ele opera inteiramente na unidade de processamento central, e a funcionalidade principal do \textit{ray tracer} envolve a modelagem de raios e sua reflexão dos \textit{pixels} da imagem para a cena. A cena consiste exclusivamente em esferas, empregando cálculos de colisão padrão entre um raio e uma esfera.
 
+
 \subsection{Implementação de Materiais}
 
-O \textit{ray tracer} inclui vários materiais que ditam o comportamento dos raios ao interagir com superfícies, embora não garantidos de estar fisicamente vinculados, considerando a conservação de energia discutida no capítulo \ref{brdf}. Cada material é implementado como uma estrutura contendo um ponteiro de função de dispersão responsável por calcular a atenuação e o raio disperso após a interação com uma superfície. Como demonstrando no \autoref{odin-materiais}, os seguintes materiais foram implementados:
+
+O \textit{ray tracer} inclui vários materiais que ditam o comportamento dos raios ao interagir com superfícies, embora não garantidos de estar fisicamente vinculados, considerando a conservação de energia discutida no capítulo \ref{brdf}. Cada material é implementado como uma estrutura contendo um ponteiro de função de dispersão responsável por calcular a atenuação e o raio disperso após a interação com uma superfície. Como demonstrado no \autoref{odin-materiais}, os seguintes materiais foram implementados:
+
 
 \begin{itemize}
 \item \textbf{Material Difuso}: representa um material básico com refletância lambertiana.
@@ -1167,10 +1514,12 @@ O \textit{ray tracer} inclui vários materiais que ditam o comportamento dos rai
 \item \textbf{Material Dielétrico}: simula materiais transparentes com refração e reflexão com base no índice de refração.
 \end{itemize}
 
+
 \begin{codigo}
 \caption{Materiais}
 \label{odin-materiais}
 \begin{verbatim}
+
 
 Material :: struct {
     scatter: #type
@@ -1178,21 +1527,25 @@ Material :: struct {
             -> (attenuation: Color, scattered: Ray, ok: bool),
 }
 
+
 Shit_Diffuse_Material  :: struct {
     using _ : Material,
     albedo: Color,
 }
+
 
 Lambertian_Material :: struct {
     using _ : Material,
     albedo: Color,
 }
 
+
 Metal_Material :: struct {
     using _ : Material,
     albedo: Color,
     fuzz: f32,
 }
+
 
 Dielectric_Material :: struct {
     using _ : Material,
@@ -1202,9 +1555,13 @@ Dielectric_Material :: struct {
 \end{codigo}
 
 
+
+
 \subsection{Mecanismo de Reflexão de Raios}
 
-O mecanismo central do \textit{ray tracer} envolve traçar raios pela cena para determinar suas interações com superfícies e calcular os valores de cor resultantes, o resultado pode ser encontrando na \autoref{imagem-raytrace}. Esse processo foi implementado considerando os seguintes passos:
+
+O mecanismo central do \textit{ray tracer} envolve traçar raios pela cena para determinar suas interações com superfícies e calcular os valores de cor resultantes, o resultado pode ser encontrado na \autoref{imagem-raytrace}. Esse processo foi implementado considerando os seguintes passos:
+
 
 \begin{enumerate}
 \item \textbf{Geração de Raios}: raios são gerados a partir do ponto de vista da câmera e projetados na cena.
@@ -1213,43 +1570,47 @@ O mecanismo central do \textit{ray tracer} envolve traçar raios pela cena para 
 \item \textbf{Traçado Recursivo}: se um raio se dispersa, o processo se repete, traçando o caminho do raio disperso até que uma profundidade máxima de recursão seja atingida ou o raio escape da cena.
 \item \textbf{Acúmulo de Cor}: os valores de cor são acumulados ao longo do caminho do raio, essa acumulação simula a irradiância de um certo ponto da superfície.
 
+
 \end{enumerate}
+
 
 \begin{landscape}
 \begin{figure}[H]
-	\caption{\label{imagem-raytrace} \small Imagem gerada por raytracing conforme a implementação em Odin}
-	\begin{center}
-	    \includegraphics[scale=0.50]{./Imagens/ray_tracer.png}
-	\end{center}
+        \caption{\label{imagem-raytrace} \small Imagem gerada por ray tracing conforme a implementação em Odin}
+        \begin{center}
+            \includegraphics[scale=0.50]{./Imagens/ray_tracer.png}
+        \end{center}
 \end{figure}
 \end{landscape}
 
 
+
+
 % \include{Conteudo/02_Comandos}
+
 
 % \include{Conteudo/03_ConteudoEspecifico}
 % \include{Conteudo/04_Outros}
 % \include{Conteudo/05_Customizacao}
 % \include{Conteudo/06_Conclusao}
 
+
 \phantompart
 \bibliography{Bibliografia}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ELEMENTOS PÓS-TEXTUAIS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 \postextual
+
 
 \renewcommand{\chapnumfont}{\chaptitlefont}
 \renewcommand{\afterchapternum}{}
 % \include{Pos_Textual/Apendices}
 % \include{Pos_Textual/Anexos}
 
+
 \end{document}
-
-
-
-
-
-
