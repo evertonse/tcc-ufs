@@ -273,7 +273,7 @@ Assim, é possível definir radiância conforme a \autoref{eq-radiance}. Ao inv�
 
 
 \begin{figure}[h]
-        \caption{\label{radiance-img} \small Visualização da radiância em uma direção específica do hemisfério}
+        \caption{\label{radiance-img} \small Visualização da radiância em uma direção específica do hemisfério. }
         \begin{center}
             \includegraphics[scale=0.5]{./Imagens/irradiance_hemisphere.png}
         \end{center}
@@ -284,11 +284,11 @@ Assim, é possível definir radiância conforme a \autoref{eq-radiance}. Ao inv�
 
 
 \begin{figure}[htb]
-  \caption{\label{solid-angle} \small   Ângulo sólido s do objeto B visto pelo ponto p}
+  \caption{\label{solid-angle} \small   Ângulo sólido s do objeto B visto pelo ponto p. }
         \begin{center}
             \includegraphics[scale=0.5]{./Imagens/solid_angle.png}
         \end{center}
-  \legend{ \small Fonte: \cite{pbr}}
+  \legend{ \small Fonte: \cite{pbr}.}
 \end{figure}
 
 
@@ -376,7 +376,7 @@ f(\omega_i, \omega_o) = k_s \cdot \delta(\omega_i - \omega_o)
             \includegraphics[scale=0.5]{./Imagens/specular-2d.png}
         \end{center}
         \legend{ \footnotesize 
-  Fonte: Autor}
+  Fonte: Autor.}
 \end{figure}
 
 
@@ -394,7 +394,7 @@ f(\omega_i, \omega_o) = \frac{\rho_d}{\pi} \cdot \cos \theta
         \begin{center}
             \includegraphics[scale=0.5]{./Imagens/diffuse-2d.png}
         \end{center}
-        \legend{ \footnotesize Note que os raios refletidos não dependem do ângulo de entrada. Fonte: Autor }
+        \legend{ \footnotesize Note que os raios refletidos não dependem do ângulo de entrada. Fonte: Autor. }
 \end{figure}
 
 
@@ -407,7 +407,7 @@ Uma superfície pode exibir propriedades de reflexão tanto especulares quanto d
         \begin{center}
             \includegraphics[scale=0.5]{./Imagens/glossy-2d.png}
         \end{center}
-        \legend{\footnotesize  Fonte: Autor}
+        \legend{\footnotesize  Fonte: Autor.}
 \end{figure}
 
 
@@ -418,11 +418,11 @@ Uma superfície retro-refletora reflete a luz incidente de volta na direção de
 
 
 \begin{figure}[H]
-  \caption{\label{retro_refletora} \small Reflexão \textit{retro-refletora}}
+  \caption{\label{retro_refletora} \small Reflexão \textit{retro-refletora}.}
         \begin{center}
             \includegraphics[scale=0.5]{./Imagens/retro-reflection-2d.png}
         \end{center}
-        \legend{\footnotesize  Fonte: Autor}
+        \legend{\footnotesize  Fonte: Autor.}
 \end{figure}
 
 
@@ -447,11 +447,11 @@ Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformaçõe
 
 
 \begin{figure}[H]
-        \caption{\label{fig-pipeline} O \textit{pipeline}}
+        \caption{\label{fig-pipeline}\small O \textit{pipeline}.}
         \begin{center}
             \includegraphics[scale=0.45]{./Imagens/gpu_pipeline.png}
         \end{center}
-  \legend{Fonte: \cite{video_pipeline}}
+  \legend{Fonte: \cite{video_pipeline}.}
 \end{figure}
 
 
@@ -466,7 +466,7 @@ O \textit{shader} de vértice opera em vértices individuais de primitivas geom�
 
 
 \begin{codigo}[H]
-  \caption{Exemplo GLSL de \textit{shader} de vértice}
+  \caption{\small Exemplo GLSL de \textit{shader} de vértice.}
  \label{vertex_code1}
 \begin{lstlisting}
 #version 330 core
@@ -501,11 +501,11 @@ As BRDFs podem ser implementadas nesse estágio do pipeline para atingir um nív
 
 
 \begin{figure}[H]
-        \caption{\label{better-with-fragment} \small Diferença entre shading a nível de vértice e shading a nível de fragmento}
+        \caption{\label{better-with-fragment} \small Diferença entre shading a nível de vértice e shading a nível de fragmento.}
         \begin{center}
             \includegraphics[scale=0.5]{./Imagens/per_vertex_per_frag.png}
         \end{center}
-  \legend{ Fonte: \cite{pervertex_perfrag}}
+  \legend{ Fonte: \cite{pervertex_perfrag}.}
 \end{figure}
 
 
@@ -628,7 +628,7 @@ Por fim, \textbf{precedencia\_anterior} representa a precedência do token anter
 
 
 \begin{algoritmo}[H]
-        \caption{Função Pratt Parsing de Expressão}
+        \caption{\small Função Pratt Parsing de Expressão.}
         \label{alg1}
   \begin{lstlisting}
   function expressao(precedencia_anterior:=0):
@@ -785,7 +785,7 @@ Foram elaboradas questões de pesquisa específicas, que guiam as frases-chave q
 
 \begin{table}[H]
 \ABNTEXfontereduzida
-\caption[bases]{Tabela de pesquisa.}
+\caption[bases]{\small Tabela de pesquisa.}
 \label{tab-bases}
 \begin{tabular}{p{2.6cm}|p{6.0cm}|p{2.25cm}|p{3.40cm}}
   %\hline
@@ -861,7 +861,7 @@ Para garantir a relevância dos resultados obtidos, seguimos os critérios de in
 
 \begin{table}[H]
 \ABNTEXfontereduzida
-  \caption[bases]{Resultados das bases após aplicar os critérios.}
+  \caption[bases]{\small Resultados das bases após aplicar os critérios.}
 \label{tab-result}
 \begin{tabular}{p{6.6cm}|p{6.6cm}}
   %\hline
@@ -904,16 +904,16 @@ Neste artigo é introduzido uma  \textit{framework} chamada genBRDF, a qual apli
 
 Os autores geraram uma gramática que inclui constantes e operadores matemáticos comuns encontrados em equações BRDF. A gramática é compilada, e a árvore de sintaxe abstrata resultante passa por modificações realizadas pelo algoritmo genético. Nós na árvore podem ser trocados, substituídos, removidos e novos nós podem ser adicionados. Esse processo, após refinamento e análise, resulta em novas BRDFs. Alguns dos novos modelos BRDF apresentados no documento incluem aqueles que superam os modelos existentes em termos de precisão e simplicidade.
  
-Esse artigo se concentra em automaticamente encontrar novos modelos analíticos de BRDF, em vez de compilar diretamente equações BRDF em linguagens de \textit{shading}. Embora a representação das expressões das BRDFs possam potencialmente inspirar o nosso trabalho, o principal objetivo do artigo difere do nosso tema.
+Esse artigo se concentra em automaticamente encontrar novos modelos analíticos de BRDF, em vez de compilar diretamente equações BRDF em linguagens de \textit{shading}. Embora a representação das expressões das BRDFs possa potencialmente inspirar o nosso trabalho, o principal objetivo do artigo difere do nosso tema.
 
 
 \subsubsection{Slang: language mechanisms for extensible real-time shading systems}
 
 
-O artigo descreve a linguagem Slang, uma extensão da amplamente utilizada linguagem de \textit{shading} HLSL, projetada para melhorar o suporte à modularidade e extensibilidade \cite{slang}. A abordagem de \textit{design} da Slang é baseada em dois princípios fundamentais: manter a compatibilidade com o HLSL existente sempre que possível e introduzir recursos com precedentes em linguagens de programação \textit{mainstream} para facilitar a familiaridade e intuição dos desenvolvedores.
+O artigo descreve a linguagem \texttt{Slang}, uma extensão da amplamente utilizada linguagem de \textit{shading} HLSL, projetada para melhorar o suporte à modularidade e extensibilidade \cite{slang}. A abordagem de \textit{design} da \texttt{Slang} é baseada em dois princípios fundamentais: manter a compatibilidade com o HLSL existente sempre que possível e introduzir recursos com precedentes em linguagens de programação \textit{mainstream} para facilitar a familiaridade e intuição dos desenvolvedores.
 
 
-O autor enfatiza que cada extensão da Slang busca oferecer uma progressão incremental para a adoção a partir do código HLSL existente, eliminando a necessidade de uma migração completa. Algumas dessas extensões incluem: funções genéricas, estruturas genéricas e tipos que implementam interfaces específicas, semelhantes ao funcionamento das interfaces em Java, mas aplicadas a estruturas. Um exemplo de função genérica escrita em Slang é:
+O autor enfatiza que cada extensão da \texttt{Slang} busca oferecer uma progressão incremental para a adoção a partir do código HLSL existente, eliminando a necessidade de uma migração completa. Algumas dessas extensões incluem: funções genéricas, estruturas genéricas e tipos que implementam interfaces específicas, semelhantes ao funcionamento das interfaces em \texttt{Java}, mas aplicadas a estruturas. Um exemplo de função genérica escrita em \texttt{Slang} é:
 
 
 \begin{verbatim}
@@ -933,15 +933,15 @@ Enquanto o artigo tenta melhorar a eficiência e a extensibilidade dos sistemas 
 \subsubsection{Tree-Structured Shading Decomposition}
 
 
-Esse trabalho propõe uma abordagem para inferir uma representação de BRDF estruturada em árvore a partir de uma única imagem para a sombreamento de objetos \cite{tree_decomposition}. Em vez de usar representações paramétricas, como é comum, é proposta uma abordagem que utiliza uma representação em árvore de \textit{shading}, combinando nós básicos e métodos para decompor o \textit{shading} da superfície do objeto, representado na \autoref{fig_decomp}.
+Esse trabalho propõe uma abordagem para inferir uma representação de BRDF estruturada em árvore a partir de uma única imagem para o sombreamento de objetos \cite{tree_decomposition}. Em vez de usar representações paramétricas, como é comum, é proposta uma abordagem que utiliza uma representação em árvore de \textit{shading}, combinando nós básicos e métodos para decompor o \textit{shading} da superfície do objeto, representado na \autoref{fig_decomp}.
 
 
 \begin{figure}[H]
-        \caption{\label{fig_decomp} Exemplo de decomposição de BRDFs em nós de uma árvore}
+        \caption{\label{fig_decomp} \small Exemplo de decomposição de BRDFs em nós de uma árvore.}
         \begin{center}
             \includegraphics[scale=0.5]{./Imagens/tree-shading.png}
         \end{center}
-        \legend{Fonte: \citeonline[]{radiometry_introduction}}
+        \legend{Fonte: \citeonline[]{radiometry_introduction}.}
 \end{figure}
 
 
@@ -950,30 +950,30 @@ Esse trabalho propõe uma abordagem para inferir uma representação de BRDF est
 Assim como o nosso trabalho, esse artigo se concentra em facilitar o processo para usuários inexperientes, pois ambos visam fornecer ferramentas acessíveis para manipular representações de \textit{shading} sem exigir conhecimento avançado em programação. Esse artigo também emprega uma representação em árvore, embora para um propósito diferente.
 
 
-\subsubsection{A Real-Time Configurable \textit{shader} Based on Lookup Tables}
+\subsubsection{A Real-Time Configurable Shader Based on Lookup Tables}
 
 
-Esse trabalho propõe uma arquitetura de \textit{hardware} que permite cálculos de \textit{shading} por pixel em tempo real, utilizando \textit{lookup-tables} \cite{configurable}. Para isso, são projetados circuitos configurável baseado nessas tabelas, memórias de acesso aleatório (RAMs) e memórias somente leitura (ROMs). Vários circuitos base foram projetados para as operações mais comuns. Por exemplo, circuitos para calcular o produto interno entre dois vetores e circuitos de rotação de um vetor por um ângulo, um exemplo desses diagramas é representado na \autoref{fig_circuit}. Ademais, é usado interpolação em um sistema de coordenadas polares em vez da interpolação vetorial convencional com normalização, com o objetivo de reduzir o tamanho dos circuitos e melhorar o desempenho.
+Esse trabalho propõe uma arquitetura de \textit{hardware} que permite cálculos de \textit{shading} por pixel em tempo real, utilizando \textit{lookup-tables} \cite{configurable}. Para isso, são projetados circuitos configuráveis baseados nessas tabelas, memórias de acesso aleatório (RAMs) e memórias somente leitura (ROMs). Vários circuitos base foram projetados para as operações mais comuns. Por exemplo, circuitos para calcular o produto interno entre dois vetores e circuitos de rotação de um vetor por um ângulo, um exemplo desses diagramas é representado na \autoref{fig_circuit}. Ademais, foi utilizada interpolação em um sistema de coordenadas polares em vez da interpolação vetorial convencional, com o objetivo de reduzir o tamanho dos circuitos e melhorar o desempenho.
 
 
 
 
 \begin{figure}[H]
-        \caption{\label{fig_circuit} Exemplo de circuito de produto interno entre vetores}
+        \caption{\label{fig_circuit}\small Exemplo de circuito de produto interno entre vetores.}
         \begin{center}
             \includegraphics[scale=0.7]{./Imagens/rom-cos-lookup-table.png}
         \end{center}
-  \legend{Fonte: \cite{configurable}}
+  \legend{\small Fonte: \cite{configurable}.}
 \end{figure}
 
 
 
 
-Além disso, o circuito suporta diversas BRDFs, como Blinn-Phong, Cook-Torrance, Ward e modelos baseados em microfacetas, com tabelas específicas para cada modelo. O uso de tabelas de pesquisa permite a representação organizada da parametrização das BRDFs, tornando o processo de transformação de BRDF para \textit{shaders} mais acessível. Esse trabalho foi aceito por incluir o processo de tradução estruturada de BRDFs para os circuitos. Assim como as árvores, eles são hierárquicos e são usados em composição para representar uma BRDF. Assim como este trabalho, a abordagem facilita a geração de \textit{shaders} a partir da descrição de BRDFs, apesar da metodologia ser diferente.
+Além disso, o circuito suporta diversas BRDFs, como Blinn-Phong, Cook-Torrance, Ward e modelos baseados em microfacetas, com tabelas específicas para cada modelo. O uso de tabelas de pesquisa permite a representação organizada da parametrização das BRDFs, tornando o processo de transformação de BRDF para \textit{shaders} mais acessível. Esse trabalho foi aceito por incluir o processo de tradução estruturada de BRDFs para os circuitos. Assim como as árvores, eles são hierárquicos e são usados em composição para representar uma BRDF. Similar a este trabalho, a abordagem facilita a geração de \textit{shaders} a partir da descrição de BRDFs, apesar da metodologia ser diferente.
 
 
-\section{Pesquisa por Repositórios online}
-Também foram analisados repositórios no github e SourceForge, cada um com uma \textit{string} de busca específica. Os repositórios encontrados foram filtrados baseados em seus resumos, caso não haja a menção da criação de um compilador ou não seja citada uma transformação de BRDF para outra estrutura, esse repositório foi excluído. O resultado se encontra na \autoref{tab-repo}.
+\section{Pesquisa por Repositórios Online}
+Também foram analisados repositórios no GitHub e SourceForge, cada um com uma \textit{string} de busca específica. Os repositórios encontrados foram filtrados baseados em seus resumos. Caso não haja a menção da criação de um compilador ou não seja citada uma transformação de BRDF para outra estrutura, esse repositório foi excluído. O resultado se encontra na \autoref{tab-repo}.
 
 
 
@@ -983,7 +983,7 @@ Também foram analisados repositórios no github e SourceForge, cada um com uma 
 
 \begin{table}[H]
 \ABNTEXfontereduzida
-\caption[bases]{Resultados da pesquisa nos repositórios}
+\caption[bases]{\small Resultados da pesquisa nos repositórios.}
 \label{tab-repo}
 \begin{tabular}{p{2.6cm}|p{6.0cm}|p{2.25cm}|p{3.40cm}}
   %\hline
@@ -1005,7 +1005,7 @@ Também foram analisados repositórios no github e SourceForge, cada um com uma 
 
 
 
-Após ler por completo os resumos dos repositórios do GitHub, é evidente que nenhum desses projetos é relacionado com o proposto neste trabalho, apesar de comentarem sobre BRDFs, esses projetos não implementam compiladores, não fazem \textit{parsing} de equações de BRDFs e nem mesmo geram \textit{shaders} a partir de BRDFs.
+Após ler por completo os resumos dos repositórios do GitHub, é evidente que nenhum desses projetos é relacionado com o proposto neste trabalho. Apesar de comentarem sobre BRDFs, esses projetos não implementam compiladores, não fazem \textit{parsing} de equações de BRDFs e nem mesmo geram \textit{shaders} a partir de BRDFs.
 
 
 \chapter{Metodologia} \label{metodologia}
@@ -1035,7 +1035,7 @@ As especificações da linguagem de entrada e saída para o compilador são defi
 
 
 \begin{codigo}[H]
-\caption{Código fonte de função quadrática.}
+\caption{\small Código fonte de função quadrática.}
 \label{equation-latex}
 \begin{lstlisting}
 \begin{equation}
@@ -1050,7 +1050,7 @@ As especificações da linguagem de entrada e saída para o compilador são defi
 Este código representa a equação quadrática \( g(x) = ax^2 + bx + c \), onde \( a \), \( b \) e \( c \) são coeficientes. O código GLSL correspondente gerado a partir dessa equação pode ser o \autoref{cod-glsl-g}.  
 
 \begin{codigo}[H]
-\caption{Código GLSL da função quadrática g.}
+\caption{\small Código GLSL da função quadrática g.}
 \label{cod-glsl-g}
 \begin{lstlisting}
 float g(float x, float a, float b, float c) {
@@ -1164,7 +1164,7 @@ A continuação deste trabalho envolve várias tarefas-chave destinadas a comple
 % \begin{adjustwidth}{-1.3cm}{-1cm}
 \begin{landscape}
 \begin{figure}[htb]
-\caption{\label{chart} Chart das tarefas previstas. }
+\caption{\label{chart}\small Chart das tarefas previstas. }
 \begin{center}
 \begin{ganttchart}[
 vgrid,
@@ -1314,7 +1314,7 @@ Essa gramática define regras para expressões, atribuições, chamadas de funç
 
 
 \begin{algoritmo}[H]
-        \caption{Exemplo código escrito na linguagem \texttt{SimpleLang}. }
+        \caption{\small Exemplo código escrito na linguagem \texttt{SimpleLang}. }
         \label{code-gramatica}
   \begin{lstlisting}[language = python]
     epsilon = 0.001; # proximidade em float
@@ -1496,7 +1496,7 @@ O \textit{ray tracer} inclui vários materiais que ditam o comportamento dos rai
 
 
 \begin{codigo}
-\caption{Materiais}
+\caption{\small Materiais.}
 \label{odin-materiais}
 \begin{verbatim}
 
@@ -1556,7 +1556,7 @@ O mecanismo central do \textit{ray tracer} envolve traçar raios pela cena para 
 
 \begin{landscape}
 \begin{figure}[H]
-        \caption{\label{imagem-raytrace} \small Imagem gerada por ray tracing conforme a implementação em Odin}
+        \caption{\label{imagem-raytrace} \small Imagem gerada por ray tracing conforme a implementação em Odin.}
         \begin{center}
             \includegraphics[scale=0.50]{./Imagens/ray_tracer.png}
         \end{center}
