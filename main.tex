@@ -1200,7 +1200,7 @@ milestone label font=\footnotesize,
 Este capítulo apresenta os resultados iniciais de dois experimentos distintos, cada um focado em explorar aspectos importantes para este trabalho. Inicialmente, abordaremos o desenvolvimento de um compilador, seguido por uma investigação prática sobre técnicas de \textit{ray tracing}. 
 
 
-O experimento com o compilador visa proporcionar uma compreensão mais profunda  do desenvolvimento de compiladores. Isso foi realizado através da escolha de uma linguagem simples para implementação. Por ser uma linguagem com menos regras de sintaxe que o \LaTeX, é possível a exploração do processo de compilação incluindo a tokenização, criação da árvore sintática e interpretação do código fonte por meio dessa árvore sintática. Esse compilador foi desenvolvido sem o uso de bibliotecas externas, o que amplia o entendimento sobre os fundamentos do desenvolvimento de compiladores.
+O experimento com o compilador visa proporcionar uma compreensão mais profunda  do desenvolvimento de compiladores. Isso foi realizado através da escolha de uma linguagem simples para implementação, que será chamada \texttt{SimpleLang}. Por ser uma linguagem com menos regras de sintaxe que o \LaTeX, é possível a exploração do processo de compilação incluindo a tokenização, criação da árvore sintática e interpretação do código fonte por meio dessa árvore sintática. Esse compilador foi desenvolvido sem o uso de bibliotecas externas, o que amplia o entendimento sobre os fundamentos do desenvolvimento de compiladores.
 
 
 
@@ -1209,9 +1209,6 @@ Por outro lado, o experimento com o \textit{ray tracing} representa um estudo pr
 
 
 Esses experimentos se complementam, proporcionando uma abordagem que explora tanto os aspectos teóricos quanto práticos relacionados ao desenvolvimento de compiladores e à aplicação de conceitos como BRDFs
-
-
-----
 
 
 \section{Parser e Lexer em Odin}\label{parser}
@@ -1266,9 +1263,9 @@ parse_expr :: proc(prec_prev: i64) -> ^Expr {
 
 \subsection{Gramática}
 
+Para formalizar a gramática da linguagem de entrada (\texttt{SimpleLang}) deste compilador, definimos suas regras no \autoref{lst-gramatica}. Um exemplo de código fonte válido em \texttt{SimpleLang}, de acordo com essa gramática, é apresentado em \autoref{code-gramatica}.
 
-Para ilustrar formalmente a gramática da linguagem de entrada (\texttt{SimpleLang}) desse compilador, definimos as regras da gramática no \autoref{lst-gramatica}. Utilizamos uma notação leve de sintaxe para descrevê-la, todas as palavras em minúsculas são regras, o símbolo ``$*$'' significa zero ou mais ocorrências, ``$()$'' indica agrupamento para aplicar um operador a ele, ``$|$'' é o operador ou, palavras entre aspas simples significam literalmente um \textit{token} com esse conteúdo, e todas as letras maiusculas representam um \textit{token} que pode ter conteúdo diferente, mas possui o mesmo significado semântico. Por exemplo, NUMBER pode ser 2.0 ou 1.0, mas nas regras de produção eles são tratados da mesma forma. O símbolo ``$=$ '' indica uma produção. Um exemplo de código fonte escrito em \texttt{SimpleLang} válido para essa gramática é dado em \autoref{code-gramatica}.
-
+Utilizamos uma notação leve de sintaxe para representar esta gramática. Palavras com todas as letras minúsculas são não-terminais, enquanto palavras entre aspas simples representam literalmente um \textit{token} com esse conteúdo. Palavras em letras maiúsculas representam um \textit{token} que pode variar, mas mantém o mesmo significado semântico. Por exemplo, NUMBER pode ser 2.0 ou 1.0, mas nas regras de produção, eles são tratados de maneira idêntica. O símbolo ``$*$'' indica zero ou mais ocorrências, ``$()$'' indica agrupamento para aplicar um operador a ele, ``$|$'' simboliza o início de uma regra alternativa para o mesmo não-terminal, e ``$=$'' indica uma produção.
 
 % \begin{lstlisting}[frame=bt,numbers=none]
 
