@@ -320,7 +320,7 @@ A radiância pode fornecer informação sobre o quanto um ponto específico est�
 
 
 
-A principal funcionalidade de um renderizador fotorrealista é estimar a radiância em um ponto $p$ numa dada direção ${\omega}_o$. Essa radiância é dada pela \autoref{eq-rendering-equation}, conhecida como equação de renderização apresentada por \cite{rendering_equation}. Note que essa equação envolve um termo de radiância recursivo; o caso base ocorre quando não há mais o termo recursivo, isto é, um fonte de luz na qual sua radiância é contribuída apenas por radiância emitida $L_e$.
+A principal funcionalidade de um renderizador fotorrealista é estimar a radiância em um ponto $p$ numa dada direção ${\omega}_o$. Essa radiância é dada pela \autoref{eq-rendering-equation}, conhecida como equação de renderização apresentada por \citeonline{rendering_equation}. Note que essa equação envolve um termo de radiância recursivo; o caso base ocorre quando não há mais o termo recursivo, isto é, a radiância é contribuída apenas por radiância emitida $L_e$, como ocorre com fontes de luz.
 
 
 \begin{equation}\label{eq-rendering-equation}
@@ -388,16 +388,16 @@ f(\omega_i, \omega_o) = \frac{\rho_d}{\pi} \cdot \cos \theta
 
 
 \begin{figure}[H]
-        \caption{\label{diffuse} \small Reflexão Difusa. }
+        \caption{\label{diffuse} \small Reflexão Difusa. Note que os raios refletidos não dependem do ângulo de entrada.}
         \begin{center}
             \includegraphics[scale=0.5]{./Imagens/diffuse-2d.png}
         \end{center}
-        \legend{ \footnotesize Note que os raios refletidos não dependem do ângulo de entrada. Fonte: Autor. }
+        \legend{ \footnotesize Fonte: Autor. }
 \end{figure}
 
 
 \subsection{BRDF \textit{Glossy}}
-Uma superfície pode exibir propriedades de reflexão tanto especulares quanto difusas, como na \autoref{glossy}. Uma BRDF para uma superfície brilhante é frequentemente representada por uma combinação de termos especulares e difusos, como o modelo de Blinn-Phong \cite{blinn_phong}
+Uma superfície pode exibir propriedades de reflexão tanto especulares quanto difusas, como na \autoref{glossy}. Uma BRDF para uma superfície brilhante é frequentemente representada por uma combinação de termos especulares e difusos, como o modelo de Blinn-Phong \cite{blinn_phong}.
 
 
 \begin{figure}[H]
@@ -416,7 +416,7 @@ Uma superfície retro-refletora reflete a luz incidente de volta na direção de
 
 
 \begin{figure}[H]
-  \caption{\label{retro_refletora} \small Reflexão \textit{retro-refletora}.}
+  \caption{\label{retro_refletora} \small Reflexão retro-refletora.}
         \begin{center}
             \includegraphics[scale=0.5]{./Imagens/retro-reflection-2d.png}
         \end{center}
@@ -429,7 +429,7 @@ Uma superfície retro-refletora reflete a luz incidente de volta na direção de
 \section{Introdução ao Shading e ao \textit{pipeline} de GPU} \label{shading}
 
 
-\textit{Shading} refere-se ao processo de determinar a cor e o brilho dos pixels em uma imagem renderizada. Isso envolve simular a interação da luz com as superfícies, levando em consideração as propriedades dos materiais, condições de iluminação e orientação da superfície. Isso é alcançado por meio de pequenos programas chamados shaders, que são compilados e executados na unidade de processamento gráfico (GPU).
+\textit{Shading} refere-se ao processo de determinar a cor e o brilho dos pixels em uma imagem renderizada. Isso envolve simular a interação da luz com as superfícies, levando em consideração as propriedades dos materiais, condições de iluminação e orientação da superfície. Isso é alcançado por meio de pequenos programas chamados \textit{shaders}, que são compilados e executados na unidade de processamento gráfico (GPU).
 
 
 
