@@ -162,25 +162,11 @@ O \autoref{resultadosiniciais} descreve os resultados preliminares deste trabalh
 
 
 
-% Apesar da importância de usar técnicas confiáveis para avaliar um BRDF, há uma falta de trabalhos na literatura que reúnam e comparem essas técnicas.
-% Este artigo propõe uma compilação de técnicas usadas para avaliar representações de BRDF, juntamente com suas definições formais. Essas técnicas foram classificadas em três grupos diferentes - funções de comparação, imagens renderizadas e gráficos - e, para ilustrar seu uso, três modelos clássicos e amplamente adotados e uma representação de BRDF de ponta foram avaliados quanto à sua capacidade de preservar a aparência de materiais medidos. Com base em nossa pesquisa sobre funções de comparação, uma técnica de avaliação de BRDF estável e robusta é proposta. Observou-se tanto durante a revisão da literatura quanto nos experimentos que cada grupo de técnicas fornece informações complementares sobre os BRDFs avaliados, o que sugere que pelo menos um modelo de cada categoria deve ser adotado durante a escolha de critérios para avaliar um BRDF.
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Revisão Bibliográfica 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-% \chapter{Conceitos} \label{conceitos}
-%
-% Neste capítulo, são abordamos os conceitos fundamentais da interação da luz com os materiais na computação gráfica. Destacamos a importância da reflexão da luz, explorando as BRDFs e modelos comuns. Além disso, discutimos elementos-chave na criação de compiladores e o processo de \textit{shading} na GPU.
-%
-% Especificamente na \autoref{radiometria}, tratamos dos conceitos fundamentais relacionados à luz, como a capacidade de um material refletir raios de luz e sua importância na computação gráfica e renderização. Destacamos a relação entre a intensidade de um pixel de imagem, a iluminação, a orientação da superfície e  a definição de funções de refletância, as BRDFs. 
-% Já na \autoref{brdfmodels}, destacamos alguns modelos comuns de BRDFs.  
-%
-% A \autoref{compiladores} fornece uma visão abrangente dos elementos essenciais na criação de compiladores. Ela começa com a definição de conceitos fundamentais, como cadeias de símbolos e alfabetos, necessários para entender linguagens formais. Além disso, a seção discute a importância das gramáticas na definição de linguagens e descreve o processo de compilação, incluindo a análise léxica, a análise sintática e o Pratt \textit{Parsing}.
-%
-% Na \autoref{shading}, é abordado o processo de \textit{shading} e o funcionamento do \textit{pipeline} de renderização da GPU. 
 
 
 \chapter{Conceitos} \label{conceitos}
@@ -441,7 +427,7 @@ API, sendo o OpenGL uma API padrão para o uso de funções na GPU \cite{opengl_
 % Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. As etapas mais importantes para o nosso trabalho são os \textit{shaders} de fragmento e de vértice, representados na \autoref{fig-pipeline}, os quais executam a manipulação dos vértices e determinam cores de pixels, respectivamente.
 
 
-Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. Uma representação visual desse processo pode ser observada na \autoref{fig-pipeline}. Nela, é representado a CPU enviando os dados da cena para a GPU, que utiliza essas informações nos \textit{shaders} de vértice e fragmento. O \textit{shader} de vértice manipula os vértices da cena, enquanto o shader de fragmento determina as cores dos pixels. Os fragmentos são elementos gerados durante o processamento das primitivas geométricas, como triângulos. Eles correspondem a pontos discretos na tela onde a cor final será determinada. Além disso, a CPU também pode enviar variáveis uniformes (\textit{uniform variables}) para os shaders, que são essenciais para a etapa de renderização e contribuem para a geração da imagem final.
+Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. Uma representação visual desse processo pode ser observada na \autoref{fig-pipeline}. Nela, é representado a CPU enviando os dados da cena para a GPU, que utiliza essas informações nos \textit{shaders} de vértice e fragmento. O \textit{shader} de vértice manipula os vértices da cena, enquanto o \textit{shader} de fragmento determina as cores dos pixels. Os fragmentos são elementos gerados durante o processamento das primitivas geométricas, como triângulos. Eles correspondem a pontos discretos na tela onde a cor final será determinada. Além disso, a CPU também pode enviar variáveis uniformes (\textit{uniform variables}) para os \textit{shaders}, que são essenciais para a etapa de renderização e contribuem para a geração da imagem final.
 
 
 \begin{figure}[H]
@@ -1212,7 +1198,7 @@ Desenvolvemos um \textit{lexer}, \textit{parser} e interpretador para uma lingua
 \subsection{Parser}
 
 
-Ao contrário dos \textit{parser} de descida recursiva tradicionais, que muitas vezes exigem várias chamadas de função aninhadas para cada nível de precedência, o nosso \textit{parser} organiza as funções de análise hierarquicamente com base na precedência do operador, como demonstrado no \autoref{alg-pratt-parsing}. Esse código é a parte principal do \textit{parsing} de expressões. Nessa implementação usamos a notação original de Pratt \cite{pratt}, as funções \texttt{null\_denotations} e \texttt{left\_denotations} são equivalentes as funções \texttt{token.prefix} e \texttt{token.infixo} declaradas no \autoref{alg1}, respectivamente. Os pacotes desse projeto estão definidos na \autoref{folder}.
+Ao contrário dos \textit{parser} de descida recursiva tradicionais, que muitas vezes exigem várias chamadas de função aninhadas para cada nível de precedência, o nosso \textit{parser} organiza as funções de análise hierarquicamente com base na precedência do operador, como demonstrado no \autoref{alg-pratt-parsing}. Esse código é a parte principal do \textit{parsing} de expressões. Nessa implementação usamos a notação original de Pratt \cite{pratt}, as funções \texttt{null\_denotations} e \texttt{left\_denotations} são equivalentes as funções \texttt{token.prefixo} e \texttt{token.infixo} declaradas no \autoref{alg1}, respectivamente. Os pacotes desse projeto estão definidos na \autoref{folder}.
 
 
 
