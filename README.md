@@ -15,6 +15,7 @@
 ## Tips
 
 - when correcting grammar using google docs, donwload the the document as plain text then copy and paste. Trying to copy directly from the site might cause trouble with especial caracters such as uppercase Â.
+- cook torrance implementation https://github.com/wdas/brdf/blob/main/src/brdfs/cooktorrance.brdf
 
 
 dcomp-abntex2
