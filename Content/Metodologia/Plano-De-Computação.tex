@@ -1,0 +1,50 @@
+
+
+\section{Plano de Continuação} \label{continuacao}
+
+
+A continuação deste trabalho envolve várias tarefas-chave destinadas a completar o desenvolvimento do compilador proposto para converter equações \LaTeX  que descrevem BRDFs em código de \textit{shader} GLSL. As tarefas incluem: atualizar o \textit{lexer} e o \textit{parser} escritos em Odin para aceitar equações \LaTeX; testar o \textit{lexer} para garantir o reconhecimento correto dos \textit{tokens}; testar o \textit{parser} para garantir que a árvore sintática está com precedência correta; definir símbolos predefinidos e constantes matemáticas; implementar o processo de geração de código GLSL usando a árvore sintática com o padrão de \textit{design} visitante (\textit{Visitor}); expandir os casos de teste para cobrir uma melhor variedade de BRDFs; testar o código gerado quanto à correção e eficácia, incluindo as visualizações das BRDFs em algumas cenas; preparar a apresentação final; escrever o documento do trabalho de conclusão (TCC). Cada etapa e seus períodos de execução são ilustrados na \autoref{chart} e listados a seguir:
+
+
+\begin{enumerate}
+\item 06/05/2024 - 10/06/2024: Atualizar o \textit{lexer} e o \textit{parser} para aceitar equações \LaTeX.
+\item 10/05/2024 - 18/05/2024: Testar o \textit{lexer} para garantir o reconhecimento correto de todos os \textit{tokens} \LaTeX .
+\item 18/05/2024 - 10/06/2024: Testar o \textit{parser} para garantir a árvore de sintaxe com a precedência correta.
+\item 10/06/2024 - 25/06/2024: Definir símbolos pré-definidos como constantes matemáticas e outras quantidades.
+\item 25/06/2024 - 24/08/2024: Implementar o processo de geração de código GLSL.
+\item 10/07/2024 - 17/07/2024: Expandir os casos de teste para cobrir uma ampla gama de BRDFs.
+\item 17/07/2024 - 24/08/2024: Testar o código gerado quanto à correção e eficácia, tanto em código quanto em visualização e corrigir se necessário.
+\item 01/06/2024 - 06/09/2024: Escrever o documento da tese.
+\item 25/08/2024 - 06/09/2024: Preparar a apresentação final.
+\end{enumerate}
+
+
+% \begin{adjustwidth}{-1.3cm}{-1cm}
+\begin{landscape}
+\begin{figure}[htb]
+\caption{\label{chart}\small Chart das tarefas previstas. }
+\begin{center}
+\begin{ganttchart}[
+vgrid,
+hgrid,
+x unit=1.12mm,
+time slot format=isodate,
+% time slot format=isodate-yearmonth,
+bar label font=\footnotesize,
+group label font=\footnotesize,
+milestone label font=\footnotesize,
+]{2024-05-06}{2024-9-10}
+    \gantttitlecalendar{year, month=shortname} \\
+    \ganttbar{1. Atualizar lexer e parser}{2024-05-06}{2024-06-10} \\
+    \ganttbar{2. Testar lexer para todos os tokens}{2024-05-10}{2024-05-18} \\
+    \ganttbar{3. Testar parser para precedência}{2024-05-18}{2024-06-10} \\
+    \ganttbar{4. Definir símbolos matemáticos}{2024-06-10}{2024-6-25} \\
+    \ganttbar{5. Implementar geração de GLSL}{2024-06-25}{2024-08-24} \\
+    \ganttbar{6. Expandir casos de teste para GLSL}{2024-07-10}{2024-07-17} \\
+    \ganttbar{7. Testar correção do código}{2024-07-17}{2024-08-24} \\
+    \ganttbar{8. Escrita do trabalho}{2024-06-01}{2024-09-06} \\
+    \ganttbar{9. Preparar apresentação final}{2024-08-25}{2024-09-06}
+\end{ganttchart}
+\end{center}
+\end{figure}
+\end{landscape}

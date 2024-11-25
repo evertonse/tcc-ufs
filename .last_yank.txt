@@ -1,0 +1,26 @@
+O
+antes de avançar para uma linguagem mais complexa. O capítulo também descreve os testes elaborados para validar a implementação. Além disso, ele apresenta o 
+\subsection{Mecanismo de Reflexão de Raios}
+% \include{Pos_Textual/Apendices}
+Chapter
+\subsection{Mecanismo de Reflexão de Raios}
+\section{Desenvolvimento}
+@{}
+d
+\begin{codigo}[H]
+  \caption{\small Exemplo GLSL de \textit{shader} de vértice.}
+ \label{vertex_code1}
+\begin{lstlisting}
+#version 330 core
+layout(location = 0) in vec3 inPosition;
+layout(location = 1) in vec3 inNormal;
+uniform mat4 modelViewProjection;
+out vec3 fragNormal;
+void main() {
+    vec3 manipulatedPosition = inPosition + (sin(gl_VertexID * 0.1) * 0.1);
+    fragNormal = inNormal;
+    gl_Position = modelViewProjection * vec4(manipulatedPosition, 1.0);
+}
+\end{lstlisting}
+\end{codigo}
+\include{Content/Desenvolvimento/Lexer}

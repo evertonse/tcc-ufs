@@ -1,0 +1,64 @@
+
+Primeiro, realizamos um laço sobre o arquivo inteiro, passado caracter à caracter para extrair os tokens. Antes realizamos uma checkagem de igualdade com a string
+\verb|\begin{equation}| para decidir se já podemos começar a extrair os tokens, assim permitimos que outros textos que não estão dentro da delimitação que acaba com \verb|\end{equation}|, possa existir sem modificar o código fontex \LaTeX{}.
+
+Por conveniencia, temos um gramatica para geração dos tokens, escrito apenas para documentação, a geração de tokens internamente possui sua implementação similiar a simulação de uma máquina de estados.
+Note que identificadores não permite numeros nem mesmo @underline ``\verb|_|'', pois  no analisador sintático, um nó do tipo indentificador é modelado como tipo recursivo, osi dentificadors podem ser aninhados, ao  conter outro nó. Sendo assim, não é necessario que ao nível de token seja permitido o underline em identifcador, isso permite indentificadores mais complexos a serem escritos como \verb|\pi_{n_1}| (renderizado em \LaTeX{} \ resulta em $\pi_{n_1}$). \verb"\pi"  seria o primeiro token do nó identificador e sua subexpresão seria \verb"n_1" ($n\_1$) que por sua vez é o identificador \verb"n" com subexpressão \verb"1".
+
+\begin{codigo}[htb]
+    \caption{\small Gramatica ilustrativa para \texttt{tokens}. }
+        \label{grammar-tokens}
+  \begin{lstlisting}[language = haskell]
+
+    token_number     = DIGIT DIGIT* '.' DIGIT DIGIT* | DIGIT DIGIT*;
+    token_identifier = '\' LETTER LETTER* | LETTER LETTER*;
+    token_cmpgreater = '>';
+    token_cmpless    = '<';
+    token_cmpequal   = '==';
+    token_equal      = '=';
+    token_mul        = '*' | '\cdot';
+    token_cross      = '\times';
+    token_div        = '/';
+    token_plus       = '+';
+    token_minus      = '-';
+    token_caret      = '^';
+    token_semicolon  = ';';
+    token_comma      = ',';
+    token_colon      = ':';
+    token_question   = '?';
+    token_bang       = '!';
+    token_openparen  = '(';
+    token_closeparen = ')';
+    token_opencurly  = '{';
+    token_closecurly = '}';
+    token_tilde      = '~';
+    token_underline  = '_'; --- @@@ used for subexpresions
+    token_arrow      = '->';
+    token_begin      = '\begin';
+    token_end        = '\end';
+    token_frac       = '\frac';
+    token_vec        = '\vec';
+    token_omega      = '\omega';
+    token_theta      = '\theta';
+    token_phi        = '\phi';
+    token_rho        = '\rho';
+    token_alpha      = '\alpha';
+    token_beta       = '\beta';
+    token_sigma      = '\sigma';
+    token_pi         = '\pi';
+    token_epsilon    = '\epsilon';
+    token_max        = '\max';
+    token_min        = '\min';
+    token_exp        = '\exp';
+    token_tan        = '\tan';
+    token_sin        = '\sin';
+    token_cos        = '\cos';
+    token_arctan     = '\arctan';
+    token_arcsin     = '\arcsin';
+    token_arccos     = '\arccos';
+    token_sqrt       = '\sqrt';
+    token_text       = '\text';
+    token_eof        = EOF;
+    
+  \end{lstlisting}
+\end{codigo}

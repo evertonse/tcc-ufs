@@ -9,18 +9,20 @@
 
 FILENAME = main
 #FILENAME = Modelo-Mestrado-PROCC
-OPEN = open 
+OPEN = wsl-open
 # OPEN = evince
 
-push: 
+push:
 	 git add . && git commit -m "TCC $$(date)${MSG}" && git push
 
 pull:
 	git pull
 
 
+FINAL_PDF_FILENAME := TCC_II_EVERTON_SANTOS_JR.pdf
+
 run: clean all
-	cp $(FILENAME).pdf TCC_I_EVERTON_SANTOS_JR.pdf
+	cp $(FILENAME).pdf $(FINAL_PDF_FILENAME)
 
 
 all: $(FILENAME).pdf
