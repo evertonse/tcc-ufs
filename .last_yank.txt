@@ -23,4 +23,377 @@ void main() {
 }
 \end{lstlisting}
 \end{codigo}
-\include{Content/Desenvolvimento/Lexer}
+Este capítulo apresenta os resultados iniciais de dois experimentos distintos, cada um focado em explorar aspectos importantes para este trabalho. Inicialmente, abordaremos o desenvolvimento de um compilador, seguido por uma investigação prática sobre técnicas de \textit{ray tracing}.
+
+e
+tokenização
+com menos regras de sintaxe que o \LaTeX{}
+ Esse compilador foi desenvolvido sem o uso de bibliotecas externas, o que amplia o entendimento sobre os fundamentos do desenvolvimento de compiladores.
+.
+estrutura-de-pacotes
+,
+assim 
+que 
+ sem modificar o código fontex \LaTeX{}.
+,
+a
+label
+\begin{lstlisting}[numbers=none, frame=none]
+
+numbers=none, frame=none
+numbers=none, frame=none
+  
+,
+c
+  Na definição da gramática (\autoref{lst-gramatica}), utilizamos uma notação leve de sintaxe para representá-la. Palavras com todas as letras minúsculas são não-terminais, enquanto palavras entre aspas simples representam literalmente um \textit{token} com esse conteúdo. Palavras em letras maiúsculas representam um \textit{token} que pode variar, mas mantém o mesmo significado semântico. Por exemplo, NUMBER pode ser 2.0 ou 1.0, mas nas regras de produção eles são tratados de maneira idêntica. O símbolo ``$*$'' indica zero ou mais ocorrências, ``$()$'' indica agrupamento para aplicar um operador a ele, ``$|$'' simboliza o início de uma regra alternativa para o mesmo não-terminal e ``$=$'' indica uma produção.
+
+caracteres
+token
+``$()$''
+title
+label
+python
+
+
+ {
+  \begin{lstlisting}[language = odin]
+
+  
+\begin{lstlisting}
+begin
+
+
+
+
+\begin{lstlisting}[language = odin]
+
+\end{lstlisting}
+
+um procedimento, 
+de 
+estrutura 
+    kind: Token_Kind,
+    val: union{i64,f64},
+    text: string,
+    pos:  Position,
+
+o 
+,
+,
+texttt{
+\texttt{
+,
+\texttt{
+\verb|"\n"|
+(
+ etapas
+\begin{lstlisting}[language = odin]
+error_from_pos :: proc(pos: Position, msg: string, args: ..any)
+\end{lstlisting}
+
+
+
+lexer-structs
+tipo 
+,
+
+
+,
+ loc:=#caller_location) { \end{lstlisting}. Dado um posição e uma mesagem, é mostrado na tela uma mensagem de 
+\begin{lstlisting}[language = odin]
+
+,
+uma mensagem de 
+qual token 
+,
+r,
+Dado um posição out token exibimos uma mesagem (\texttt{msg}) que é mostrado na tela do terminal com uma formatação que mostra exatamente onde está o erro, em vermelho. Extraindo as informações do token sabemos exatamente como sublinhar o erro
+
+, 
+error, 
+
+title
+    "fn"    = Token{text = "function",  kind =.Keyword}, // No side effects
+
+
+    "ret"   = Token{text = "return", kind =.Keyword},
+
+    // @Maybe: Do + and * for boolean `or` and `and`
+    // iff no implicit conversion is made into boolean
+    "or"    = Token{text = "or",   kind =.Keyword},
+    "and"   = Token{text = "and",  kind =.Keyword},
+    "not"   = Token{text = "and",  kind =.Keyword},
+
+    "if"    = Token{text = "if",   kind =.Keyword},
+    "else"  = Token{text = "else", kind =.Keyword},
+
+    "Int"   = Token{text = "Int",   kind =.Keyword},
+    "Bool"  = Token{text = "Bool",  kind =.Keyword},
+    "Float" = Token{text = "Float", kind =.Keyword},
+    "Type"  = Token{text = "Type",  kind =.Keyword},
+
+  
+\label{map-special-identifiers}
+label
+language = odin
+ 
+\s*
+ 
+Desenvolvimento
+\subsection{Desenvolvimento}
+
+Desenvolvimento
+"
+apois ver o char \texttt{\%} o resto dos caracteres são ignorates até encontrar uma quebra de linha, isso é feito para dar supporte à comentarios \LaTeX{}.
+
+o
+,
+porém se esse identificar começar .
+es
+Note que a grammatica de tokens é ambigua, uma sequencia de caracteres como \verb"\frac" pode ser interpretada como indetificar, para desmabiguar, criamos uma dicionário que mapeia um string à um token considerado esperial. Assim se o indetificador começar com o caractere \verb"\", mapeamos ele para um token especial através do dicionário exposto em \autoref{map-special-identifiers}.
+
+,
+n
+Resta classificar o ca
+ Apesar de
+\
+title
+lex :: proc(input: []u8) -> []Token
+
+ 
+ 
+\begin{lstlisting}[language=C++]
+\end{lstlisting}
+
+function-lex
+y
+ fica:
+\begin{codigo}[htb]
+        \caption{\small Função principal do Lexer. }
+        \label{function-lex}
+  \begin{lstlisting}[language = c]
+  
+    lex :: proc(input: []u8) -> []Token
+  \end{lstlisting}
+\end{codigo}
+
+s
+function-errors
+\begin{codigo}[htb]
+        \caption{\small Função principal do Lexer. }
+        \label{function-lex}
+
+\end{lstlisting}.
+
+lstlisting
+function-errors
+function-lex
+L
+z
+title
+error-balanceamento
+lerror-balanceamentoabel
+\begin{figure}[H]
+    \caption{\label{error-balanceamento} \small Erro de balanceamento de parentesis.}
+    \begin{center}
+        \includegraphics[scale=0.5]{./Imagens/error-balanceamento.png}
+    \end{center}
+\end{figure}
+
+error-reserved-word
+error-balanceamento
+\begin{figure}[H]
+    \caption{\label{error-reserved-word} \small Erro de @@@.}
+    \begin{center}
+        \includegraphics[scale=0.5]{./Imagens/error-reserved-word.png}
+    \end{center}
+\end{figure}
+
+error-incompatible-types
+error-reserved-word
+\begin{figure}[H]
+    \caption{\label{error-incompatible-types} \small Erro de @@@.}
+    \begin{center}
+        \includegraphics[scale=0.5]{./Imagens/error-incompatible-types.png}
+    \end{center}
+\end{figure}
+
+error-cant-make-expression
+error-incompatible-types
+\begin{figure}[H]
+    \caption{\label{error-cant-make-expression} \small Erro de @@@.}
+    \begin{center}
+        \includegraphics[scale=0.5]{./Imagens/error-cant-make-expression.png}
+    \end{center}
+\end{figure}
+
+error-undefined-symbol
+error-cant-make-expression
+T
+-
+enum
+    // If,        // on keyword
+    // Else,      // on keyword
+
+    Comment       = 'c',
+
+    // @Speed maybe we want enum for each keywords later, for now we check the string to differentiate keyword
+
+    Keyword       = 'k',
+
+    CmpGreater    = '>',
+    CmpLess       = '<',
+    CmpEqual      = 'e',
+
+
+
+
+
+    Semicolon     = ';',
+
+Comma         = ',',
+\
+lexer-structs
+\cdot
+ \cdot
+ //
+  // cara 
+
+  // rune representa um caractere unicode
+
+  // rune representa um caractere unicode
+
+um 
+  // O tipo que representa essa enumeração é uma `rune` (caractere unicode)
+
+O tipo que representa essa enumeração é uma `rune` (caractere unicode)
+Assim 
+
+
+
+\begin{codigo}[H]
+  \caption{\small } \label{}
+\begin{lstlisting}
+Token\_Kind :: enum rune {
+    EOF,
+    Comment,
+    Number,
+    Identifier,
+
+    Equal
+    Mul           = '*', // \cdot
+    Cross         = 'X', // \cdot
+    Div           = '/',
+    Plus          = '+',
+    Minus         = '-',
+    Caret         = '^',
+    Semicolon     = ';',
+    Comma         = ',',
+    Colon         = ':',
+    // If,        // on keyword
+    // Else,      // on keyword
+    Question      = '?',
+    Bang          = '!',
+    OpenParen     = '(',
+    CloseParen    = ')',
+    OpenCurly     = '{',
+    CloseCurly    = '}',
+    Tilde         = '~',
+    Underline     = '_',
+    Arrow,        // ->
+
+    Begin = 256,  // \begin
+    End,          // \end
+
+    Frac,         // \frac
+    Vec,          // \vec
+
+    Omega,        // \omega
+    Theta,        // \theta
+    Phi,          // \phi
+    Rho,          // \rho
+    Pi,           // \pi
+    Epsilon,      // \epsilon
+    Alpha,        // \alpha
+
+    Beta,         // \beta
+    Sigma,        // \sigma
+
+    Max,          // \max
+    Min,          // \min
+    Exp,          // \exp
+    Tan,          // \tan
+    ArcTan,       // \arctan
+    Sin,          // \sin
+    ArcSin,       // \arcsin
+    Cos,          // \cos
+    ArcCos,       // \arccos
+    Sqrt,         // \sqrt
+
+    Text,         // \text
+    Invalid       // used for builtins
+}
+\end{lstlisting}
+\end{codigo}
+
+Desenvolvemos um \textit{lexer}, \textit{parser} e interpretador para uma linguagem simples chamada \texttt{SimpleLang}, juntamente com sua gramática, utilizando o Pratt \textit{Parsing} na linguagem de programação Odin. O repositório pode ser encontrado em \url{https://github.com/evertonse/pratt-parser}. Esse \textit{parser} é implementado por descida recursiva, o que significa que cada regra de produção tem uma função de análise associada. A implementação prioriza a simplicidade de código e a clareza de ideias, com extensos comentários para auxiliar na compreensão. Isso é importante, pois esse \textit{parser} será modificado para aceitar \textit{tokens} e sintaxe de \LaTeX.
+
+
+\subsection{Parser}
+
+
+Ao contrário dos \textit{parser} de descida recursiva tradicionais, que muitas vezes exigem várias chamadas de função aninhadas para cada nível de precedência, o nosso \textit{parser} organiza as funções de análise hierarquicamente com base na precedência do operador, como demonstrado no \autoref{alg-pratt-parsing}. Esse código é a parte principal do \textit{parsing} de expressões. Nessa implementação usamos a notação original de Pratt \cite{pratt}, as funções \texttt{null\_denotations} e \texttt{left\_denotations} são equivalentes as funções \texttt{token.prefixo} e \texttt{token.infixo} declaradas no \autoref{alg1}, respectivamente. Os pacotes desse projeto estão definidos na \autoref{folder}.
+
+
+
+
+\begin{codigo}[H]
+  \caption{\small Parsing de expressão em código Odin.}
+        \label{alg-pratt-parsing}
+  \begin{lstlisting}[language=C]
+
+
+parse_expr :: proc(prec_prev: i64) -> ^Expr {
+    /* expressions that takes nothing (null) as left operand */
+    left := parse_null_denotations() 
+    /*
+    . if current token is left associative or current token has higher precedence
+    . than previous precedence then stay in the loop, effectively creating a left leaning
+    . sub-tree, else, we recurse to create a right leaning sub-tree.
+    */
+    for precedence(peek()) > prec_prev + associativity(peek())  {
+        /* expressions that needs a left operand such as postfix, mixfix, and infix operator */
+        left = parse_left_denotations(left)
+    }
+    return left
+}
+
+
+  \end{lstlisting}
+\end{codigo}
+
+,
+j
+.
+O repositório pode ser encontrado em \url{https://github.com/evertonse/pratt-parser}
+0
+aceitar 
+title
+Parser :: struct {
+    tokens:      []Token,
+    cursor:      i64,
+    error_count: int,
+}
+
+parse :: proc(using p: ^Parser) -> ^ast.Start {
+    return parse_start(p)
+}
+
+init :: proc(p: ^Parser, tokens: []Token) {
+    p.tokens = tokens
+    p.cursor = 0
+    p.error_count = 0
+}
+
+  w 
+

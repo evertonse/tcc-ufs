@@ -2,8 +2,10 @@
 \chapter{Desenvolvimento}
 
 Este capítulo aborda o processo de desenvolvimento do compilador proposto como um todo na linguagem Odin.
-Cada etapa é encapsulado em um pacote, representado em \autoref{estrutura-de-pacotes} diferente \texttt{lexer} corresponde à tokenização da linguagem, \texttt{parser} corresponde à análise sintatica, \texttt{walker} contém funções que auxliam tanto a visualizar o resultado da analise sintatica, a AST, quando na checacgem de tipos da analise sintatixe, pois ambas dependem de fazer a transver@@@ da arvore em ordem, \texttt{}
+Cada etapa é encapsulado em um pacote, representado em \autoref{estrutura-de-pacotes} diferente \texttt{lexer} corresponde à tokenização da linguagem, \texttt{parser} corresponde à análise sintatica, \texttt{walker} contém funções que auxliam tanto a visualizar o resultado da analise sintatica, a AST, quando na checacgem de tipos da analise sintatixe, pois ambas dependem de fazer a transver@@@ da arvore em ordem, 
+\texttt{}
 \texttt{}.
+O repositório pode ser encontrado em \url{https://github.com/evertonse/@@@}
 
 \begin{figure}[H]
   \caption{\label{estrutura-de-pacotes} \small Estrutura de Pacotes do Compilador.}
@@ -48,71 +50,6 @@ Token :: struct {
     pos:  Position,
 }
 
-\end{lstlisting}
-\end{codigo}
-
-\begin{codigo}[H]
-  \caption{\small } \label{}
-\begin{lstlisting}
-Token\_Kind :: enum rune {
-    EOF,
-    Comment,
-    Number,
-    Identifier,
-
-    Equal
-    Mul           = '*', // \cdot
-    Cross         = 'X', // \cdot
-    Div           = '/',
-    Plus          = '+',
-    Minus         = '-',
-    Caret         = '^',
-    Semicolon     = ';',
-    Comma         = ',',
-    Colon         = ':',
-    // If,        // on keyword
-    // Else,      // on keyword
-    Question      = '?',
-    Bang          = '!',
-    OpenParen     = '(',
-    CloseParen    = ')',
-    OpenCurly     = '{',
-    CloseCurly    = '}',
-    Tilde         = '~',
-    Underline     = '_',
-    Arrow,        // ->
-
-    Begin = 256,  // \begin
-    End,          // \end
-
-    Frac,         // \frac
-    Vec,          // \vec
-
-    Omega,        // \omega
-    Theta,        // \theta
-    Phi,          // \phi
-    Rho,          // \rho
-    Pi,           // \pi
-    Epsilon,      // \epsilon
-    Alpha,        // \alpha
-
-    Beta,         // \beta
-    Sigma,        // \sigma
-
-    Max,          // \max
-    Min,          // \min
-    Exp,          // \exp
-    Tan,          // \tan
-    ArcTan,       // \arctan
-    Sin,          // \sin
-    ArcSin,       // \arcsin
-    Cos,          // \cos
-    ArcCos,       // \arccos
-    Sqrt,         // \sqrt
-
-    Text,         // \text
-    Invalid       // used for builtins
-}
 \end{lstlisting}
 \end{codigo}
 

@@ -25,6 +25,82 @@
 \usepackage{float}
 \usepackage{pgfgantt}
 \usepackage{lscape}
+\usepackage{amsmath}
+
+% \lstset{
+%     literate=%
+%     {á}{{\'a}}1
+%     {č}{{\v{c}}}1
+%     {ď}{{\v{d}}}1
+%     {é}{{\'e}}1
+%     {ě}{{\v{e}}}1
+%     {í}{{\'i}}1
+%     {ň}{{\v{n}}}1
+%     {ó}{{\'o}}1
+%     {ř}{{\v{r}}}1
+%     {š}{{\v{s}}}1
+%     {ť}{{\v{t}}}1
+%     {ú}{{\'u}}1
+%     {ů}{{\r{u}}}1
+%     {ý}{{\'y}}1
+%     {ž}{{\v{z}}}1
+%     {Á}{{\'A}}1
+%     {Č}{{\v{C}}}1
+%     {Ď}{{\v{D}}}1
+%     {É}{{\'E}}1
+%     {Ě}{{\v{E}}}1
+%     {Í}{{\'I}}1
+%     {Ň}{{\v{N}}}1
+%     {Ó}{{\'O}}1
+%     {Ř}{{\v{R}}}1
+%     {Š}{{\v{S}}}1
+%     {Ť}{{\v{T}}}1
+%     {Ú}{{\'U}}1
+%     {Ů}{{\r{U}}}1
+%     {Ý}{{\'Y}}1
+%     {Ž}{{\v{Z}}}1
+% }
+
+\usepackage[T1]{fontenc}
+\usepackage{listings}
+\lstloadlanguages{haskell}
+\lstset{language=haskell}
+\lstset{%
+        inputencoding=utf8,
+        extendedchars=true,
+        literate=%
+        {é}{{\'{e}}}1
+        {è}{{\`{e}}}1
+        {ê}{{\^{e}}}1
+        {ë}{{\¨{e}}}1
+        {É}{{\'{E}}}1
+        {Ê}{{\^{E}}}1
+        {û}{{\^{u}}}1
+        {ù}{{\`{u}}}1
+        {ú}{{\'{u}}}1
+        {â}{{\^{a}}}1
+        {à}{{\`{a}}}1
+        {á}{{\'{a}}}1
+        {ã}{{\~{a}}}1
+        {Á}{{\'{A}}}1
+        {Â}{{\^{A}}}1
+        {Ã}{{\~{A}}}1
+        {ç}{{\c{c}}}1
+        {Ç}{{\c{C}}}1
+        {õ}{{\~{o}}}1
+        {ó}{{\'{o}}}1
+        {ô}{{\^{o}}}1
+        {Õ}{{\~{O}}}1
+        {Ó}{{\'{O}}}1
+        {Ô}{{\^{O}}}1
+        {î}{{\^{i}}}1
+        {Î}{{\^{I}}}1
+        {í}{{\'{i}}}1
+        {Í}{{\~{Í}}}1
+}
+
+% Already Imported by dcomp-abntex2.cls:
+% \usepackage[utf8]{inputenc}
 
 
 \restylefloat{table}
@@ -62,10 +138,10 @@
 
 
 
-\titulo{Desenvolvimento de um Compilador de BRDFs em \LaTeX  para linguagem de shading GLSL, através da técnica Pratt Parsing} 
+\titulo{Desenvolvimento de um Compilador de BRDFs em \LaTeX{}  para linguagem de shading GLSL, através da técnica Pratt Parsing} 
 \autor{Everton Santos de Andrade Júnior}
 \orientador{Dra. Beatriz Trinchão Andrade}
-\coorientador{Dr. Gastao Florencio Miranda Junior}
+% \coorientador{Dr. Gastao Florencio Miranda Junior}
 \curso{Ciência da Computação}
 
 
@@ -130,18 +206,18 @@ As BRDFs, essencialmente, calculam a proporção entre a energia luminosa que at
 Existem linguagens específicas para a programação de \textit{shaders}, as quais permitem a modificação de procedimentos que representam uma BRDF. No entanto, essa aplicação requer conhecimento especializado em programação. Essa barreira técnica pode restringir a exploração dos efeitos visuais por profissionais de áreas não relacionadas à programação. Diante disso, surge a necessidade de ferramentas mais acessíveis para a criação de \textit{shaders}.
 
 
-No meio acadêmico, as BRDFs são comumente descritas por fórmulas escritas em \LaTeX, Desta forma, uma abordagem promissora para simplificar a criação de \textit{shaders} é o desenvolvimento de um compilador capaz de traduzir BRDFs   escritas em \LaTeX\  para \textit{shaders}. Isso permitiria uma maior acessibilidade e democratização na criação de efeitos visuais complexos.
+No meio acadêmico, as BRDFs são comumente descritas por fórmulas escritas em \LaTeX{}, Desta forma, uma abordagem promissora para simplificar a criação de \textit{shaders} é o desenvolvimento de um compilador capaz de traduzir BRDFs   escritas em \LaTeX{} para \textit{shaders}. Isso permitiria uma maior acessibilidade e democratização na criação de efeitos visuais complexos.
 
 
 \section{Objetivo}
-Este trabalho visa projetar e implementar um compilador que, a partir de BRDFs escritas como equações em \LaTeX, seja capaz de gerar código de \textit{shading} na linguagem alvo da API OpenGL. O resultado será um \textit{shader} capaz de reproduzir as características de reflexão da BRDF original ou, ao menos, alcançar uma aproximação satisfatória dessas características, levando em conta as limitações da linguagem de \textit{shading} da API, principalmente as representações de dados de forma discreta. 
+Este trabalho visa projetar e implementar um compilador que, a partir de BRDFs escritas como equações em \LaTeX{}, seja capaz de gerar código de \textit{shading} na linguagem alvo da API OpenGL. O resultado será um \textit{shader} capaz de reproduzir as características de reflexão da BRDF original ou, ao menos, alcançar uma aproximação satisfatória dessas características, levando em conta as limitações da linguagem de \textit{shading} da API, principalmente as representações de dados de forma discreta. 
 
 
 \section{Estrutura do Documento}
 No \autoref{conceitos}, descrevemos os conhecimentos necessários para entender BRDFs, incluindo quantificação de luminosidade e radiação, e  conceitos de compiladores, como tokenização e construção da árvore sintática.
 
 
-O \autoref{revisao} faz um mapeamento sistemático, utilizando termos de busca para identificar trabalhos relevantes sobre o desenvolvimento de compiladores para traduzir BRDFs de \LaTeX\  para \textit{shaders}. Os critérios de inclusão e exclusão são definidos para filtrar os resultados. Além disso, são descritos os resultados encontrados em diversas bases de dados, como IEEE Xplore, BDTD, CAPES, ACM Digital Library e Google Scholar, bem como a análise de repositórios online como GitHub e SourceForge. 
+O \autoref{revisao} faz um mapeamento sistemático, utilizando termos de busca para identificar trabalhos relevantes sobre o desenvolvimento de compiladores para traduzir BRDFs de \LaTeX{}  para \textit{shaders}. Os critérios de inclusão e exclusão são definidos para filtrar os resultados. Além disso, são descritos os resultados encontrados em diversas bases de dados, como IEEE Xplore, BDTD, CAPES, ACM Digital Library e Google Scholar, bem como a análise de repositórios online como GitHub e SourceForge. 
 
 
 No \autoref{metodologia} é descrito o método para desenvolver o compilador proposto. São definidas etapas para alcançar os objetivos especificados neste trabalho e casos de teste são projetados para validação. Esse capítulo também inclui o plano de continuação deste trabalho, que detalha as etapas futuras com datas previstas.
@@ -149,7 +225,7 @@ No \autoref{metodologia} é descrito o método para desenvolver o compilador pro
 
 
 
-O \autoref{resultadosiniciais} descreve os resultados preliminares deste trabalho, que consistem na implementação de um analisador léxico, sintático e interpretador na linguagem de programação Odin \footnote{\url{https://odin-lang.org/}}, incluindo o método de análise sintática de Pratt. A linguagem desenvolvida possui uma gramática simplificada em comparação com \LaTeX, de forma a garantir o funcionamento dos algoritmos de análise léxica e sintática antes de avançar para uma linguagem mais complexa. O capítulo também descreve os testes elaborados para validar a implementação. Além disso, ele apresenta o desenvolvimento de um \textit{ray tracer} em Odin, que modela raios e materiais para a renderização de imagens, utilizando a biblioteca Raylib \footnote{\url{https://www.raylib.com/}} para exibir as imagens renderizadas.
+O \autoref{resultadosiniciais} descreve os resultados preliminares deste trabalho, que consistem na implementação de um analisador léxico, sintático e interpretador na linguagem de programação Odin \footnote{\url{https://odin-lang.org/}}, incluindo o método de análise sintática de Pratt. A linguagem desenvolvida possui uma gramática simplificada em comparação com \LaTeX{}, de forma a garantir o funcionamento dos algoritmos de análise léxica e sintática antes de avançar para uma linguagem mais complexa. O capítulo também descreve os testes elaborados para validar a implementação. Além disso, ele apresenta o desenvolvimento de um \textit{ray tracer} em Odin, que modela raios e materiais para a renderização de imagens, utilizando a biblioteca Raylib \footnote{\url{https://www.raylib.com/}} para exibir as imagens renderizadas.
 
 
 
@@ -658,7 +734,7 @@ Nesta fase, fazemos a transição da representação intermediária  da linguage
 Dado um programa $a \in L_1$ existem vários programas $b_{i=1,2,3,...} \in L_2$ que possui estrutura semanticamente equivalentes à $a$. Ao explorar esse conjunto, é possível escolher um $b_j \in L_2$ tal que esse programa seja otimizado em algum sentido, como uso eficiente de memória ou executar menos instruções de \textit{hardware}. Nosso foco neste trabalho está na tradução semanticamente correta, sem envolver exploração das saídas  equivalentes.
 
 
-Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) (\LaTeX), para \( L_2 \) (GLSL). O cálculo apresentado na \autoref{eq-calculo-vetorial} pertence a $L_1$. O \autoref{cod-fonte-calculo} mostra o código-fonte desse cálculo. 
+Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) (\LaTeX{}), para \( L_2 \) (GLSL). O cálculo apresentado na \autoref{eq-calculo-vetorial} pertence a $L_1$. O \autoref{cod-fonte-calculo} mostra o código-fonte desse cálculo. 
 
 
 
@@ -670,7 +746,7 @@ Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) (\L
 
 
 \begin{codigo}
-\caption{\small Cálculo vetorial em código-fonte \LaTeX.}
+  \caption{\small Cálculo vetorial em código-fonte \LaTeX{}.}
   \label{cod-fonte-calculo}
 \begin{lstlisting}
  \mathbf{v} = (\mathbf{a} + \mathbf{b}) \cdot
@@ -700,7 +776,7 @@ Após a tradução da expressão matemática para \( L_2 \), o cálculo pode ser
 \chapter{Revisão Bibliográfica} \label{revisao}
 
 
-Para esta seção, será conduzida uma revisão literária abrangente com o objetivo de explorar trabalhos relacionados ao desenvolvimento de compiladores para tradução de BRDFs expressas em \LaTeX  para a linguagem de \textit{shading}, empregando técnicas de \textit{parsing}. O processo de busca será conduzido em duas etapas distintas. Inicialmente, será realizado um levantamento dos trabalhos existentes nas bases de dados  com relevantes periódicos, anais de eventos, artigos e trabalhos. Por fim, será realizada uma busca por produtos ou ferramentas similares no mercado, utilizando \textit{strings} de busca específicas em repositórios digitais, especificamente GitHub e SourceForge. Esses processos de busca permitirão identificar referências relevantes e estabelecer um panorama do estado da arte no campo dos compiladores de BRDFs  para \textit{shaders}, contribuindo para a compreensão do contexto acadêmico e prático no qual este trabalho se insere.
+Para esta seção, será conduzida uma revisão literária abrangente com o objetivo de explorar trabalhos relacionados ao desenvolvimento de compiladores para tradução de BRDFs expressas em \LaTeX{} para a linguagem de \textit{shading}, empregando técnicas de \textit{parsing}. O processo de busca será conduzido em duas etapas distintas. Inicialmente, será realizado um levantamento dos trabalhos existentes nas bases de dados  com relevantes periódicos, anais de eventos, artigos e trabalhos. Por fim, será realizada uma busca por produtos ou ferramentas similares no mercado, utilizando \textit{strings} de busca específicas em repositórios digitais, especificamente GitHub e SourceForge. Esses processos de busca permitirão identificar referências relevantes e estabelecer um panorama do estado da arte no campo dos compiladores de BRDFs  para \textit{shaders}, contribuindo para a compreensão do contexto acadêmico e prático no qual este trabalho se insere.
 
 
 \section{Mapeamento Sistemático}
@@ -734,7 +810,7 @@ Foram elaboradas questões de pesquisa específicas, que guiam as frases-chave q
 
 
 \begin{enumerate}
-  \item Quais são as abordagens mais comuns utilizadas na criação de compiladores para tradução de BRDFs expressas em alguma linguagem de texto, como \LaTeX, para \textit{shaders}?
+  \item Quais são as abordagens mais comuns utilizadas na criação de compiladores para tradução de BRDFs expressas em alguma linguagem de texto, como \LaTeX{}, para \textit{shaders}?
 
 
   \item Quais as técnicas de \textit{parsing} têm sido aplicadas no desenvolvimento de compiladores para linguagens matemáticas?
@@ -994,6 +1070,9 @@ Após ler por completo os resumos dos repositórios do GitHub, é evidente que n
 
 % \section{Analise Léxica}
 \include{Content/Desenvolvimento/Lexer}
+
+% \section{Analise Sintática}
+\include{Content/Desenvolvimento/Parser}
 
 \section{Análise Sintática}
 \subsection{Padrão Visitante}
