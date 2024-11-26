@@ -77,6 +77,7 @@ Numberos podem opcionalmente ter \. (ex: $1.0$). Indentificadores são formados 
 
 Com laços represenmos a extração de.
 
+\label{lexer-subexpression}
 Note que identificadores não permite numeros nem mesmo @underline ``\verb|_|'', pois  no analisador sintático, um nó do tipo indentificador é modelado como tipo recursivo, osi dentificadors podem ser aninhados, ao  conter outro nó. Sendo assim, não é necessario que ao nível de token seja permitido o underline em identifcador, isso permite indentificadores mais complexos a serem escritos como \verb|\pi_{n_1}| (renderizado em \LaTeX{} \ resulta em $\pi_{n_1}$). \verb"\pi"  seria o primeiro token do nó identificador e sua subexpresão seria \verb"n_1" ($n\_1$) que por sua vez é o identificador \verb"n" com subexpressão \verb"1".
 
 

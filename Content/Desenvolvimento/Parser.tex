@@ -229,7 +229,7 @@ f = \frac{\rho_{d}}{\pi} + \frac{\rho_{s}}{8*\pi} *
 
 Na definição da gramática (\autoref{grammar-ast-pt1}), utilizamos a mesma notação de sintaxe definida no \autoref{} para representá-la, exceto que uma sequencia de \verb"---", três hifens, significa um comentário para o leitor, ela não afeta a definição da gramamatica.
 
-Essa gramática define regras para expressões, atribuições, agrupamento, literais de números e vetores, chamadas de função, definições de funções, e vários operadores, como \texttt{expr\_prefix} e \texttt{expr\_infix}, com o intuito de criar uma vasta coleção de operadores com diferentes precedências que atinge o objetivo de entender a sintaxe necessário para definições de BRDFs em \LaTeX{}. A tabela de operadores (\autoref{tab-token-precedence}) usadas no Pratt Parsing é representá-la por uma função chamada \texttt{precedence\_from\_token} que implementa esse mapeamento. Dado um token, ela retorna um inteiro que representa sua precendencia; quanto maior o número, maior a precedencia. Note que os mesmos tokens podem ser prefixo ou infixo, por exemplo '(' é o token do prefixo do agrupamento (ex: \emph{(}2*3)) mas ao mesmo tempo é infixo para chamada de função f\emph{(}x); o mesmo ocorre com '-'.
+Essa gramática define regras para expressões, atribuições, agrupamento, literais de números e vetores, chamadas de função, definições de funções, e vários operadores, como \texttt{expr\_prefix} e \texttt{expr\_infix}, com o intuito de criar uma vasta coleção de operadores com diferentes precedências que atinge o objetivo de entender a sintaxe necessário para definições de BRDFs em \LaTeX{}. A tabela de operadores (\autoref{tab-token-precedence}) usadas no Pratt Parsing é representá-la por uma função chamada \texttt{precedence\_from\_token} que implementa esse mapeamento. Dado um token, ela retorna um inteiro que representa sua precendencia; quanto maior o número, maior a precedencia. Note que os mesmos tokens podem ser prefixo ou infixo, por exemplo '(' é o token do prefixo do agrupamento (ex: \textbf{(}$2*3$)) mas ao mesmo tempo é infixo para chamada de função $f$\textbf{(}$x$); o mesmo ocorre com '-'.
 
 \begin{table}[h!]
 \centering
@@ -248,7 +248,7 @@ Essa gramática define regras para expressões, atribuições, agrupamento, lite
 \texttt{<}            & Não              & 5                    \\ \hline
 \texttt{+}            & Não              & 10                   \\ \hline
 \texttt{-}            & Não              & 10                   \\ \hline
-$\times$ (\texttt{produto vetorial})        & Não              & 20                   \\ \hline
+$\times$              & Não              & 20                   \\ \hline
 \texttt{*}            & Não              & 20                   \\ \hline
 \texttt{/}            & Não              & 20                   \\ \hline
 \texttt{\textasciicircum} & Não           & 30                  \\ \hline
@@ -325,3 +325,48 @@ Nesta seção, apresentamos os tipos de nós que compõem a árvore de sintaxe a
 
 
 
+
+No \autoref{lexer-subexpression} comentanmos que \textit{parser} é capaz de lidar com identificadores aninhados, como por exemplo $x_{i_1}$ (\verb"x_{i_1}"). No \autoref{cod-expression-ident-recursive}, apresentamos como são criados esses identificadores recursivamente. Primeiramente, esse código está inserido em um função bem maior, espeficidamente é um recorte de um \texttt{switch}\footnote{\texttt{switch} e \texttt{case} em Odin, funciona da mesma maneira que na linguagem de programação \texttt{C}} da enumeração \autoref{enum-token-kind}. Temos um \texttt{case}, que reconhece token de identificador ou símbolos especiais ($ \omega, \theta, \phi, \rho, \alpha, \beta, \sigma, \pi, \epsilon$) ou simplesmente token de identificador e, ao fazer uma chamada rescursivas a \texttt{parse\_expr}, permite subíndices numéricos, identificadores, ou até expressões binarias como $n+1$ em $f_{n+1}$. Isso oferece maior flexibilidade na hora de expressar funções e equações para descrever as BRDFs, é muito comum usar subíndices numéricos. Na estapa de geração de código isso é usado para diferenciar um simbolo de outro apesar de ter o mesmo token inicial, por exemplo, o primeiro token é $f$, mas $f_1$ é diferente semanticamente de $f_2$.
+
+
+\begin{codigo}[htb]
+    \caption{\small Parte do código de \textit{parsing} de expressão para identificadores. }
+        \label{cod-expression-ident-recursive}
+  \begin{lstlisting}[language = C]
+    case .Identifier,
+         .Omega,     // \omega
+         .Theta,     // \theta
+         .Phi,       // \phi
+         .Rho,       // \rho
+         .Alpha,     // \alpha
+         .Beta,      // \beta
+         .Sigma,     // \sigma
+         .Pi,        // \pi
+         .Epsilon,   // \epsilon
+        node := ast.new(ast.Expr_Identifier)
+        node.identifier = next(p)
+        if peek(p).kind == Token_Kind('_') {
+            next(p)
+            if peek(p).kind == Token_Kind('{') {
+                next(p, '{')
+                node.sub_expression = parse_expr(p, prec)
+                next(p, '}')
+            } else {
+                //
+                // If we're not using `identifier_{ }` then, we only allow simple number or identifier
+                //
+                sub_node := ast.new(ast.Expr_Identifier)
+                if peek(p).kind == .Number {
+                    // We only allow number as sub expressions
+                    sub_node.identifier = next_expects_kind(p, .Number)
+                } else {
+                    sub_node.identifier = next_expects_kind(p, .Identifier, ..SPECIAL_IDENTIFIERS[1:])
+                }
+                node.sub_expression = sub_node
+            }
+        }
+    
+  \end{lstlisting}
+\end{codigo}
+
+Esse código serve de exemplos para outras expressões recursivas, como uma expressão infixa (operação binária). Sempre identificamos o token atual através de peek(), que vê 1 ou dois token adiante para decidir qual nó da AST deve ser construido. Em seguida, é calculado a variavel \texttt{prec} que indica precedencia do token atual, enfim 1 ou mais chamadas rescursivas (\texttt{parse\_expr}) são feitas para os campos que precisam de uma expressão aninhadas. Depois dos campos serem preenchidos a expressão é retornada.

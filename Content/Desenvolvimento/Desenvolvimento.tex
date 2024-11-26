@@ -3,20 +3,26 @@
 
 Este capítulo aborda o processo de desenvolvimento do compilador proposto como um todo na linguagem Odin.
 Cada etapa é encapsulado em um pacote, representado em \autoref{estrutura-de-pacotes} diferente \texttt{lexer} corresponde à tokenização da linguagem, \texttt{parser} corresponde à análise sintatica, \texttt{walker} contém funções que auxliam tanto a visualizar o resultado da analise sintatica, a AST, quando na checacgem de tipos da analise sintatixe, pois ambas dependem de fazer a transver@@@ da arvore em ordem, 
-\texttt{}
-\texttt{}.
+\texttt{}. A arquitetura da pipeline para o compilador é delineado na \autoref{fig-estrutura-geral-compilador}.
 O repositório pode ser encontrado em \url{https://github.com/evertonse/@@@}
 
 \begin{figure}[H]
   \caption{\label{estrutura-de-pacotes} \small Estrutura de Pacotes do Compilador.}
   \begin{center}
-    \includegraphics[scale=0.5]{./Imagens/package-structure}
+    \includegraphics[scale=0.5]{./Imagens/package-structure.png}
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+  \caption{\label{fig-estrutura-geral-compilador} \small Estrutura de geral da arquitetura da pipeline do Compilador.}
+  \begin{center}
+    \includegraphics[scale=0.62]{./Imagens/estutura-geral-do-projeto.png}
   \end{center}
 \end{figure}
 
 Os resultados do desenvolvimento desse compilador pode ser encontrado em \autoref{resultados}.
 A especificação da linguagem pode ser encontrada no \autoref{@@@}. Nesse apendice temos a gramática @@@ para tokens e gramatica que gera AST, a tabela de precedencia que é necessário para desambiguar a linguamge encontra-se em \autoref{@@@}.
-Os exemplos de BRDFs mostrados no \autoref{resultados} foram usados como base para verificação da corretude da gramática durante seu desenvolvimento. 
+Os exemplos de BRDFs mostrados no \autoref{resultados} foram usados como base para verificação da corretude da gramática durante seu desenvolvimento.
 
 Nesta construção do compilador, foi feita análises léxica manualmente através de loops mudando o estado atual para separada a entrada, que seria um string do arquivo inteiro, para uma lista de tokens. Já a análise sintática usamos a gramática livre de contexto \autoref{@@@} para nos guiar, somado a tabela de precedencia para aplicamo o Pratt Parsing que resulta em uma AST.
 
