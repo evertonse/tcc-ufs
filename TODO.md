@@ -1,0 +1,1 @@
+- Add table of predefined symbols

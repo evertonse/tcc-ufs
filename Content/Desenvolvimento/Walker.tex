@@ -92,33 +92,34 @@ Essa reprodução explicita da hierarquia de operações permite verificar autom
 Cada teste de precendecia consiste em um texto original e um testo com parenteses esperaros, como demonstrado na listagem \autoref{cod-test-paren}. Tentamos testar os casos mais complexos de expressões matemáticas, operações como exponenciação, que é associativo pela direitoa, combinado com operadores associativo pela esquerda  com diferentes precedencias
 
 À medida que o compialdor foi sendo desenvolvido esses testes se mostraram uteis em previnir quebra do de casos anteriores, pois ao dar suporte a nova funcionalidade, é possivel quebrar funcionalidade já estabelicidade anterioromente.
-,\begin{itemize}
+
+\begin{itemize}
   \item \textbf{walker\_interp}: interpreta a AST, calculando o valor numérico das expressões.
   \item \textbf{walker\_paren}:   \item \textbf{walker\_print}: imprime os nós da AST e seus atributos, facilitando a depuração e compreensão da estrutura da AST.
-
 \end{itemize}
+
 \begin{codigo}[htb]
-    \caption{\small Teste de precendencia usando por parentização. }
+    \caption{\small Validação de precendencia por parentização de expressões. }
         \label{cod-test-paren}
   \begin{lstlisting}[language = C]
     test_paren(
-        `a = 1+2`, // Entrada
-        `a=(1+2)`  // Saída Esperada
-    )
+        "a = 1+2", // Entrada
+        "a=(1+2)"  // Saída Esperada
+    );
 
     test_paren(
-        `a = \exp 1 + 2^3`, // Entrada
-        `a=(\exp(1)+(2^3))` // Saída Esperada
-    )
+        "a = \exp 1 + 2^3", // Entrada
+        "a=(\exp(1)+(2^3))" // Saída Esperada
+    );
 
     // ...
     // Outros Testes
     // ...
 
     test_paren(
-        `a = a(1*2 ^ 4 +  \sqrt 4^8 , 2)`, // Entrada
-        `a=a(((1*(2^4))+(\sqrt(4)^8)),2)`  // Saída Esperada
-    )
+        "a = a(1*2 ^ 4 +  \sqrt 4^8 , 2)", // Entrada
+        "a=a(((1*(2^4))+(\sqrt(4)^8)),2)"  // Saída Esperada
+    );
   \end{lstlisting}
 \end{codigo}
 
@@ -128,7 +129,7 @@ Cada teste de precendecia consiste em um texto original e um testo com parentese
 
 Para validação visual, foi implementado um função que gera uma imagem no formato ``SVG``, que é um formato textual, da arvore contendo informação circulos, representados nós da AST, jutamente com textos subinscritos informados metadados sobre os nós, como o tipo de operador, o tipo de nó, a string do indetificador  no caso de ser @etc.
 
-Como exemplo, na \autoref{fig-svg} temos a visualização do SVG gerado pela equação \autoref{eq-svg}. Notamos que os nós de expressões binárias \texttt{+} e \texttt{-} próximo da raiz seriam avaliados depois, já os nós mais próximo das folhas deve ser resolvidos primeiros indicando um precedencia maior, como expressões binárias \texttt{*} e \texttt{\^}. Esse SVG também anota o tipo da expressão, (note que "f" é do tipo $\mathbb{R}$), é feito na estapa de checker, veremos mais a frente como isso é feito.
+Como exemplo, na \autoref{fig-svg} temos a visualização do SVG gerado pela equação \autoref{eq-svg}. Notamos que os nós de expressões binárias \texttt{+} e \texttt{-} próximo da raiz seriam avaliados depois, já os nós mais próximo das folhas deve ser resolvidos primeiros indicando um precedencia maior, como expressões binárias \texttt{*} e \texttt{\^}. Esse SVG também anota o tipo da expressão, note que a identificador $f$ é do tipo $\mathbb{R}$), é feito na estapa de \texttt{checker}, veremos mais a frente como isso é feito.
  
 
 @@@
@@ -153,7 +154,9 @@ Os nós são heterogeneos, a maneira de acessar um filho de cada nós depende do
     \caption{\label{fig-svg} \small SVG da AST gerado para \autoref{eq-svg}.}
     \begin{center}
         % \includegraphics[width=\textwidth, scale=1.1]{./Imagens/svg.png}
-        \includegraphics[scale=0.9]{./Imagens/svg.png}
+        % \includegraphics[scale=0.9]{./Imagens/svg.png}
+        \includegraphics[scale=0.65]{./Imagens/svg.pdf} % Best outta of them all, because it gets to indefinitely zoom in
+        % \includesvg[scale=0.9]{./Imagens/svg.svg}
     \end{center}
 \end{figure}
 

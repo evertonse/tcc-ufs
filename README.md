@@ -67,6 +67,7 @@ Sugerimos escrever documentos por cima do arquivo de modelo .tex fornecido, com 
 * texlive-pictures
 * texlive-font-utils
 * inkscape
+* https://svgtopdf.com/
 
 ## Online
   * https://www.overleaf.com/ , https://papeeria.com/ ou https://cocalc.com/doc/latex-editor.html
