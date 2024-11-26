@@ -35,10 +35,10 @@ pimg.ps: $(FILENAME).dvi
 	dvips -o $(FILENAME).ps $(FILENAME).dvi
 
 $(FILENAME).pdf: *.tex Pre_Textual/*.tex Pos_Textual/*.tex **.tex **/**.tex
-	pdflatex $(FILENAME).tex
+	pdflatex --shell-escape $(FILENAME).tex
 	bibtex $(FILENAME)
-	pdflatex $(FILENAME).tex
-	pdflatex $(FILENAME).tex
+	pdflatex --shell-escape $(FILENAME).tex
+	pdflatex --shell-escape $(FILENAME).tex
 
 show: all
 	$(OPEN) $(FILENAME).pdf &

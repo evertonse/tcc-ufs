@@ -1,0 +1,57 @@
+<svg width="820" height="1200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="350" y="50" width="120" height="40" fill="lightblue" stroke="black"/>
+  <text x="410" y="70" font-family="Arial" font-size="10" fill="black" text-anchor="middle" alignment-baseline="middle">SVG_Root</text>
+  <line x1="410" y1="90" x2="410" y2="200" stroke="black"/>
+  <rect x="350" y="200" width="120" height="40" fill="lightblue" stroke="black"/>
+  <text x="410" y="220" font-family="Arial" font-size="10" fill="black" text-anchor="middle" alignment-baseline="middle">Start</text>
+  <line x1="410" y1="240" x2="410" y2="350" stroke="black"/>
+  <rect x="350" y="350" width="120" height="40" fill="lightblue" stroke="black"/>
+  <text x="410" y="370" font-family="Arial" font-size="10" fill="black" text-anchor="middle" alignment-baseline="middle">Decl_Equation</text>
+  <line x1="410" y1="390" x2="410" y2="500" stroke="black"/>
+  <rect x="350" y="500" width="120" height="40" fill="lightblue" stroke="black"/>
+  <text x="410" y="520" font-family="Arial" font-size="10" fill="black" text-anchor="middle" alignment-baseline="middle">Field</text>
+  <line x1="410" y1="540" x2="60" y2="650" stroke="black"/>
+  <rect x="0" y="650" width="120" height="40" fill="lightblue" stroke="black"/>
+  <text x="60" y="670" font-family="Arial" font-size="10" fill="black" text-anchor="middle" alignment-baseline="middle">Expr_Identifier = f 
+ ℝ</text>
+  <line x1="410" y1="540" x2="480" y2="650" stroke="black"/>
+  <rect x="420" y="650" width="120" height="40" fill="lightblue" stroke="black"/>
+  <text x="480" y="670" font-family="Arial" font-size="10" fill="black" text-anchor="middle" alignment-baseline="middle">Expr_Infix Plus 
+ ℝ</text>
+  <line x1="480" y1="690" x2="340" y2="800" stroke="black"/>
+  <rect x="280" y="800" width="120" height="40" fill="lightblue" stroke="black"/>
+  <text x="340" y="820" font-family="Arial" font-size="10" fill="black" text-anchor="middle" alignment-baseline="middle">Expr_Infix Mul 
+ ℝ</text>
+  <line x1="340" y1="840" x2="200" y2="950" stroke="black"/>
+  <rect x="140" y="950" width="120" height="40" fill="lightblue" stroke="black"/>
+  <text x="200" y="970" font-family="Arial" font-size="10" fill="black" text-anchor="middle" alignment-baseline="middle">Expr_Number 1 
+ ℝ</text>
+  <line x1="340" y1="840" x2="410" y2="950" stroke="black"/>
+  <rect x="350" y="950" width="120" height="40" fill="lightblue" stroke="black"/>
+  <text x="410" y="970" font-family="Arial" font-size="10" fill="black" text-anchor="middle" alignment-baseline="middle">Expr_Infix Caret 
+ ℝ</text>
+  <line x1="410" y1="990" x2="340" y2="1100" stroke="black"/>
+  <rect x="280" y="1100" width="120" height="40" fill="lightblue" stroke="black"/>
+  <text x="340" y="1120" font-family="Arial" font-size="10" fill="black" text-anchor="middle" alignment-baseline="middle">Expr_Number 2 
+ ℝ</text>
+  <line x1="410" y1="990" x2="480" y2="1100" stroke="black"/>
+  <rect x="420" y="1100" width="120" height="40" fill="lightblue" stroke="black"/>
+  <text x="480" y="1120" font-family="Arial" font-size="10" fill="black" text-anchor="middle" alignment-baseline="middle">Expr_Number 4 
+ ℝ</text>
+  <line x1="480" y1="690" x2="690" y2="800" stroke="black"/>
+  <rect x="630" y="800" width="120" height="40" fill="lightblue" stroke="black"/>
+  <text x="690" y="820" font-family="Arial" font-size="10" fill="black" text-anchor="middle" alignment-baseline="middle">Expr_Infix Caret 
+ ℝ</text>
+  <line x1="690" y1="840" x2="620" y2="950" stroke="black"/>
+  <rect x="560" y="950" width="120" height="40" fill="lightblue" stroke="black"/>
+  <text x="620" y="970" font-family="Arial" font-size="10" fill="black" text-anchor="middle" alignment-baseline="middle">Expr_Prefix Sqrt 
+ ℝ</text>
+  <line x1="620" y1="990" x2="620" y2="1100" stroke="black"/>
+  <rect x="560" y="1100" width="120" height="40" fill="lightblue" stroke="black"/>
+  <text x="620" y="1120" font-family="Arial" font-size="10" fill="black" text-anchor="middle" alignment-baseline="middle">Expr_Number 4 
+ ℝ</text>
+  <line x1="690" y1="840" x2="760" y2="950" stroke="black"/>
+  <rect x="700" y="950" width="120" height="40" fill="lightblue" stroke="black"/>
+  <text x="760" y="970" font-family="Arial" font-size="10" fill="black" text-anchor="middle" alignment-baseline="middle">Expr_Number 8 
+ ℝ</text>
+</svg>

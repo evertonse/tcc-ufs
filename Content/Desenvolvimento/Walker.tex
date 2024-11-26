@@ -1,7 +1,7 @@
 
 \section{Implementação do Padrão de Visitante (\texttt{walker})}
 
-Desenvolvemos o pacote \textit{walker} para auxiliar em 3 tarefas chaves: validação de precedencia da AST gerada pelo \textit{parser}; visualização da AST gráficamente; geração de código. O padrão visitante foi empregado para percorrer e operar em uma AST. Uma estrututa e uma função implementam esse padrão e agem em cima da AST. procedimentos implementam esse padrão e manipulam a AST: \texttt{Visitor} e \texttt{walk}, respectivamente.
+Desenvolvemos o pacote \texttt{walker} para auxiliar em 3 tarefas chaves: validação de precedencia da AST gerada pelo \textit{parser}; visualização da AST gráficamente; geração de código. O padrão visitante foi empregado para percorrer e operar em uma AST. Uma estrututa e uma função implementam esse padrão e agem em cima da AST. procedimentos implementam esse padrão e manipulam a AST: \texttt{Visitor} e \texttt{walk}, respectivamente.
 
 
 O padrão visitor implementado na função \texttt{walk} representa um mecanismo genérico e recursivo para travessia da AST, permitindo a aplicação de transformações ou análises personalizadas em cada nó da árvore.
@@ -128,11 +128,16 @@ Cada teste de precendecia consiste em um texto original e um testo com parentese
 
 Para validação visual, foi implementado um função que gera uma imagem no formato ``SVG``, que é um formato textual, da arvore contendo informação circulos, representados nós da AST, jutamente com textos subinscritos informados metadados sobre os nós, como o tipo de operador, o tipo de nó, a string do indetificador  no caso de ser @etc.
 
-Como exemplo, na \autoref{fig-svg} temos a visualização do SVG gerado pela equação \autoref{eq-svg}. Notamos que os nós '+' e '-' próximo da raiz seriam avaliados depois, já os nós mais próximo das folhas deve ser resolvidos primeiros indicando um precedencia maior, como expressões binárias '*' e '^'. Esse SVG também anota o tipo da expressão, (note que "v" é do tipo \mathbb{R}^3), é feito na estapa de checker, veremos mais a frente como isso é feito.
+Como exemplo, na \autoref{fig-svg} temos a visualização do SVG gerado pela equação \autoref{eq-svg}. Notamos que os nós de expressões binárias \texttt{+} e \texttt{-} próximo da raiz seriam avaliados depois, já os nós mais próximo das folhas deve ser resolvidos primeiros indicando um precedencia maior, como expressões binárias \texttt{*} e \texttt{\^}. Esse SVG também anota o tipo da expressão, (note que "f" é do tipo $\mathbb{R}$), é feito na estapa de checker, veremos mais a frente como isso é feito.
  
 
 @@@
 Os nós são heterogeneos, a maneira de acessar um filho de cada nós depende do tipo, pois o campo varia de nome ou posição na es trutura, o pacote walker também permite extrair nós filhos de maneira uniforme para qualquer tipo de nó através de uma função chamada children (\autoref{cod-childre-signature}).(funções como ``children`` que dado um nó abstrato, ele resolve qual o tipo resolvido e cria um array de nós, como extrair os filho). Ela é usada para simplificar o código de geração do SVG ao agir em cima de um nó de maneira uniforme, sem se preocupar com o tipo do nó.
+
+\begin{equation} \label{eq-svg}
+   f =  1*2 ^ 4 +  \sqrt 4^8
+\end{equation}
+
 
 \begin{codigo}[htb]
         \caption{\small Assinatura da função que extrai nós filhos de maniera uniforme para qualquer tipo de nó. }
@@ -142,6 +147,15 @@ Os nós são heterogeneos, a maneira de acessar um filho de cada nós depende do
     children :: proc(node: ^Node) -> (array :[dynamic]^Node);
   \end{lstlisting}
 \end{codigo}
+
+% \begin{figure}[H]
+\begin{figure}[h]
+    \caption{\label{fig-svg} \small SVG da AST gerado para \autoref{eq-svg}.}
+    \begin{center}
+        % \includegraphics[width=\textwidth, scale=1.1]{./Imagens/svg.png}
+        \includegraphics[scale=0.9]{./Imagens/svg.png}
+    \end{center}
+\end{figure}
 
 
 
