@@ -1,0 +1,13 @@
+\chapter{Resultados}
+\label{chapter.resultados}
+
+
+Este capítulo apresenta os resultados dos experimentos com BRDFs distintas. Esses experimentos servem de validação e visualização da capacidade do compilador desenvolvido neste trabalho. Cada BRDF escolhida teve sua excolha feita com foco em explorar diferentes expressões matemáticas com diferentes niveis de complexidades;aspectos importantes para esse projeto.
+
+Todos os experimentos seguem uma ordem para apresentação de todos os experimentos. Primeiro, apresentamos a BRDF do experimento, incluindo a referencia e, para as mais imporantes, uma breve explicação sobre ela. Depois mostrandos o código fonte descreve a BRDF em \texttt{EquationLang}, jutamente com a sua representação em PDF \LaTeX. Traduzimos o código fonte para GLSL usando o compilador desenvolvido neste trabalho. Por fim, utilizamos o código em linguagem shading gerado para ser carregado na ferramenta BRDF Disney. Mostramos o grafico 3D da distribuição de reflexão especular e difusa e a renderização de um objeto 3D com iluminação provida pelo código gerado para BRDF em questão.
+
+Apesar de conter uma breve explicação sobre a BRDF, o mais importante é ver o código gerado e seu funcionamento na ferramenta Disney, pois o foco principal permanece no compilador e sua representação fidedigna à BRDFs descrita.  Vale ressaltaar que o código é gerado pelo computador e nbão é muito legivel para o humano, se comprar a código shading escrito a mão, então incluimos o GLSL gerada para fins de desmontração e completude, mas não necessariamente para leitura. Também, o código gerado pode ser um pouco longo, então recomenda-se passar um olho para pegar uma noção de como é gerado e pode pular para o a imagem renderizada com o código gerado ou para proximo experimento.
+% Esses experimentos, proporcionando uma abordagem que explora tanto as BRDFs quanto relacionados ao desenvolvimento de compiladores e à aplicação de conceitos como BRDFs
+
+\section{Opnião}
+Os resultados são satisfátórios, captura nuances importantes das BRDFs, mesmo em materiais com estruturas que usam X e Y @@@. Se mostrou capaz de permitir várias parametrização baseada em nas equações e, com o nivel atual o compilador, permite modelar uma ampla gama de comportamentos de superfície.

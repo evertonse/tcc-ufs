@@ -1,0 +1,52 @@
+analytic
+::begin parameters
+# [type] [name] [min val] [max val] [default val]
+::end parameters
+
+::begin shader
+
+
+//////////// START OF BUILTINS DECLARTION ////////////
+vec3  var_0_vec_h;
+vec3  var_3_vec_n;
+float var_10_theta_h;
+float var_11_theta_d;
+float var_1_pi;
+float var_2_epsilon;
+vec3  var_4_vec_omega_i;
+float var_5_theta_i;
+float var_6_phi_i;
+vec3  var_7_vec_omega_o;
+float var_8_theta_o;
+float var_9_phi_o;
+//////////// END OF BUILTINS DECLARTION ////////////
+
+
+//////////// START OF USER DECLARED ////////////
+float var_12_f;
+//////////// END OF USER DECLARED ////////////
+
+//////////// START FUNCTIONS DECLARATIONS ////////////
+//////////// END FUNCTIONS DECLARATIONS ////////////
+
+vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y ) {
+
+//////////// START OF BUILTINS INITIALIZATION ////////////
+     var_0_vec_h = normalize(L+V);
+     var_3_vec_n = normalize(N)  ;
+     var_1_pi = 3.141592653589793 ;
+     var_2_epsilon = 1.192092896e-07 ;
+     var_4_vec_omega_i = L ;
+     var_5_theta_i = atan(var_4_vec_omega_i.y,var_4_vec_omega_i.x) ;
+     var_6_phi_i = atan(sqrt(var_4_vec_omega_i.y*var_4_vec_omega_i.y+var_4_vec_omega_i.x*var_4_vec_omega_i.x),var_4_vec_omega_i.z) ;
+     var_7_vec_omega_o = V ;
+     var_8_theta_o = atan(var_7_vec_omega_o.y,var_7_vec_omega_o.x) ;
+     var_9_phi_o = atan(sqrt(var_7_vec_omega_o.y*var_7_vec_omega_o.y+var_7_vec_omega_o.x*var_7_vec_omega_o.x),var_7_vec_omega_o.z) ;
+     var_10_theta_h = acos(dot( var_0_vec_h , N));
+     var_11_theta_d = acos(dot( var_0_vec_h , var_4_vec_omega_i ));
+//////////// END OF BUILTINS INITIALIZATION ////////////
+
+    var_12_f = pow(2.0,exp((2.0)));
+
+    return vec3(var_12_f);
+}
