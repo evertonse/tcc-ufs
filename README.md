@@ -68,6 +68,13 @@ Sugerimos escrever documentos por cima do arquivo de modelo .tex fornecido, com 
 * texlive-font-utils
 * inkscape
 * https://svgtopdf.com/
+* https://web.mit.edu/djwendel/www/weblogo/shapes/animals/
+* crop pdf: https://pdfresizer.com/crop
 
 ## Online
   * https://www.overleaf.com/ , https://papeeria.com/ ou https://cocalc.com/doc/latex-editor.html
+
+
+## Duvidas
+- Adiciono a espera também?
+- Precisa do código inteiro? ou é melhor deixar em apendice

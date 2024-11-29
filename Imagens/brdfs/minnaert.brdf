@@ -23,8 +23,8 @@ float var_9_phi_o;
 
 
 //////////// START OF USER DECLARED ////////////
-float var_12_k;
-vec3  var_13_rho_d;
+vec3  var_12_rho_d;
+float var_13_k;
 vec3  var_14_f;
 //////////// END OF USER DECLARED ////////////
 
@@ -48,9 +48,9 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y ) {
      var_11_theta_d = acos(dot( var_0_vec_h , var_4_vec_omega_i ));
 //////////// END OF BUILTINS INITIALIZATION ////////////
 
-    var_12_k = 0.5;
-    var_13_rho_d = vec3(0.3, 0.05, 0.05);
-    var_14_f = ((var_13_rho_d/var_1_pi)*pow((((dot(var_3_vec_n,var_4_vec_omega_i))*(dot(var_3_vec_n,var_7_vec_omega_o)))),((var_12_k-1.0))));
+    var_12_rho_d = vec3(0.3, 0.05, 0.05);
+    var_13_k = 0.5;
+    var_14_f = ((var_12_rho_d/var_1_pi)*pow((((dot(var_3_vec_n,var_4_vec_omega_i))*(dot(var_3_vec_n,var_7_vec_omega_o)))),((var_13_k-1.0))));
 
     return vec3(var_14_f);
 }

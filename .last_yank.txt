@@ -23,3 +23,1210 @@ void main() {
 }
 \end{lstlisting}
 \end{codigo}
+var_13_reflect
+var_13_reflect
+var_13_reflect
+
+\subsection{Unicidade de variaveis}
+
+y
+ 3 , o tipo
+\
+ 
+\verb`float`
+Unicidade
+U
+\verb`Symbol`
+. é o lado esquerdo 
+
+## Análise de Complexidade e Limitações
+
+### Capacidade Computacional
+
+
+l
+ é é  fazer para cada tipo de
+um emissor de código GLSL para
+lista de caracteres
+Esta função é fundamental no processo de compilação, especificamente na fase de geração de código, onde as estruturas intermediárias são transformadas em código executável.
+especificamente na fase de geração de código, onde as estruturas intermediárias são transformadas em código executável.
+com 
+string 
+
+
+O emissor implementa um padrão de visitor pattern modificado, utilizando 
+l
+cross
+product
+(\verb`cross`)
+pow()
+e
+Gostaria que eu elaborasse mais algum aspecto específico desta implementação?
+
+---
+Vou adicionar uma explicação científica sobre a função principal de emissão:
+
+
+title
+        case .ArcTan:
+            sbprint(sb, "atan(")
+            emit_expr(sb, e.right)
+            sbprint(sb, ")")
+            return
+
+Mais código
+ wy
+        //... Outros casos omissos
+
+        case .Cos:
+            sbprint(sb, "cos(")
+            emit_expr(sb, e.right)
+            sbprint(sb, ")")
+            return
+        case .Minus:
+            sbprint(sb, "(-")
+            emit_expr(sb, e.right)
+            sbprint(sb, ")")
+            return
+        case .Plus:
+            // Do nothing, NO-OP
+            emit_expr(sb, e.right)
+            return
+        case .Sqrt:
+            sbprint(sb, "sqrt(")
+            emit_expr(sb, e.right)
+            sbprint(sb, ")")
+            return
+
+        case:
+            assert(false, tprint(e.op.kind))
+        }
+
+        //... Outros casos omissos
+
+                // Assert that it's either vector * scalar or scalar * scalar
+                assert(is_vector(e.left.ty_inferred) && is_scalar(e.right.ty_inferred) ||
+                       is_scalar(e.left.ty_inferred) && is_vector(e.right.ty_inferred) ||
+                       is_scalar(e.left.ty_inferred) && is_scalar(e.right.ty_inferred),
+                       "Invalid multiplication: must be vector * scalar, scalar * vector, or scalar * scalar")
+
+Outros casos omissos
+   
+
+
+
+
+title
+
+
+
+
+
+
+cod-emit-expr-example
+U
+A \atuoref{} é um exemplo que esta 
+cod-emit-expr-example
+o
+, onde a tradução precisa de operações matemáticas e vetoriais é crucial para a correta execução no pipeline gráfico do OpenGL.
+cod-emit-expr-example
+\begin{equation}
+
+\end{equation}
+
+subequations
+subsection name
+missão
+interepretado
+built-in
+BRDF
+Esta implementação é particularmente relevante no contexto de compiladores de shading, onde a geração de código precisa seguir convenções estritas do OpenGL Shading Language, garantindo a correta execução no pipeline gráfico.
+
+
+---
+Vou explicar cientificamente as funções que implementam a geração de variáveis built-in para BRDFs (Bidirectional Reflectance Distribution Functions):
+
+
+
+     * `normal_vector`: normal da superfície (N)
+     * `omega_i`: direção da luz incidente (L)
+     * `omega_o`: direção de visualização (V)
+
+No caso d
+
+
+ wj
+com outros nomes, como N para normal, no nosso caso seria \vec{n}, temos também LO sistema opera em três componentes principais:
+
+   - Estas funções são cruciais para a parametrização esférica da BRDF
+
+Este sistema fornece uma base suficiente para implementação de BRDFs complexas, permitindo que o usuário se concentre na lógica específica do modelo de reflectância enquanto mantém consistência nas transformações de coordenadas e cálculos geométricos fundamentais.
+
+Esta implementação é particularmente relevante para simulações de iluminação física em computação gráfica, onde a precisão nos cálculos de ângulos e vetores é crucial para 
+a correta representação do comportamento da luz
+
+
+
+
+
+###
+Para garantir o comentado em @@checker-chapter. Deve-se também, garantir que as variaveis emitidas são únicas, glsl não permite os caracteres '{' '}' em seus identificadores, isso singica que uma euqação definida em latex ``f_{1} = 2`` não pode ser transformado para um identificador ``f_{1} = 2`` em glsl, para resolver isso cada simbolo não permitido em glsl é substituido por unmderline '_' gerlando o resultado parical ``f__1_``. Isso ainda gera colisão pois outros @@ simbolos poder gerar a mesma indeficiador em glsl, para garantir cada identificador ser realmennte unico um mapeamento é feito entre a string do identificar na equação latex para um inteiro único de 64 bits adicionamos a string "var" + o esse inteiro denomiado ID ao resultado parcial, garantido que todo simbolo de euqação recebe um unico symbolo em glsl. Em contrapartido o compilador permite um máximo de $2^64 - 1$ equações, oq é um número mt bom é possivel permitir mais com big ints, mas para os propositos de cirar BRDFs é suficiente. Uma outra etapa é remover possiveis sequencia de 2 ou mais _ pois OpenGL reserva nomes contendo __, ai sim temos a variavel final.
+
+###
+Para garantir o comentado em @@checker-chapter. Deve-se também, garantir que as variaveis emitidas são únicas, glsl não permite os caracteres '{' '}' em seus identificadores, isso singica que uma euqação definida em latex ``f_{1} = 2`` não pode ser transformado para um identificador ``f_{1} = 2`` em glsl, para resolver isso cada simbolo não permitido em glsl é substituido por unmderline '_' gerlando o resultado parical ``f__1_``. Isso ainda gera colisão pois outros @@ simbolos poder gerar a mesma indeficiador em glsl, para garantir cada identificador ser realmennte unico um mapeamento é feito entre a string do identificar na equação latex para um inteiro único de 64 bits adicionamos a string "var" + o esse inteiro denomiado ID ao resultado parcial, garantido que todo simbolo de euqação recebe um unico symbolo em glsl. Em contrapartido o compilador permite um máximo de $2^64 - 1$ equações, oq é um número mt bom é possivel permitir mais com big ints, mas para os propositos de cirar BRDFs é suficiente. Uma outra etapa é remover possiveis sequencia de 2 ou mais _ pois OpenGL reserva nomes contendo __, ai sim temos a variavel final.
+
+#
+##
+
+\verb
+ 
+\verb"__"
+itemize
+\end{itemize}
+
+\begin{itemize}
+\end{itemize}
+
+
+
+---
+
+Processo de resolução
+
+## Resolution Process
+
+1. **Symbol Collection**:
+   - Gather all declarations
+   - Register symbols in appropriate scopes
+   - Initialize dependency tracking structures
+
+2. **Dependency Analysis**:
+   - Build dependency graph
+   - Validate symbol references
+   - Establish evaluation order
+
+3. **Final Validation**:
+   - Type checking
+   - Entry point verification
+   - Scope rules enforcement
+
+
+## Resolution Process
+
+1. **Symbol Collection**:
+   - Gather all declarations
+   - Register symbols in appropriate scopes
+   - Initialize dependency tracking structures
+
+2. **Dependency Analysis**:
+   - Build dependency graph
+   - Validate symbol references
+   - Establish evaluation order
+
+3. **Final Validation**:
+   - Type checking
+   - Entry point verification
+   - Scope rules enforcement
+
+
+Você pode copiar e colar esse código em seu documento LaTeX.
+
+```
+
+## Resolution Process
+
+1. **Symbol Collection**:
+   - Gather all declarations
+   - Register symbols in appropriate scopes
+   - Initialize dependency tracking structures
+
+2. **Dependency Analysis**:
+   - Build dependency graph
+   - Validate symbol references
+   - Establish evaluation order
+
+3. **Final Validation**:
+   - Type checking
+   - Entry point verification
+   - Scope rules enforcement
+
+   Claro! Aqui está o texto traduzido para o português e formatado em LaTeX:
+
+```latex
+
+\subsubsection{Processo de Resolução}
+
+\verb
+---
+
+A função `check_field` garante que um campo de uma estrutura ou declaração (LHS = chave, RHS = valor) esteja semanticamente correto. Esse processo inclui a validação de tipos, verificações de escopo e atualizações nos símbolos associados.
+
+#### **Fluxo Geral**
+
+1. **Validação do LHS (Chave):**
+   - O lado esquerdo deve ser um identificador ou definição de função.  
+   - Se o LHS for inválido, um erro é exibido com detalhes do problema.
+
+2. **Definições de Função:**  
+   Se a chave for uma definição de função, o sistema delega o processamento para `check_function_definition`, que cuida de verificar parâmetros, tipos de retorno e o corpo da função.
+
+3. **Validação do RHS (Valor):**
+   - Verifica recursivamente o lado direito (`field.value`) chamando `check_expr`.
+   - Caso o tipo não esteja inferido, realiza a inferência para garantir que o valor esteja bem definido.
+
+4. **Comparação de Tipos:**
+   - Após inferir ambos os tipos (LHS e RHS), verifica se eles coincidem.
+   - Erros de incompatibilidade são detalhados, apontando o tipo esperado e o tipo real.
+
+5. **Gerenciamento de Símbolos:**  
+   Os símbolos representam variáveis ou funções na linguagem.  
+   - Se o símbolo já existe no escopo, atualiza suas informações (tipo, valor, etc.).
+   - Caso contrário, cria um novo símbolo e o adiciona ao escopo.
+
+---
+
+### **Pontos-chave de ambas as funções**
+
+- **Recursividade:**  
+  Ambas as funções lidam com estruturas aninhadas chamando recursivamente `check_expr`. Isso permite a validação de expressões complexas, como chamadas de funções aninhadas ou operadores compostos.
+
+- **Separação entre Inferência e Checagem:**  
+  A separação entre inferência de tipos (`infer_type`) e verificação de tipos (`check_expr`) torna o design mais modular, ainda que cause alguma sobreposição.
+
+- **Mensagens de Erro Detalhadas:**  
+  As mensagens fornecem contexto suficiente para o desenvolvedor corrigir o problema, indicando onde ocorreu o erro e qual foi o tipo esperado/recebido.
+
+- **Gerenciamento de Escopos:**  
+  Operações como `scope_enter` e `scope_exit` permitem que blocos de código ou funções sejam avaliados em contextos locais, evitando conflitos de símbolos globais.
+
+Essas características fazem com que ambas as funções sejam peças fundamentais para a validação semântica e a segurança de tipos no compilador.
+
+
+-----------
+Também deve considerar colisão de equações já definidas, por exemplo f = 2 e depois f=3, detectamops um problema, dentro de uma definição de função, pode-se usart qualquer simbolo definido em uma equação anterior, ou seus parametros, para declarar que a variable dessa função é um vetor, basta prefixar com $\vec$
+
+
+---
+# Function Definition and Declaration Validation in Semantic Analysis
+
+## Function Definition Validation
+The \verb`check_function_definition` procedure implements a comprehensive validation system for function definitions, ensuring type safety and parameter consistency.
+
+### Phase 1: Parameter Processing
+
+```odin
+
+```
+
+A função `check_field` garante que um campo de uma estrutura ou declaração (LHS = chave, RHS = valor) esteja semanticamente correto. Esse processo inclui a validação de tipos, verificações de escopo e atualizações nos símbolos associados.
+
+#### **Fluxo Geral**
+
+1. **Validação do LHS (Chave):**
+   - O lado esquerdo deve ser um identificador ou definição de função.  
+   - Se o LHS for inválido, um erro é exibido com detalhes do problema.
+
+2. **Definições de Função:**  
+   Se a chave for uma definição de função, o sistema delega o processamento para `check_function_definition`, que cuida de verificar parâmetros, tipos de retorno e o corpo da função.
+
+3. **Validação do RHS (Valor):**
+   - Verifica recursivamente o lado direito (`field.value`) chamando `check_expr`.
+   - Caso o tipo não esteja inferido, realiza a inferência para garantir que o valor esteja bem definido.
+
+4. **Comparação de Tipos:**
+   - Após inferir ambos os tipos (LHS e RHS), verifica se eles coincidem.
+   - Erros de incompatibilidade são detalhados, apontando o tipo esperado e o tipo real.
+
+5. **Gerenciamento de Símbolos:**  
+   Os símbolos representam variáveis ou funções na linguagem.  
+   - Se o símbolo já existe no escopo, atualiza suas informações (tipo, valor, etc.).
+   - Caso contrário, cria um novo símbolo e o adiciona ao escopo.
+
+---
+
+### **Pontos-chave de ambas as funções**
+
+- **Recursividade:**  
+  Ambas as funções lidam com estruturas aninhadas chamando recursivamente `check_expr`. Isso permite a validação de expressões complexas, como chamadas de funções aninhadas ou operadores compostos.
+
+- **Separação entre Inferência e Checagem:**  
+  A separação entre inferência de tipos (`infer_type`) e verificação de tipos (`check_expr`) torna o design mais modular, ainda que cause alguma sobreposição.
+
+- **Mensagens de Erro Detalhadas:**  
+  As mensagens fornecem contexto suficiente para o desenvolvedor corrigir o problema, indicando onde ocorreu o erro e qual foi o tipo esperado/recebido.
+
+- **Gerenciamento de Escopos:**  
+  Operações como `scope_enter` e `scope_exit` permitem que blocos de código ou funções sejam avaliados em contextos locais, evitando conflitos de símbolos globais.
+
+Essas características fazem com que ambas as funções sejam peças fundamentais para a validação semântica e a segurança de tipos no compilador.
+
+
+-----------
+Também deve considerar colisão de equações já definidas, por exemplo f = 2 e depois f=3, detectamops um problema, dentro de uma definição de função, pode-se usart qualquer simbolo definido em uma equação anterior, ou seus parametros, para declarar que a variable dessa função é um vetor, basta prefixar com $\vec$
+
+
+---
+# Function Definition and Declaration Validation in Semantic Analysis
+
+## Function Definition Validation
+The \verb`check_function_definition` procedure implements a comprehensive validation system for function definitions, ensuring type safety and parameter consistency.
+
+### Phase 1: Parameter Processing
+Key aspects:
+1. Creates new scope for function parameters
+2. Infers types for each parameter
+3. Maintains parameter type information
+4. Default type handling (number if not vector)
+
+### Phase 2: Identifier Validation
+Assim como no parser temos uma uma correspondencia entre os tipos da arvore sintatica com Expr_Identifier, Expr_Infix, etc.. com fnção que podem ser indiretamente recursivas como \verb"check_single_identifier" (\autoref{cod-check-single-ident}), \verb"check_expr", etc...
+
+A função `check_field` garante que um campo de uma estrutura ou declaração (LHS = chave, RHS = valor) esteja semanticamente correto. Esse processo inclui a validação de tipos, verificações de escopo e atualizações nos símbolos associados.
+
+#### **Fluxo Geral**
+
+1. **Validação do LHS (Chave):**
+   - O lado esquerdo deve ser um identificador ou definição de função.  
+   - Se o LHS for inválido, um erro é exibido com detalhes do problema.
+
+2. **Definições de Função:**  
+   Se a chave for uma definição de função, o sistema delega o processamento para `check_function_definition`, que cuida de verificar parâmetros, tipos de retorno e o corpo da função.
+
+3. **Validação do RHS (Valor):**
+   - Verifica recursivamente o lado direito (`field.value`) chamando `check_expr`.
+   - Caso o tipo não esteja inferido, realiza a inferência para garantir que o valor esteja bem definido.
+
+4. **Comparação de Tipos:**
+   - Após inferir ambos os tipos (LHS e RHS), verifica se eles coincidem.
+   - Erros de incompatibilidade são detalhados, apontando o tipo esperado e o tipo real.
+
+5. **Gerenciamento de Símbolos:**  
+   Os símbolos representam variáveis ou funções na linguagem.  
+   - Se o símbolo já existe no escopo, atualiza suas informações (tipo, valor, etc.).
+   - Caso contrário, cria um novo símbolo e o adiciona ao escopo.
+
+---
+
+### **Pontos-chave de ambas as funções**
+
+- **Recursividade:**  
+  Ambas as funções lidam com estruturas aninhadas chamando recursivamente `check_expr`. Isso permite a validação de expressões complexas, como chamadas de funções aninhadas ou operadores compostos.
+
+- **Separação entre Inferência e Checagem:**  
+  A separação entre inferência de tipos (`infer_type`) e verificação de tipos (`check_expr`) torna o design mais modular, ainda que cause alguma sobreposição.
+
+- **Mensagens de Erro Detalhadas:**  
+  As mensagens fornecem contexto suficiente para o desenvolvedor corrigir o problema, indicando onde ocorreu o erro e qual foi o tipo esperado/recebido.
+
+- **Gerenciamento de Escopos:**  
+  Operações como `scope_enter` e `scope_exit` permitem que blocos de código ou funções sejam avaliados em contextos locais, evitando conflitos de símbolos globais.
+
+Essas características fazem com que ambas as funções sejam peças fundamentais para a validação semântica e a segurança de tipos no compilador.
+
+
+-----------
+Também deve considerar colisão de equações já definidas, por exemplo f = 2 e depois f=3, detectamops um problema, dentro de uma definição de função, pode-se usart qualquer simbolo definido em uma equação anterior, ou seus parametros, para declarar que a variable dessa função é um vetor, basta prefixar com $\vec$
+
+
+---
+# Function Definition and Declaration Validation in Semantic Analysis
+
+## Function Definition Validation
+The \verb`check_function_definition` procedure implements a comprehensive validation system for function definitions, ensuring type safety and parameter consistency.
+
+### Phase 1: Parameter Processing
+Key aspects:
+1. Creates new scope for function parameters
+2. Infers types for each parameter
+3. Maintains parameter type information
+4. Default type handling (number if not vector)
+
+### Phase 2: Identifier Validation
+Assim como no parser temos uma uma correspondencia entre os tipos da arvore sintatica com Expr_Identifier, Expr_Infix, etc.. com fnção que podem ser indiretamente recursivas como \verb"check_single_identifier" (\autoref{cod-check-single-ident}), \verb"check_expr", etc...
+### Phase 3: Function Body Validation
+scope_enter(fn_sym.scope) {
+    check_expr(body)
+    body_type := infer_type(body)
+    result_types := [dynamic]^Type{body_type}
+    fn_type := make_function_type(parameter_types[:], result_types[:])
+}
+
+Key steps:
+1. Expression validation
+2. Return type inference
+3. Function type construction
+4. Scope management
+
+
+Features:
+1. New scope creation for blocks
+2. Recursive statement validation
+3. Proper scope cleanup
+
+### Equation Declaration Handling
+```odin
+case ^Decl_Equation:
+    check_decl(s)
+```
+
+## Type Safety Mechanisms
+
+The implementation ensures type safety through several mechanisms:
+
+1. **Parameter Type Validation**
+   - Explicit type checking for parameters
+   - Vector type handling (`\vec` prefix recognition)
+   - Default type assignment
+
+2. **Scope-Based Validation**
+   - Hierarchical scope management
+   - Symbol visibility control
+   - Parameter scope isolation
+
+3. **Error Detection**
+   - Type mismatch detection
+   - Parameter usage validation
+   - Scope violation checking
+
+## Technical Implementation Details
+
+### Symbol Resolution
+1. Parameter symbols are resolved within function scope
+2. Type inference is performed for all identifiers
+3. Type consistency is enforced throughout the function body
+
+### Scope Management
+```odin
+scope_enter(fn_sym.scope) {
+    // Function body validation
+    check_expr(body)
+    // Type inference and validation
+    body_type := infer_type(body)
+}
+```
+
+### Error Handling
+The system provides detailed error messages for:
+1. Type mismatches
+2. Invalid parameter usage
+3. Scope violations
+4. Vector notation issues
+
+\begin{codigo}[htb]
+    \caption{\small Estruturas que representam o tipo de um expressão da AST. }
+    \label{cod-types-structs}
+\begin{lstlisting}[language=C, numbers=none, frame=none, inputencoding=latin1]
+
+Claro! Aqui está o texto traduzido para o português e formatado em LaTeX, incluindo o código em um ambiente de listagem:
+
+```
+```latex
+
+-
+:
+iniciais 
+o
+,
+x
+e
+uma 
+é
+,
+e
+  desenvolvimento de um compilador, seguido por uma investigação prática sobre técnicas de \textit{ray tracing}.
+, seguido por uma investigação prática sobre técnicas de \textit{ray tracing}.
+a
+Todos os experimentos seguem uma ordem para apresentação de todos os experimentos. Primeiro, apresentamos a BRDF do experimento, incluindo a referencia e, para as mais imporantes, uma breve explicação sobre ela. Depois mostrandos o código fonte descreve a BRDF em \texttt{EquationLang}, jutamente com a sua representação em PDF \LaTeX. Traduzindo o código fonte para GLSL usando o compilador desenvolvido neste trabalho. Por fim, utilizamos o código em linguagem shading gerado para ser carregado na ferramenta BRDF Disney. Mostramos o grafico 3D da distribuição da reflexão especular e difusa e a renderização de um objeto 3D com iluminação provida pelo código gerado para BRDF em questão.
+
+a
+Specular BRDF: Kajiya-Kay (1989)
+o
+ 
+Teórica
+Matemática
+A BRDF é definida pelo seguinte conjunto de equações:
+
+e
+\subsubsection{Discussão}
+
+A implementação captura nuances importantes da reflexão anisotrópica, especialmente em materiais com estruturas direcionais. A parametrização baseada em rugosidade permite modelar uma ampla gama de comportamentos de superfície.
+
+O experimento com o compilador visa proporcionar uma compreensão mais profunda  do desenvolvimento de compiladores. Isso foi realizado através da escolha de uma linguagem simples para implementação, que será chamada \texttt{SimpleLang}. Por ser uma linguagem com menos regras de sintaxe que o \LaTeX{}, é possível a exploração do processo de compilação incluindo a tokenização, criação da árvore sintática e interpretação do código-fonte por meio dessa árvore sintática. Esse compilador foi desenvolvido sem o uso de bibliotecas externas, o que amplia o entendimento sobre os fundamentos do desenvolvimento de compiladores.
+
+s
+A
+ parametrizaçã
+\section{Opnião}
+
+\subsection{Discussão}
+
+a
+
+
+
+
+
+Por outro lado, o experimento com o \textit{ray tracing} representa um estudo prático sobre BRDFs e a linguagem Odin. Embora o objetivo principal seja compreender melhor o funcionamento das funções de distribuição de reflectância bidirecional (BRDFs), há uma conexão futura com o compilador, pois há a possibilidade de integração do \textit{ray tracer} implementado como um pré-visualizador das BRDFs. No entanto, o foco principal permanece no compilador, enquanto o \textit{ray tracer} serve como uma oportunidade para explorar as capacidades da linguagem Odin e aplicar os conceitos de radiometria.
+
+Kajiya-Kay (1989)
+
+\subsection{Disney Anisotropic Specular BRDF: }
+
+
+A implementação captura nuances importantes da reflexão anisotrópica, especialmente em materiais com estruturas direcionais. A parametrização baseada em rugosidade permite modelar uma ampla gama de comportamentos de superfície.
+
+
+
+
+.
+
+
+Esses experimentos se complementam, proporcionando uma abordagem que explora tanto os aspectos teóricos quanto práticos relacionados ao desenvolvimento de compiladores e à aplicação de conceitos como BRDFs
+
+
+% \begin{equation}
+    % kajiya_spec = \cos(\arccos((L\cdotT)) - \arccos((reflect(L,N) \cdot T)))^glossiness
+% \end{equation}
+
+% float roughness 0.0001 .1 0.01
+
+
+
+
+
+
+    % LdotN = dot(L,N)
+
+% float falloff 0 .25 0.1
+
+
+
+
+
+
+
+
+
+do programa está em
+3D 
+kajiya-
+kajiya-eqlang
+a
+ 
+\autoref{fig-kajiya-eqlang}.
+fig-kajiya-eqlang-latex
+Representação em documento \LaTeX{}
+Imagens/brdfs/aniso.pdf
+fig-kajiya-eqlang-latex
+cod-kajiya-eqlang}
+
+
+\small Equações da BRDF do experimento Kajiya-Kay em documento \LaTeX{}.}
+\small Equações da BRDF do experimento Kajiya-Kay em documento \LaTeX{}.}
+
+
+\subsubsection{Código GLSL Gerado}
+O compilador desenvolvido traduz a representação matemática para o seguinte código GLSL:
+
+\include{Content/Resultados/Resultados}
+
+\include{Content/Resultados/Resultados}
+
+Desenvolvimento
+\subsection{Disney Anisotropic Specular BRDF: Kajiya-Kay (1989)}
+
+\subsubsection{Descrição Teórica}
+A BRDF de especularidade anisotrópica de Disney, baseada no trabalho seminal de Kajiya-Kay de 1989, modela a reflexão especular em superfícies com características direcionais, como tecidos e cabelos. Esta abordagem captura de forma sofisticada a distribuição de luz em superfícies com orientação preferencial.
+
+    
+Imagens/brdfs/aniso.png
+
+\begin{lstlisting}[language=C]
+vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
+    // Cálculo de vetores e parâmetros
+    float roughness = 0.1;
+    float glossiness = (1.0 / roughness);
+    
+    // Computação da componente especular anisotrópica
+    vec3 T = normalize(cross(N, X));
+    float cosAngleLT = dot(L, T);
+    float sinAngleLT = sqrt(1.0 - cosAngleLT * cosAngleLT);
+    float cosAngleVT = dot(V, T);
+    
+    float spec = pow(
+        (sinAngleLT * sqrt(1.0 - cosAngleVT * cosAngleVT)) - 
+        (cosAngleLT * cosAngleVT),
+        glossiness
+    );
+    
+    return vec3(spec);
+}
+\end{lstlisting}
+
+\subsubsection{Visualização de Resultados}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{disney_anisotropic_specular_brdf.png}
+    \caption{Distribuição de Reflexão Especular da BRDF Anisotrópica de Disney}
+    \label{fig:disney_anisotropic_specular}
+\end{figure}
+
+
+\begin{verbatim}
+analytic
+::begin parameters
+# [type] [name] [min val] [max val] [default val]
+::end parameters
+::begin shader
+// Definição da BRDF Anisotrópica de Disney
+\end{verbatim}
+
+\subsubsection{Código Fonte em \texttt{EquationLang}}
+
+
+
+    
+    codigo
+
+    O compilador desenvolvido traduz a representação matemática para o seguinte código GLSL:
+
+Código fonte da BRDF do experimento Kajiya-Kay.
+o
+\begin{verbatim}
+\end{verbatim}
+
+    \end{lstlisting}
+    \end{codigo}
+    \begin{lstlisting}[language=C]
+
+    \end{lstlisting}
+
+    \begin{lstlisting}[language=C]
+
+    
+    
+\subsubsection{Representação Matemática}
+A BRDF é definida pelo seguinte conjunto de equações:
+
+\begin{align}
+    \text{Vetores Fundamentais:} & \nonumber \\
+    \vec{X} &= \text{normalize}(\vec{0,1,0} \times \vec{n}) \\
+    \vec{Y} &= \text{normalize}(\vec{n} \times \vec{X}) \\
+    T &= \vec{Y} \\
+    \text{Parâmetros:} & \nonumber \\
+    \text{Rugosidade} &= 0.1 \\
+    \text{Brilho} &= (1/\text{Rugosidade}) \\
+    \text{Componente Especular:} & \nonumber \\
+    \text{spec} &= \left(\frac{\sin(\text{ângulo}_{\text{LT}}) \sqrt{1 - \cos^2(\text{ângulo}_{\text{VT}})}}{\cos(\text{ângulo}_{\text{LT}}) \cos(\text{ângulo}_{\text{VT}})} \right)^{\text{brilho}}
+\end{align}
+
+
+\subsubsection{Geração de Código GLSL}
+O compilador desenvolvido traduz a representação matemática para o seguinte código GLSL:
+
+1
+5
+5
+width
+width=\textwidth
+
+
+
+
+
+
+H
+C
+
+
+
+
+
+
+
+
+
+
+
+\begin{codigo}[H]
+    \caption{\small Saida do compilador, código GLSL da BRDF do experimento Kajiya-Kay (parte 1). }
+    \label{cod-kajiya-eqlang}
+\begin{lstlisting}[language=C, inputencoding=utf8]
+
+\end{lstlisting}
+\end{codigo}
+
+1
+    //////////// START FUNCTIONS DECLARATIONS ////////////
+    vec3 var_12_text_normalize(vec3 var_13_vec_u) {
+        return (var_13_vec_u/sqrt(dot(var_13_vec_u,var_13_vec_u)));
+    }
+    vec3 var_24_reflect(vec3 var_25_vec_I, vec3 var_26_vec_N) {
+        return (((2.0*(dot(var_25_vec_I,var_26_vec_N)))*var_26_vec_N)-var_25_vec_I);
+    }
+    //////////// END FUNCTIONS DECLARATIONS ////////////
+
+    vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y ) {
+
+    //////////// START OF BUILTINS INITIALIZATION ////////////
+         var_0_vec_h = normalize(L+V);
+         var_3_vec_n = normalize(N)  ;
+         var_1_pi = 3.141592653589793 ;
+         var_2_epsilon = 1.192092896e-07 ;
+         var_4_vec_omega_i = L ;
+         var_5_theta_i = atan(var_4_vec_omega_i.y,var_4_vec_omega_i.x) ;
+         var_6_phi_i = atan(sqrt(var_4_vec_omega_i.y*var_4_vec_omega_i.y+var_4_vec_omega_i.x*var_4_vec_omega_i.x),var_4_vec_omega_i.z) ;
+         var_7_vec_omega_o = V ;
+         var_8_theta_o = atan(var_7_vec_omega_o.y,var_7_vec_omega_o.x) ;
+         var_9_phi_o = atan(sqrt(var_7_vec_omega_o.y*var_7_vec_omega_o.y+var_7_vec_omega_o.x*var_7_vec_omega_o.x),var_7_vec_omega_o.z) ;
+         var_10_theta_h = acos(dot( var_0_vec_h , N));
+         var_11_theta_d = acos(dot( var_0_vec_h , var_4_vec_omega_i ));
+    //////////// END OF BUILTINS INITIALIZATION ////////////
+
+        var_14_X = var_12_text_normalize(cross(vec3(0.0, 1.0, 0.0),var_3_vec_n));
+        var_15_Y = var_12_text_normalize(cross(var_3_vec_n,var_14_X));
+        var_16_T = var_15_Y;
+        var_17_cosAngleLT = (dot(var_4_vec_omega_i,var_16_T));
+        var_18_cosAngleVT = (dot(var_7_vec_omega_o,var_16_T));
+        var_19_roughness = 0.1;
+        var_20_glossiness = ((1.0/var_19_roughness));
+        var_21_sinAngleLT = sqrt(((1.0-((var_17_cosAngleLT*var_17_cosAngleLT)))));
+        var_22_spec = pow(((((var_21_sinAngleLT*sqrt(((1.0-((var_18_cosAngleVT*var_18_cosAngleVT)))))))-((var_17_cosAngleLT*var_18_cosAngleVT)))),var_20_glossiness);
+        var_23_f = var_22_spec;
+        var_27_lightAngle = (dot(var_4_vec_omega_i,var_3_vec_n));
+
+        return vec3(var_23_f);
+    }
+
+\end{lstlisting}
+\end{codigo}
+
+\end{codigo}
+
+\end{lstlisting}
+
+
+
+\begin{lstlisting}[language=C, inputencoding=utf8]
+
+
+
+
+
+
+
+    \documentclass[]{article}
+    \usepackage{amsmath}
+    \begin{document}
+
+    \end{document}
+
+
+
+    
+\begin{lstlisting}[language=C, inputencoding=utf8]
+
+    % T = orient ? X : Y
+
+0
+9
+        \includegraphics[scale=1.1,width=\textwidth]{./Imagens/brdfs/aniso.pdf}
+
+\section{Experimento com BRDF Anisotrópica: Kajiya-Kay (1989)}
+
+A BRDF de especularidade anisotrópica, baseada no trabalho seminal de @@REF Kajiya-Kay de 1989, modela a reflexão especular em superfícies com características direcionais, como tecidos e cabelos. Esta abordagem captura de forma
+sofisticada a distribuição de luz em superfícies com orientação preferencial. As equações que descrevem esse experimento se encontram em \autoref{fig-kajiya-eqlang-latex}. O código fonte de entrada para o compilador está em \autoref{cod-kajiya-eqlang}. A redenrização de um objeto 3D usando essa BRDF esta em \autoref{fig-kajiya-eqlang}.
+
+\subsection{Representação em documento \LaTeX{}}
+\begin{figure}[h]
+    \caption{\label{fig-kajiya-eqlang-latex} \small Equações da BRDF do experimento Kajiya-Kay em documento \LaTeX{}.}
+    \begin{center}
+        % \includegraphics[scale=1.1,width=\textwidth]{./Imagens/brdfs/aniso.pdf}
+        \includegraphics[scale=1.1]{./Imagens/brdfs/aniso.pdf}
+    \end{center}
+\end{figure}
+
+% \begin{align}
+%     \text{Vetores Fundamentais:} & \nonumber \\
+%     \vec{X} &= \text{normalize}(\vec{0,1,0} \times \vec{n}) \\
+%     \vec{Y} &= \text{normalize}(\vec{n} \times \vec{X}) \\
+%     T &= \vec{Y} \\
+%     \text{Parâmetros:} & \nonumber \\
+%     \text{Rugosidade} &= 0.1 \\
+%     \text{Brilho} &= (1/\text{Rugosidade}) \\
+%     \text{Componente Especular:} & \nonumber \\
+%     \text{spec} &= \left(\frac{\sin(\text{ângulo}_{\text{LT}}) \sqrt{1 - \cos^2(\text{ângulo}_{\text{VT}})}}{\cos(\text{ângulo}_{\text{LT}}) \cos(\text{ângulo}_{\text{VT}})} \right)^{\text{brilho}}
+% \end{align}
+
+\subsection{Código Fonte em \texttt{EquationLang}}
+\begin{codigo}[Htb]
+    \caption{\small Código fonte da BRDF do experimento Kajiya-Kay.}
+    \label{cod-kajiya-eqlang}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+    Disney Aniso Specular - based on Kajiya-Kay 1989
+    \begin{equation}
+      \text{normalize}(\vec{u}) = \frac{\vec{u}}{\sqrt{\vec{u} \cdot \vec{u}}}
+    \end{equation}
+
+    \begin{equation}
+    reflect(\vec I, \vec N) =  2*(\vec I \cdot \vec N)*\vec N - \vec I
+    \end{equation}
+
+    Tangent vector:
+    \begin{equation}
+       X = \text{normalize}(\vec{0,1,0} \times \vec{n})
+    \end{equation}
+
+    Bitangent vector:
+    \begin{equation}
+       Y = \text{normalize}(\vec{n} \times X)
+    \end{equation}
+
+    \begin{equation}
+        T = Y
+    \end{equation}
+
+    \begin{equation}
+    roughness =  0.1
+    \end{equation}
+
+    \begin{equation}
+        glossiness = (1/roughness)
+    \end{equation}
+    \begin{equation}
+        lightAngle = (\vec{\omega_i} \cdot \vec{n})
+    \end{equation}
+
+    \begin{equation}
+        cosAngleLT = (\vec{\omega_i} \cdot T)
+    \end{equation}
+
+    \begin{equation}
+        sinAngleLT = \sqrt(1 - (cosAngleLT * cosAngleLT))
+    \end{equation}
+
+    \begin{equation}
+        cosAngleVT = (\vec \omega_o \cdot T)
+    \end{equation}
+
+    \begin{equation}
+    spec = ((sinAngleLT * \sqrt(1 - (cosAngleVT * cosAngleVT)))
+                      - (cosAngleLT * cosAngleVT))^ glossiness
+    \end{equation}
+
+    \begin{equation}
+    f = spec
+    \end{equation}
+\end{lstlisting}
+\end{codigo}
+
+\subsection{Código GLSL Gerado}
+
+\begin{codigo}[H]
+    \caption{\small Saida do compilador, código GLSL da BRDF do experimento Kajiya-Kay (parte 1). }
+    \label{cod-kajiya-eqlang-declarations}
+\begin{lstlisting}[language=C, inputencoding=utf8]
+    
+    analytic
+    ::begin parameters
+    # [type] [name] [min val] [max val] [default val]
+    ::end parameters
+
+    ::begin shader
+
+
+    //////////// START OF BUILTINS DECLARTION ////////////
+    vec3  var_0_vec_h;
+    vec3  var_3_vec_n;
+    float var_10_theta_h;
+    float var_11_theta_d;
+    float var_1_pi;
+    float var_2_epsilon;
+    vec3  var_4_vec_omega_i;
+    float var_5_theta_i;
+    float var_6_phi_i;
+    vec3  var_7_vec_omega_o;
+    float var_8_theta_o;
+    float var_9_phi_o;
+    //////////// END OF BUILTINS DECLARTION ////////////
+
+
+    //////////// START OF USER DECLARED ////////////
+    vec3  var_14_X;
+    vec3  var_15_Y;
+    vec3  var_16_T;
+    float var_17_cosAngleLT;
+    float var_18_cosAngleVT;
+    float var_19_roughness;
+    float var_20_glossiness;
+    float var_21_sinAngleLT;
+    float var_22_spec;
+    float var_23_f;
+    float var_27_lightAngle;
+    //////////// END OF USER DECLARED ////////////
+
+\end{lstlisting}
+\end{codigo}
+
+\begin{codigo}[H]
+    \caption{\small Saida do compilador, código GLSL da BRDF do experimento Kajiya-Kay (parte 2). }
+    \label{cod-kajiya-eqlang}
+\begin{lstlisting}[language=C, inputencoding=utf8]
+    //////////// START FUNCTIONS DECLARATIONS ////////////
+    vec3 var_12_text_normalize(vec3 var_13_vec_u) {
+        return (var_13_vec_u/sqrt(dot(var_13_vec_u,var_13_vec_u)));
+    }
+    vec3 var_24_reflect(vec3 var_25_vec_I, vec3 var_26_vec_N) {
+        return (((2.0*(dot(var_25_vec_I,var_26_vec_N)))*var_26_vec_N)-var_25_vec_I);
+    }
+    //////////// END FUNCTIONS DECLARATIONS ////////////
+
+    vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y ) {
+
+    //////////// START OF BUILTINS INITIALIZATION ////////////
+         var_0_vec_h = normalize(L+V);
+         var_3_vec_n = normalize(N)  ;
+         var_1_pi = 3.141592653589793 ;
+         var_2_epsilon = 1.192092896e-07 ;
+         var_4_vec_omega_i = L ;
+         var_5_theta_i = atan(var_4_vec_omega_i.y,var_4_vec_omega_i.x) ;
+         var_6_phi_i = atan(sqrt(var_4_vec_omega_i.y*var_4_vec_omega_i.y+var_4_vec_omega_i.x*var_4_vec_omega_i.x),var_4_vec_omega_i.z) ;
+         var_7_vec_omega_o = V ;
+         var_8_theta_o = atan(var_7_vec_omega_o.y,var_7_vec_omega_o.x) ;
+         var_9_phi_o = atan(sqrt(var_7_vec_omega_o.y*var_7_vec_omega_o.y+var_7_vec_omega_o.x*var_7_vec_omega_o.x),var_7_vec_omega_o.z) ;
+         var_10_theta_h = acos(dot( var_0_vec_h , N));
+         var_11_theta_d = acos(dot( var_0_vec_h , var_4_vec_omega_i ));
+    //////////// END OF BUILTINS INITIALIZATION ////////////
+
+        var_14_X = var_12_text_normalize(cross(vec3(0.0, 1.0, 0.0),var_3_vec_n));
+        var_15_Y = var_12_text_normalize(cross(var_3_vec_n,var_14_X));
+        var_16_T = var_15_Y;
+        var_17_cosAngleLT = (dot(var_4_vec_omega_i,var_16_T));
+        var_18_cosAngleVT = (dot(var_7_vec_omega_o,var_16_T));
+        var_19_roughness = 0.1;
+        var_20_glossiness = ((1.0/var_19_roughness));
+        var_21_sinAngleLT = sqrt(((1.0-((var_17_cosAngleLT*var_17_cosAngleLT)))));
+        var_22_spec = pow(((((var_21_sinAngleLT*sqrt(((1.0-((var_18_cosAngleVT*var_18_cosAngleVT)))))))-((var_17_cosAngleLT*var_18_cosAngleVT)))),var_20_glossiness);
+        var_23_f = var_22_spec;
+        var_27_lightAngle = (dot(var_4_vec_omega_i,var_3_vec_n));
+
+        return vec3(var_23_f);
+    }
+\end{lstlisting}
+\end{codigo}
+
+
+
+\subsection{Visualização do Resultado}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[scale=1.9, width=\textwidth]{Imagens/brdfs/aniso.png}
+    \caption{Distribuição de Reflexão Especular da BRDF Anisotrópica de Disney}
+    \label{fig:disney_anisotropic_specular}
+\end{figure}
+
+
+
+
+\section{Experimento com BRDF Anisotrópica: Kajiya-Kay (1989)}
+
+A BRDF de especularidade anisotrópica, baseada no trabalho seminal de @@REF Kajiya-Kay de 1989, modela a reflexão especular em superfícies com características direcionais, como tecidos e cabelos. Esta abordagem captura de forma
+sofisticada a distribuição de luz em superfícies com orientação preferencial. As equações que descrevem esse experimento se encontram em \autoref{fig-kajiya-eqlang-latex}. O código fonte de entrada para o compilador está em \autoref{cod-kajiya-eqlang}. A redenrização de um objeto 3D usando essa BRDF esta em \autoref{fig-kajiya-eqlang}.
+
+\subsection{Representação em documento \LaTeX{}}
+\begin{figure}[h]
+    \caption{\label{fig-kajiya-eqlang-latex} \small Equações da BRDF do experimento Kajiya-Kay em documento \LaTeX{}.}
+    \begin{center}
+        % \includegraphics[scale=1.1,width=\textwidth]{./Imagens/brdfs/aniso.pdf}
+        \includegraphics[scale=1.1]{./Imagens/brdfs/aniso.pdf}
+    \end{center}
+\end{figure}
+
+% \begin{align}
+%     \text{Vetores Fundamentais:} & \nonumber \\
+%     \vec{X} &= \text{normalize}(\vec{0,1,0} \times \vec{n}) \\
+%     \vec{Y} &= \text{normalize}(\vec{n} \times \vec{X}) \\
+%     T &= \vec{Y} \\
+%     \text{Parâmetros:} & \nonumber \\
+%     \text{Rugosidade} &= 0.1 \\
+%     \text{Brilho} &= (1/\text{Rugosidade}) \\
+%     \text{Componente Especular:} & \nonumber \\
+%     \text{spec} &= \left(\frac{\sin(\text{ângulo}_{\text{LT}}) \sqrt{1 - \cos^2(\text{ângulo}_{\text{VT}})}}{\cos(\text{ângulo}_{\text{LT}}) \cos(\text{ângulo}_{\text{VT}})} \right)^{\text{brilho}}
+% \end{align}
+
+\subsection{Código Fonte em \texttt{EquationLang}}
+\begin{codigo}[Htb]
+    \caption{\small Código fonte da BRDF do experimento Kajiya-Kay.}
+    \label{cod-kajiya-eqlang}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+    Disney Aniso Specular - based on Kajiya-Kay 1989
+    \begin{equation}
+      \text{normalize}(\vec{u}) = \frac{\vec{u}}{\sqrt{\vec{u} \cdot \vec{u}}}
+    \end{equation}
+
+    \begin{equation}
+    reflect(\vec I, \vec N) =  2*(\vec I \cdot \vec N)*\vec N - \vec I
+    \end{equation}
+
+    Tangent vector:
+    \begin{equation}
+       X = \text{normalize}(\vec{0,1,0} \times \vec{n})
+    \end{equation}
+
+    Bitangent vector:
+    \begin{equation}
+       Y = \text{normalize}(\vec{n} \times X)
+    \end{equation}
+
+    \begin{equation}
+        T = Y
+    \end{equation}
+
+    \begin{equation}
+    roughness =  0.1
+    \end{equation}
+
+    \begin{equation}
+        glossiness = (1/roughness)
+    \end{equation}
+    \begin{equation}
+        lightAngle = (\vec{\omega_i} \cdot \vec{n})
+    \end{equation}
+
+    \begin{equation}
+        cosAngleLT = (\vec{\omega_i} \cdot T)
+    \end{equation}
+
+    \begin{equation}
+        sinAngleLT = \sqrt(1 - (cosAngleLT * cosAngleLT))
+    \end{equation}
+
+    \begin{equation}
+        cosAngleVT = (\vec \omega_o \cdot T)
+    \end{equation}
+
+    \begin{equation}
+    spec = ((sinAngleLT * \sqrt(1 - (cosAngleVT * cosAngleVT)))
+                      - (cosAngleLT * cosAngleVT))^ glossiness
+    \end{equation}
+
+    \begin{equation}
+    f = spec
+    \end{equation}
+\end{lstlisting}
+\end{codigo}
+
+\subsection{Código GLSL Gerado}
+
+\begin{codigo}[H]
+    \caption{\small Saida do compilador, código GLSL da BRDF do experimento Kajiya-Kay (parte 1). }
+    \label{cod-kajiya-eqlang-declarations}
+\begin{lstlisting}[language=C, inputencoding=utf8]
+    
+    analytic
+    ::begin parameters
+    # [type] [name] [min val] [max val] [default val]
+    ::end parameters
+
+    ::begin shader
+
+
+    //////////// START OF BUILTINS DECLARTION ////////////
+    vec3  var_0_vec_h;
+    vec3  var_3_vec_n;
+    float var_10_theta_h;
+    float var_11_theta_d;
+    float var_1_pi;
+    float var_2_epsilon;
+    vec3  var_4_vec_omega_i;
+    float var_5_theta_i;
+    float var_6_phi_i;
+    vec3  var_7_vec_omega_o;
+    float var_8_theta_o;
+    float var_9_phi_o;
+    //////////// END OF BUILTINS DECLARTION ////////////
+
+
+    //////////// START OF USER DECLARED ////////////
+    vec3  var_14_X;
+    vec3  var_15_Y;
+    vec3  var_16_T;
+    float var_17_cosAngleLT;
+    float var_18_cosAngleVT;
+    float var_19_roughness;
+    float var_20_glossiness;
+    float var_21_sinAngleLT;
+    float var_22_spec;
+    float var_23_f;
+    float var_27_lightAngle;
+    //////////// END OF USER DECLARED ////////////
+
+\end{lstlisting}
+\end{codigo}
+
+\begin{codigo}[H]
+    \caption{\small Saida do compilador, código GLSL da BRDF do experimento Kajiya-Kay (parte 2). }
+    \label{cod-kajiya-eqlang}
+\begin{lstlisting}[language=C, inputencoding=utf8]
+    //////////// START FUNCTIONS DECLARATIONS ////////////
+    vec3 var_12_text_normalize(vec3 var_13_vec_u) {
+        return (var_13_vec_u/sqrt(dot(var_13_vec_u,var_13_vec_u)));
+    }
+    vec3 var_24_reflect(vec3 var_25_vec_I, vec3 var_26_vec_N) {
+        return (((2.0*(dot(var_25_vec_I,var_26_vec_N)))*var_26_vec_N)-var_25_vec_I);
+    }
+    //////////// END FUNCTIONS DECLARATIONS ////////////
+
+    vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y ) {
+
+    //////////// START OF BUILTINS INITIALIZATION ////////////
+         var_0_vec_h = normalize(L+V);
+         var_3_vec_n = normalize(N)  ;
+         var_1_pi = 3.141592653589793 ;
+         var_2_epsilon = 1.192092896e-07 ;
+         var_4_vec_omega_i = L ;
+         var_5_theta_i = atan(var_4_vec_omega_i.y,var_4_vec_omega_i.x) ;
+         var_6_phi_i = atan(sqrt(var_4_vec_omega_i.y*var_4_vec_omega_i.y+var_4_vec_omega_i.x*var_4_vec_omega_i.x),var_4_vec_omega_i.z) ;
+         var_7_vec_omega_o = V ;
+         var_8_theta_o = atan(var_7_vec_omega_o.y,var_7_vec_omega_o.x) ;
+         var_9_phi_o = atan(sqrt(var_7_vec_omega_o.y*var_7_vec_omega_o.y+var_7_vec_omega_o.x*var_7_vec_omega_o.x),var_7_vec_omega_o.z) ;
+         var_10_theta_h = acos(dot( var_0_vec_h , N));
+         var_11_theta_d = acos(dot( var_0_vec_h , var_4_vec_omega_i ));
+    //////////// END OF BUILTINS INITIALIZATION ////////////
+
+        var_14_X = var_12_text_normalize(cross(vec3(0.0, 1.0, 0.0),var_3_vec_n));
+        var_15_Y = var_12_text_normalize(cross(var_3_vec_n,var_14_X));
+        var_16_T = var_15_Y;
+        var_17_cosAngleLT = (dot(var_4_vec_omega_i,var_16_T));
+        var_18_cosAngleVT = (dot(var_7_vec_omega_o,var_16_T));
+        var_19_roughness = 0.1;
+        var_20_glossiness = ((1.0/var_19_roughness));
+        var_21_sinAngleLT = sqrt(((1.0-((var_17_cosAngleLT*var_17_cosAngleLT)))));
+        var_22_spec = pow(((((var_21_sinAngleLT*sqrt(((1.0-((var_18_cosAngleVT*var_18_cosAngleVT)))))))-((var_17_cosAngleLT*var_18_cosAngleVT)))),var_20_glossiness);
+        var_23_f = var_22_spec;
+        var_27_lightAngle = (dot(var_4_vec_omega_i,var_3_vec_n));
+
+        return vec3(var_23_f);
+    }
+\end{lstlisting}
+\end{codigo}
+
+
+
+\subsection{Visualização do Resultado}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[scale=1.9, width=\textwidth]{Imagens/brdfs/aniso.png}
+    \caption{Distribuição de Reflexão Especular da BRDF Anisotrópica de Disney}
+    \label{fig:disney_anisotropic_specular}
+\end{figure}
+
+
+
+\include{Content/Desenvolvimento/Resultados}
+
+% \include{Content/Resultados/Resultados}
+
+tb
+h
+1

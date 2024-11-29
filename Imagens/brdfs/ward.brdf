@@ -23,21 +23,21 @@ float var_9_phi_o;
 
 
 //////////// START OF USER DECLARED ////////////
-vec3  var_12_vec_C_s;
-vec3  var_15_vec_H;
-vec3  var_16_vec_C_d;
+vec3  var_14_vec_X;
+vec3  var_15_vec_Y;
+float var_16_alpha_x;
 float var_17_alpha_y;
-float var_18_alpha_x;
-vec3  var_19_vec_X;
-vec3  var_20_vec_Y;
+vec3  var_18_vec_C_d;
+vec3  var_19_vec_C_s;
+vec3  var_20_vec_H;
 float var_21_text_exponent;
 float var_22_text_spec;
 vec3  var_23_f;
 //////////// END OF USER DECLARED ////////////
 
 //////////// START FUNCTIONS DECLARATIONS ////////////
-vec3 var_13_text_normalize(vec3 var_14_vec_u) {
-    return (var_14_vec_u/sqrt(dot(var_14_vec_u,var_14_vec_u)));
+vec3 var_12_text_normalize(vec3 var_13_vec_u) {
+    return (var_13_vec_u/sqrt(dot(var_13_vec_u,var_13_vec_u)));
 }
 //////////// END FUNCTIONS DECLARATIONS ////////////
 
@@ -58,16 +58,16 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y ) {
      var_11_theta_d = acos(dot( var_0_vec_h , var_4_vec_omega_i ));
 //////////// END OF BUILTINS INITIALIZATION ////////////
 
-    var_12_vec_C_s = vec3(1.0, 1.0, 1.0);
-    var_15_vec_H = var_13_text_normalize((var_4_vec_omega_i+var_7_vec_omega_o));
-    var_16_vec_C_d = vec3(1.0, 1.0, 1.0);
+    var_14_vec_X = var_12_text_normalize(cross(vec3(0.0, 1.0, 0.0),var_3_vec_n));
+    var_15_vec_Y = var_12_text_normalize(cross(var_3_vec_n,var_14_vec_X));
+    var_16_alpha_x = 0.4;
     var_17_alpha_y = 0.2;
-    var_18_alpha_x = 0.4;
-    var_19_vec_X = var_13_text_normalize(cross(vec3(0.0, 1.0, 0.0),var_3_vec_n));
-    var_20_vec_Y = var_13_text_normalize(cross(var_3_vec_n,var_19_vec_X));
-    var_21_text_exponent = (-((pow((dot(var_15_vec_H,var_19_vec_X)/var_18_alpha_x),2.0)+pow((dot(var_15_vec_H,var_20_vec_Y)/var_17_alpha_y),2.0))/pow((dot(var_15_vec_H,var_3_vec_n)),2.0)));
-    var_22_text_spec = ((1.0/((((4.0*var_1_pi)*var_18_alpha_x)*var_17_alpha_y)*sqrt(((dot(var_4_vec_omega_i,var_3_vec_n))*(dot(var_7_vec_omega_o,var_3_vec_n))))))*exp((var_21_text_exponent)));
-    var_23_f = ((var_16_vec_C_d/var_1_pi)+(var_12_vec_C_s*var_22_text_spec));
+    var_18_vec_C_d = vec3(1.0, 1.0, 1.0);
+    var_19_vec_C_s = vec3(1.0, 1.0, 1.0);
+    var_20_vec_H = var_12_text_normalize((var_4_vec_omega_i+var_7_vec_omega_o));
+    var_21_text_exponent = (-((pow((dot(var_20_vec_H,var_14_vec_X)/var_16_alpha_x),2.0)+pow((dot(var_20_vec_H,var_15_vec_Y)/var_17_alpha_y),2.0))/pow((dot(var_20_vec_H,var_3_vec_n)),2.0)));
+    var_22_text_spec = ((1.0/((((4.0*var_1_pi)*var_16_alpha_x)*var_17_alpha_y)*sqrt(((dot(var_4_vec_omega_i,var_3_vec_n))*(dot(var_7_vec_omega_o,var_3_vec_n))))))*exp((var_21_text_exponent)));
+    var_23_f = ((var_18_vec_C_d/var_1_pi)+(var_19_vec_C_s*var_22_text_spec));
 
     return vec3(var_23_f);
 }

@@ -23,26 +23,26 @@ float var_9_phi_o;
 
 
 //////////// START OF USER DECLARED ////////////
-vec3  var_12_L;
-vec3  var_13_V;
-vec3  var_14_H;
-vec3  var_18_text_color;
-vec3  var_19_N;
-float var_16_f_0;
-float var_20_F;
-float var_21_m;
-float var_24_D;
-float var_25_G;
+vec3  var_12_V;
+vec3  var_13_L;
+float var_17_f_0;
+float var_15_m;
+vec3  var_20_H;
+vec3  var_21_text_color;
+vec3  var_22_N;
+float var_23_D;
+float var_24_G;
+float var_25_F;
 float var_26_val;
 vec3  var_27_f;
 //////////// END OF USER DECLARED ////////////
 
 //////////// START FUNCTIONS DECLARATIONS ////////////
-float var_15_Fresnel(float var_16_f_0, float var_17_u) {
-    return (var_16_f_0+(((1.0-var_16_f_0))*(pow(((1.0-var_17_u)),5.0))));
+float var_14_Beckmann(float var_15_m, float var_16_t) {
+    return (exp((((((var_16_t*var_16_t)-1.0))/((((var_15_m*var_15_m)*var_16_t)*var_16_t)))))/((((((var_15_m*var_15_m)*var_16_t)*var_16_t)*var_16_t)*var_16_t)));
 }
-float var_22_Beckmann(float var_21_m, float var_23_t) {
-    return (exp((((((var_23_t*var_23_t)-1.0))/((((var_21_m*var_21_m)*var_23_t)*var_23_t)))))/((((((var_21_m*var_21_m)*var_23_t)*var_23_t)*var_23_t)*var_23_t)));
+float var_18_Fresnel(float var_17_f_0, float var_19_u) {
+    return (var_17_f_0+(((1.0-var_17_f_0))*(pow(((1.0-var_19_u)),5.0))));
 }
 //////////// END FUNCTIONS DECLARATIONS ////////////
 
@@ -63,18 +63,18 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y ) {
      var_11_theta_d = acos(dot( var_0_vec_h , var_4_vec_omega_i ));
 //////////// END OF BUILTINS INITIALIZATION ////////////
 
-    var_12_L = var_4_vec_omega_i;
-    var_13_V = var_7_vec_omega_o;
-    var_14_H = var_0_vec_h;
-    var_18_text_color = vec3(1.0, 0.5, 1.0);
-    var_19_N = var_3_vec_n;
-    var_16_f_0 = 0.4;
-    var_20_F = var_15_Fresnel(var_16_f_0,(dot(var_13_V,var_14_H)));
-    var_21_m = 0.3;
-    var_24_D = var_22_Beckmann(var_21_m,(dot(var_19_N,var_14_H)));
-    var_25_G = (1.0/(dot(var_19_N,var_13_V)));
-    var_26_val = (max((var_24_D*var_25_G),0.0)*var_20_F);
-    var_27_f = ((var_18_text_color*var_26_val)/(dot(var_19_N,var_12_L)));
+    var_12_V = var_7_vec_omega_o;
+    var_13_L = var_4_vec_omega_i;
+    var_17_f_0 = 0.4;
+    var_15_m = 0.3;
+    var_20_H = var_0_vec_h;
+    var_21_text_color = vec3(1.0, 0.5, 1.0);
+    var_22_N = var_3_vec_n;
+    var_23_D = var_14_Beckmann(var_15_m,(dot(var_22_N,var_20_H)));
+    var_24_G = (1.0/(dot(var_22_N,var_12_V)));
+    var_25_F = var_18_Fresnel(var_17_f_0,(dot(var_12_V,var_20_H)));
+    var_26_val = (max((var_23_D*var_24_G),0.0)*var_25_F);
+    var_27_f = ((var_21_text_color*var_26_val)/(dot(var_22_N,var_13_L)));
 
     return vec3(var_27_f);
 }

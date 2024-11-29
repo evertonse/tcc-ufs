@@ -23,18 +23,18 @@ float var_9_phi_o;
 
 
 //////////// START OF USER DECLARED ////////////
-vec3  var_12_uH;
-vec3  var_13_h;
-vec3  var_14_huv;
-float var_16_R;
-float var_17_n;
+vec3  var_15_uH;
+vec3  var_16_h;
+float var_14_n;
+vec3  var_17_huv;
+float var_13_R;
 float var_18_p;
 float var_19_f;
 //////////// END OF USER DECLARED ////////////
 
 //////////// START FUNCTIONS DECLARATIONS ////////////
-float var_15_text_lump(vec3 var_0_vec_h, float var_16_R, float var_17_n) {
-    return ((((var_17_n+1.0))/(((var_1_pi*var_16_R)*var_16_R)))*((1.0-((dot(var_0_vec_h,var_0_vec_h))/pow(((var_16_R*var_16_R)),var_17_n)))));
+float var_12_text_lump(vec3 var_0_vec_h, float var_13_R, float var_14_n) {
+    return ((((var_14_n+1.0))/(((var_1_pi*var_13_R)*var_13_R)))*((1.0-((dot(var_0_vec_h,var_0_vec_h))/pow(((var_13_R*var_13_R)),var_14_n)))));
 }
 //////////// END FUNCTIONS DECLARATIONS ////////////
 
@@ -55,12 +55,12 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y ) {
      var_11_theta_d = acos(dot( var_0_vec_h , var_4_vec_omega_i ));
 //////////// END OF BUILTINS INITIALIZATION ////////////
 
-    var_12_uH = (var_4_vec_omega_i+var_7_vec_omega_o);
-    var_13_h = (((dot(var_3_vec_n,var_7_vec_omega_o))/(dot(var_3_vec_n,var_12_uH)))*var_12_uH);
-    var_14_huv = (var_13_h-((dot(var_3_vec_n,var_7_vec_omega_o))*var_3_vec_n));
-    var_16_R = 1.0;
-    var_17_n = 10.0;
-    var_18_p = var_15_text_lump(var_14_huv,var_16_R,var_17_n);
+    var_15_uH = (var_4_vec_omega_i+var_7_vec_omega_o);
+    var_16_h = (((dot(var_3_vec_n,var_7_vec_omega_o))/(dot(var_3_vec_n,var_15_uH)))*var_15_uH);
+    var_14_n = 10.0;
+    var_17_huv = (var_16_h-((dot(var_3_vec_n,var_7_vec_omega_o))*var_3_vec_n));
+    var_13_R = 1.0;
+    var_18_p = var_12_text_lump(var_17_huv,var_13_R,var_14_n);
     var_19_f = ((var_18_p*(pow((dot(var_3_vec_n,var_7_vec_omega_o)),2.0)))/((((4.0*(dot(var_3_vec_n,var_4_vec_omega_i)))*(dot(var_4_vec_omega_i,var_0_vec_h)))*(pow((dot(var_3_vec_n,var_0_vec_h)),3.0)))));
 
     return vec3(var_19_f);
