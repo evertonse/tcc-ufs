@@ -1,21 +1,50 @@
 
-\section{Análise Sintática}
+\section{Análise Sintática} \label{section-parser}
 
-Desenvolvemos o \textit{parser} para a linguagem subconjunto do ambiente \verb"equation" do \LaTeX{} utilizando o Pratt \textit{Parsing} na linguagem de programação Odin. Nesta seção, vamos chamar esse subconjunto de \texttt{EquationLang}, o qual inclui todos as partes essenciais para BRDFs citada em \autoref{especificacao-linguagem}, e também documentamos a sua gramática.
+O \textit{parser} para a linguagem subconjunto do ambiente \verb|equation| do \LaTeX{} foi desenvolvido utilizando o método de Pratt \textit{Parsing} na linguagem Odin. Neste contexto, denominamos esse subconjunto como \texttt{EquationLang}, que abrange todas as partes essenciais para a definição de BRDFs descritas em \autoref{especificacao-linguagem}, além de sua gramática documentada.
 
-Esse \textit{parser} é implementado por descida recursiva, o que significa que cada regra de produção tem uma função de análise associada. A implementação prioriza a simplicidade de código e a clareza de ideias, com extensos comentários para auxiliar na compreensão. Essa estapa aceita os \textit{tokens} da etapa anterior.
+A implementação deste \textit{parser} adota o método de descida recursiva, no qual cada regra de produção da gramática possui uma função de análise correspondente. Este método foi escolhido por priorizar a clareza e simplicidade do código, complementados por comentários detalhados para facilitar a compreensão. A entrada do \textit{parser} consiste nos \textit{tokens} gerados na etapa de análise léxica.
 
 
 \subsection{Parser}
 
+Diferentemente dos \textit{parsers} tradicionais de descida recursiva, que frequentemente utilizam múltiplas chamadas de função aninhadas para tratar diferentes níveis de precedência, o \textit{parser} aqui implementado organiza as funções de análise de forma hierárquica, com base na precedência dos operadores. Essa abordagem é detalhada no \autoref{alg-pratt-parsing}, que descreve a lógica central para o \textit{parsing} de expressões.
 
-Diferente dos \textit{parser} de descida recursiva tradicionais, que muitas vezes exigem várias chamadas de função aninhadas para cada nível de precedência, o nosso \textit{parser} organiza as funções de análise hierarquicamente com base na precedência do operador, como demonstrado no \autoref{alg-pratt-parsing}. Esse código é a parte principal do \textit{parsing} de expressões. Nessa implementação usamos a notação original de Pratt \cite{pratt}, as funções \texttt{parse\_null\_denotations} e \texttt{parse\_left\_denotations} são equivalentes as funções \texttt{token.prefixo} e \texttt{token.infixo} declaradas no \autoref{alg1}, respectivamente.
-Além disso, pela caracteristica de descida recursiva (top-down), cada regra de produção especificada em \autoref{grammar-ast-pt1} é mapeada similiarmente para um procedimento em código. Podemos notar a semelhança entre a definição da função de parsing do nó \texttt{Start} da AST, no \autoref{cod-parsing-start}, e as regras de produção \texttt{start}, \texttt{decl}, \texttt{decl\_equation\_begin\_end\_block} presente na gramática do \autoref{grammar-ast-pt1}.
+%%%%%%%%%%%%%%%%
+Pratt Parsing simplifica a análise sintática de expressões ao tratar precedência e associatividade dinamicamente, sem inflar a gramática. Na abordagem tradicional, precedências são fixadas por meio de várias regras de produção, desmontrado no \autoref{cod-regras-tradicionais}.
 
-Do ponto de vista da interface que o pacote \texttt{parser} oferece, o trabalho inteiro de análise sintática,  pode ser resumido a uma chamada de função e uma estrutura de controle (\autoref{cod-func-and-structs}): \texttt{parse} e \texttt{Parser}, respectivamente.
+\begin{codigo}[htb]
+    \caption{\small Regras tradicionais de precendecia por gramática. }
+    \label{cod-regras-tradicionais}
+\begin{lstlisting}[language=haskell, numbers=none, inputencoding=utf8]
+    Expr               = LogicalOrExpr;
+    LogicalOrExpr      = LogicalOrExpr      '||' LogicalAndExpr    | LogicalAndExpr;
+
+    LogicalAndExpr     = LogicalAndExpr     '&&' EqualityExpr      | EqualityExpr;
+
+    EqualityExpr       = EqualityExpr       '==' RelationalExpr    | RelationalExpr;   ---  Igualdade
 
 
+    RelationalExpr     = RelationalExpr     '<' AdditiveExpr       | AdditiveExpr;     ---  Comparação
 
+    AdditiveExpr       = AdditiveExpr       '+' MultiplicativeExpr | MultiplicativeExpr;
+
+    MultiplicativeExpr = MultiplicativeExpr '*' PrimaryExpr        | PrimaryExpr;
+
+    PrimaryExpr        = '(' Expr ')' | NUMBER | Identifier;  --- Expressões primárias
+
+\end{lstlisting}
+\end{codigo}
+
+
+Isso torna a gramática mais longa, necessitando de mais regras que derivam outras regras antes de chegar a um símbolo do alfabeto da gramática. Na descrição recursiva, regras são o mesmo que funções, o que significa que os métodos recursivos tradicionais com muitos níveis de precedência fazem mais chamadas recursivas em código, gerando mais lentidão e complexidade na implementação da descrição recursiva a ser mantida. No Pratt Parsing, uma única regra é suficiente:
+\verb`Expr = Expr ( '||' | '&&' | '==' | '<' | '+' | '*' ) Expr;`.
+
+A precedência é definida em uma tabela (\autoref{tab-token-precedence}), e o \textit{parser} consulta essa tabela dinamicamente para decidir a ordem de avaliação com base no operador encontrado. Isso reduz a complexidade, facilita alterações e melhora a eficiência do \textit{parser}, resultando em um código mais simples, eficiente e flexível para incluir novos operadores.
+
+Foi usado a notação similiar à original de Pratt \cite{pratt}, as funções \verb"parse_null_denotations" e \texttt{parse\_left\_denotations} desempenham papéis equivalentes às funções \texttt{token.prefixo} e \texttt{token.infixo}, respectivamente, como demonstrado no \autoref{alg1}. Além disso, a abordagem de descida recursiva (top-down) permite que cada regra de produção definida na gramática (\autoref{grammar-ast-pt1}) seja diretamente mapeada para um procedimento em código. Isso pode ser observado, por exemplo, na função de análise do nó \texttt{Start} da AST (\autoref{cod-parsing-start}), que reflete diretamente as regras de produção \texttt{start}, \texttt{decl}, e \texttt{decl\_equation\_begin\_end\_block} especificadas na gramática demonstrada no \autoref{grammar-ast-pt1}.
+
+Do ponto de vista da interface oferecida pelo pacote \texttt{parser}, todo o processo de análise sintática é abstraído em uma única chamada de função (\autoref{cod-func-and-structs}). A função principal, \texttt{parse}, trabalha em conjunto com a estrutura \texttt{Parser} para realizar a análise.
 
 \begin{codigo}[H]
   \caption{\small Parsing de expressão em código Odin.}
@@ -59,7 +88,7 @@ parse :: proc(using p: ^Parser) -> ^ast.Start {
 \end{codigo}
 
 \begin{codigo}[htb]
-    \caption{\small Parsing do nó \texttt{Start}. }
+    \caption{\small \textit{Parsing} do nó \texttt{Start}. }
         \label{cod-parsing-start}
   \begin{lstlisting}[language=C++]
 parse_start :: proc(using p: ^Parser) -> ^ast.Start {
@@ -82,7 +111,7 @@ parse_start :: proc(using p: ^Parser) -> ^ast.Start {
 
 \subsection{Gramática}
 
-Para formalizar a gramática da linguagem de entrada (\texttt{EquationLang}) deste compilador, definimos suas regras no \autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2}. Um exemplo de código-fonte válido em \texttt{EquationLang} é apresentado no \autoref{code-gramatica}, sua renderização em \LaTeX{} é dado em \autoref{code-gramatica-rendered}.
+Para formalizar a gramática da linguagem de entrada (\texttt{EquationLang}), estabelecemos regras detalhadas nos \autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2}. O \autoref{code-gramatica} apresenta um exemplo de código-fonte válido nesta linguagem, cuja renderização correspondente em \LaTeX{} é ilustrada em \autoref{code-gramatica-rendered}.
 
 \label{code-gramatica-rendered} \begin{subequations}
 \begin{equation}
@@ -227,9 +256,12 @@ f = \frac{\rho_{d}}{\pi} + \frac{\rho_{s}}{8*\pi} *
 \end{lstlisting}
 \end{codigo}
 
-Na definição da gramática (\autoref{grammar-ast-pt1}), utilizamos a mesma notação de sintaxe definida no \autoref{} para representá-la, exceto que uma sequencia de \verb"---", três hifens, significa um comentário para o leitor, ela não afeta a definição da gramamatica.
+Na definição da gramática (\autoref{grammar-ast-pt1}), adotamos a notação sintática previamente estabelecida na \autoref{section-lexer}, com o adicional que sequências de três hífens ("\verb"---"") representam comentários para o leitor, sem impactar a definição gramatical.
 
-Essa gramática define regras para expressões, atribuições, agrupamento, literais de números e vetores, chamadas de função, definições de funções, e vários operadores, como \texttt{expr\_prefix} e \texttt{expr\_infix}, com o intuito de criar uma vasta coleção de operadores com diferentes precedências que atinge o objetivo de entender a sintaxe necessário para definições de BRDFs em \LaTeX{}. A tabela de operadores (\autoref{tab-token-precedence}) usadas no Pratt Parsing é representá-la por uma função chamada \texttt{precedence\_from\_token} que implementa esse mapeamento. Dado um token, ela retorna um inteiro que representa sua precendencia; quanto maior o número, maior a precedencia. Note que os mesmos tokens podem ser prefixo ou infixo, por exemplo '(' é o token do prefixo do agrupamento (ex: \textbf{(}$2*3$)) mas ao mesmo tempo é infixo para chamada de função $f$\textbf{(}$x$); o mesmo ocorre com '-'.
+A gramática definida nesta seção abrange regras para expressões, atribuições, agrupamento, literais numéricos e vetores, chamadas de funções, definições de funções e diversos operadores, como \texttt{expr\_prefix} e \texttt{expr\_infix}. O objetivo é fornecer uma linguagem capaz de expressar a sintaxe necessária para definições de BRDFs em \LaTeX{}. 
+
+A tabela de operadores (\autoref{tab-token-precedence}) usada no Pratt Parsing é representada pela função \texttt{precedence\_from\_token}, que mapeia um token para um valor inteiro que representa sua precedência: quanto maior o valor, maior a precedência do operador. É importante observar que alguns tokens podem ser usados tanto como prefixos quanto como infixos, dependendo do contexto. Por exemplo, o token \texttt{(} pode ser um prefixo em uma expressão de agrupamento, como em \textbf{(}$2*3$\textbf{)}, mas também pode ser infixo em uma chamada de função, como em $f$\textbf{(}$x$\textbf{)}. O mesmo comportamento ocorre com o token \texttt{-}, que pode atuar como operador prefixo de negação ou infixo para subtração.
+
 
 \begin{table}[h!]
 \centering
@@ -260,42 +292,42 @@ $\times$              & Não              & 20                   \\ \hline
 
 
 \subsubsection{Estrutura da Árvore de Sintaxe}
-Nesta seção, apresentamos os tipos de nós que compõem a árvore de sintaxe abstrata (AST), utilizada no compilador da linguagem \texttt{EquationLang}. A estrutura da AST é definida com vários tipos de nós para capturar diferentes elementos da sintaxe. Diferente da gramática definida no \autoref{lst-gramatica}, aqui os nós são representados em nível de código. Note que a Expr mais genérica possui um campo \texttt{ty\_inferred} do tipo \texttt{Type}, esse campo será preenchido pela etapa de análise semântica, e usado na geração de código. A seguir, listamos a representação semântica de cada nó, e citamos os campos que cada nó contém:
+Nesta seção, apresentamos os tipos de nós que compõem a árvore de sintaxe abstrata (AST), utilizada no compilador da linguagem \texttt{EquationLang}. A estrutura da AST é formada por diversos tipos de nós que capturam os diferentes elementos da sintaxe da linguagem. Diferente da gramática definida no \autoref{lst-gramatica}, os nós aqui são representados em nível de código. Vale ressaltar que o nó \texttt{Expr}, o mais genérico, possui um campo adicional \texttt{ty\_inferred} do tipo \texttt{Type}. Esse campo será preenchido durante a etapa de análise semântica e utilizado na geração de código. A seguir, listamos a representação semântica de cada nó, detalhando os campos que compõem cada um deles.
 
 @@Fix this
 \begin{itemize}
-\item \textbf{Node}: estrutura base para todos os nós da AST.
+\item \textbf{Node}: Estrutura base para todos os nós da AST.
       \textbf{Campos:}
       \texttt{kind} (\texttt{typeid}), guarda um número que indica qual o tipo do nó.
 
-\item \textbf{Expr}: representa expressões de forma geral.
+\item \textbf{Expr}: Representa expressões de forma geral.
       \textbf{Campos:}
-      \texttt{expr\_derived} \texttt{ty\_inferred} (\texttt{Type})
+      \texttt{expr\_derived} e \texttt{ty\_inferred} (\texttt{Type})
 
-\item \textbf{Decl}: representa genericamente declarações.
+\item \textbf{Decl}: Representa genericamente declarações.
 
-\item \textbf{Start}: o nó raiz da AST.
+\item \textbf{Start}: O nó raiz da AST.
       \textbf{Campos:}
-      \texttt{decls} lsita de \texttt{Decl}, \texttt{eof} (\texttt{Token}).
+      \texttt{decls} lista de \texttt{Decl}, \texttt{eof} (\texttt{Token}).
 
 \item \textbf{Decl\_Equation}: representa uma equação.
       \textbf{Campos:}
-      \texttt{field} (\texttt{\^Field}).
+      \texttt{field} referencia à uma instancia do nó (\texttt{Field}).
 
-\item \textbf{Field}:
+\item \textbf{Field}: Representa uma atribuição qualquer, usando o simbolo '='.
       \textbf{Campos:}
       \texttt{name} (\texttt{\^Expr}), \texttt{equals} (\texttt{Token}), \texttt{value} (\texttt{\^Expr}).
 
-\item \textbf{Expr\_Identifier}: representa identificadores.
+\item \textbf{Expr\_Identifier}: Representa identificadores.
       \textbf{Campos:}
       \texttt{identifier} (\texttt{Token}), \texttt{is\_vector} (\texttt{bool}),
       \texttt{sub\_expression} (\texttt{\^Expr}), \texttt{var} (\texttt{Maybe(string)}).
 
-\item \textbf{Expr\_Number}: representa literais numéricos.
+\item \textbf{Expr\_Number}: Representa literais numéricos.
       \textbf{Campos:}
       \texttt{number} (\texttt{Token}).
 
-\item \textbf{Expr\_Vector\_Literal}: representa vetores literais.
+\item \textbf{Expr\_Vector\_Literal}: Representa vetores literais.
       \textbf{Campos:}
       \texttt{vec} (\texttt{Token}), \texttt{numbers} (\texttt{[]\^Expr\_Number}).
 
@@ -325,8 +357,10 @@ Nesta seção, apresentamos os tipos de nós que compõem a árvore de sintaxe a
 
 
 
+No \autoref{lexer-subexpression}, é comentado que o \textit{parser} é capaz de lidar com identificadores aninhados, como, por exemplo, \( x_{i_1} \) (\verb"x_{i_1}"). No \autoref{cod-expression-ident-recursive}, apresentamos como esses identificadores são criados recursivamente. O código mostrado faz parte de uma função maior, sendo um recorte de um \texttt{switch}\footnote{\texttt{switch} e \texttt{case} em Odin funcionam da mesma forma que na linguagem de programação \texttt{C}} sobre a enumeração descrita no \autoref{enum-token-kind}. Dentro desse \texttt{switch}, temos um \texttt{case} que reconhece tokens de identificador ou símbolos especiais (\( \omega, \theta, \phi, \rho, \alpha, \beta, \sigma, \pi, \epsilon \)). Ao fazer uma chamada recursiva à função \texttt{parse\_expr}, o \textit{parser} permite a inclusão de subíndices numéricos, subexpresões de identificadores ou até expressões binárias, como \( n+1 \) em \( f_{n+1} \).
 
-No \autoref{lexer-subexpression} comentanmos que \textit{parser} é capaz de lidar com identificadores aninhados, como por exemplo $x_{i_1}$ (\verb"x_{i_1}"). No \autoref{cod-expression-ident-recursive}, apresentamos como são criados esses identificadores recursivamente. Primeiramente, esse código está inserido em um função bem maior, espeficidamente é um recorte de um \texttt{switch}\footnote{\texttt{switch} e \texttt{case} em Odin, funciona da mesma maneira que na linguagem de programação \texttt{C}} da enumeração \autoref{enum-token-kind}. Temos um \texttt{case}, que reconhece token de identificador ou símbolos especiais ($ \omega, \theta, \phi, \rho, \alpha, \beta, \sigma, \pi, \epsilon$) ou simplesmente token de identificador e, ao fazer uma chamada rescursivas a \texttt{parse\_expr}, permite subíndices numéricos, identificadores, ou até expressões binarias como $n+1$ em $f_{n+1}$. Isso oferece maior flexibilidade na hora de expressar funções e equações para descrever as BRDFs, é muito comum usar subíndices numéricos. Na estapa de geração de código isso é usado para diferenciar um simbolo de outro apesar de ter o mesmo token inicial, por exemplo, o primeiro token é $f$, mas $f_1$ é diferente semanticamente de $f_2$.
+Isso confere maior flexibilidade na hora de expressar funções e equações para descrever as BRDFs, sendo muito comum o uso de subíndices numéricos. Na etapa de geração de código, essa capacidade de distinguir identificadores com subíndices é crucial, pois permite tratar semânticamente tokens aparentemente iguais de maneira diferenciada. Por exemplo, embora o primeiro token seja \( f \), \( f_1 \) e \( f_2 \) são semanticamente distintos, permitindo uma distinção precisa entre símbolos com o mesmo nome base, mas com significados diferentes devido aos seus índices.
+%%%%%
 
 
 \begin{codigo}[htb]
@@ -369,4 +403,10 @@ No \autoref{lexer-subexpression} comentanmos que \textit{parser} é capaz de lid
   \end{lstlisting}
 \end{codigo}
 
-Esse código serve de exemplos para outras expressões recursivas, como uma expressão infixa (operação binária). Sempre identificamos o token atual através de peek(), que vê 1 ou dois token adiante para decidir qual nó da AST deve ser construido. Em seguida, é calculado a variavel \texttt{prec} que indica precedencia do token atual, enfim 1 ou mais chamadas rescursivas (\texttt{parse\_expr}) são feitas para os campos que precisam de uma expressão aninhadas. Depois dos campos serem preenchidos a expressão é retornada.
+
+O \autoref{cod-expression-ident-recursive}, já apresentado, serve como exemplo para outras expressões recursivas, como expressões infixas (operações binárias). Para identificar o token atual, utilizamos a função \texttt{peek()}, que permite visualizar um ou dois tokens à frente e, com isso, decidir qual nó da AST (Árvore de Sintaxe Abstrata) deve ser construído. Após identificar o token, calculamos a variável \texttt{prec}, que indica a precedência do token atual. Com base nessa precedência, fazemos uma ou mais chamadas recursivas à função \texttt{parse\_expr} para processar os campos que requerem expressões aninhadas.
+
+Uma vez que todos os campos necessários estejam preenchidos, a expressão completa é retornada. Esse processo é repetido até que a subárvore de expressões de uma dada equação esteja completamente construída. A análise sintática é concluída quando todas as equações forem adicionadas à AST. Essa estrutura hierárquica das expressões é então anotada com tipos e validada pelo pacote \texttt{checker}, conforme discutido na \autoref{secion-checker}.
+
+No entanto, antes que a validação ocorra, é necessário implementar métodos para realizar a travessia dessa estrutura. O processo de travessia da AST é discutido na seção \autoref{secion-walker}, onde são apresentadas as técnicas para percorrer a árvore e acessar os dados nela contidos, facilitando a análise semântica e a geração de código subsequente.
+

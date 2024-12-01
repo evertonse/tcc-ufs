@@ -74,7 +74,3 @@ Sugerimos escrever documentos por cima do arquivo de modelo .tex fornecido, com 
 ## Online
   * https://www.overleaf.com/ , https://papeeria.com/ ou https://cocalc.com/doc/latex-editor.html
 
-
-## Duvidas
-- Adiciono a espera também?
-- Precisa do código inteiro? ou é melhor deixar em apendice

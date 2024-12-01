@@ -1,5 +1,5 @@
 
-\section{Análise Semantica (\texttt{checker})}
+\section{Análise Semantica (\texttt{checker})} \label{section-checker}
 
 @@ 
 The semantic validation process in the compiler implements two primary validation mechanisms: function definition validation and declaration validation. These processes work in concert to ensure program correctness, type safety, and proper resolução de simbolos.
@@ -10,7 +10,7 @@ O pacote \texttt{checker} é responsável por X@numero@ tarefas. Primeiro anotar
 O padrão visitor implementado no pacote \texttt{walker} é usado novamente para fazer travessia das expressões da AST. Isso permite recursão para tipos, por exemplo um multiplicação pode ter varios tipos à depender do seus operandos, se a esquerda for um número real e a direita também, então com certeza a multiplicação resulta é um número real também. Mas se um dos operandos for um vetor de 3 dimensões e o outro por . Note que a a expressão esquerda ou direita de uma operação binário pode ser abirtrariamente recursiva, isto é podem ser outra operação binário por si só, então basta aplicar novamente a inferencia de tipos na expressão esquerda e direita para extrair o seu tipo.
 
 
-\subsection{Tipos, Simbolos e Escopos}
+\subsection{Tipos, Simbolos e Escopos} \label{subsection-symbols-scopes}
 Um conce
 
 Toda expressão na AST tem um tipo, eles são modelados são modelados como uma união entre possiveis \verb"struct" na linguagem Odin, representado pelo \autoref{cod-types-structs}, permitindo representação de diferentes categorias semânticas para essas expressões, como represetar tipos primitivos fundamentais como vetor e número, e capturar \textbf{assinaturas} de funções, que nesse documento, estamos nos referindo ao dominio e contra-dominio de uma função, por exemplo o produto vetorial tem a assinatura $\mathbb{R}^3\times\mathbb{R}^3 \to \mathbb{R}^3$.

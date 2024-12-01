@@ -1,62 +1,68 @@
-analytic
-::begin parameters
-# [type] [name] [min val] [max val] [default val]
+analytic ::begin parameters
+#[type][name][min val][max val][default val]
 ::end parameters
-
 ::begin shader
-
-
 //////////// START OF BUILTINS DECLARTION ////////////
-vec3  var_0_vec_h;
-vec3  var_3_vec_n;
+vec3 var_0_vec_h;
+vec3 var_3_vec_n;
 float var_10_theta_h;
 float var_11_theta_d;
 float var_1_pi;
 float var_2_epsilon;
-vec3  var_4_vec_omega_i;
+vec3 var_4_vec_omega_i;
 float var_5_theta_i;
 float var_6_phi_i;
-vec3  var_7_vec_omega_o;
+vec3 var_7_vec_omega_o;
 float var_8_theta_o;
 float var_9_phi_o;
 //////////// END OF BUILTINS DECLARTION ////////////
-
-
 //////////// START OF USER DECLARED ////////////
 float var_12_G;
-vec3  var_13_rho_s;
+vec3 var_13_rho_s;
 float var_14_m;
 float var_15_D;
-vec3  var_16_rho_d;
-vec3  var_17_f;
+vec3 var_16_rho_d;
+vec3 var_17_f;
 //////////// END OF USER DECLARED ////////////
-
 //////////// START FUNCTIONS DECLARATIONS ////////////
 //////////// END FUNCTIONS DECLARATIONS ////////////
+vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 
-vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y ) {
+  //////////// START OF BUILTINS INITIALIZATION ////////////
+  var_0_vec_h = normalize(L + V);
+  var_3_vec_n = normalize(N);
+  var_1_pi = 3.141592653589793;
+  var_2_epsilon = 1.192092896e-07;
+  var_4_vec_omega_i = L;
+  var_5_theta_i = atan(var_4_vec_omega_i.y, var_4_vec_omega_i.x);
+  var_6_phi_i = atan(sqrt(var_4_vec_omega_i.y * var_4_vec_omega_i.y +
+                          var_4_vec_omega_i.x * var_4_vec_omega_i.x),
+                     var_4_vec_omega_i.z);
+  var_7_vec_omega_o = V;
+  var_8_theta_o = atan(var_7_vec_omega_o.y, var_7_vec_omega_o.x);
+  var_9_phi_o = atan(sqrt(var_7_vec_omega_o.y * var_7_vec_omega_o.y +
+                          var_7_vec_omega_o.x * var_7_vec_omega_o.x),
+                     var_7_vec_omega_o.z);
+  var_10_theta_h = acos(dot(var_0_vec_h, N));
+  var_11_theta_d = acos(dot(var_0_vec_h, var_4_vec_omega_i));
+  //////////// END OF BUILTINS INITIALIZATION ////////////
 
-//////////// START OF BUILTINS INITIALIZATION ////////////
-     var_0_vec_h = normalize(L+V);
-     var_3_vec_n = normalize(N)  ;
-     var_1_pi = 3.141592653589793 ;
-     var_2_epsilon = 1.192092896e-07 ;
-     var_4_vec_omega_i = L ;
-     var_5_theta_i = atan(var_4_vec_omega_i.y,var_4_vec_omega_i.x) ;
-     var_6_phi_i = atan(sqrt(var_4_vec_omega_i.y*var_4_vec_omega_i.y+var_4_vec_omega_i.x*var_4_vec_omega_i.x),var_4_vec_omega_i.z) ;
-     var_7_vec_omega_o = V ;
-     var_8_theta_o = atan(var_7_vec_omega_o.y,var_7_vec_omega_o.x) ;
-     var_9_phi_o = atan(sqrt(var_7_vec_omega_o.y*var_7_vec_omega_o.y+var_7_vec_omega_o.x*var_7_vec_omega_o.x),var_7_vec_omega_o.z) ;
-     var_10_theta_h = acos(dot( var_0_vec_h , N));
-     var_11_theta_d = acos(dot( var_0_vec_h , var_4_vec_omega_i ));
-//////////// END OF BUILTINS INITIALIZATION ////////////
+  var_12_G = min(1.0, min((((2.0 * (dot(var_3_vec_n, var_0_vec_h))) *
+                            (dot(var_3_vec_n, var_7_vec_omega_o))) /
+                           (dot(var_0_vec_h, var_7_vec_omega_o))),
+                          (((2.0 * (dot(var_3_vec_n, var_0_vec_h))) *
+                            (dot(var_3_vec_n, var_4_vec_omega_i))) /
+                           (dot(var_0_vec_h, var_7_vec_omega_o)))));
+  var_13_rho_s = vec3(0.0, 0.2, 1.0);
+  var_14_m = 0.13;
+  var_15_D = ((1.0 / ((pow(var_14_m, 2.0)) * pow((cos(var_10_theta_h)), 4.0))) *
+              exp((-pow((((tan(var_10_theta_h)) / var_14_m)), 2.0))));
+  var_16_rho_d = vec3(0.3, 0.05, 0.05);
+  var_17_f =
+      ((var_16_rho_d / var_1_pi) +
+       ((var_13_rho_s / var_1_pi) *
+        ((var_15_D * var_12_G) / ((dot(var_3_vec_n, var_4_vec_omega_i)) *
+                                  (dot(var_3_vec_n, var_7_vec_omega_o))))));
 
-    var_12_G = min(1.0,min((((2.0*(dot(var_3_vec_n,var_0_vec_h)))*(dot(var_3_vec_n,var_7_vec_omega_o)))/(dot(var_0_vec_h,var_7_vec_omega_o))),(((2.0*(dot(var_3_vec_n,var_0_vec_h)))*(dot(var_3_vec_n,var_4_vec_omega_i)))/(dot(var_0_vec_h,var_7_vec_omega_o)))));
-    var_13_rho_s = vec3(0.0, 0.2, 1.0);
-    var_14_m = 0.13;
-    var_15_D = ((1.0/((pow(var_14_m,2.0))*pow((cos(var_10_theta_h)),4.0)))*exp((-pow((((tan(var_10_theta_h))/var_14_m)),2.0))));
-    var_16_rho_d = vec3(0.3, 0.05, 0.05);
-    var_17_f = ((var_16_rho_d/var_1_pi)+((var_13_rho_s/var_1_pi)*((var_15_D*var_12_G)/((dot(var_3_vec_n,var_4_vec_omega_i))*(dot(var_3_vec_n,var_7_vec_omega_o))))));
-
-    return vec3(var_17_f);
+  return vec3(var_17_f);
 }

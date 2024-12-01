@@ -23,179 +23,601 @@ void main() {
 }
 \end{lstlisting}
 \end{codigo}
-/111   rw-r--r-- 142    oren-nayar.orig.pdf.pdf:Zone.Identifier
+- Add table of predefined symbols
 
-/153   rw-r--r-- 142    pdfresizer.com-pdf-crop.pdf:Zone.Identifier
+-
+[
+O
+é
+Lambertianos
+Explain
+comportamentos 
+L
+comportamentos encontrado em superfícies porosas, como a lua.
+e
+parte 2 está em \autoref{cod-oren-nayar-eqlang-pt-2}
+2
+    \label{cod-oren-nayar-glsl-pt-2}
 
-\include{Content/Resultados/Experimentos/Ashikhmin-Shirley-Version-1}
+2
+    \label{cod-oren-nayar-eqlang}
 
-Ashikhmin-Shirley-Alternative
-\section{Experimento BRDF Template}
+cod-oren-nayar-glsl-pt-3
+cod-oren-nayar-eqlang-pt-34
+e parte 3 no \autoref{cod-oren-nayar-glsl-pt-3}
+e
+,
+fig-ward-objetcs
+fig-ward-eqlang
+,
+\label{fig-ward-plots}
+\
+label
+ sua capacidade de gerar reflexões visualmente realistas.
+.
+Este capítulo apresenta os resultados dos experimentos com BRDFs distintas. Esses experimentos servem de validação e visualização da capacidade do compilador desenvolvido neste trabalho. Cada BRDF escolhida teve sua excolha feita com foco em explorar diferentes expressões matemáticas com diferentes niveis de complexidades;aspectos importantes para esse projeto.
 
-As equações que descrevem esse experimento se encontram em \autoref{fig-template-eqlang-latex}. O código fonte de entrada para o compilador está dividido em duas partes, parte 1 está no \autoref{cod-template-eqlang} e a segunda parte está em \autoref{cod-template-eqlang-pt2}. A renderização dos objetos 3D usando essa BRDF se encontra em \autoref{fig-template-eqlang}.
+Este capítulo apresenta os resultados dos experimentos com BRDFs distintas. Esses experimentos servem de validação e visualização da capacidade do compilador desenvolvido neste trabalho. Cada BRDF escolhida teve sua excolha feita com foco em explorar diferentes expressões matemáticas com diferentes niveis de complexidades;aspectos importantes para esse projeto.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Representação em documento \LaTeX{}}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[H]
-    \caption{\label{fig-template-eqlang-latex} \small Equações da BRDF do experimento Template em documento \LaTeX{}.}
-    \begin{center}
-        \includegraphics[scale=0.92]{./Imagens/brdfs/template.pdf}
-    \end{center}
-\end{figure}
+Todos os experimentos seguem uma ordem para apresentação de todos os experimentos. Primeiro, apresentamos a BRDF do experimento, incluindo a referencia e, para as mais imporantes, uma breve explicação sobre ela. Depois mostrandos o código fonte descreve a BRDF em \texttt{EquationLang}, jutamente com a sua representação em PDF \LaTeX. Traduzimos o código fonte para GLSL usando o compilador desenvolvido neste trabalho. Por fim, utilizamos o código em linguagem shading gerado para ser carregado na ferramenta BRDF Disney. Mostramos o grafico 3D e 2D da distribuição de reflexão especular e difusa da BRDF similar aos representados na \autoref{@@}. Para demonstrar a eficácia do GLSL gerado, mostramos a renderização de três objeto tridimensionais com iluminação provida pelo código gerado para BRDF em questão através de tecnica de \textit{raytracing} fornecido pela ferramenta Disney, ( breve explicação sobre raytracing pode ser visto em \autoref{apendice}). Cada um dos três objeto possuem os angulos em cordenadas polares fixas. Todos as imagems do experimento seguem o formato da \autoref{@@}; da esquerda para direita os três objeto tem as dupla angulo de elevação ($\theta_i$)  e angulo azimutal ($\phi_i$) da luz incidente: $\left(33,8941, 145,826\right)$, $\left( ,\right)$, $\left( ,\right)$, respectivamente. Gamma e exposição também são fixadas em $2,112$ e $-1,248$ respectivamente. Adicionalmente mostramos o efeito da BRDF em uma esfera com renderização projetiva padrão para observar a iluminação em um objeto simples.
+Deve-se dizer que o gráfico polar e 3D da distribuição de reflexão é reference a todas os três canais de cores ao mesmo tempo, então pode ter overlap entre as cores vermelho azul e verde na visualização pois a distruição de cada um desses canais podem ser os mesmos em um dado experimento.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Visualização do Resultado}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[H]
-    \caption{\small{Distribuição de Reflexão Especular e Difusa da BRDF}}\label{fig-template-eqlang}
-\minipage{0.48\textwidth}
-    \vspace{42px}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/template-3D-plot}
-    % \vspace{0.1px}
-    \legend{ \small (a) 3D \textit{plot}}
-\endminipage\hfill
-\minipage{0.48\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/template-polar-plot.png}
-    \legend{ \small (b) \textit{Polar plot}}
-\endminipage\hfill
-\end{figure}
-
-\begin{figure}[H]
-    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-template-eqlang}
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/template-teapot.png}
-    \legend{ \small (a) \textit{Teapot}}
-\endminipage\hfill
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/template-dragon.png}
-    \legend{ \small (b) Dragão de Stanford}
-\endminipage\hfill
-\minipage{0.32\textwidth}%
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/template-goblin.png}
-    \legend{ \small (c) Goblin}
-\endminipage
-\end{figure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Código GLSL Gerado}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }
-    \label{cod-template-eqlang-declarations}
-\begin{lstlisting}[language=C, inputencoding=utf8]
-\end{lstlisting}
-\end{codigo}
-
-\begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento  (parte 2). }
-    \label{cod-template-eqlang}
-\begin{lstlisting}[language=C, inputencoding=utf8]
-\end{lstlisting}
-\end{codigo}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Código Fonte em \texttt{EquationLang}}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento (parte 1).}
-    \label{cod-template-eqlang}
-\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
-\end{lstlisting}
-\end{codigo}
+% Para analisar comportamento foram realizados @@@Alguns experimentos, cada experimento include a descrição de uma BRDF em latex, os ``.tex`` arquivos baseado nos artigos originais de cada um. Para cara um desses ``.tex`` compilamos em latex para confirmar que compila pelo pdflatex, depois passamos pelo nosso compilador para transformar esse código em ``.tex`` para aruivos escritos em GLSL, tais arquivos possuem extensão ``.brdf``.
+%
+%
+% aniso.tex                                blinn-phong.tex           cook-torrance.tex  oren_nayar.tex
+% ashikhmin-shirley-close-to-original.tex  cook-torrance-disney.pdf  duer.tex           ward.pdf
+% ashikhmin-shirley.tex                    cook-torrance-disney.tex  edwards2006.tex    ward.tex
+% blinn-phong.pdf                          cook-torrance.pdf         minnaert.tex
+O plot 3D de BRDFs na ferramenta Disney Explorer fixa uma direção de luz incidente ($\omega_i$) e amostrar direções de visualização ($\omega_o$) em um hemisfério. Cada direção renderiza um primitivo proporcional ao valor da função BRDF, permitindo uma representação geométrica da reflectância. Já O plot polar representa um corte bidimensional de dados de reflectância. Fixa-se a direção de luz incidente ($\omega_i$) e o ângulo azimutal de saída ($\phi_o$), variando apenas o ângulo polar de saída ($\theta_o$). Cada ponto representa o valor médio das componentes da BRDF, permitindo visualizar o comportamento da reflectância em diferentes ângulos de observação. Em alguns casos, fatores logaritimos dos valores podem ser usados para melhor visulização do da geometria.
 
 
 
-\section{Experimento BRDF Template}
 
-As equações que descrevem esse experimento se encontram em \autoref{fig-template-eqlang-latex}. O código fonte de entrada para o compilador está dividido em duas partes, parte 1 está no \autoref{cod-template-eqlang} e a segunda parte está em \autoref{cod-template-eqlang-pt2}. A renderização dos objetos 3D usando essa BRDF se encontra em \autoref{fig-template-eqlang}.
+Apesar de conter uma breve explicação sobre a BRDF, o mais importante é ver o código gerado e seu funcionamento na ferramenta Disney, pois o foco principal permanece no compilador e sua representação fidedigna à BRDFs descrita.  Vale ressaltaar que o código é gerado pelo computador e nbão é muito legivel para o humano, se comprar a código shading escrito a mão, então incluimos o GLSL gerada para fins de desmontração e completude, mas não necessariamente para leitura. Também, o código gerado pode ser longo e divido em duas partes, então recomenda-se olhar rapidamente para adquirir uma noção da forma em qual o código é gerado e se torna mais produtivo pular para o a imagem renderizada pelo código gerado ou para proximo experimento.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Representação em documento \LaTeX{}}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[H]
-    \caption{\label{fig-template-eqlang-latex} \small Equações da BRDF do experimento Template em documento \LaTeX{}.}
-    \begin{center}
-        \includegraphics[scale=0.92]{./Imagens/brdfs/template.pdf}
-    \end{center}
-\end{figure}
+Existem mais de uma maneira de expressar as BRDF. Parte dos resultados é realizar experimentos de versões diferentes da mesma BRDF, com não só parametros diferentes mas também expressões matemáticas diferente para expressa-la. Sendo asism, provemos duas versões para algumas dos experimentos.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Visualização do Resultado}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[H]
-    \caption{\small{Distribuição de Reflexão Especular e Difusa da BRDF}}\label{fig-template-eqlang}
-\minipage{0.48\textwidth}
-    \vspace{42px}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/template-3D-plot}
-    % \vspace{0.1px}
-    \legend{ \small (a) 3D \textit{plot}}
-\endminipage\hfill
-\minipage{0.48\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/template-polar-plot.png}
-    \legend{ \small (b) \textit{Polar plot}}
-\endminipage\hfill
-\end{figure}
 
-\begin{figure}[H]
-    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-template-eqlang}
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/template-teapot.png}
-    \legend{ \small (a) \textit{Teapot}}
-\endminipage\hfill
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/template-dragon.png}
-    \legend{ \small (b) Dragão de Stanford}
-\endminipage\hfill
-\minipage{0.32\textwidth}%
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/template-goblin.png}
-    \legend{ \small (c) Goblin}
-\endminipage
-\end{figure}
+Por conveniencia, deixamos a tabela \autoref{@@ table} para navegar rapidamente cada imagem e código de todos os experimentos, e  do mesmos.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Código GLSL Gerado}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }
-    \label{cod-template-eqlang-declarations}
-\begin{lstlisting}[language=C, inputencoding=utf8]
-\end{lstlisting}
-\end{codigo}
 
-\begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento  (parte 2). }
-    \label{cod-template-eqlang}
-\begin{lstlisting}[language=C, inputencoding=utf8]
-\end{lstlisting}
-\end{codigo}
+@TABLE@
+% Esses experimentos, proporcionando uma abordagem que explora tanto as BRDFs quanto relacionados ao desenvolvimento de compiladores e à aplicação de conceitos como BRDFs
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Código Fonte em \texttt{EquationLang}}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento (parte 1).}
-    \label{cod-template-eqlang}
-\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
-\end{lstlisting}
-\end{codigo}
+
+\section{Opnião}
+Os resultados são satisfátórios, captura nuances importantes das BRDFs, mesmo em materiais com estruturas que usam X e Y @@@. Se mostrou capaz de permitir várias parametrização baseada em nas equações e, com o nivel atual o compilador, permite modelar uma ampla gama de comportamentos de superfície.
+
+ 
+o
+Este capítulo apresenta os resultados dos experimentos com BRDFs distintas. Esses experimentos servem de validação e visualização da capacidade do compilador desenvolvido neste trabalho. Cada BRDF escolhida teve sua excolha feita com foco em explorar diferentes expressões matemáticas com diferentes niveis de complexidades;aspectos importantes para esse projeto.
+
+
+%%%%%%%%%%%ABOVE VALIDADED%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Todos os experimentos seguem uma ordem para apresentação de todos os experimentos. Primeiro, apresentamos a BRDF do experimento, incluindo a referencia e, para as mais imporantes, uma breve explicação sobre ela. Depois mostrandos o código fonte descreve a BRDF em \texttt{EquationLang}, jutamente com a sua representação em PDF \LaTeX. 
+
+Traduzimos o código fonte para GLSL usando o compilador desenvolvido neste trabalho. Por fim, utilizamos o código em linguagem shading gerado para ser carregado na ferramenta BRDF Disney. 
+
+33,8941
+145,826
+,
+\textit{raytracing} fornecido pela ferramenta Disney
+raytracing
+Explorer
+Explorer
+O plot 3D na ferramenta Disney Explorer fixa uma direção de luz incidente ($\omega_i$) e amostras direções de visualização ($\omega_o$) em um hemisfério. Cada direção renderiza um primitivo proporcional ao valor da função BRDF, oferecendo uma representação geométrica da reflectância. O plot polar, por sua vez, representa um corte bidimensional, fixando a direção de luz incidente ($\omega_i$) e o ângulo azimutal de saída ($\phi_o$), variando apenas o ângulo polar de saída ($\theta_o$). Cada ponto representa o valor médio das componentes da BRDF, visualizando o comportamento da reflectância em diferentes ângulos de observação. Em alguns casos, fatores logarítmicos são utilizados para melhor visualização.
+
+O plot 3D na ferramenta Disney Explorer fixa uma direção de luz incidente ($\omega_i$) e amostras direções de visualização ($\omega_o$) em um hemisfério. Cada direção renderiza um primitivo proporcional ao valor da função BRDF, oferecendo uma representação geométrica da reflectância. O plot polar, por sua vez, representa um corte bidimensional, fixando a direção de luz incidente ($\omega_i$) e o ângulo azimutal de saída ($\phi_o$), variando apenas o ângulo polar de saída ($\theta_o$). Cada ponto representa o valor médio das componentes da BRDF, visualizando o comportamento da reflectância em diferentes ângulos de observação. Em alguns casos, fatores logarítmicos são utilizados para melhor visualização.
+
+É importante notar que os gráficos polares e 3D representam simultaneamente os três canais de cores, podendo haver sobreposição entre vermelho, azul e verde na visualização, já que a distribuição de cada canal pode ser idêntica em um dado experimento.
+
+\label{brdfmodels}
+sua 
+,
+apresentando experimentos com versões diferentes
+Na opinião dos pesquisadores, os resultados são satisfatórios. O compilador demonstra capacidade de capturar nuances importantes das BRDFs, mesmo em materiais com estruturas complexas, permitindo diversas parametrizações baseadas em equações e modelando uma ampla gama de comportamentos de superfície.
+Mostramos o grafico 3D e 2D da distribuição de reflexão especular e difusa da BRDF similar aos representados na \autoref{@@}. Para demonstrar a eficácia do GLSL gerado, mostramos a renderização de três objeto tridimensionais com iluminação provida pelo código gerado para BRDF em questão através de tecnica de , ( breve explicação sobre raytracing pode ser visto em \autoref{apendice}). Cada um dos três objeto possuem os angulos em cordenadas polares fixas. Todos as imagems do experimento seguem o formato da \autoref{@@}; da esquerda para direita os três objeto tem as dupla angulo de elevação ($\theta_i$)  e angulo azimutal ($\phi_i$) da luz incidente: $\left(33,8941, 145,826\right)$, $\left( ,\right)$, $\left( ,\right)$, respectivamente. Gamma e exposição também são fixadas em $2,112$ e $-1,248$ respectivamente. 
 
 
 
-cook-torrance-disney
-\include{Content/Resultados/Experimentos/Ashikhmin-Shirley-Alternative}
+Adicionalmente mostramos o efeito da BRDF em uma esfera com renderização projetiva padrão para observar a iluminação em um objeto simples.
 
-Cook-Torrance
-Ashikhmin-Shirley
-/143   rw-r--r-- 142    cook-torrance-alternative.pdf:Zone.Identifier
+Deve-se dizer que o gráfico polar e 3D da distribuição de reflexão é reference a todas os três canais de cores ao mesmo tempo, então pode ter overlap entre as cores vermelho azul e verde na visualização pois a distruição de cada um desses canais podem ser os mesmos em um dado experimento.
 
-alternative
-alternative
-cook-torrance-alternative
-/154   rw-r--r-- 142    cook-torrance.pdf:Zone.Identifier
+% Para analisar comportamento foram realizados @@@Alguns experimentos, cada experimento include a descrição de uma BRDF em latex, os ``.tex`` arquivos baseado nos artigos originais de cada um. Para cara um desses ``.tex`` compilamos em latex para confirmar que compila pelo pdflatex, depois passamos pelo nosso compilador para transformar esse código em ``.tex`` para aruivos escritos em GLSL, tais arquivos possuem extensão ``.brdf``.
+%
+%
+% aniso.tex                                blinn-phong.tex           cook-torrance.tex  oren_nayar.tex
+% ashikhmin-shirley-close-to-original.tex  cook-torrance-disney.pdf  duer.tex           ward.pdf
+% ashikhmin-shirley.tex                    cook-torrance-disney.tex  edwards2006.tex    ward.tex
+% blinn-phong.pdf                          cook-torrance.pdf         minnaert.tex
+
+O plot 3D de BRDFs na ferramenta Disney Explorer fixa uma direção de luz incidente ($\omega_i$) e amostrar direções de visualização ($\omega_o$) em um hemisfério. Cada direção renderiza um primitivo proporcional ao valor da função BRDF, permitindo uma representação geométrica da reflectância. Já O plot polar representa um corte bidimensional de dados de reflectância. Fixa-se a direção de luz incidente ($\omega_i$) e o ângulo azimutal de saída ($\phi_o$), variando apenas o ângulo polar de saída ($\theta_o$). Cada ponto representa o valor médio das componentes da BRDF, permitindo visualizar o comportamento da reflectância em diferentes ângulos de observação. Em alguns casos, fatores logaritimos dos valores podem ser usados para melhor visulização do da geometria.
+
+P
+renderiza um primitivo proporcional ao valor da função BRDF
+um primitivo na posição (p + $\omega_o$) * f1(ps), onde o tamanho e escala são proporcionais ao valor da função BRDF
+O plot polar, por sua vez, representa um corte bidimensional, fixando a direção de luz incidente ($\omega_i$) e o ângulo azimutal de saída ($\phi_o$), variando apenas o ângulo polar de saída ($\theta_o$), similar ao mostrado nas figuras da \autoref{\label{brdfmodels}}. Cada ponto representa o valor médio das componentes da BRDF, visualizando o comportamento da reflectância em diferentes ângulos de observação. Em alguns casos, fatores logarítmicos são utilizados para melhor visualização.
+O plot polar, por sua vez, representa um corte bidimensional dos dados de reflectância. Nesta técnica, fixa-se a direção de luz incidente ($\omega_i$) e o ângulo azimutal de saída ($\phi_o$), deixando apenas o ângulo polar de saída ($\theta_o$) livre. Para cada $\theta_o$, um ponto é renderizado na posição (p + $\omega_o$) * f1(ps). Os pontos representam o valor médio das componentes da BRDF, permitindo visualizar o comportamento da reflectância em diferentes ângulos de observação. Em alguns casos, fatores logarítmicos podem ser aplicados para melhorar a visualização da geometria da reflectância.
+
+% O plot 3D na ferramenta Disney Explorer fixa uma direção de luz incidente ($\omega_i$) e amostras direções de visualização ($\omega_o$) em um hemisfério. Cada direção renderiza um primitivo proporcional ao valor da função BRDF, oferecendo uma representação geométrica da reflectância. 
+
+
+
+,
+C
+\autoref{table-experiments} é disponibilizada para acesso rápido às imagens e códigos dos experimentos.
+\autoref{table-experiments}
+autoref
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Tipo de Token} & \textbf{Prefixo} & \textbf{Precedência}\\ \hline
+\texttt{+}            & Sim              & 25                   \\ \hline
+\texttt{-}            & Sim              & 25                   \\ \hline
+\texttt{(}            & Sim              & 100                  \\ \hline
+\texttt{:}            & Sim              & 100                  \\ \hline
+\texttt{*}            & Sim              & 100                  \\ \hline
+% \texttt{\textasciitilde} & Sim              & 200               \\ \hline
+\texttt{!}            & Sim              & 300                  \\ \hline
+\texttt{(}            & Não              & 500                  \\ \hline
+\texttt{>}            & Não              & 5                    \\ \hline
+\texttt{<}            & Não              & 5                    \\ \hline
+\texttt{+}            & Não              & 10                   \\ \hline
+\texttt{-}            & Não              & 10                   \\ \hline
+$\times$              & Não              & 20                   \\ \hline
+\texttt{*}            & Não              & 20                   \\ \hline
+\texttt{/}            & Não              & 20                   \\ \hline
+\texttt{\textasciicircum} & Não           & 30                  \\ \hline
+\texttt{!}            & Não              & 400                  \\ \hline
+\end{tabular}
+\caption{Tabela de Precedência dos Tokens}
+\label{tab-token-precedence}
+\end{table}
+
+\label{table-experiments}
+\texttt{+}            & Sim              & 25                   \\ \hline
+\texttt{-}            & Sim              & 25                   \\ \hline
+\texttt{(}            & Sim              & 100                  \\ \hline
+\texttt{:}            & Sim              & 100                  \\ \hline
+\texttt{*}            & Sim              & 100                  \\ \hline
+% \texttt{\textasciitilde} & Sim              & 200               \\ \hline
+\texttt{!}            & Sim              & 300                  \\ \hline
+\texttt{(}            & Não              & 500                  \\ \hline
+\texttt{>}            & Não              & 5                    \\ \hline
+\texttt{<}            & Não              & 5                    \\ \hline
+\texttt{+}            & Não              & 10                   \\ \hline
+\texttt{-}            & Não              & 10                   \\ \hline
+$\times$              & Não              & 20                   \\ \hline
+
+\texttt{/}            & Não              & 20                   \\ \hline
+\texttt{\textasciicircum} & Não           & 30                  \\ \hline
+\texttt{!}            & Não              & 400                  \\ \hline
+
+\texttt{*}            & Não              & 20                   \\ \hline
+
+l
+\label{table-experiments}
+
+\label{tab-token-precedence}
+
+n
+& \textbf{Plots}
+& \textbf{Plots}
+\textbf{Experimento} & \textbf{Equações} & \textbf{Objetos 3D} & \textbf{Plots} & \textbf{GLSL} \\ \hline
+
+fig-ward-objetcs
+Plots
+fig-ward-plots
+fig-ward-eqlang-latex
+cod-ward-glsl-pt-1
+GLSL
+textbf
+t
+ 
+são 
+Concluimos que os experimentos têm resultados satisfatórios. O compilador demonstra capacidade de capturar nuances importantes das BRDFs, mesmo em materiais com estruturas complexas, permitindo diversas parametrizações baseadas em equações e modelando uma ampla gama de comportamentos de superfície.
+
+u
+Concluimos que os experimentos têm resultados satisfatórios. O compilador demonstra capacidade de capturar nuances importantes das BRDFs, mesmo em materiais com estruturas complexas, permitindo diversas parametrizações baseadas em equações e modelando uma ampla gama de comportamentos de superfície. Após o último experimento, passamos para diretamente para o útimo capitulo, a conclusão deste trabalho (\autoref{chapter-conclusion}). %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+satisfatórios
+têm resultados satisfatórios
+revelam resultados promissores e significativos
+, permitindo diversas parametrizações baseadas em equações e modelando uma ampla gama de comportamentos de superfície
+de permitir múltiplas parametrizações baseadas em equações matemáticas diversas comprova sua versatilidade, possibilitando a modelagem de uma ampla e rica gama de comportamentos de superfície
+o
+conjunto 
+o
+Concluimos que os experimentos têm resultados satisfatórios. O compilador demonstra capacidade de capturar nuances importantes das BRDFs, mesmo em materiais com estruturas complexas, permitindo diversas parametrizações baseadas em equações e modelando uma ampla gama de comportamentos de superfície. Após o último experimento, passamos para diretamente para o útimo capitulo, a conclusão deste trabalho (\autoref{chapter-conclusion}). %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+O plot 3D de BRDFs na ferramenta Disney Explorer fixa uma direção de luz incidente ($\omega_i$) e amostrar direções de visualização ($\omega_o$) em um hemisfério. Cada direção renderiza um primitivo proporcional ao valor da função BRDF, permitindo uma representação geométrica da reflectância. Já O plot polar representa um corte bidimensional de dados de reflectância. Fixa-se a direção de luz incidente ($\omega_i$) e o ângulo azimutal de saída ($\phi_o$), variando apenas o ângulo polar de saída ($\theta_o$). Cada ponto representa o valor médio das componentes da BRDF, permitindo visualizar o comportamento da reflectância em diferentes ângulos de observação. Em alguns casos, fatores logaritimos dos valores podem ser usados para melhor visulização do da geometria.
+
+
+
+
+Apesar de conter uma breve explicação sobre a BRDF, o mais importante é ver o código gerado e seu funcionamento na ferramenta Disney, pois o foco principal permanece no compilador e sua representação fidedigna à BRDFs descrita.  Vale ressaltaar que o código é gerado pelo computador e nbão é muito legivel para o humano, se comprar a código shading escrito a mão, então incluimos o GLSL gerada para fins de desmontração e completude, mas não necessariamente para leitura. Também, o código gerado pode ser longo e divido em duas partes, então recomenda-se olhar rapidamente para adquirir uma noção da forma em qual o código é gerado e se torna mais produtivo pular para o a imagem renderizada pelo código gerado ou para proximo experimento.
+
+Existem mais de uma maneira de expressar as BRDF. Parte dos resultados é realizar experimentos de versões diferentes da mesma BRDF, com não só parametros diferentes mas também expressões matemáticas diferente para expressa-la. Sendo asism, provemos duas versões para algumas dos experimentos.
+
+
+Por conveniencia, deixamos a tabela \autoref{@@ table} para navegar rapidamente cada imagem e código de todos os experimentos, e  do mesmos.
+
+
+@TABLE@
+% Esses experimentos, proporcionando uma abordagem que explora tanto as BRDFs quanto relacionados ao desenvolvimento de compiladores e à aplicação de conceitos como BRDFs
+
+
+\section{Opnião}
+Os resultados são satisfátórios, captura nuances importantes das BRDFs, mesmo em materiais com estruturas que usam X e Y @@@. Se mostrou capaz de permitir várias parametrização baseada em nas equações e, com o nivel atual o compilador, permite modelar uma ampla gama de comportamentos de superfície.
+
+
+
+
+\autoref{chapter-conclusion}
+%
+|c
+c|
+É importante ficar ciente que os gráficos polares e 3D representam simultaneamente os três canais de cores, como na \autoref{fig-ashikhmin-shirley-alternative-plots}, podendo haver sobreposição entre vermelho, azul e verde na visualização, já que a distribuição de cada canal pode ser idêntica em um dado experimento.
+
+É importante ficar ciente que os gráficos polares e 3D representam simultaneamente os três canais de cores, como na \autoref{fig-ashikhmin-shirley-alternative-plots}, podendo haver sobreposição entre vermelho, azul e verde na visualização, já que a distribuição de cada canal pode ser idêntica em um dado experimento.
+
+É importante ficar ciente que os gráficos polares e 3D representam simultaneamente os três canais de cores, como na \autoref{fig-ashikhmin-shirley-alternative-plots}, podendo haver sobreposição entre vermelho, azul e verde na visualização, já que a distribuição de cada canal pode ser idêntica em um dado experimento.
+
+\autoref{fig-ward-plots}
+    \textbf{Ward} & \autoref{fig-ward-eqlang-latex} & \autoref{fig-ward-objetcs} & \autoref{fig-ward-plots} e \autoref{fig-ward-objetcs}& \autoref{cod-ward-glsl-pt-1} \\ \hline
+
+    \textbf{Ward} & \autoref{fig-ward-eqlang-latex} & \autoref{fig-ward-objetcs} & \autoref{fig-ward-plots} e \autoref{fig-ward-objetcs}& \autoref{cod-ward-glsl-pt-1} \\ \hline
+
+-ward-
+    \textbf{Oren-Nayar} & \autoref{fig-oren-nayar-eqlang-latex} & \autoref{fig-oren-nayar-objetcs} & \autoref{fig-oren-nayar-plots} e \autoref{fig-oren-nayar-objetcs}& \autoref{cod-oren-nayar-glsl-pt-1} \\ \hline
+
+    \textbf{Ward} & \autoref{fig-ward-eqlang-latex} & \autoref{fig-ward-objetcs} & \autoref{fig-ward-plots} e \autoref{fig-ward-objetcs}& \autoref{cod-ward-glsl-pt-1} \\ \hline
+
+    \textbf{minnaert} & \autoref{fig-minnaert-eqlang-latex} & \autoref{fig-minnaert-objetcs} & \autoref{fig-minnaert-plots} e \autoref{fig-minnaert-objetcs}& \autoref{cod-minnaert-glsl-pt-1} \\ \hline
+
+    \textbf{Ward} & \autoref{fig-ward-eqlang-latex} & \autoref{fig-ward-objetcs} & \autoref{fig-ward-plots} e \autoref{fig-ward-objetcs}& \autoref{cod-ward-glsl-pt-1} \\ \hline
+
+    \textbf{duer} & \autoref{fig-duer-eqlang-latex} & \autoref{fig-duer-objetcs} & \autoref{fig-duer-plots} e \autoref{fig-duer-objetcs}& \autoref{cod-duer-glsl-pt-1} \\ \hline
+
+    \textbf{Ward} & \autoref{fig-ward-eqlang-latex} & \autoref{fig-ward-objetcs} & \autoref{fig-ward-plots} e \autoref{fig-ward-objetcs}& \autoref{cod-ward-glsl-pt-1} \\ \hline
+
+-
+e
+a
+Dür
+duer
+Adicionalmente, apresenta-se o efeito da BRDF em uma esfera com renderização projetiva padrão.
+    Ward & \autoref{fig-ward-eqlang-latex} & \autoref{fig-ward-objetcs} & \autoref{fig-ward-plots} e \autoref{fig-ward-objetcs}& \autoref{cod-ward-glsl-pt-1} \\ \hline
+
+       
+  
+    
+        
+q
+- Adiciono a espera também?
+
+# questions
+
+- Tabela
+
+## Duvidas
+
+- Adiciono a espera também?
+- Precisa do código inteiro? ou é melhor deixar em apendice
+- Image Slices ?
+
+
+
+- Image Slices ?
+
+    Ward                 & \autoref{fig-ward-eqlang-latex}                      & \autoref{fig-ward-objetcs}                     & \autoref{fig-ward-plots}                      &                     \autoref{cod-ward-glsl-pt-1}               \\ \hline
+
+    Minnaert             & \autoref{fig-minnaert-eqlang-latex}                  & \autoref{fig-minnaert-eqlang}                  & \autoref{fig-minnaert-plots}                  &                  \autoref{cod-minnaert-glsl-pt-1}              \\ \hline
+
+    blinn-phong             & \autoref{fig-blinn-phong-eqlang-latex}                  & \autoref{fig-blinn-phong-eqlang}                  & \autoref{fig-blinn-phong-plots}                  &                  \autoref{cod-blinn-phong-glsl-pt-1}              \\ \hline
+
+\include{Content/Resultados/Experimentos/Aniso}
+
+\include{Content/Resultados/Experimentos/Oren-Nayar}
+
+\include{Content/Resultados/Experimentos/Ward}
+
+    blinn-phong           & \autoref{fig-blinn-phong-eqlang-latex}                  & \autoref{fig-blinn-phong-eqlang}                  & \autoref{fig-blinn-phong-plots}                  &                  \autoref{cod-blinn-phong-glsl-pt-1}              \\ \hline
+
+    Minnaert             & \autoref{fig-minnaert-eqlang-latex}                  & \autoref{fig-minnaert-eqlang}                  & \autoref{fig-minnaert-plots}                  &                  \autoref{cod-minnaert-glsl-pt-1}              \\ \hline
+
+    Minnaert             & \autoref{fig-minnaert-eqlang-latex}                  & \autoref{fig-minnaert-eqlang}                  & \autoref{fig-minnaert-plots}                  &                  \autoref{cod-minnaert-glsl-pt-1}              \\ \hline
+
+            
+    Minnaert             & \autoref{fig-minnaert-eqlang-latex}                  & \autoref{fig-minnaert-eqlang}                  & \autoref{fig-minnaert-plots}                  &                  \autoref{cod-minnaert-glsl-pt-1}              \\ \hline
+
+    Minnaert             & \autoref{fig-minnaert-eqlang-latex}                  & \autoref{fig-minnaert-eqlang}                  & \autoref{fig-minnaert-plots}                  &                  \autoref{cod-minnaert-glsl-pt-1}              \\ \hline
+
+    Minnaert             & \autoref{fig-minnaert-eqlang-latex}                  & \autoref{fig-minnaert-eqlang}                  & \autoref{fig-minnaert-plots}                  &                  \autoref{cod-minnaert-glsl-pt-1}              \\ \hline
+
+Kajiya-Kay (1989)
+aniso
+          
+$_2$
+2
+    
+    Cook-Torrance        & \autoref{fig-cook-torrance-eqlang-latex}             & \autoref{fig-cook-torrance-eqlang}             & \autoref{fig-cook-torrance-plots}             &             \autoref{cod-cook-torrance-glsl-pt-1}              \\ \hline
+
+
+Este trabalho atinge as tarefas que setamos para fazer, cada pedaço, temos uma serie de teste que incluem não só visualização das BRDFs com uma serie de erros muito bem formatados para informar o usuário, temos testes com varias BRDFs que podemos visualizar em Latex, a linaguem gerada, uma ferramenta disney para visualizar, Realmente iria ajudar mt pessoas na area que não tem conhecimento de compilador ou shjading, isso faciita demais a vida slk. Agora é só esperar.
+Entretando poderiamos ter melhores erros com mais contexto ainda, poderiamos aumentar as capacidades do compilador ao permitir mais construções matematicas como somatório através da notação $\Sigma$, poderiamos permitir definição de derivadas e integrais e utilizar algortimos numericos para calcular o valor desses expressões na lingaugem shading.  Apesar de não encontrar essas outras expressões na BRDFs exploradas neste trabalho, podesmos ainda assim aumentar o poder do compilador. Poderiamos ter geração de código para outros tipos de shader, seria um back-end para unity que é uma ferramenta para ciração de gamers onde também é usado para visualizar e eles teem linguagem de shading propria. Poderiamos desenvolver um editor que automaticamente compila seu shader e mostra o resultado no mesmo aplicativo, entre outras melhors. 
+
+@@ Look at other conclusions to be write better @@
+
+Este sistema fornece uma base suficiente para implementação de BRDFs complexas, permitindo que o usuário se concentre na lógica específica do modelo de reflectância enquanto mantém consistência nas transformações de coordenadas e cálculos geométricos fundamentais.
+
+Esta implementação é particularmente relevante para simulações de iluminação física em computação gráfica, onde a precisão nos cálculos de ângulos e vetores é crucial para 
+a correta representação do comportamento da luz
+
+-plots
+\autoref{fig-oren-nayar-eqlang}
+-plots
+eqlang
+kajiya
+Aqui está uma versão revisada e aprimorada da conclusão, mantendo a essência das ideias originais:
+
+
+e
+e
+$\Sigma$
+ utili
+P
+,
+Nosso trabalho alcançou os objetivos propostos, desenvolvendo um sistema para compilação de BRDFs. Criamos uma ferramenta abrangente que não apenas gera código de sombreamento, mas também oferece uma experiência completa de visualização e teste, com recursos de erro bem estruturados e informativos.
+
+As principais contribuições do compilador incluem:
+- Geração de código para múltiplas BRDFs com visualização em LaTeX
+- Suporte à ferramenta Disney para renderização
+- Interface amigável que democratiza o acesso a técnicas complexas de sombreamento
+
+Identificamos diversos caminhos para aprimoramento futuro do compilador:
+
+1. Expansão de Capacidades Matemáticas
+- Implementar suporte para notações matemáticas diferentes somatórios ($\Sigma$) e acumulo de multiplicações como a notação $\Pi$
+- Adicionar capacidade de definição e cálculo de derivadas e integrais
+- Integrar algoritmos numéricos para processamento de expressões matemáticas complexas
+
+Extensões de plataforma, como projetar a saída para outras linguagens de shading como a usada para motores de jogos como Unity e Unreal @@footnote about those sites here
+- Criar um editor integrado com compilação e visualização simultâneas
+- Expandir compatibilidade com diferentes linguagens de sombreamento
+
+O sistema desenvolvido fornece uma base sólida para implementação de BRDFs complexas, permitindo que usuários se concentrem na lógica específica do modelagem de reflectância, no lugar de conhecimentos especificos de baixo nivel como detalhes da linguagem de shading usada testar a BRDF que pesquisadores estão modelando. Mantém consistência nas transformações de coordenadas e cálculos geométricos fundamentais de, sendo especialmente relevante para simulações de iluminação física em computação gráfica, onde a precisão nos cálculos de ângulos e vetores é crucial para representação fiel do comportamento da luz.
+
+As perspectivas futuras apontam para um sistema cada vez mais versátil e acessível, potencialmente revolucionando a forma como desenvolvedores e pesquisadores trabalham com sombreamento e reflectância.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Este trabalho atinge as tarefas que setamos para fazer, cada pedaço, temos uma serie de teste que incluem não só visualização das BRDFs com uma serie de erros muito bem formatados para informar o usuário, temos testes com varias BRDFs que podemos visualizar em Latex, a linaguem gerada, uma ferramenta disney para visualizar, Realmente iria ajudar mt pessoas na area que não tem conhecimento de compilador ou shjading, isso faciita demais a vida slk. Agora é só esperar.
+Entretando poderiamos ter melhores erros com mais contexto ainda, poderiamos aumentar as capacidades do compilador ao permitir mais construções matematicas como somatório através da notação $\Sigma$, poderiamos permitir definição de derivadas e integrais e utilizar algortimos numericos para calcular o valor desses expressões na lingaugem shading.  Apesar de não encontrar essas outras expressões na BRDFs exploradas neste trabalho, podesmos ainda assim aumentar o poder do compilador. Poderiamos ter geração de código para outros tipos de shader, seria um back-end para unity que é uma ferramenta para ciração de gamers onde também é usado para visualizar e eles teem linguagem de shading propria. Poderiamos desenvolver um editor que automaticamente compila seu shader e mostra o resultado no mesmo aplicativo, entre outras melhors. 
+
+@@ Look at other conclusions to be write better @@
+
+Este sistema fornece uma base suficiente para implementação de BRDFs complexas, permitindo que o usuário se concentre na lógica específica do modelo de reflectância enquanto mantém consistência nas transformações de coordenadas e cálculos geométricos fundamentais.
+
+Esta implementação é particularmente relevante para simulações de iluminação física em computação gráfica, onde a precisão nos cálculos de ângulos e vetores é crucial para 
+a correta representação do comportamento da luz
+
+Existem linguagens específicas para a programação de \textit{shaders}, as quais permitem a modificação de procedimentos que representam uma BRDF. No entanto, essa aplicação requer conhecimento especializado em programação. Essa barreira técnica pode restringir a exploração dos efeitos visuais por profissionais de áreas não relacionadas à programação. Diante disso, surge a necessidade de ferramentas mais acessíveis para a criação de \textit{shaders}.
+
+
+No meio acadêmico, as BRDFs são comumente descritas por fórmulas escritas em \LaTeX{}, Desta forma, uma abordagem promissora para simplificar a criação de \textit{shaders} é o desenvolvimento de um compilador capaz de traduzir BRDFs   escritas em \LaTeX{} para \textit{shaders}. Isso permitiria uma maior acessibilidade e democratização na criação de efeitos visuais complexos.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+
+\section{Perspectivas Futuras}
+
+
+
+\section{Trabalhos Futuros}
+
+:
+
+\documentclass{article}
+\usepackage{amsmath}
+
+\begin{document}
+
+\section{Conclusão e Contribuições}
+
+
+\subsection{Principais Contribuições}
+
+
+Características Fundamentais
+\textit{shading}
+sombreamento
+, sendo especialmente relevante para simulações de iluminação física em computação gráfica, onde a precisão nos cálculos de ângulos e vetores é crucial para representação fiel do comportamento da luz.
+ 
+;
+
+Identificamos diversos caminhos para aprimoramento futuro do compilador:
+
+1. Expansão de Capacidades Matemáticas
+- Implementar suporte para notações matemáticas diferentes somatórios ($\Sigma$) e acumulo de multiplicações como a notação $\Pi$
+- Adicionar capacidade de definição e cálculo de derivadas e integrais
+- Integrar algoritmos numéricos para processamento de expressões matemáticas complexas
+
+As principais contribuições do compilador incluem:
+- geração de código para múltiplas brdfs com visualização em latex
+- suporte à ferramenta disney para renderização
+- interface amigável que democratiza o acesso a técnicas complexas de sombreamento
+
+
+Nosso trabalho alcançou os objetivos propostos, desenvolvendo um sistema para compilação de BRDFs. Criamos uma ferramenta abrangente que não apenas gera código de sombreamento, mas também oferece uma experiência completa de visualização e teste, com recursos de erro bem estruturados e informativos.
 
 .
--alternative
-/176   rw-r--r-- 142    ashikhmin-shirley.pdf:Zone.Identifier
+N
+, 
+abordagem
+Nosso trabalho alcançou os objetivos propostos, desenvolvendo um sistema abrangente para compilação de Funções de Distribuição de Reflectância Bidirecional (BRDFs). A ferramenta não apenas gera código de sombreamento, mas também oferece uma experiência completa de visualização e teste, com recursos de erro bem estruturados e informativos.
 
--alternative
+Nosso trabalho alcançou os objetivos propostos, desenvolvendo um sistema abrangente para compilação de Funções de Distribuição de Reflectância Bidirecional (BRDFs). A ferramenta não apenas gera código de sombreamento, mas também oferece uma experiência completa de visualização e teste, com recursos de erro bem estruturados e informativos.
+
+
+
+I
+
+Identificamos diversos caminhos para aprimoramento futuro do compilador, como expansão de capacidades matemáticas e expansão de plataformas;
+
+
+Nosso trabalho alcançou os objetivos propostos, desenvolvendo um sistema para compilação de BRDFs. Criamos uma ferramenta abrangente que não apenas gera código de sombreamento, mas também oferece uma experiência completa de visualização e teste, com recursos de erro bem estruturados e informativos. Que exige conhecimento especifico de duas grandes area como a relacionada com lingragens livre de constexto, conhewcimento pratico de geração de código GLSL, conhecimento sobre renderização prática como renderização projetiva e raytracing, usandos pela Disney Explorar, e também conhjecimento teórico sobre refletancia e conceitos fotometricos.
+
+Diminuimos a barreira tecnica que pode restringir a exploração dos efeitos visuais por profissionais de áreas não relacionadas à programação ao fornecer uma ferramenta capaz de tranformar um documento \LaTeX{} contendo equações de BRDF para um arquivo GLSL pronto para ser carregado e visualizado por um ferramenta fornecida gratuitamente (Disney BRDF). A necessidade de ferramentas mais acessíveis para a criação de \textit{shaders} foi parcialmente suprida, principalemnte no meio acadêmico, onde as BRDFs são comumente descritas por fórmulas escritas em \LaTeX{}. O compilador compilador alcança seu objetivo de traduzir BRDFs escritas em \LaTeX{} para \textit{shaders}, permitindo uma maior acessibilidade e democratização na criação de efeitos visuais complexos.
+
+
+As principais contribuições do compilador incluem:
+
+\begin{itemize}
+    \item Geração de código para múltiplas BRDFs com visualização em \LaTeX{}
+    \item Suporte à ferramenta Disney para renderização
+    \item Processo simplificado de visualização das BRDFs que democratiza o acesso a técnicas complexas de \textit{shading}
+\end{itemize}
+
+\subsection{}
+
+O sistema desenvolvido fornece uma base sólida para implementação de BRDFs complexas, permitindo que usuários se concentrem na lógica específica de modelagem de reflectância, em vez de lidar com detalhes técnicos de baixo nível de linguagens de \textit{shading}. O compilador mantém consistência ao dar suporte à simbolos predenfinidos em matematicas como assim como simbolos comummente usado na  area como omega_i omega_o, etc... Já transformações de coordenadas e cálculos geométricos fundamentais e convenções
+
+Identificamos diversos caminhos para aprimoramento futuro do compilador, como expansão de capacidades matemáticas e expansão de plataformas;
+
+
+
+\begin{itemize}
+    \item Implementar suporte para notações matemáticas diferentes, como somatórios ($\Sigma$) e acúmulo de multiplicações ($\Pi$)
+    \item Adicionar capacidade de definição e cálculo de derivadas e integrais
+    \item Integrar algoritmos numéricos para processamento de expressões matemáticas complexas
+\end{itemize}
+
+\subsection{Extensões de Plataforma}
+
+\begin{itemize}
+    \item Projetar saída para linguagens de shading de motores de jogos como Unity e Unreal
+    \item Criar um editor integrado com compilação e visualização simultâneas
+    \item Expandir compatibilidade com diferentes linguagens de sombreamento
+\end{itemize}
+
+As perspectivas futuras apontam para um sistema cada vez mais versátil e acessível, potencialmente revolucionando a forma como desenvolvedores e pesquisadores trabalham com sombreamento e reflectância. A democratização do acesso a técnicas complexas de computação gráfica representa não apenas um avanço tecnológico, mas uma oportunidade de expandir a criatividade e inovação em diferentes campos, desde design visual até simulações científicas.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Extensões de plataforma, como projetar a saída para outras linguagens de shading como a usada para motores de jogos como Unity e Unreal @@footnote about those sites here
+- Criar um editor integrado com compilação e visualização simultâneas
+- Expandir compatibilidade com diferentes linguagens de sombreamento
+
+O sistema desenvolvido fornece uma base sólida para implementação de BRDFs complexas, permitindo que usuários se concentrem na lógica específica do modelagem de reflectância, no lugar de conhecimentos especificos de baixo nivel como detalhes da linguagem de shading usada testar a BRDF que pesquisadores estão modelando. Mantém consistência nas transformações de coordenadas e cálculos geométricos fundamentais de, sendo especialmente relevante para simulações de iluminação física em computação gráfica, onde a precisão nos cálculos de ângulos e vetores é crucial para representação fiel do comportamento da luz.
+
+As perspectivas futuras apontam para um sistema cada vez mais versátil e acessível, potencialmente revolucionando a forma como desenvolvedores e pesquisadores trabalham com sombreamento e reflectância.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Este trabalho atinge as tarefas que setamos para fazer, cada pedaço, temos uma serie de teste que incluem não só visualização das BRDFs com uma serie de erros muito bem formatados para informar o usuário, temos testes com varias BRDFs que podemos visualizar em Latex, a linaguem gerada, uma ferramenta disney para visualizar, Realmente iria ajudar mt pessoas na area que não tem conhecimento de compilador ou shjading, isso faciita demais a vida slk. Agora é só esperar.
+Entretando poderiamos ter melhores erros com mais contexto ainda, poderiamos aumentar as capacidades do compilador ao permitir mais construções matematicas como somatório através da notação $\Sigma$, poderiamos permitir definição de derivadas e integrais e utilizar algortimos numericos para calcular o valor desses expressões na lingaugem shading.  Apesar de não encontrar essas outras expressões na BRDFs exploradas neste trabalho, podesmos ainda assim aumentar o poder do compilador. Poderiamos ter geração de código para outros tipos de shader, seria um back-end para unity que é uma ferramenta para ciração de gamers onde também é usado para visualizar e eles teem linguagem de shading propria. Poderiamos desenvolver um editor que automaticamente compila seu shader e mostra o resultado no mesmo aplicativo, entre outras melhors. 
+
+@@ Look at other conclusions to be write better @@
+
+Este sistema fornece uma base suficiente para implementação de BRDFs complexas, permitindo que o usuário se concentre na lógica específica do modelo de reflectância enquanto mantém consistência nas transformações de coordenadas e cálculos geométricos fundamentais.
+
+Esta implementação é particularmente relevante para simulações de iluminação física em computação gráfica, onde a precisão nos cálculos de ângulos e vetores é crucial para 
+a correta representação do comportamento da luz
+
+
+\chapter{Conclusão} \label{chapter-conclusion}
+
+Nosso trabalho alcançou os objetivos propostos, desenvolvendo um sistema para compilação de BRDFs. Criamos uma ferramenta abrangente que não apenas gera código de sombreamento, mas também oferece uma experiência completa de visualização e teste, com recursos de erro bem estruturados e informativos. Que exige conhecimento especifico de duas grandes area como a relacionada com lingragens livre de constexto, conhewcimento pratico de geração de código GLSL, conhecimento sobre renderização prática como renderização projetiva e raytracing, usandos pela Disney Explorar, e também conhjecimento teórico sobre refletancia e conceitos fotometricos.
+
+Diminuimos a barreira tecnica que pode restringir a exploração dos efeitos visuais por profissionais de áreas não relacionadas à programação ao fornecer uma ferramenta capaz de tranformar um documento \LaTeX{} contendo equações de BRDF para um arquivo GLSL pronto para ser carregado e visualizado por um ferramenta fornecida gratuitamente (Disney BRDF). A necessidade de ferramentas mais acessíveis para a criação de \textit{shaders} foi parcialmente suprida, principalemnte no meio acadêmico, onde as BRDFs são comumente descritas por fórmulas escritas em \LaTeX{}. O compilador compilador alcança seu objetivo de traduzir BRDFs escritas em \LaTeX{} para \textit{shaders}, permitindo uma maior acessibilidade e democratização na criação de efeitos visuais complexos.
+
+
+As principais contribuições do compilador incluem:
+
+\begin{itemize}
+    \item Geração de código para múltiplas BRDFs com visualização em \LaTeX{}
+    \item Suporte à ferramenta Disney para renderização
+    \item Processo simplificado de visualização das BRDFs que democratiza o acesso a técnicas complexas de \textit{shading}
+\end{itemize}
+
+\subsection{}
+
+O sistema desenvolvido fornece uma base sólida para implementação de BRDFs complexas, permitindo que usuários se concentrem na lógica específica de modelagem de reflectância, em vez de lidar com detalhes técnicos de baixo nível de linguagens de \textit{shading}. O compilador mantém consistência ao dar suporte à simbolos predenfinidos em matematicas como assim como simbolos comummente usado na  area como omega_i omega_o, etc... Já transformações de coordenadas e cálculos geométricos fundamentais e convenções
+
+Identificamos diversos caminhos para aprimoramento futuro do compilador, como expansão de capacidades matemáticas e expansão de plataformas;
+
+
+
+\begin{itemize}
+    \item Implementar suporte para notações matemáticas diferentes, como somatórios ($\Sigma$) e acúmulo de multiplicações ($\Pi$)
+    \item Adicionar capacidade de definição e cálculo de derivadas e integrais
+    \item Integrar algoritmos numéricos para processamento de expressões matemáticas complexas
+\end{itemize}
+
+\subsection{Extensões de Plataforma}
+
+\begin{itemize}
+    \item Projetar saída para linguagens de shading de motores de jogos como Unity e Unreal
+    \item Criar um editor integrado com compilação e visualização simultâneas
+    \item Expandir compatibilidade com diferentes linguagens de sombreamento
+\end{itemize}
+
+As perspectivas futuras apontam para um sistema cada vez mais versátil e acessível, potencialmente revolucionando a forma como desenvolvedores e pesquisadores trabalham com sombreamento e reflectância. A democratização do acesso a técnicas complexas de computação gráfica representa não apenas um avanço tecnológico, mas uma oportunidade de expandir a criatividade e inovação em diferentes campos, desde design visual até simulações científicas.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Extensões de plataforma, como projetar a saída para outras linguagens de shading como a usada para motores de jogos como Unity e Unreal @@footnote about those sites here
+- Criar um editor integrado com compilação e visualização simultâneas
+- Expandir compatibilidade com diferentes linguagens de sombreamento
+
+O sistema desenvolvido fornece uma base sólida para implementação de BRDFs complexas, permitindo que usuários se concentrem na lógica específica do modelagem de reflectância, no lugar de conhecimentos especificos de baixo nivel como detalhes da linguagem de shading usada testar a BRDF que pesquisadores estão modelando. Mantém consistência nas transformações de coordenadas e cálculos geométricos fundamentais de, sendo especialmente relevante para simulações de iluminação física em computação gráfica, onde a precisão nos cálculos de ângulos e vetores é crucial para representação fiel do comportamento da luz.
+
+As perspectivas futuras apontam para um sistema cada vez mais versátil e acessível, potencialmente revolucionando a forma como desenvolvedores e pesquisadores trabalham com sombreamento e reflectância.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Este trabalho atinge as tarefas que setamos para fazer, cada pedaço, temos uma serie de teste que incluem não só visualização das BRDFs com uma serie de erros muito bem formatados para informar o usuário, temos testes com varias BRDFs que podemos visualizar em Latex, a linaguem gerada, uma ferramenta disney para visualizar, Realmente iria ajudar mt pessoas na area que não tem conhecimento de compilador ou shjading, isso faciita demais a vida slk. Agora é só esperar.
+Entretando poderiamos ter melhores erros com mais contexto ainda, poderiamos aumentar as capacidades do compilador ao permitir mais construções matematicas como somatório através da notação $\Sigma$, poderiamos permitir definição de derivadas e integrais e utilizar algortimos numericos para calcular o valor desses expressões na lingaugem shading.  Apesar de não encontrar essas outras expressões na BRDFs exploradas neste trabalho, podesmos ainda assim aumentar o poder do compilador. Poderiamos ter geração de código para outros tipos de shader, seria um back-end para unity que é uma ferramenta para ciração de gamers onde também é usado para visualizar e eles teem linguagem de shading propria. Poderiamos desenvolver um editor que automaticamente compila seu shader e mostra o resultado no mesmo aplicativo, entre outras melhors. 
+
+@@ Look at other conclusions to be write better @@
+
+Este sistema fornece uma base suficiente para implementação de BRDFs complexas, permitindo que o usuário se concentre na lógica específica do modelo de reflectância enquanto mantém consistência nas transformações de coordenadas e cálculos geométricos fundamentais.
+
+Esta implementação é particularmente relevante para simulações de iluminação física em computação gráfica, onde a precisão nos cálculos de ângulos e vetores é crucial para 
+a correta representação do comportamento da luz
+
+khhh
+2
+### Conclusão
+
+\begin{itemize}
+
+A
+A
+U
+U
+\begin{itemize}
+
+\end{itemize}
+
+
+
+sombreamento

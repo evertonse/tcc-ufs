@@ -1,5 +1,5 @@
 
-\section{Geração de Código (\texttt{emitter})}
+\section{Geração de Código (\texttt{emitter})} \label{section-emitter}
 
 especificamente na fase de geração de código, onde as estruturas intermediárias são transformadas em código executável.
 O pacote \texttt{emitter} é responsável por transformar a arvore já anotada com a porra toda e gerar código para ser carregado pela ferramenta BRDF da disney.
@@ -13,7 +13,7 @@ Para emissão de código começamos do lado esquerdo da equação possui. Nela e
 
 \subsection{Unicidade de variaveis}
 
-Para garantir o comentado em @@checker-chapter. Deve-se também, garantir que as variaveis emitidas são únicas, glsl não permite os caracteres \verb'{,}' em seus identificadores, isso singica que uma euqação definida em latex \verb``f_{1} = 2`` não pode ser transformado para um identificador \verb``f_{1} = 2`` em glsl, para resolver isso cada simbolo não permitido em glsl é substituido por unmderline '_' gerlando o resultado parical \verb``f__1_``. Isso ainda gera colisão pois outros @@ simbolos poder gerar a mesma indeficiador em glsl, para garantir cada identificador ser realmennte unico um mapeamento é feito entre a string do identificar na equação latex para um inteiro único de 64 bits adicionamos a string "var" + o esse inteiro denomiado ID ao resultado parcial, garantido que todo simbolo de euqação recebe um unico symbolo em glsl. Em contrapartido o compilador permite um máximo de $2^64 - 1$ equações, oq é um número mt bom é possivel permitir mais com big ints, mas para os propositos de cirar BRDFs é suficiente. Uma outra etapa é remover possiveis sequencia de 2 ou mais \verb"_" pois OpenGL reserva nomes contendo \verb"__", ai sim temos a variavel final.
+Para garantir o comentado em @@checker-chapter. Deve-se também, garantir que as variaveis emitidas são únicas, glsl não permite os caracteres \verb'{,}' em seus identificadores, isso singica que uma euqação definida em latex \verb`f_{1} = 2` não pode ser transformado para um identificador \verb`f_{1} = 2` em glsl, para resolver isso cada simbolo não permitido em glsl é substituido por unmderline \verb'_' gerlando o resultado parical \verb`f__1_`. Isso ainda gera colisão pois outros @@ simbolos poder gerar a mesma indeficiador em glsl, para garantir cada identificador ser realmennte unico um mapeamento é feito entre a string do identificar na equação latex para um inteiro único de 64 bits adicionamos a string "var" + o esse inteiro denomiado ID ao resultado parcial, garantido que todo simbolo de euqação recebe um unico symbolo em glsl. Em contrapartido o compilador permite um máximo de $2^64 - 1$ equações, oq é um número mt bom é possivel permitir mais com big ints, mas para os propositos de cirar BRDFs é suficiente. Uma outra etapa é remover possiveis sequencia de 2 ou mais \verb"_" pois OpenGL reserva nomes contendo \verb"__", ai sim temos a variavel final.
 
 A linguagem GLSL impõe restrições sintáticas na definição de identificadores. Caracteres especiais como '{', '}' são proibidos, o que impossibilita uma transformação direta de notações matemáticas para identificadores de programação. Considere, por exemplo, uma equação em notação LaTeX:
 
@@ -25,9 +25,9 @@ Para garantir a unicidade e a compatibilidade dos identificadores durante este p
 
 \subsubsection{1. **Substituição de Caracteres Especiais**}
    
-   Primeiro todos construimos uma cadeira de caracteres baseado no nó indentificador e todos as subexpressões presente, já que é permitido ver subexpressões como vimos em.Mas Em seguida, todos os caracteres não permitidos em GLSL são substituídos pelo caractere sublinhado ('_'). No exemplo anterior, a transformação inicial seria:
+   Primeiro todos construimos uma cadeira de caracteres baseado no nó indentificador e todos as subexpressões presente, já que é permitido ver subexpressões como vimos em.Mas Em seguida, todos os caracteres não permitidos em GLSL são substituídos pelo caractere sublinhado (\verb'_'). No exemplo anterior, a transformação inicial seria:
 
-   \[ f__1\_ \]
+   \[ f\_\_1\_ \]
 
 2. **Prevenção de Colisões de Identificadores**
    

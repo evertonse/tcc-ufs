@@ -1,1 +1,3 @@
 - Add table of predefined symbols
+- Explain what is albedo
+- Explain Lambertianos

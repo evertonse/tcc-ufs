@@ -1,0 +1,63 @@
+
+\chapter{Conclusão Back} \label{chapter-conclusion}
+
+Nosso trabalho alcançou os objetivos propostos, desenvolvendo um sistema para compilação de BRDFs. Criamos uma ferramenta abrangente que não apenas gera código de sombreamento, mas também oferece uma experiência completa de visualização e teste, com recursos de erro bem estruturados e informativos. Que exige conhecimento especifico de duas grandes area como a relacionada com lingragens livre de constexto, conhewcimento pratico de geração de código GLSL, conhecimento sobre renderização prática como renderização projetiva e raytracing, usandos pela Disney Explorar, além de conhecimento teórico sobre refletancia e conceitos de radiometria.
+
+Diminuimos a barreira tecnica que pode restringir a exploração dos efeitos visuais por profissionais de áreas não relacionadas à programação ao fornecer uma ferramenta capaz de tranformar um documento \LaTeX{} contendo equações de BRDF para um arquivo GLSL pronto para ser carregado e visualizado por um ferramenta fornecida gratuitamente (Disney BRDF). A necessidade de ferramentas mais acessíveis para a criação de \textit{shaders} foi parcialmente suprida, principalemnte no meio acadêmico, onde as BRDFs são comumente descritas por fórmulas escritas em \LaTeX{}. O compilador compilador alcança seu objetivo de traduzir BRDFs escritas em \LaTeX{} para \textit{shaders}, permitindo uma maior acessibilidade e democratização na criação de efeitos visuais complexos.
+
+
+As principais contribuições do compilador incluem:
+
+\begin{itemize}
+    \item Geração de código para múltiplas BRDFs com visualização em \LaTeX{}
+    \item Suporte à ferramenta Disney para renderização
+    \item Processo simplificado de visualização das BRDFs que democratiza o acesso a técnicas complexas de \textit{shading}
+\end{itemize}
+
+\subsection{}
+
+O sistema desenvolvido fornece uma base sólida para implementação de BRDFs complexas, permitindo que usuários se concentrem na lógica específica de modelagem de reflectância, em vez de lidar com detalhes técnicos de baixo nível de linguagens de \textit{shading}. O compilador mantém consistência ao dar suporte à simbolos predenfinidos em matematicas como assim como simbolos comummente usado na  area como omega_i omega_o, etc... Já transformações de coordenadas e cálculos geométricos fundamentais e convenções
+
+Identificamos diversos caminhos para aprimoramento futuro do compilador, como expansão de capacidades matemáticas e expansão de plataformas;
+
+
+
+\begin{itemize}
+    \item Implementar suporte para notações matemáticas diferentes, como somatórios ($\Sigma$) e acúmulo de multiplicações ($\Pi$)
+    \item Adicionar capacidade de definição e cálculo de derivadas e integrais
+    \item Integrar algoritmos numéricos para processamento de expressões matemáticas complexas
+\end{itemize}
+
+\subsection{Extensões de Plataforma}
+
+\begin{itemize}
+    \item Projetar saída para linguagens de shading de motores de jogos como Unity e Unreal
+    \item Criar um editor integrado com compilação e visualização simultâneas
+    \item Expandir compatibilidade com diferentes linguagens de sombreamento
+\end{itemize}
+
+As perspectivas futuras apontam para um sistema cada vez mais versátil e acessível, potencialmente revolucionando a forma como desenvolvedores e pesquisadores trabalham com sombreamento e reflectância. A democratização do acesso a técnicas complexas de computação gráfica representa não apenas um avanço tecnológico, mas uma oportunidade de expandir a criatividade e inovação em diferentes campos, desde design visual até simulações científicas.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Extensões de plataforma, como projetar a saída para outras linguagens de shading como a usada para motores de jogos como Unity e Unreal @@footnote about those sites here
+- Criar um editor integrado com compilação e visualização simultâneas
+- Expandir compatibilidade com diferentes linguagens de sombreamento
+
+O sistema desenvolvido fornece uma base sólida para implementação de BRDFs complexas, permitindo que usuários se concentrem na lógica específica do modelagem de reflectância, no lugar de conhecimentos especificos de baixo nivel como detalhes da linguagem de shading usada testar a BRDF que pesquisadores estão modelando. Mantém consistência nas transformações de coordenadas e cálculos geométricos fundamentais de, sendo especialmente relevante para simulações de iluminação física em computação gráfica, onde a precisão nos cálculos de ângulos e vetores é crucial para representação fiel do comportamento da luz.
+
+As perspectivas futuras apontam para um sistema cada vez mais versátil e acessível, potencialmente revolucionando a forma como desenvolvedores e pesquisadores trabalham com sombreamento e reflectância.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Este trabalho atinge as tarefas que setamos para fazer, cada pedaço, temos uma serie de teste que incluem não só visualização das BRDFs com uma serie de erros muito bem formatados para informar o usuário, temos testes com varias BRDFs que podemos visualizar em Latex, a linaguem gerada, uma ferramenta disney para visualizar, Realmente iria ajudar mt pessoas na area que não tem conhecimento de compilador ou shjading, isso faciita demais a vida slk. Agora é só esperar.
+Entretando poderiamos ter melhores erros com mais contexto ainda, poderiamos aumentar as capacidades do compilador ao permitir mais construções matematicas como somatório através da notação $\Sigma$, poderiamos permitir definição de derivadas e integrais e utilizar algortimos numericos para calcular o valor desses expressões na lingaugem shading.  Apesar de não encontrar essas outras expressões na BRDFs exploradas neste trabalho, podesmos ainda assim aumentar o poder do compilador. Poderiamos ter geração de código para outros tipos de shader, seria um back-end para unity que é uma ferramenta para ciração de gamers onde também é usado para visualizar e eles teem linguagem de shading propria. Poderiamos desenvolver um editor que automaticamente compila seu shader e mostra o resultado no mesmo aplicativo, entre outras melhors. 
+
+@@ Look at other conclusions to be write better @@
+
+Este sistema fornece uma base suficiente para implementação de BRDFs complexas, permitindo que o usuário se concentre na lógica específica do modelo de reflectância enquanto mantém consistência nas transformações de coordenadas e cálculos geométricos fundamentais.
+
+Esta implementação é particularmente relevante para simulações de iluminação física em computação gráfica, onde a precisão nos cálculos de ângulos e vetores é crucial para 
+a correta representação do comportamento da luz
