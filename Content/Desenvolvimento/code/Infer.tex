@@ -1,0 +1,39 @@
+\begin{codigo}[htb]
+    \caption{\small Parte do switch da inferencia de tipos. }
+    \label{cod-type-inference}
+\begin{lstlisting}[language=C, frame=none, inputencoding=utf8]
+infer_type :: proc(expr: ^ast.Expr, allow_invalid := false, default : ^ast.Type = ast.ty_invalid ) -> ^Type {
+    /// Código omitido por brevidade  ///
+    #partial switch e in expr.derived {
+    case ^Expr_Identifier:
+        // Alway set by the parser if indentifier starts with `\vec{}`
+        if e.is_vector {
+            type = new_type_vector(ty_number, 3) // vector 3 of type number (real)
+        } else if e.identifier.kind == .Pi || e.identifier.kind == .Epsilon {
+            type = ty_number
+        } else {
+            key := key_from_identifier(e)
+            sym, ok := scope_get(key)
+            if ok {
+                if sym.type != nil {
+                    type = sym.type
+                }
+            }
+            /// Código omitido por brevidade  ///
+        }
+
+    case ^Expr_Prefix:
+        right_type := infer_type(e.right, allow_invalid, default)
+        /// Código omitido, mas aqui fazemos a validação da subexpressão direita e atribuimos o tipo correto para Expr_Prefix   ///
+
+    case ^Expr_Infix:
+        ty_left  := infer_type(e.left, allow_invalid, default)
+        ty_right := infer_type(e.right, allow_invalid, default)
+        /// Código omitido
+        //  Inferimos tipo da expressão esquerda e direto dessa operação binária
+        //  Depois validamos compatibilidade considerando a operação sendo usada nessas duas expressões
+
+    /// Outros casos ...  ///
+}
+\end{lstlisting}
+\end{codigo}

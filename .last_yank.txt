@@ -23,601 +23,1190 @@ void main() {
 }
 \end{lstlisting}
 \end{codigo}
-- Add table of predefined symbols
+Nosso trabalho alcançou os objetivos propostos de desenvolver um compilador capaz de traduzir funções de distribuição de refletância bidirecional para código de linguagem de \textit{shading}. A ferramenta reduz significativamente a barreira técnica que poderia restringir a exploração de efeitos visuais por profissionais fora da área de programação. Isso foi alcançado ao fornecer um sistema que transforma um documento \LaTeX{} contendo equações de BRDF diretamente em um arquivo GLSL, pronto para ser carregado e visualizado utilizando ferramentas gratuitas, como o visualizador da Disney Explorer. Essa funcionalidade atende principalmente ao meio acadêmico, onde as BRDFs são frequentemente descritas por equações em \LaTeX{}, democratizando o acesso à criação de efeitos visuais complexos.
 
--
-[
-O
-é
-Lambertianos
-Explain
-comportamentos 
-L
-comportamentos encontrado em superfícies porosas, como a lua.
-e
-parte 2 está em \autoref{cod-oren-nayar-eqlang-pt-2}
-2
-    \label{cod-oren-nayar-glsl-pt-2}
-
-2
-    \label{cod-oren-nayar-eqlang}
-
-cod-oren-nayar-glsl-pt-3
-cod-oren-nayar-eqlang-pt-34
-e parte 3 no \autoref{cod-oren-nayar-glsl-pt-3}
-e
-,
-fig-ward-objetcs
-fig-ward-eqlang
-,
-\label{fig-ward-plots}
-\
-label
- sua capacidade de gerar reflexões visualmente realistas.
+ 
 .
-Este capítulo apresenta os resultados dos experimentos com BRDFs distintas. Esses experimentos servem de validação e visualização da capacidade do compilador desenvolvido neste trabalho. Cada BRDF escolhida teve sua excolha feita com foco em explorar diferentes expressões matemáticas com diferentes niveis de complexidades;aspectos importantes para esse projeto.
+O
+fig-estrutura-geral-compilador
+foram implementadas
+foram implementadas
+,
+O projeto utiliza conhecimento técnico em áreas multidisciplinares, como gramáticas livres de contexto, geração de código GLSL, renderização projetiva e por \textit{raytracing} e fundamentos teóricos sobre refletância e conceitos fotométricos, para implementar os recursos da ferramenta como: mensagens de erro bem estruturados e informativos; geração de código para diferentes BRDFs diretamente a partir de equações \LaTeX{}; integração com a ferramenta Disney para renderização visual das BRDFs; visualização da arvóre sintática gerada como arquivo SVG. Todas as estapas do compilador, vista na arquitetura da \autoref{fig-estrutura-geral-compilador}, foram implementadas, a qual inclue analise léxica, sintática, semantica e geração de código, . Dessa maneira, a ferramenta promove uma expêriencia simplificada para visualização de BRDFs, democratizando o acesso a técnicas avançadas de \textit{shading}.
 
-Este capítulo apresenta os resultados dos experimentos com BRDFs distintas. Esses experimentos servem de validação e visualização da capacidade do compilador desenvolvido neste trabalho. Cada BRDF escolhida teve sua excolha feita com foco em explorar diferentes expressões matemáticas com diferentes niveis de complexidades;aspectos importantes para esse projeto.
-
-Todos os experimentos seguem uma ordem para apresentação de todos os experimentos. Primeiro, apresentamos a BRDF do experimento, incluindo a referencia e, para as mais imporantes, uma breve explicação sobre ela. Depois mostrandos o código fonte descreve a BRDF em \texttt{EquationLang}, jutamente com a sua representação em PDF \LaTeX. Traduzimos o código fonte para GLSL usando o compilador desenvolvido neste trabalho. Por fim, utilizamos o código em linguagem shading gerado para ser carregado na ferramenta BRDF Disney. Mostramos o grafico 3D e 2D da distribuição de reflexão especular e difusa da BRDF similar aos representados na \autoref{@@}. Para demonstrar a eficácia do GLSL gerado, mostramos a renderização de três objeto tridimensionais com iluminação provida pelo código gerado para BRDF em questão através de tecnica de \textit{raytracing} fornecido pela ferramenta Disney, ( breve explicação sobre raytracing pode ser visto em \autoref{apendice}). Cada um dos três objeto possuem os angulos em cordenadas polares fixas. Todos as imagems do experimento seguem o formato da \autoref{@@}; da esquerda para direita os três objeto tem as dupla angulo de elevação ($\theta_i$)  e angulo azimutal ($\phi_i$) da luz incidente: $\left(33,8941, 145,826\right)$, $\left( ,\right)$, $\left( ,\right)$, respectivamente. Gamma e exposição também são fixadas em $2,112$ e $-1,248$ respectivamente. Adicionalmente mostramos o efeito da BRDF em uma esfera com renderização projetiva padrão para observar a iluminação em um objeto simples.
-Deve-se dizer que o gráfico polar e 3D da distribuição de reflexão é reference a todas os três canais de cores ao mesmo tempo, então pode ter overlap entre as cores vermelho azul e verde na visualização pois a distruição de cada um desses canais podem ser os mesmos em um dado experimento.
-
-% Para analisar comportamento foram realizados @@@Alguns experimentos, cada experimento include a descrição de uma BRDF em latex, os ``.tex`` arquivos baseado nos artigos originais de cada um. Para cara um desses ``.tex`` compilamos em latex para confirmar que compila pelo pdflatex, depois passamos pelo nosso compilador para transformar esse código em ``.tex`` para aruivos escritos em GLSL, tais arquivos possuem extensão ``.brdf``.
-%
-%
-% aniso.tex                                blinn-phong.tex           cook-torrance.tex  oren_nayar.tex
-% ashikhmin-shirley-close-to-original.tex  cook-torrance-disney.pdf  duer.tex           ward.pdf
-% ashikhmin-shirley.tex                    cook-torrance-disney.tex  edwards2006.tex    ward.tex
-% blinn-phong.pdf                          cook-torrance.pdf         minnaert.tex
-O plot 3D de BRDFs na ferramenta Disney Explorer fixa uma direção de luz incidente ($\omega_i$) e amostrar direções de visualização ($\omega_o$) em um hemisfério. Cada direção renderiza um primitivo proporcional ao valor da função BRDF, permitindo uma representação geométrica da reflectância. Já O plot polar representa um corte bidimensional de dados de reflectância. Fixa-se a direção de luz incidente ($\omega_i$) e o ângulo azimutal de saída ($\phi_o$), variando apenas o ângulo polar de saída ($\theta_o$). Cada ponto representa o valor médio das componentes da BRDF, permitindo visualizar o comportamento da reflectância em diferentes ângulos de observação. Em alguns casos, fatores logaritimos dos valores podem ser usados para melhor visulização do da geometria.
-
-
-
-
-Apesar de conter uma breve explicação sobre a BRDF, o mais importante é ver o código gerado e seu funcionamento na ferramenta Disney, pois o foco principal permanece no compilador e sua representação fidedigna à BRDFs descrita.  Vale ressaltaar que o código é gerado pelo computador e nbão é muito legivel para o humano, se comprar a código shading escrito a mão, então incluimos o GLSL gerada para fins de desmontração e completude, mas não necessariamente para leitura. Também, o código gerado pode ser longo e divido em duas partes, então recomenda-se olhar rapidamente para adquirir uma noção da forma em qual o código é gerado e se torna mais produtivo pular para o a imagem renderizada pelo código gerado ou para proximo experimento.
-
-Existem mais de uma maneira de expressar as BRDF. Parte dos resultados é realizar experimentos de versões diferentes da mesma BRDF, com não só parametros diferentes mas também expressões matemáticas diferente para expressa-la. Sendo asism, provemos duas versões para algumas dos experimentos.
-
-
-Por conveniencia, deixamos a tabela \autoref{@@ table} para navegar rapidamente cada imagem e código de todos os experimentos, e  do mesmos.
-
-
-@TABLE@
-% Esses experimentos, proporcionando uma abordagem que explora tanto as BRDFs quanto relacionados ao desenvolvimento de compiladores e à aplicação de conceitos como BRDFs
-
-
-\section{Opnião}
-Os resultados são satisfátórios, captura nuances importantes das BRDFs, mesmo em materiais com estruturas que usam X e Y @@@. Se mostrou capaz de permitir várias parametrização baseada em nas equações e, com o nivel atual o compilador, permite modelar uma ampla gama de comportamentos de superfície.
+renderizar computacionalmente cenas de alta qualidade
+ , é imprescindível a utilização
 
  
-o
-Este capítulo apresenta os resultados dos experimentos com BRDFs distintas. Esses experimentos servem de validação e visualização da capacidade do compilador desenvolvido neste trabalho. Cada BRDF escolhida teve sua excolha feita com foco em explorar diferentes expressões matemáticas com diferentes niveis de complexidades;aspectos importantes para esse projeto.
-
-
-%%%%%%%%%%%ABOVE VALIDADED%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Todos os experimentos seguem uma ordem para apresentação de todos os experimentos. Primeiro, apresentamos a BRDF do experimento, incluindo a referencia e, para as mais imporantes, uma breve explicação sobre ela. Depois mostrandos o código fonte descreve a BRDF em \texttt{EquationLang}, jutamente com a sua representação em PDF \LaTeX. 
-
-Traduzimos o código fonte para GLSL usando o compilador desenvolvido neste trabalho. Por fim, utilizamos o código em linguagem shading gerado para ser carregado na ferramenta BRDF Disney. 
-
-33,8941
-145,826
-,
-\textit{raytracing} fornecido pela ferramenta Disney
-raytracing
-Explorer
-Explorer
-O plot 3D na ferramenta Disney Explorer fixa uma direção de luz incidente ($\omega_i$) e amostras direções de visualização ($\omega_o$) em um hemisfério. Cada direção renderiza um primitivo proporcional ao valor da função BRDF, oferecendo uma representação geométrica da reflectância. O plot polar, por sua vez, representa um corte bidimensional, fixando a direção de luz incidente ($\omega_i$) e o ângulo azimutal de saída ($\phi_o$), variando apenas o ângulo polar de saída ($\theta_o$). Cada ponto representa o valor médio das componentes da BRDF, visualizando o comportamento da reflectância em diferentes ângulos de observação. Em alguns casos, fatores logarítmicos são utilizados para melhor visualização.
-
-O plot 3D na ferramenta Disney Explorer fixa uma direção de luz incidente ($\omega_i$) e amostras direções de visualização ($\omega_o$) em um hemisfério. Cada direção renderiza um primitivo proporcional ao valor da função BRDF, oferecendo uma representação geométrica da reflectância. O plot polar, por sua vez, representa um corte bidimensional, fixando a direção de luz incidente ($\omega_i$) e o ângulo azimutal de saída ($\phi_o$), variando apenas o ângulo polar de saída ($\theta_o$). Cada ponto representa o valor médio das componentes da BRDF, visualizando o comportamento da reflectância em diferentes ângulos de observação. Em alguns casos, fatores logarítmicos são utilizados para melhor visualização.
-
-É importante notar que os gráficos polares e 3D representam simultaneamente os três canais de cores, podendo haver sobreposição entre vermelho, azul e verde na visualização, já que a distribuição de cada canal pode ser idêntica em um dado experimento.
-
-\label{brdfmodels}
-sua 
-,
-apresentando experimentos com versões diferentes
-Na opinião dos pesquisadores, os resultados são satisfatórios. O compilador demonstra capacidade de capturar nuances importantes das BRDFs, mesmo em materiais com estruturas complexas, permitindo diversas parametrizações baseadas em equações e modelando uma ampla gama de comportamentos de superfície.
-Mostramos o grafico 3D e 2D da distribuição de reflexão especular e difusa da BRDF similar aos representados na \autoref{@@}. Para demonstrar a eficácia do GLSL gerado, mostramos a renderização de três objeto tridimensionais com iluminação provida pelo código gerado para BRDF em questão através de tecnica de , ( breve explicação sobre raytracing pode ser visto em \autoref{apendice}). Cada um dos três objeto possuem os angulos em cordenadas polares fixas. Todos as imagems do experimento seguem o formato da \autoref{@@}; da esquerda para direita os três objeto tem as dupla angulo de elevação ($\theta_i$)  e angulo azimutal ($\phi_i$) da luz incidente: $\left(33,8941, 145,826\right)$, $\left( ,\right)$, $\left( ,\right)$, respectivamente. Gamma e exposição também são fixadas em $2,112$ e $-1,248$ respectivamente. 
-
-
-
-Adicionalmente mostramos o efeito da BRDF em uma esfera com renderização projetiva padrão para observar a iluminação em um objeto simples.
-
-Deve-se dizer que o gráfico polar e 3D da distribuição de reflexão é reference a todas os três canais de cores ao mesmo tempo, então pode ter overlap entre as cores vermelho azul e verde na visualização pois a distruição de cada um desses canais podem ser os mesmos em um dado experimento.
-
-% Para analisar comportamento foram realizados @@@Alguns experimentos, cada experimento include a descrição de uma BRDF em latex, os ``.tex`` arquivos baseado nos artigos originais de cada um. Para cara um desses ``.tex`` compilamos em latex para confirmar que compila pelo pdflatex, depois passamos pelo nosso compilador para transformar esse código em ``.tex`` para aruivos escritos em GLSL, tais arquivos possuem extensão ``.brdf``.
-%
-%
-% aniso.tex                                blinn-phong.tex           cook-torrance.tex  oren_nayar.tex
-% ashikhmin-shirley-close-to-original.tex  cook-torrance-disney.pdf  duer.tex           ward.pdf
-% ashikhmin-shirley.tex                    cook-torrance-disney.tex  edwards2006.tex    ward.tex
-% blinn-phong.pdf                          cook-torrance.pdf         minnaert.tex
-
-O plot 3D de BRDFs na ferramenta Disney Explorer fixa uma direção de luz incidente ($\omega_i$) e amostrar direções de visualização ($\omega_o$) em um hemisfério. Cada direção renderiza um primitivo proporcional ao valor da função BRDF, permitindo uma representação geométrica da reflectância. Já O plot polar representa um corte bidimensional de dados de reflectância. Fixa-se a direção de luz incidente ($\omega_i$) e o ângulo azimutal de saída ($\phi_o$), variando apenas o ângulo polar de saída ($\theta_o$). Cada ponto representa o valor médio das componentes da BRDF, permitindo visualizar o comportamento da reflectância em diferentes ângulos de observação. Em alguns casos, fatores logaritimos dos valores podem ser usados para melhor visulização do da geometria.
-
-P
-renderiza um primitivo proporcional ao valor da função BRDF
-um primitivo na posição (p + $\omega_o$) * f1(ps), onde o tamanho e escala são proporcionais ao valor da função BRDF
-O plot polar, por sua vez, representa um corte bidimensional, fixando a direção de luz incidente ($\omega_i$) e o ângulo azimutal de saída ($\phi_o$), variando apenas o ângulo polar de saída ($\theta_o$), similar ao mostrado nas figuras da \autoref{\label{brdfmodels}}. Cada ponto representa o valor médio das componentes da BRDF, visualizando o comportamento da reflectância em diferentes ângulos de observação. Em alguns casos, fatores logarítmicos são utilizados para melhor visualização.
-O plot polar, por sua vez, representa um corte bidimensional dos dados de reflectância. Nesta técnica, fixa-se a direção de luz incidente ($\omega_i$) e o ângulo azimutal de saída ($\phi_o$), deixando apenas o ângulo polar de saída ($\theta_o$) livre. Para cada $\theta_o$, um ponto é renderizado na posição (p + $\omega_o$) * f1(ps). Os pontos representam o valor médio das componentes da BRDF, permitindo visualizar o comportamento da reflectância em diferentes ângulos de observação. Em alguns casos, fatores logarítmicos podem ser aplicados para melhorar a visualização da geometria da reflectância.
-
-% O plot 3D na ferramenta Disney Explorer fixa uma direção de luz incidente ($\omega_i$) e amostras direções de visualização ($\omega_o$) em um hemisfério. Cada direção renderiza um primitivo proporcional ao valor da função BRDF, oferecendo uma representação geométrica da reflectância. 
-
-
-
-,
-C
-\autoref{table-experiments} é disponibilizada para acesso rápido às imagens e códigos dos experimentos.
-\autoref{table-experiments}
-autoref
-\begin{table}[h!]
-\centering
-\begin{tabular}{|l|c|c|}
-\hline
-\textbf{Tipo de Token} & \textbf{Prefixo} & \textbf{Precedência}\\ \hline
-\texttt{+}            & Sim              & 25                   \\ \hline
-\texttt{-}            & Sim              & 25                   \\ \hline
-\texttt{(}            & Sim              & 100                  \\ \hline
-\texttt{:}            & Sim              & 100                  \\ \hline
-\texttt{*}            & Sim              & 100                  \\ \hline
-% \texttt{\textasciitilde} & Sim              & 200               \\ \hline
-\texttt{!}            & Sim              & 300                  \\ \hline
-\texttt{(}            & Não              & 500                  \\ \hline
-\texttt{>}            & Não              & 5                    \\ \hline
-\texttt{<}            & Não              & 5                    \\ \hline
-\texttt{+}            & Não              & 10                   \\ \hline
-\texttt{-}            & Não              & 10                   \\ \hline
-$\times$              & Não              & 20                   \\ \hline
-\texttt{*}            & Não              & 20                   \\ \hline
-\texttt{/}            & Não              & 20                   \\ \hline
-\texttt{\textasciicircum} & Não           & 30                  \\ \hline
-\texttt{!}            & Não              & 400                  \\ \hline
-\end{tabular}
-\caption{Tabela de Precedência dos Tokens}
-\label{tab-token-precedence}
-\end{table}
-
-\label{table-experiments}
-\texttt{+}            & Sim              & 25                   \\ \hline
-\texttt{-}            & Sim              & 25                   \\ \hline
-\texttt{(}            & Sim              & 100                  \\ \hline
-\texttt{:}            & Sim              & 100                  \\ \hline
-\texttt{*}            & Sim              & 100                  \\ \hline
-% \texttt{\textasciitilde} & Sim              & 200               \\ \hline
-\texttt{!}            & Sim              & 300                  \\ \hline
-\texttt{(}            & Não              & 500                  \\ \hline
-\texttt{>}            & Não              & 5                    \\ \hline
-\texttt{<}            & Não              & 5                    \\ \hline
-\texttt{+}            & Não              & 10                   \\ \hline
-\texttt{-}            & Não              & 10                   \\ \hline
-$\times$              & Não              & 20                   \\ \hline
-
-\texttt{/}            & Não              & 20                   \\ \hline
-\texttt{\textasciicircum} & Não           & 30                  \\ \hline
-\texttt{!}            & Não              & 400                  \\ \hline
-
-\texttt{*}            & Não              & 20                   \\ \hline
-
-l
-\label{table-experiments}
-
-\label{tab-token-precedence}
-
-n
-& \textbf{Plots}
-& \textbf{Plots}
-\textbf{Experimento} & \textbf{Equações} & \textbf{Objetos 3D} & \textbf{Plots} & \textbf{GLSL} \\ \hline
-
-fig-ward-objetcs
-Plots
-fig-ward-plots
-fig-ward-eqlang-latex
-cod-ward-glsl-pt-1
-GLSL
-textbf
-t
- 
-são 
-Concluimos que os experimentos têm resultados satisfatórios. O compilador demonstra capacidade de capturar nuances importantes das BRDFs, mesmo em materiais com estruturas complexas, permitindo diversas parametrizações baseadas em equações e modelando uma ampla gama de comportamentos de superfície.
-
-u
-Concluimos que os experimentos têm resultados satisfatórios. O compilador demonstra capacidade de capturar nuances importantes das BRDFs, mesmo em materiais com estruturas complexas, permitindo diversas parametrizações baseadas em equações e modelando uma ampla gama de comportamentos de superfície. Após o último experimento, passamos para diretamente para o útimo capitulo, a conclusão deste trabalho (\autoref{chapter-conclusion}). %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-satisfatórios
-têm resultados satisfatórios
-revelam resultados promissores e significativos
-, permitindo diversas parametrizações baseadas em equações e modelando uma ampla gama de comportamentos de superfície
-de permitir múltiplas parametrizações baseadas em equações matemáticas diversas comprova sua versatilidade, possibilitando a modelagem de uma ampla e rica gama de comportamentos de superfície
-o
-conjunto 
-o
-Concluimos que os experimentos têm resultados satisfatórios. O compilador demonstra capacidade de capturar nuances importantes das BRDFs, mesmo em materiais com estruturas complexas, permitindo diversas parametrizações baseadas em equações e modelando uma ampla gama de comportamentos de superfície. Após o último experimento, passamos para diretamente para o útimo capitulo, a conclusão deste trabalho (\autoref{chapter-conclusion}). %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-O plot 3D de BRDFs na ferramenta Disney Explorer fixa uma direção de luz incidente ($\omega_i$) e amostrar direções de visualização ($\omega_o$) em um hemisfério. Cada direção renderiza um primitivo proporcional ao valor da função BRDF, permitindo uma representação geométrica da reflectância. Já O plot polar representa um corte bidimensional de dados de reflectância. Fixa-se a direção de luz incidente ($\omega_i$) e o ângulo azimutal de saída ($\phi_o$), variando apenas o ângulo polar de saída ($\theta_o$). Cada ponto representa o valor médio das componentes da BRDF, permitindo visualizar o comportamento da reflectância em diferentes ângulos de observação. Em alguns casos, fatores logaritimos dos valores podem ser usados para melhor visulização do da geometria.
-
-
-
-
-Apesar de conter uma breve explicação sobre a BRDF, o mais importante é ver o código gerado e seu funcionamento na ferramenta Disney, pois o foco principal permanece no compilador e sua representação fidedigna à BRDFs descrita.  Vale ressaltaar que o código é gerado pelo computador e nbão é muito legivel para o humano, se comprar a código shading escrito a mão, então incluimos o GLSL gerada para fins de desmontração e completude, mas não necessariamente para leitura. Também, o código gerado pode ser longo e divido em duas partes, então recomenda-se olhar rapidamente para adquirir uma noção da forma em qual o código é gerado e se torna mais produtivo pular para o a imagem renderizada pelo código gerado ou para proximo experimento.
-
-Existem mais de uma maneira de expressar as BRDF. Parte dos resultados é realizar experimentos de versões diferentes da mesma BRDF, com não só parametros diferentes mas também expressões matemáticas diferente para expressa-la. Sendo asism, provemos duas versões para algumas dos experimentos.
-
-
-Por conveniencia, deixamos a tabela \autoref{@@ table} para navegar rapidamente cada imagem e código de todos os experimentos, e  do mesmos.
-
-
-@TABLE@
-% Esses experimentos, proporcionando uma abordagem que explora tanto as BRDFs quanto relacionados ao desenvolvimento de compiladores e à aplicação de conceitos como BRDFs
-
-
-\section{Opnião}
-Os resultados são satisfátórios, captura nuances importantes das BRDFs, mesmo em materiais com estruturas que usam X e Y @@@. Se mostrou capaz de permitir várias parametrização baseada em nas equações e, com o nivel atual o compilador, permite modelar uma ampla gama de comportamentos de superfície.
-
-
-
-
-\autoref{chapter-conclusion}
-%
-|c
-c|
-É importante ficar ciente que os gráficos polares e 3D representam simultaneamente os três canais de cores, como na \autoref{fig-ashikhmin-shirley-alternative-plots}, podendo haver sobreposição entre vermelho, azul e verde na visualização, já que a distribuição de cada canal pode ser idêntica em um dado experimento.
-
-É importante ficar ciente que os gráficos polares e 3D representam simultaneamente os três canais de cores, como na \autoref{fig-ashikhmin-shirley-alternative-plots}, podendo haver sobreposição entre vermelho, azul e verde na visualização, já que a distribuição de cada canal pode ser idêntica em um dado experimento.
-
-É importante ficar ciente que os gráficos polares e 3D representam simultaneamente os três canais de cores, como na \autoref{fig-ashikhmin-shirley-alternative-plots}, podendo haver sobreposição entre vermelho, azul e verde na visualização, já que a distribuição de cada canal pode ser idêntica em um dado experimento.
-
-\autoref{fig-ward-plots}
-    \textbf{Ward} & \autoref{fig-ward-eqlang-latex} & \autoref{fig-ward-objetcs} & \autoref{fig-ward-plots} e \autoref{fig-ward-objetcs}& \autoref{cod-ward-glsl-pt-1} \\ \hline
-
-    \textbf{Ward} & \autoref{fig-ward-eqlang-latex} & \autoref{fig-ward-objetcs} & \autoref{fig-ward-plots} e \autoref{fig-ward-objetcs}& \autoref{cod-ward-glsl-pt-1} \\ \hline
-
--ward-
-    \textbf{Oren-Nayar} & \autoref{fig-oren-nayar-eqlang-latex} & \autoref{fig-oren-nayar-objetcs} & \autoref{fig-oren-nayar-plots} e \autoref{fig-oren-nayar-objetcs}& \autoref{cod-oren-nayar-glsl-pt-1} \\ \hline
-
-    \textbf{Ward} & \autoref{fig-ward-eqlang-latex} & \autoref{fig-ward-objetcs} & \autoref{fig-ward-plots} e \autoref{fig-ward-objetcs}& \autoref{cod-ward-glsl-pt-1} \\ \hline
-
-    \textbf{minnaert} & \autoref{fig-minnaert-eqlang-latex} & \autoref{fig-minnaert-objetcs} & \autoref{fig-minnaert-plots} e \autoref{fig-minnaert-objetcs}& \autoref{cod-minnaert-glsl-pt-1} \\ \hline
-
-    \textbf{Ward} & \autoref{fig-ward-eqlang-latex} & \autoref{fig-ward-objetcs} & \autoref{fig-ward-plots} e \autoref{fig-ward-objetcs}& \autoref{cod-ward-glsl-pt-1} \\ \hline
-
-    \textbf{duer} & \autoref{fig-duer-eqlang-latex} & \autoref{fig-duer-objetcs} & \autoref{fig-duer-plots} e \autoref{fig-duer-objetcs}& \autoref{cod-duer-glsl-pt-1} \\ \hline
-
-    \textbf{Ward} & \autoref{fig-ward-eqlang-latex} & \autoref{fig-ward-objetcs} & \autoref{fig-ward-plots} e \autoref{fig-ward-objetcs}& \autoref{cod-ward-glsl-pt-1} \\ \hline
-
--
-e
-a
-Dür
-duer
-Adicionalmente, apresenta-se o efeito da BRDF em uma esfera com renderização projetiva padrão.
-    Ward & \autoref{fig-ward-eqlang-latex} & \autoref{fig-ward-objetcs} & \autoref{fig-ward-plots} e \autoref{fig-ward-objetcs}& \autoref{cod-ward-glsl-pt-1} \\ \hline
-
-       
+intrínsecos
+que conferem aos objetos da cena sua
+aparência física
+(
+\label{shading}
+O uso de BRDFs, funções que determinam a forma como a luz interage com a superfície dos materiais
+}
   
-    
-        
-q
-- Adiciono a espera também?
-
-# questions
-
-- Tabela
-
-## Duvidas
-
-- Adiciono a espera também?
-- Precisa do código inteiro? ou é melhor deixar em apendice
-- Image Slices ?
-
-
-
-- Image Slices ?
-
-    Ward                 & \autoref{fig-ward-eqlang-latex}                      & \autoref{fig-ward-objetcs}                     & \autoref{fig-ward-plots}                      &                     \autoref{cod-ward-glsl-pt-1}               \\ \hline
-
-    Minnaert             & \autoref{fig-minnaert-eqlang-latex}                  & \autoref{fig-minnaert-eqlang}                  & \autoref{fig-minnaert-plots}                  &                  \autoref{cod-minnaert-glsl-pt-1}              \\ \hline
-
-    blinn-phong             & \autoref{fig-blinn-phong-eqlang-latex}                  & \autoref{fig-blinn-phong-eqlang}                  & \autoref{fig-blinn-phong-plots}                  &                  \autoref{cod-blinn-phong-glsl-pt-1}              \\ \hline
-
-\include{Content/Resultados/Experimentos/Aniso}
-
-\include{Content/Resultados/Experimentos/Oren-Nayar}
-
-\include{Content/Resultados/Experimentos/Ward}
-
-    blinn-phong           & \autoref{fig-blinn-phong-eqlang-latex}                  & \autoref{fig-blinn-phong-eqlang}                  & \autoref{fig-blinn-phong-plots}                  &                  \autoref{cod-blinn-phong-glsl-pt-1}              \\ \hline
-
-    Minnaert             & \autoref{fig-minnaert-eqlang-latex}                  & \autoref{fig-minnaert-eqlang}                  & \autoref{fig-minnaert-plots}                  &                  \autoref{cod-minnaert-glsl-pt-1}              \\ \hline
-
-    Minnaert             & \autoref{fig-minnaert-eqlang-latex}                  & \autoref{fig-minnaert-eqlang}                  & \autoref{fig-minnaert-plots}                  &                  \autoref{cod-minnaert-glsl-pt-1}              \\ \hline
-
-            
-    Minnaert             & \autoref{fig-minnaert-eqlang-latex}                  & \autoref{fig-minnaert-eqlang}                  & \autoref{fig-minnaert-plots}                  &                  \autoref{cod-minnaert-glsl-pt-1}              \\ \hline
-
-    Minnaert             & \autoref{fig-minnaert-eqlang-latex}                  & \autoref{fig-minnaert-eqlang}                  & \autoref{fig-minnaert-plots}                  &                  \autoref{cod-minnaert-glsl-pt-1}              \\ \hline
-
-    Minnaert             & \autoref{fig-minnaert-eqlang-latex}                  & \autoref{fig-minnaert-eqlang}                  & \autoref{fig-minnaert-plots}                  &                  \autoref{cod-minnaert-glsl-pt-1}              \\ \hline
-
-Kajiya-Kay (1989)
-aniso
-          
-$_2$
-2
-    
-    Cook-Torrance        & \autoref{fig-cook-torrance-eqlang-latex}             & \autoref{fig-cook-torrance-eqlang}             & \autoref{fig-cook-torrance-plots}             &             \autoref{cod-cook-torrance-glsl-pt-1}              \\ \hline
-
-
-Este trabalho atinge as tarefas que setamos para fazer, cada pedaço, temos uma serie de teste que incluem não só visualização das BRDFs com uma serie de erros muito bem formatados para informar o usuário, temos testes com varias BRDFs que podemos visualizar em Latex, a linaguem gerada, uma ferramenta disney para visualizar, Realmente iria ajudar mt pessoas na area que não tem conhecimento de compilador ou shjading, isso faciita demais a vida slk. Agora é só esperar.
-Entretando poderiamos ter melhores erros com mais contexto ainda, poderiamos aumentar as capacidades do compilador ao permitir mais construções matematicas como somatório através da notação $\Sigma$, poderiamos permitir definição de derivadas e integrais e utilizar algortimos numericos para calcular o valor desses expressões na lingaugem shading.  Apesar de não encontrar essas outras expressões na BRDFs exploradas neste trabalho, podesmos ainda assim aumentar o poder do compilador. Poderiamos ter geração de código para outros tipos de shader, seria um back-end para unity que é uma ferramenta para ciração de gamers onde também é usado para visualizar e eles teem linguagem de shading propria. Poderiamos desenvolver um editor que automaticamente compila seu shader e mostra o resultado no mesmo aplicativo, entre outras melhors. 
-
-@@ Look at other conclusions to be write better @@
-
-Este sistema fornece uma base suficiente para implementação de BRDFs complexas, permitindo que o usuário se concentre na lógica específica do modelo de reflectância enquanto mantém consistência nas transformações de coordenadas e cálculos geométricos fundamentais.
-
-Esta implementação é particularmente relevante para simulações de iluminação física em computação gráfica, onde a precisão nos cálculos de ângulos e vetores é crucial para 
-a correta representação do comportamento da luz
-
--plots
-\autoref{fig-oren-nayar-eqlang}
--plots
-eqlang
-kajiya
-Aqui está uma versão revisada e aprimorada da conclusão, mantendo a essência das ideias originais:
-
-
-e
-e
-$\Sigma$
- utili
-P
+é
+ por se tratarem de equações matemáticas,
 ,
-Nosso trabalho alcançou os objetivos propostos, desenvolvendo um sistema para compilação de BRDFs. Criamos uma ferramenta abrangente que não apenas gera código de sombreamento, mas também oferece uma experiência completa de visualização e teste, com recursos de erro bem estruturados e informativos.
+conhecimentos na área de programação
+conhecimento 
+assim como a implementação de shaders requer .
 
-As principais contribuições do compilador incluem:
-- Geração de código para múltiplas BRDFs com visualização em LaTeX
-- Suporte à ferramenta Disney para renderização
-- Interface amigável que democratiza o acesso a técnicas complexas de sombreamento
+Este trabalho alcançou os objetivos propostos de desenvolver um compilador capaz de traduzir funções de distribuição de refletância bidirecional para código de linguagem de \textit{shading}. Para renderizar cenas de alta qualidade, é essenciais o uso de \textit{shaders}, componentes intrínsecos à pipeline gráfico visto na \autoref{shading}. Esses shaders contem a implementação de BRDFs que determinam a maneira como a luz interafe com os materias. Não obstante,  a complexidade da BRDFs em suas equações, maskemas, também há a exigencia de conhecimentos na área de programação de shaders para realizar a tradução para BRDF para código.
 
-Identificamos diversos caminhos para aprimoramento futuro do compilador:
+A ferramenta reduz significativamente a barreira técnica que poderia restringir a exploração de efeitos visuais por profissionais fora da área de programação. Isso foi alcançado ao fornecer um sistema que transforma um documento \LaTeX{} contendo equações de BRDF diretamente em um arquivo GLSL, pronto para ser carregado e visualizado utilizando ferramentas gratuitas, como o visualizador da Disney Explorer. Essa funcionalidade atende principalmente ao meio acadêmico, onde as BRDFs são frequentemente descritas por equações em \LaTeX{}, democratizando o acesso à criação de efeitos visuais complexos.
 
-1. Expansão de Capacidades Matemáticas
-- Implementar suporte para notações matemáticas diferentes somatórios ($\Sigma$) e acumulo de multiplicações como a notação $\Pi$
-- Adicionar capacidade de definição e cálculo de derivadas e integrais
-- Integrar algoritmos numéricos para processamento de expressões matemáticas complexas
+de shaders, componentes intrínsecos às placas gráficas, . O uso de BRDFs, funções que determinam a forma como a luz interage com a superfície dos materiais, na implementação dos shaders, aumenta a fidelidade da aparência dos
 
-Extensões de plataforma, como projetar a saída para outras linguagens de shading como a usada para motores de jogos como Unity e Unreal @@footnote about those sites here
-- Criar um editor integrado com compilação e visualização simultâneas
-- Expandir compatibilidade com diferentes linguagens de sombreamento
-
-O sistema desenvolvido fornece uma base sólida para implementação de BRDFs complexas, permitindo que usuários se concentrem na lógica específica do modelagem de reflectância, no lugar de conhecimentos especificos de baixo nivel como detalhes da linguagem de shading usada testar a BRDF que pesquisadores estão modelando. Mantém consistência nas transformações de coordenadas e cálculos geométricos fundamentais de, sendo especialmente relevante para simulações de iluminação física em computação gráfica, onde a precisão nos cálculos de ângulos e vetores é crucial para representação fiel do comportamento da luz.
-
-As perspectivas futuras apontam para um sistema cada vez mais versátil e acessível, potencialmente revolucionando a forma como desenvolvedores e pesquisadores trabalham com sombreamento e reflectância.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Este trabalho atinge as tarefas que setamos para fazer, cada pedaço, temos uma serie de teste que incluem não só visualização das BRDFs com uma serie de erros muito bem formatados para informar o usuário, temos testes com varias BRDFs que podemos visualizar em Latex, a linaguem gerada, uma ferramenta disney para visualizar, Realmente iria ajudar mt pessoas na area que não tem conhecimento de compilador ou shjading, isso faciita demais a vida slk. Agora é só esperar.
-Entretando poderiamos ter melhores erros com mais contexto ainda, poderiamos aumentar as capacidades do compilador ao permitir mais construções matematicas como somatório através da notação $\Sigma$, poderiamos permitir definição de derivadas e integrais e utilizar algortimos numericos para calcular o valor desses expressões na lingaugem shading.  Apesar de não encontrar essas outras expressões na BRDFs exploradas neste trabalho, podesmos ainda assim aumentar o poder do compilador. Poderiamos ter geração de código para outros tipos de shader, seria um back-end para unity que é uma ferramenta para ciração de gamers onde também é usado para visualizar e eles teem linguagem de shading propria. Poderiamos desenvolver um editor que automaticamente compila seu shader e mostra o resultado no mesmo aplicativo, entre outras melhors. 
-
-@@ Look at other conclusions to be write better @@
-
-Este sistema fornece uma base suficiente para implementação de BRDFs complexas, permitindo que o usuário se concentre na lógica específica do modelo de reflectância enquanto mantém consistência nas transformações de coordenadas e cálculos geométricos fundamentais.
-
-Esta implementação é particularmente relevante para simulações de iluminação física em computação gráfica, onde a precisão nos cálculos de ângulos e vetores é crucial para 
-a correta representação do comportamento da luz
-
-Existem linguagens específicas para a programação de \textit{shaders}, as quais permitem a modificação de procedimentos que representam uma BRDF. No entanto, essa aplicação requer conhecimento especializado em programação. Essa barreira técnica pode restringir a exploração dos efeitos visuais por profissionais de áreas não relacionadas à programação. Diante disso, surge a necessidade de ferramentas mais acessíveis para a criação de \textit{shaders}.
+objetos à realidade. A utilização de BRDFs é complexa por se tratarem de equações matemáticas,
+assim como a implementação de shaders requer conhecimentos na área de programação.
 
 
-No meio acadêmico, as BRDFs são comumente descritas por fórmulas escritas em \LaTeX{}, Desta forma, uma abordagem promissora para simplificar a criação de \textit{shaders} é o desenvolvimento de um compilador capaz de traduzir BRDFs   escritas em \LaTeX{} para \textit{shaders}. Isso permitiria uma maior acessibilidade e democratização na criação de efeitos visuais complexos.
+\textit{shaders},
+\textit{shaders}
+Este trabalho alcançou os objetivos propostos de desenvolver um compilador capaz de traduzir funções de distribuição de refletância bidirecional para código de linguagem de \textit{shading}. Para renderizar cenas de alta qualidade, é essenciais o uso de \textit{shaders}, componentes intrínsecos à pipeline gráfico visto na \autoref{shading}. Esses \textit{shaders} contem a implementação de BRDFs que determinam a maneira como a luz interafe com os materias. Não obstante,  a complexidade da BRDFs em suas equações, maskemas, também há a exigencia de conhecimentos na área de programação de shaders para realizar a tradução para BRDF para código.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+A ferramenta reduz significativamente a barreira técnica que poderia restringir a exploração de efeitos visuais por profissionais fora da área de programação. Isso foi alcançado ao fornecer um sistema que transforma um documento \LaTeX{} contendo equações de BRDF diretamente em um arquivo GLSL, pronto para ser carregado e visualizado utilizando ferramentas gratuitas, como o visualizador da Disney Explorer. Essa funcionalidade atende principalmente ao meio acadêmico, onde as BRDFs são frequentemente descritas por equações em \LaTeX{}, democratizando o acesso à criação de efeitos visuais complexos.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+visualizador
+a
+% Este trabalho alcançou os objetivos propostos de desenvolver um compilador capaz de traduzir funções de distribuição de refletância bidirecional para código de linguagem de \textit{shading}. Para renderizar cenas de alta qualidade, é essenciais o uso de \textit{shaders}, componentes intrínsecos à pipeline gráfico visto na \autoref{shading}. Esses \textit{shaders} contem a implementação de BRDFs que determinam a maneira como a luz interafe com os materias. Não obstante,  a complexidade da BRDFs em suas equações, maskemas, também há a exigencia de conhecimentos na área de programação de shaders para realizar a tradução para BRDF para código.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\end{document}
-
-\section{Perspectivas Futuras}
+% A ferramenta reduz significativamente a barreira técnica que poderia restringir a exploração de efeitos visuais por profissionais fora da área de programação. Isso foi alcançado ao fornecer um sistema que transforma um documento \LaTeX{} contendo equações de BRDF diretamente em um arquivo GLSL, pronto para ser carregado e visualizado utilizando ferramentas gratuitas, como o visualizador da Disney Explorer. Essa funcionalidade atende principalmente ao meio acadêmico, onde as BRDFs são frequentemente descritas por equações em \LaTeX{}, democratizando o acesso à criação de efeitos visuais complexos.
 
 
 
-\section{Trabalhos Futuros}
+% Este trabalho alcançou os objetivos propostos de desenvolver um compilador capaz de traduzir funções de distribuição de refletância bidirecional para código de linguagem de \textit{shading}. Para renderizar cenas de alta qualidade, é essenciais o uso de \textit{shaders}, componentes intrínsecos à pipeline gráfico visto na \autoref{shading}. Esses \textit{shaders} contem a implementação de BRDFs que determinam a maneira como a luz interafe com os materias. Não obstante,  a complexidade da BRDFs em suas equações, maskemas, também há a exigencia de conhecimentos na área de programação de shaders para realizar a tradução para BRDF para código.
+
+% A ferramenta reduz significativamente a barreira técnica que poderia restringir a exploração de efeitos visuais por profissionais fora da área de programação. Isso foi alcançado ao fornecer um sistema que transforma um documento \LaTeX{} contendo equações de BRDF diretamente em um arquivo GLSL, pronto para ser carregado e visualizado utilizando ferramentas gratuitas, como o visualizador da Disney Explorer. Essa funcionalidade atende principalmente ao meio acadêmico, onde as BRDFs são frequentemente descritas por equações em \LaTeX{}, democratizando o acesso à criação de efeitos visuais complexos.
+
+
+
+O projeto utiliza conhecimento técnico em áreas multidisciplinares, como gramáticas livres de contexto, geração de código GLSL, renderização projetiva e por \textit{raytracing} e fundamentos teóricos sobre refletância e conceitos fotométricos, para implementar os recursos da ferramenta como: mensagens de erro bem estruturados e informativos; geração de código para diferentes BRDFs diretamente a partir de equações \LaTeX{}; integração com a ferramenta Disney para renderização visual das BRDFs; visualização da arvóre sintática gerada como arquivo SVG. Todas as estapas do compilador, vista na arquitetura da \autoref{fig-estrutura-geral-compilador}, foram implementadas, a qual inclue analise léxica, sintática, semantica e geração de código, . Dessa maneira, a ferramenta promove uma expêriencia simplificada para visualização de BRDFs, democratizando o acesso a técnicas avançadas de \textit{shading}.
+
+O projeto utiliza conhecimento técnico em áreas multidisciplinares, como gramáticas livres de contexto, geração de código GLSL, renderização projetiva e por \textit{raytracing} e fundamentos teóricos sobre refletância e conceitos fotométricos, para implementar os recursos da ferramenta como: mensagens de erro bem estruturados e informativos; geração de código para diferentes BRDFs diretamente a partir de equações \LaTeX{}; integração com a ferramenta Disney para renderização visual das BRDFs; visualização da arvóre sintática gerada como arquivo SVG. Todas as estapas do compilador, vista na arquitetura da \autoref{fig-estrutura-geral-compilador}, foram implementadas, a qual inclue analise léxica, sintática, semantica e geração de código, . Dessa maneira, a ferramenta promove uma expêriencia simplificada para visualização de BRDFs, democratizando o acesso a técnicas avançadas de \textit{shading}.
+
+
+
+A partir dos experimentos da \autoref{chapter.resultados}, o sistema desmonstrou que fornece uma base sólida para a implementação de BRDFs complexas a partir de suas equações.  Isso confirma que usuários podem focar na lógica específica de modelagem de reflectância, sem precisar lidar com detalhes técnicos de baixo nível, como aspectos específicos da linguagem de \textit{shading}. Embora o sistema seja funcional e experimentos tenham tido sucesso, há oportunidades para melhorias e expansão. Algumas direções promissoras estão no items \autoref{items-melhorias}:
+
+\begin{itemize} \label{items-melhorias}
+    \item Ampliar o suporte para construções matemáticas adicionais, como somatórios ($\Sigma$) e produtos acumulados ($\Pi$);
+    \item Adicionar funcionalidades para definição e cálculo de derivadas e integrais, utilizando algoritmos numéricos para avaliar essas expressões diretamente na linguagem de \textit{shading};
+    \item Expandir as capacidades para suportar diferentes linguagens de \textit{shading}, como as utilizadas em motores gráficos como Unity\footnote{\url{https://unity.com/}} e Unreal\footnote{\url{https://www.unrealengine.com/en-US}};
+    \item Desenvolver um editor integrado que permita a compilação e visualização simultâneas de \textit{shaders}.
+\end{itemize}
+
+Ademais, outra melhoria poderia ser no aprimoramento no tratamento de erros podem proporcionar maior contextualização e clareza, auxiliando os usuários na resolução de problemas. Embora não tenham sido identificadas nas BRDFs exploradas, como certas construções matemáticas (notação $\Pi$ e $\Sigma$) ou integrais não analítica - o que impulsionaria a necessidade de um algoritmo numérico para resolução -, a implementação dessas funcionalidades ampliaria significativamente o potencial do compilador.
+
+As perspectivas futuras deste sistema apontam para uma ferramenta cada vez mais versátil e acessível, com o potencial de mudar como desenvolvedores e pesquisadores trabalham com BRDFs. A democratização do acesso a técnicas avançadas de computação gráfica representa uma oportunidade para facilitar e agilizar a modelagem dessas funções em simulações científicas.
+
+A partir dos experimentos da \autoref{chapter.resultados}, o sistema desmonstrou que fornece uma base sólida para a implementação de BRDFs complexas a partir de suas equações.  Isso confirma que usuários podem focar na lógica específica de modelagem de reflectância, sem precisar lidar com detalhes técnicos de baixo nível, como aspectos específicos da linguagem de \textit{shading}. Embora o sistema seja funcional e experimentos tenham tido sucesso, há oportunidades para melhorias e expansão. Algumas direções promissoras estão no items \autoref{items-melhorias}:
+
+
+
+Ademais, outra melhoria poderia ser no aprimoramento no tratamento de erros podem proporcionar maior contextualização e clareza, auxiliando os usuários na resolução de problemas. Embora não tenham sido identificadas nas BRDFs exploradas, como certas construções matemáticas (notação $\Pi$ e $\Sigma$) ou integrais não analítica - o que impulsionaria a necessidade de um algoritmo numérico para resolução -, a implementação dessas funcionalidades ampliaria significativamente o potencial do compilador.
+
+
+
+As perspectivas futuras deste sistema apontam para uma ferramenta cada vez mais versátil e acessível, com o potencial de mudar como desenvolvedores e pesquisadores trabalham com BRDFs. A democratização do acesso a técnicas avançadas de computação gráfica representa uma oportunidade para facilitar e agilizar a modelagem dessas funções em simulações científicas.
+
+
+
+\begin{itemize} \label{items-melhorias}
+    \item Ampliar o suporte para construções matemáticas adicionais, como somatórios ($\Sigma$) e produtos acumulados ($\Pi$);
+    \item Adicionar funcionalidades para definição e cálculo de derivadas e integrais, utilizando algoritmos numéricos para avaliar essas expressões diretamente na linguagem de \textit{shading};
+    \item Expandir as capacidades para suportar diferentes linguagens de \textit{shading}, como as utilizadas em motores gráficos como Unity\footnote{\url{https://unity.com/}} e Unreal\footnote{\url{https://www.unrealengine.com/en-US}};
+    \item Desenvolver um editor integrado que permita a compilação e visualização simultâneas de \textit{shaders}.
+\end{itemize}
+
+a
+contêm 
+contêm
+isualizado 
+ Dessa forma, a ferramenta promove uma experiência simplificada para visualização de BRDFs.
+ Dessa forma, a ferramenta promove uma experiência simplificada para visualização de BRDFs.
+\label{items-melhorias}
+    
+
+
+~
+a
+a
+
+
+\include{Content/Desenvolvimento/Checker}
+
+% \section{Analise Sintática}
+
+% \section{Analise Léxica}
+
+% \chapter{Desenvolvimento}
+
+\subsection{Desenvolvimento}
+
+% exemplo de como uma lingaugem um parser LALR(1) poderia fazer o encode na propria definição
+%
+% MultiplicativeExpr = MultiplicativeExpr * AddExpr
+% AddExpr = AddExpr * Expr
+%
+% no prat parsing a regra de derivação é a mesma , adicionado de uma tabela
+% Expr = Expr (*|+) Expr
+
+% Why pratt is better:
+% exemplo de como uma lingaugem um parser LALR(1) poderia fazer o encode na propria definição
+%
+% MultiplicativeExpr = MultiplicativeExpr * AddExpr
+% AddExpr = AddExpr * Expr
+%
+% no prat parsing a regra de derivação é a mesma , adicionado de uma tabela
+% Expr = Expr (*|+) Expr
+
+Este capítulo aborda o processo de desenvolvimento do compilador proposto como um todo na linguagem Odin. Cada etapa é encapsulado em um pacote, representado em \autoref{estrutura-de-pacotes} diferente \texttt{lexer} corresponde à tokenização da linguagem, \texttt{parser} corresponde à análise sintatica, \texttt{walker} contém funções que auxliam tanto a visualizar o resultado da analise sintatica, a AST, quando na checacgem de tipos da analise sintatixe, pois ambas dependem de fazer a transversia da arvore em ordem, \texttt{}. A arquitetura da pipeline para o compilador é delineado na \autoref{fig-estrutura-geral-compilador}.
+O repositório pode ser encontrado em \url{https://github.com/evertonse/@@@}
+
+\begin{figure}[H]
+  \caption{\label{estrutura-de-pacotes} \small Estrutura de Pacotes do Compilador.}
+  \begin{center}
+    \includegraphics[scale=0.5]{./Imagens/package-structure.png}
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+  \caption{\label{fig-estrutura-geral-compilador} \small Estrutura de geral da arquitetura da pipeline do Compilador.}
+  \begin{center}
+    \includegraphics[scale=0.62]{./Imagens/estutura-geral-do-projeto.png}
+  \end{center}
+\end{figure}
+
+Os resultados do desenvolvimento desse compilador pode ser encontrado em \autoref{resultados}.
+A especificação da linguagem pode ser encontrada no \autoref{@@@}. Nesse apendice temos a gramática @@@ para tokens e gramatica que gera AST, a tabela de precedencia que é necessário para desambiguar a linguamge encontra-se em \autoref{@@@}.
+Os exemplos de BRDFs mostrados no \autoref{resultados} foram usados como base para verificação da corretude da gramática durante seu desenvolvimento.
+
+Nesta construção do compilador, foi feita análises léxica manualmente através de loops mudando o estado atual para separada a entrada, que seria um string do arquivo inteiro, para uma lista de tokens. Já a análise sintática usamos a gramática livre de contexto \autoref{@@@} para nos guiar, somado a tabela de precedencia para aplicamo o Pratt Parsing que resulta em uma AST.
+
+
+@{Add develpment preview of wahts to come}
+
+\chapter{Desenvolvimento}
+
+Este capítulo aborda o processo de desenvolvimento do compilador proposto como um todo na linguagem Odin. Cada etapa é encapsulado em um pacote, representado em \autoref{estrutura-de-pacotes} diferente \texttt{lexer} corresponde à tokenização da linguagem, \texttt{parser} corresponde à análise sintatica, \texttt{walker} contém funções que auxliam tanto a visualizar o resultado da analise sintatica, a AST, quando na checacgem de tipos da analise sintatixe, pois ambas dependem de fazer a transversia da arvore em ordem, \texttt{}. A arquitetura da pipeline para o compilador é delineado na \autoref{fig-estrutura-geral-compilador}.
+O repositório pode ser encontrado em \url{https://github.com/evertonse/@@@}
+
+\begin{figure}[H]
+  \caption{\label{estrutura-de-pacotes} \small Estrutura de Pacotes do Compilador.}
+  \begin{center}
+    \includegraphics[scale=0.5]{./Imagens/package-structure.png}
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+  \caption{\label{fig-estrutura-geral-compilador} \small Estrutura de geral da arquitetura da pipeline do Compilador.}
+  \begin{center}
+    \includegraphics[scale=0.62]{./Imagens/estutura-geral-do-projeto.png}
+  \end{center}
+\end{figure}
+
+Os resultados do desenvolvimento desse compilador pode ser encontrado em \autoref{resultados}.
+A especificação da linguagem pode ser encontrada no \autoref{@@@}. Nesse apendice temos a gramática @@@ para tokens e gramatica que gera AST, a tabela de precedencia que é necessário para desambiguar a linguamge encontra-se em \autoref{@@@}.
+Os exemplos de BRDFs mostrados no \autoref{resultados} foram usados como base para verificação da corretude da gramática durante seu desenvolvimento.
+
+Nesta construção do compilador, foi feita análises léxica manualmente através de loops mudando o estado atual para separada a entrada, que seria um string do arquivo inteiro, para uma lista de tokens. Já a análise sintática usamos a gramática livre de contexto \autoref{@@@} para nos guiar, somado a tabela de precedencia para aplicamo o Pratt Parsing que resulta em uma AST.
+
+
+\include{Content/Desenvolvimento/Lexer}
+
+\include{Content/Desenvolvimento/Parser}
+
+\include{Content/Desenvolvimento/Walker}
+
+\include{Content/Desenvolvimento/Checker}
+
+% \include{Content/Desenvolvimento/Emitter}
+
+aborda
+Este capítulo detalha o processo de desenvolvimento do compilador de BRDFs em linguagem Odin, abordando cada etapa crucial da transformação de documentos \LaTeX{} em código GLSL. Cada etapa é encapsulado em um pacote, representado em \autoref{estrutura-de-pacotes} diferente \texttt{lexer} corresponde à tokenização da linguagem, \texttt{parser} corresponde à análise sintatica, \texttt{walker} contém funções que auxliam tanto a visualizar o resultado da analise sintatica, a AST, quando na checacgem de tipos da analise sintatixe, pois ambas dependem de fazer a transversia da arvore em ordem, \texttt{}. A arquitetura da pipeline para o compilador é delineado na \autoref{fig-estrutura-geral-compilador}.
+O repositório pode ser encontrado em \url{https://github.com/evertonse/@@@}
+
+,
+O componente \textit{Walker} desenvolve funções essenciais para navegação e análise da AST. Suas funcionalidades abrangem tanto a visualização da estrutura gerada quanto a preparação para verificações subsequentes pelo pacote \texttt{}. Seu papel principal é realizar a traversia da AST de maneira generica com supporte a decidir ou não continuar a traversia ou retornar de um nó sem ir até o final, também com possiblidade de identificar a profundidade atual, e abstrair maneira de fazer a traversia de nós de varios de maneira uniforme.
+
+ 
+O componente \textit{Walker} desenvolve funções essenciais para navegação e análise da AST. Suas funcionalidades abrangem tanto a visualização da estrutura gerada quanto a preparação para verificações subsequentes pelo pacote \texttt{}. Seu papel principal é realizar a traversia da AST de maneira generica com supporte a decidir ou não continuar a traversia ou retornar de um nó sem ir até o final, também com possiblidade de identificar a profundidade atual, e abstrair maneira de fazer a traversia de nós de varios de maneira uniforme.
+
+e
+\autoref{section-walker}
+Este capítulo detalha o processo de desenvolvimento do compilador de BRDFs em linguagem Odin, abordando cada etapa crucial da transformação de documentos \LaTeX{} em código GLSL. Cada etapa é encapsulado em um pacote, representado em \autoref{estrutura-de-pacotes} diferente \texttt{lexer} corresponde à tokenização da linguagem, \texttt{parser} corresponde à análise sintatica, \texttt{walker} contém funções que auxliam tanto a visualizar o resultado da analise sintatica, a AST, quando na checacgem de tipos da analise sintatixe, pois ambas dependem de fazer a transversia da arvore em ordem, \texttt{}. A arquitetura da pipeline para o compilador é delineado na \autoref{fig-estrutura-geral-compilador}.
+
+\autoref{section-walker}
+\autoref{section-checker}
+A
+autoref{section-lexer}
+ Tantob
+,
+,
+o
+subsection-symbols-scopes
+O repositório completo do projeto está disponível em \url{https://github.com/evertonse/@@@}, permitindo acesso integral à implementação desenvolvida.
+
+ 
+ ne
+Os resultados do desenvolvimento desse compilador pode ser encontrado em \autoref{resultados}.
+
+A especificação da linguagem pode ser encontrada no \autoref{@@@}. Nesse apendice temos a gramática @@@ para tokens e gramatica que gera AST, a tabela de precedencia que é necessário para desambiguar a linguamge encontra-se em \autoref{@@@}.
+
+grammar-ast-pt1
+\autoref{grammar-ast-pt1}
+1
+e
+Os exemplos de BRDFs mostrados no \autoref{resultados} foram usados como base para verificação da corretude da gramática durante seu desenvolvimento.
+
+Nesta construção do compilador, foi feita análises léxica manualmente através de loops mudando o estado atual para separada a entrada, que seria um string do arquivo inteiro, para uma lista de tokens. Já a análise sintática usamos a gramática livre de contexto \autoref{@@@} para nos guiar, somado a tabela de precedencia para aplicamo o Pratt Parsing que resulta em uma AST.
+
+
+@{Add develpment preview of wahts to come}
+
+% Why pratt is better:
+% exemplo de como uma lingaugem um parser LALR(1) poderia fazer o encode na propria definição
+%
+% MultiplicativeExpr = MultiplicativeExpr * AddExpr
+% AddExpr = AddExpr * Expr
+%
+% no prat parsing a regra de derivação é a mesma , adicionado de uma tabela
+% Expr = Expr (*|+) Expr
+
+Primeiro foi criado o analisdor lexico, um pacote inteiro para esse analisador na linguagem odin. O trabalho desse analisdor é transform um array de caracteres que é a entrada e retonar uma sequencia de tokens. Cada token tem um tipo ( chamado de kind em código), um valor, reservado para numeros, texto, e posição, que é usado para reportar erros.
+
+% Cada tipo (\textit{kind}) é cado pela enumeração \textbf{Token\_Kind}, essa encoda todos os possiveis tipos comomo dito @{cite previous chapter talking about the entry language}.
+% Esses token podem ser: comentarios gerados por uma linha que comece com \%, números, identificadores que são qualquer sequencia de caractheres que não seja palavras especiais, simbolo de igual ('='), simbolos de operadores ('\^', '*') .. bla, funções espciais ($\max$, $\sin$, $\arccos$, etc ...)
+%
+%
+% \begin{codigo}[H]
+%   \caption{\small } \label{}
+% \begin{lstlisting}
+% Token :: struct {
+%     kind: Token\_Kind,
+%     val: union{i64,f64},
+%     text: string,
+%     pos:  Position,
+% }
+%
+% \end{lstlisting}
+% \end{codigo}
+%
+% O processo de lexing feito com um loop, simulado a uma maquina de estados, que decide qual token deve ser criado em sequencia ao olhar o caractere atual e o estado.
+%
+% Estados estão relacionados ao processo de identificar estados pode estar relacionados a identificar palavras.
+%
+% É  adiante, por exemplo se encontrar um um '1' sabemos que é um numero, podendo ter um '.' para indicar decimal, então utilizamos 
+% uma subrotina para identificar esse continuar processando o "input" até o token de numeros ter sido totalmente coletado, se no meio de processar um número um caractere não esperado for encontrado, reportamos um error léxico, exemplos pode ser visto na imagem @{Mostre Imagem com Erro}
+% O mais simples são tokens de um caractere '\^', '*', '/', '+', '-', '?', '=', '~', '(', ')', ',', ':', '{', '}', '\_', cara um tem um proposito especifico na analise lexica. Na etapa lexica nos preopados apenas em separar nos tokens de maneira cega ao seu significado.
+%
+%
+% Todo identificador, especial ou não é processado da mesma maneira, é verificado se o caractere atual é um letra ou um '\\', isso indica o começo 
+% de um identificador. Depois de de
+%
+% A gramatica dos tokens é regular e será representada abaixio:
+%
+%
+% Vale ressaltar que nesse moment é criado uma tabela que mapeia cada numero de linha à um string dessa mesma linha, para reportar error, printando a linha do problema mais a linha anterior e posterior para.
+% Tem um token que é especial que indica o começo de um ambiente `\\begin{equation}`, qualquer comentario antes de apaerecer esse token é ignorado, isso é para poder dar como entrada ao compilador um documento inteir ocontendo begin document e ainda funciojnar
+%
+%
+%
+% \subsection{Analise Semantica}
+%
+% \subsubsection{Tabela de Symbolos}
+% Symbolos podem ser declarados fora de ordem, ciramos um grafo de dependencias e fazemos um orednação topologica de dependencia.
+% Isso é póis, ao detectar analisa um certo symbolo queremos dizer se está usando simbolos não definidos, para isso precisamos definifir todos os simbolos glocais que estão no escopo visivel à todos, isso incluisimbolos pre-definidos pela linguagem, (ver tabela @{tabela de simbolos predefinidos}, para isso precisamos primeiro primeiro coletar todos esses e analisar priomeiros oq que dependen de ninguem, e medida que tão
+% . Também pode ocorrer dependecia circular sem reoslução e nesse caso reportamos um erro, nesse caso precisamos. @{true? ciruclar dependency?}
+%
+% \subsubsection{Inferencia de Tipos}
+%
+% \subsection{SVG da arvore abstrata com inferencia de tipos}
+% Para identificar possiveis erros de ordenação algumas medidas foram feitas para auxiliar, como a geração de uma imagem da 
+% em SVG da arvore sintatica, já com inferencia de tipos
+
+
+
+@{Add develpment preview of wahts to come}
+
+
+
+input
+//////////// END OF USER DECLARED ////////////
+//////////// START FUNCTIONS DECLARATIONS ////////////
+float var_14_Beckmann(float var_15_m, float var_16_t) {
+  return (exp((((((var_16_t * var_16_t) - 1.0)) /
+                ((((var_15_m * var_15_m) * var_16_t) * var_16_t))))) /
+          ((((((var_15_m * var_15_m) * var_16_t) * var_16_t) * var_16_t) *
+            var_16_t)));
+}
+
+//////////// END OF USER DECLARED ////////////
+
+//////////// START FUNCTIONS DECLARATIONS ////////////
+float var_12_text_lump(vec3 var_0_vec_h, float var_13_R, float var_14_n) {
+  return ((((var_14_n + 1.0)) / (((var_1_pi * var_13_R) * var_13_R))) *
+          ((1.0 - ((dot(var_0_vec_h, var_0_vec_h)) /
+                   pow(((var_13_R * var_13_R)), var_14_n)))));
+}
+//////////// END FUNCTIONS DECLARATIONS ////////////
+
+r
+o
+\label{section-lexer}
+\label{section-checker}
+\label{section-checker}
+checker
+bbbb
+e BRDFs usadas na literatura 
+e
+Este capítulo detalha o processo de desenvolvimento do compilador de BRDFs em linguagem Odin, abordando cada etapa crucial da transformação de documentos \LaTeX{} em código GLSL. Cada etapa é encapsulado em um pacote, representado em \autoref{estrutura-de-pacotes} diferente \texttt{lexer} corresponde à tokenização da linguagem, \texttt{parser} corresponde à análise sintatica, \texttt{walker} contém funções que auxliam tanto a visualizar o resultado da analise sintatica, a AST, quando na checacgem de tipos da analise sintatixe, pois ambas dependem de fazer a transversia da arvore em ordem, \texttt{}. A arquitetura da pipeline para o compilador é delineado na \autoref{fig-estrutura-geral-compilador}.
+
+árvore de sintaxe abstrata (AST),
+Este capítulo detalha o processo de desenvolvimento do compilador de BRDFs em linguagem Odin, abordando cada etapa crucial da transformação de documentos \LaTeX{} em código GLSL. Cada etapa é encapsulado em um pacote, representado em \autoref{estrutura-de-pacotes} diferente \texttt{lexer} corresponde à tokenização da linguagem, \texttt{parser} corresponde à análise sintatica, \texttt{walker} contém funções que auxliam tanto a visualizar o resultado da analise sintatica, a AST, quando na checacgem de tipos da analise sintatixe, pois ambas dependem de fazer a transversia da arvore em ordem, \texttt{}. A arquitetura da pipeline para o compilador é delineado na \autoref{fig-estrutura-geral-compilador}.
+
+
+
+T
+\texttt{emitter}
+Este capítulo detalha o desenvolvimento do compilador escrito na linguagem Odin, que torna possível a transformação de equações em documentos \LaTeX{} em código GLSL. Cada etapa do processo é encapsulada em um pacote distinto, representado na \autoref{estrutura-de-pacotes}. O \texttt{lexer} corresponde à tokenização da linguagem, responsável por converter o texto em tokens identificáveis. O \texttt{parser} realiza a análise sintática, construindo a estrutura gramatical do documento. O \texttt{walker} contém funções essenciais para visualização da árvore de sintaxe abstrata (AST) e checagem de tipos feita pelo \texttt{checker}, executando a travessia da árvore de forma ordenada para geração de código feita pelo pacote \texttt{emitter}. A arquitetura completa da pipeline do compilador é detalhada na \autoref{fig-estrutura-geral-compilador}.
+
+ 
+t
+  \autoref{estrutura-de-pacotes}. O \texttt{lexer} corresponde à tokenização da linguagem, 
+Na \autoref{section-parser} é elaborado sobre o pacote \texttt{parser} que utiliza gramática livre de contexto e técnica de Pratt Parsing para construir a arvore sintática abstrata (AST). Esta abordagem permite uma representação hierárquica precisa das expressões matemáticas de BRDFs, capturando nuances sintáticas e estruturais do documento original. A especificação da linguagem (\autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2}) é definida na seção de analise sintatica juntamente com a precedencia dos operadores prefixos e infixos.
+
+Na \autoref{section-parser} é elaborado sobre o pacote \texttt{parser} que utiliza gramática livre de contexto e técnica de Pratt Parsing para construir a arvore sintática abstrata (AST). Esta abordagem permite uma representação hierárquica precisa das expressões matemáticas de BRDFs, capturando nuances sintáticas e estruturais do documento original. A especificação da linguagem (\autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2}) é definida na seção de analise sintatica juntamente com a precedencia dos operadores prefixos e infixos.
+
+
+
+a
+a
+\begin{figure}[H]
+  \caption{\label{fig-estrutura-geral-compilador} \small Estrutura de geral da arquitetura da pipeline do Compilador.}
+  \begin{center}
+    \includegraphics[scale=0.62]{./Imagens/estutura-geral-do-projeto.png}
+  \end{center}
+\end{figure}
+
+
+\begin{figure}[H]
+  \caption{\label{estrutura-de-pacotes} \small Estrutura de Pacotes do Compilador.}
+  \begin{center}
+    \includegraphics[scale=0.5]{./Imagens/package-structure.png}
+  \end{center}
+\end{figure}
+
+
+
+
+
+H
+H
+
+
+H
+\begin{figure}[!ht]
+  \caption{\label{estrutura-de-pacotes} \small Estrutura de Pacotes do Compilador.}
+  \begin{center}
+    \includegraphics[scale=0.5]{./Imagens/package-structure.png}
+  \end{center}
+\end{figure}
+
+radiometria
+radiometria
+além de conhecimento teórico sobre refletancia e conceitos
+além de conhecimento teórico sobre refletancia e conceitos de radiometria.
+Esta etapa apresenta o desenvolvimento de tokenização do subconjunto do ambiente de equação do \LaTeX{}. A entrada para essa etapa são os caracteres do arquivo fonte, e a saída é uma organização lógica desses caracteres em sequencia que formam os \texttt{tokens}. O código dessa etapa se encontar no pacote \texttt{lexer} apresentado em \autoref{estrutura-de-pacotes}.
+
+Primeiro, realizamos um laço sobre o arquivo inteiro, passado caracter à caracter para extrair os tokens. Antes realizamos uma checkagem de igualdade com a string
+\verb|\begin{equation}| para decidir se já podemos começar a extrair os tokens. Dessa maneira permitimos que outros textos que não estão dentro da delimitação, a qual acaba com \verb|\end{equation}|, possa existir, como textos explicatorios dentro de um mesmo arquivo de extensão \texttt{.tex}.
+
+Por conveniencia, apresentamos uma gramatica para geração dos \texttt{tokens}, escrito apenas para fins de documentação, \autoref{grammar-tokens}, o alfabeto dessa gramatica são os caracteres.
+A geração de tokens internamente possui sua implementação similiar a simulação de uma máquina de estados.
+
+Na definição da gramática (\autoref{grammar-tokes}), utilizamos uma notação leve de sintaxe para representá-la. Palavras com todas as letras minúsculas são não-terminais, enquanto palavras entre aspas simples representam literalmente \textit{caracteres} com esse conteúdo. Palavras em letras maiúsculas representam um um \textit{caractere} que pode variar, mas mantém o mesmo significado semântico. Por exemplo, \texttt{DIGIT} pode ser um digito de 0 à 9, mas nas regras de produção eles são tratados de maneira idêntica. LETTER é outro exemplo, que significa, uma letra \verb"a" à \verb"z". O símbolo ``$*$'' indica zero ou mais ocorrências, ``$()$'' indica agrupamento para aplicar um operador a ele, ``$|$'' simboliza o início de uma regra alternativa para o mesmo não-terminal, ou se estiver dentro de um agrupamento dessa maneira``$(a|b)$'' significa que aceita a ou b e ``$=$'' indica uma produção. Essa mesma definição de gramatica é utilizada para \autoref{grammar}, com a diferença que o alfabeto dela são formato pelo conjunto de tokens gerados nessa etapa.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+desenvolve
+a
+Esta etapa apresenta o desenvolvimento de tokenização do subconjunto do ambiente de equação do \LaTeX{}. A entrada para essa etapa são os caracteres do arquivo fonte, e a saída é uma organização lógica desses caracteres em sequencia que formam os \texttt{tokens}. O código dessa etapa se encontar no pacote \texttt{lexer} apresentado em \autoref{estrutura-de-pacotes}.
+
+Primeiro, realizamos um laço sobre o arquivo inteiro, passado caracter à caracter para extrair os tokens. Antes realizamos uma checkagem de igualdade com a string
+\verb|\begin{equation}| para decidir se já podemos começar a extrair os tokens. Dessa maneira permitimos que outros textos que não estão dentro da delimitação, a qual acaba com \verb|\end{equation}|, possa existir, como textos explicatorios dentro de um mesmo arquivo de extensão \texttt{.tex}.
+
+Por conveniencia, apresentamos uma gramatica para geração dos \texttt{tokens}, escrito apenas para fins de documentação, \autoref{grammar-tokens}, o alfabeto dessa gramatica são os caracteres.
+A geração de tokens internamente possui sua implementação similiar a simulação de uma máquina de estados.
+
+Na definição da gramática (\autoref{grammar-tokes}), utilizamos uma notação leve de sintaxe para representá-la. Palavras com todas as letras minúsculas são não-terminais, enquanto palavras entre aspas simples representam literalmente \textit{caracteres} com esse conteúdo. Palavras em letras maiúsculas representam um um \textit{caractere} que pode variar, mas mantém o mesmo significado semântico. Por exemplo, \texttt{DIGIT} pode ser um digito de 0 à 9, mas nas regras de produção eles são tratados de maneira idêntica. LETTER é outro exemplo, que significa, uma letra \verb"a" à \verb"z". O símbolo ``$*$'' indica zero ou mais ocorrências, ``$()$'' indica agrupamento para aplicar um operador a ele, ``$|$'' simboliza o início de uma regra alternativa para o mesmo não-terminal, ou se estiver dentro de um agrupamento dessa maneira``$(a|b)$'' significa que aceita a ou b e ``$=$'' indica uma produção. Essa mesma definição de gramatica é utilizada para \autoref{grammar}, com a diferença que o alfabeto dela são formato pelo conjunto de tokens gerados nessa etapa.
+
+   \item 
+\item 
+    \item 
+
+\item
+e
+Na definição da gramática (\autoref{grammar-tokens}), utilizamos uma notação leve de sintaxe para representar suas regras. Palavras com todas as letras minúsculas representam não-terminais, enquanto palavras entre aspas simples correspondem a caracteres literais específicos. Por outro lado, palavras em letras maiúsculas denotam categorias semânticas, como \texttt{DIGIT}, que representa qualquer dígito de 0 a 9, e \texttt{LETTER}, que cobre letras de \texttt{'a'} a \texttt{'z'}. 
+
+Na definição da gramática (\autoref{grammar-tokes}), utilizamos uma notação leve de sintaxe para representá-la. Palavras com todas as letras minúsculas são não-terminais, enquanto palavras entre aspas simples representam literalmente \textit{caracteres} com esse conteúdo. Palavras em letras maiúsculas representam um um \textit{caractere} que pode variar, mas mantém o mesmo significado semântico. Por exemplo, \texttt{DIGIT} pode ser um digito de 0 à 9, mas nas regras de produção eles são tratados de maneira idêntica. LETTER é outro exemplo, que significa, uma letra \verb"a" à \verb"z". O símbolo ``$*$'' indica zero ou mais ocorrências, ``$()$'' indica agrupamento para aplicar um operador a ele, ``$|$'' simboliza o início de uma regra alternativa para o mesmo não-terminal, ou se estiver dentro de um agrupamento dessa maneira``$(a|b)$'' significa que aceita a ou b. Por fim, ``$=$'' indica uma produção. Essa mesma definição de gramatica é utilizada para \autoref{grammar}, com a diferença que o alfabeto dela são formato pelo conjunto de tokens gerados nessa etapa.
+
+% Esta etapa desenvolve o processo de tokenização, o processamento do subconjunto de equações do \LaTeX{}, transformando caracteres do arquivo fonte em uma sequência lógica de tokens. Localizada no pacote \texttt{lexer}, conforme ilustrado na \autoref{estrutura-de-pacotes}, esta fase é crucial para preparar o conteúdo matemático para análise subsequente.
+% O processo de tokenização inicia com uma verificação do delimitador \verb|\begin{equation}|, permitindo que apenas o conteúdo matemático seja processado. Essa abordagem possibilita a coexistência de texto explicativo no mesmo arquivo \texttt{.tex}, preservando a flexibilidade documental.
+% A implementação segue uma metodologia similar à simulação de uma máquina de estados, percorrendo o arquivo caractere por caractere. Para documentação, desenvolvemos uma gramática de tokens representada no \autoref{grammar-tokens}, que utiliza uma notação sintática específica:
+%
+% Palavras em minúsculas representam não-terminais
+% Caracteres entre aspas simples são literais
+% Palavras maiúsculas (como \texttt{DIGIT} e \texttt{LETTER}) simbolizam classes de caracteres
+% Símbolos especiais como $*$'' (zero ou mais ocorrências), $|$'' (alternativas) e ``$=$'' (produção) auxiliam na definição precisa
+%
+% Esta gramática serve como referência para a geração sistemática de tokens, preparando o terreno para as etapas subsequentes de análise sintática.
+% A metodologia garante uma conversão precisa e controlada do texto matemático em uma representação estruturada, fundamental para o processamento posterior das expressões de BRDFs.
+
+### Tokenização do Ambiente de Equação no \LaTeX{}
+
+o
+ 
+O símbolo ``$*$'' indica zero ou mais ocorrências, ``$()$'' indica agrupamento para aplicar um operador a ele, ``$|$'' simboliza o início de uma regra alternativa para o mesmo não-terminal, ou se estiver dentro de um agrupamento dessa maneira``$(a|b)$'' significa que aceita a ou b. Por fim, ``$=$'' indica uma produção. Essa mesma definição de gramatica é utilizada para \autoref{grammar}, com a diferença que o alfabeto dela são formato pelo conjunto de tokens gerados nessa etapa.
+
+,
+,
+,
+\texttt{
+Essa definição de gramática é utilizada para a documentação da geração dos \textit{tokens}, mas também serve como base para uma etapa posterior, detalhada na \autoref{grammar}. Nessa etapa seguinte, o alfabeto passa a ser composto pelo conjunto de \textit{tokens} gerados. Assim, a abordagem modular do processo de tokenização permite uma análise precisa do conteúdo relevante enquanto mantém flexibilidade para futuras expansões e ajustes.
+
+ Assim, a abordagem modular do processo de tokenização permite uma análise precisa do conteúdo relevante enquanto mantém flexibilidade para futuras expansões e ajustes.
+Além disso, utilizamos símbolos padrão para facilitar a interpretação das regras:
+\begin{itemize}
+    \item ``$*$'' indica zero ou mais ocorrências de um elemento.
+    \item ``$()$'' denota agrupamento, geralmente utilizado para aplicar operadores a um conjunto de elementos.
+    \item ``$|$'' indica o  regra  ou separa alternativas dentro de uma mesma regra, por exemplo, ``$(a|b)$'' aceita \texttt{'a'} ou \texttt{'b'}.
+    \item ``$=$'' define uma produção.
+\end{itemize}
+
+
+Esta etapa apresenta o desenvolvimento de tokenização do subconjunto do ambiente de equação do \LaTeX{}. A entrada para essa etapa são os caracteres do arquivo fonte, e a saída é uma organização lógica desses caracteres em sequencia que formam os \texttt{tokens}. O código dessa etapa se encontar no pacote \texttt{lexer} apresentado em \autoref{estrutura-de-pacotes}.
+
+Primeiro, realizamos um laço sobre o arquivo inteiro, passado caracter à caracter para extrair os tokens. Antes realizamos uma checkagem de igualdade com a string
+\verb|\begin{equation}| para decidir se já podemos começar a extrair os tokens. Dessa maneira permitimos que outros textos que não estão dentro da delimitação, a qual acaba com \verb|\end{equation}|, possa existir, como textos explicatorios dentro de um mesmo arquivo de extensão \texttt{.tex}.
+
+
+Por conveniencia, apresentamos uma gramatica para geração dos \texttt{tokens}, escrito apenas para fins de documentação, \autoref{grammar-tokens}, o alfabeto dessa gramatica são os caracteres.
+A geração de tokens internamente possui sua implementação similiar a simulação de uma máquina de estados.
+
+function-lex
+O pacote inteiro pode ser chamada através de uma unica funcão, vista no \autoref{function-lex} em sintaxe \texttt{Odin}. Significa que temos um procedimento, chamado \texttt{lex} que aceita uma a lista de caracteres, e retorna uma lista do tipo \texttt{Token} (\autoref{lexer-structs}), esse tipo é uma estrutura que possui os campos: \texttt{kind}, que discrimina o tipo de token, que corresponde a uma das regras de produção na \autoref{grammar-tokens}; \texttt{text}, corresponde à string que o gerou; \texttt{position} instacia do tipo \texttt{Position}.
+
+A medida que iteramos nesse \texttt{input}, também matemos algumas variaveis de controle, como contagem que quebra de linhas (\verb|"\n"| ou \verb|"\n\r"|), coluna atual e o cursor que reprenta index que aponta para o caractere sendo processado. A contagem de quebra de linha e coluna é importante para preencher a estrutura o campo do token correspondente ao tipo \texttt{Position}, representado em \autoref{lexer-structs}, que por sua vez é essencial para reportagem de errors. O reporte de erros que é implemnetada nessa etapa e utilizada por todos os pacotes do proejto, sua função possui possiveis assinatura vista no \autoref{function-errors}:
+function-errors
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%  ABOVE IS NEW  %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Na definição da gramática (\autoref{grammar-tokes}), utilizamos uma notação leve de sintaxe para representá-la. Palavras com todas as letras minúsculas são não-terminais, enquanto palavras entre aspas simples representam literalmente \textit{caracteres} com esse conteúdo. Palavras em letras maiúsculas representam um um \textit{caractere} que pode variar, mas mantém o mesmo significado semântico. Por exemplo, \texttt{DIGIT} pode ser um digito de 0 à 9, mas nas regras de produção eles são tratados de maneira idêntica. LETTER é outro exemplo, que significa, uma letra \verb"a" à \verb"z". 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%  ABOVE IS NEW  %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \item
+O pacote inteiro pode ser chamada através de uma unica funcão, vista no \autoref{function-lex} em sintaxe \texttt{Odin}. Significa que temos um procedimento, chamado \texttt{lex} que aceita uma a lista de caracteres, e retorna uma lista do tipo \texttt{Token} (\autoref{lexer-structs}), esse tipo é uma estrutura que possui os campos: \texttt{kind}, que discrimina o tipo de token, que corresponde a uma das regras de produção na \autoref{grammar-tokens}; \texttt{text}, corresponde à string que o gerou; \texttt{position} instacia do tipo \texttt{Position}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%  Below IS NEW  %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%  ABOVE IS NEW  %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+O pacote inteiro pode ser chamada através de uma unica funcão, vista no \autoref{function-lex} em sintaxe \texttt{Odin}. Significa que temos um procedimento, chamado \texttt{lex} que aceita uma a lista de caracteres, e retorna uma lista do tipo \texttt{Token} (\autoref{lexer-structs}), esse tipo é uma estrutura que possui os campos: \texttt{kind}, que discrimina o tipo de token, que corresponde a uma das regras de produção na \autoref{grammar-tokens}; \texttt{text}, corresponde à string que o gerou; \texttt{position} instacia do tipo \texttt{Position}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%  Below IS NEW  %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%  ABOVE IS NEW  %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 :
+C
+A medida que iteramos nesse \texttt{input}, também matemos algumas variaveis de controle, como contagem que quebra de linhas (\verb|"\n"| ou \verb|"\n\r"|), coluna atual e o cursor que reprenta index que aponta para o caractere sendo processado. A contagem de quebra de linha e coluna é importante para preencher a estrutura o campo do token correspondente ao tipo \texttt{Position}, representado em \autoref{lexer-structs}, que por sua vez é essencial para reportagem de errors. O reporte de erros que é implemnetada nessa etapa e utilizada por todos os pacotes do proejto, sua função possui possiveis assinatura vista no \autoref{function-errors}:
+function-errors
 
-\documentclass{article}
-\usepackage{amsmath}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%  Below IS NEW  %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%  Below IS NEW  %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%  ABOVE IS NEW  %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Conclusão e Contribuições}
 
+Dado um posição ou um \texttt{token} exibimos uma mesagem (\texttt{msg}) que é mostrado na tela do terminal com uma formatação que mostra exatamente onde está o erro, em vermelho. Extraindo as informações do token sabemos exatamente como sublinhar o erro, pois sabemos qual o nome do arquivo, linha, coluna, e cumprimeto do token que gerou o problema, possibilitando uma clara mensagem de erros exemplificado no erro sematnico de uso de indentificador não definido \autoref{analise-erros}, erro de @@ outros errros @@
 
-\subsection{Principais Contribuições}
+Tokens de um a dois caracteres são simples, basta ler um ou dois caracteres do input e contrtuir o token e continuar o laço até não poder mais. Se for ecnontrado o caractere \texttt{\%}, então o restante dos caracteres são ignorates até encontrar uma quebra de linha, isso é feito para dar supporte à comentarios \LaTeX{}.
+Se for encontrado um digito ou letra então são classificados como indentificadores, números ou tokens especiais.
 
+Numberos podem opcionalmente ter \. (ex: $1.0$). Indentificadores são formados por uma ou mais letras com o simbolo \verb"\" opcionalmente prefixo ao mesmo. Note que a grammatica de tokens é ambigua, uma sequencia de caracteres como \verb"\frac" pode ser interpretada como indetificar, para desmabiguar, criamos uma dicionário que mapeia um string à um token considerado esperial. Assim se o indetificador começar com o caractere \verb"\", mapeamos ele para um token especial através do dicionário exposto em \autoref{map-special-identifiers}.
 
-Características Fundamentais
-\textit{shading}
-sombreamento
-, sendo especialmente relevante para simulações de iluminação física em computação gráfica, onde a precisão nos cálculos de ângulos e vetores é crucial para representação fiel do comportamento da luz.
+Com laços represenmos a extração de.
+
+\section{Análise Léxica} \label{section-lexer}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%  Below IS NEW  %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%  ABOVE IS NEW  %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+:
  
-;
-
-Identificamos diversos caminhos para aprimoramento futuro do compilador:
-
-1. Expansão de Capacidades Matemáticas
-- Implementar suporte para notações matemáticas diferentes somatórios ($\Sigma$) e acumulo de multiplicações como a notação $\Pi$
-- Adicionar capacidade de definição e cálculo de derivadas e integrais
-- Integrar algoritmos numéricos para processamento de expressões matemáticas complexas
-
-As principais contribuições do compilador incluem:
-- geração de código para múltiplas brdfs com visualização em latex
-- suporte à ferramenta disney para renderização
-- interface amigável que democratiza o acesso a técnicas complexas de sombreamento
-
-
-Nosso trabalho alcançou os objetivos propostos, desenvolvendo um sistema para compilação de BRDFs. Criamos uma ferramenta abrangente que não apenas gera código de sombreamento, mas também oferece uma experiência completa de visualização e teste, com recursos de erro bem estruturados e informativos.
-
-.
-N
-, 
-abordagem
-Nosso trabalho alcançou os objetivos propostos, desenvolvendo um sistema abrangente para compilação de Funções de Distribuição de Reflectância Bidirecional (BRDFs). A ferramenta não apenas gera código de sombreamento, mas também oferece uma experiência completa de visualização e teste, com recursos de erro bem estruturados e informativos.
-
-Nosso trabalho alcançou os objetivos propostos, desenvolvendo um sistema abrangente para compilação de Funções de Distribuição de Reflectância Bidirecional (BRDFs). A ferramenta não apenas gera código de sombreamento, mas também oferece uma experiência completa de visualização e teste, com recursos de erro bem estruturados e informativos.
-
-
-
+podem 
 I
+Numberos podem opcionalmente ter \. (ex: $1.0$). Indentificadores são formados por uma ou mais letras com o simbolo \verb"\" opcionalmente prefixo ao mesmo. Note que a grammatica de tokens é ambigua, uma sequencia de caracteres como \verb"\frac" pode ser interpretada como indetificar, para desmabiguar, criamos uma dicionário que mapeia um string à um token considerado esperial. Assim se o indetificador começar com o caractere \verb"\", mapeamos ele para um token especial através do dicionário exposto em \autoref{map-special-identifiers}.
 
-Identificamos diversos caminhos para aprimoramento futuro do compilador, como expansão de capacidades matemáticas e expansão de plataformas;
+Com laços represenmos a extração de.
 
-
-Nosso trabalho alcançou os objetivos propostos, desenvolvendo um sistema para compilação de BRDFs. Criamos uma ferramenta abrangente que não apenas gera código de sombreamento, mas também oferece uma experiência completa de visualização e teste, com recursos de erro bem estruturados e informativos. Que exige conhecimento especifico de duas grandes area como a relacionada com lingragens livre de constexto, conhewcimento pratico de geração de código GLSL, conhecimento sobre renderização prática como renderização projetiva e raytracing, usandos pela Disney Explorar, e também conhjecimento teórico sobre refletancia e conceitos fotometricos.
-
-Diminuimos a barreira tecnica que pode restringir a exploração dos efeitos visuais por profissionais de áreas não relacionadas à programação ao fornecer uma ferramenta capaz de tranformar um documento \LaTeX{} contendo equações de BRDF para um arquivo GLSL pronto para ser carregado e visualizado por um ferramenta fornecida gratuitamente (Disney BRDF). A necessidade de ferramentas mais acessíveis para a criação de \textit{shaders} foi parcialmente suprida, principalemnte no meio acadêmico, onde as BRDFs são comumente descritas por fórmulas escritas em \LaTeX{}. O compilador compilador alcança seu objetivo de traduzir BRDFs escritas em \LaTeX{} para \textit{shaders}, permitindo uma maior acessibilidade e democratização na criação de efeitos visuais complexos.
+Dado um posição ou um \texttt{token} exibimos uma mesagem (\texttt{msg}) que é mostrado na tela do terminal com uma formatação que mostra exatamente onde está o erro, em vermelho. Extraindo as informações do token sabemos exatamente como sublinhar o erro, pois sabemos qual o nome do arquivo, linha, coluna, e cumprimeto do token que gerou o problema, possibilitando uma clara mensagem de erros exemplificado no erro sematnico de uso de indentificador não definido \autoref{analise-erros}, erro de @@ outros errros @@
 
 
-As principais contribuições do compilador incluem:
+
+ um
+d
+\label{especificacao-linguagem}
+,
+a
+apesar de documentar com uma gramatica
+A
+a
+, .
+Essa mesma definição de gramatica é utilizada para \autoref{grammar}, com a diferença que o alfabeto dela são formato pelo conjunto de tokens gerados nessa etapa.
+
+
+
+a
+a
+% Na definição da gramática (\autoref{grammar-tokes}), utilizamos uma notação leve de sintaxe para representá-la. Palavras com todas as letras minúsculas são não-terminais, enquanto palavras entre aspas simples representam literalmente \textit{caracteres} com esse conteúdo. Palavras em letras maiúsculas representam um um \textit{caractere} que pode variar, mas mantém o mesmo significado semântico. Por exemplo, \texttt{DIGIT} pode ser um digito de 0 à 9, mas nas regras de produção eles são tratados de maneira idêntica. LETTER é outro exemplo, que significa, uma letra \verb"a" à \verb"z". 
+
+
+
+
+
+
+
+
+
+% Nesta construção do compilador, foi feita análises léxica manualmente através de loops mudando o estado atual para separada a entrada, que seria um string do arquivo inteiro, para uma lista de tokens. Já a análise sintática usamos a gramática livre de contexto \autoref{@@@} para nos guiar, somado a tabela de precedencia para aplicamo o Pratt Parsing que resulta em uma AST.
+
+
+
+% Why pratt is better:
+% exemplo de como uma lingaugem um parser LALR(1) poderia fazer o encode na propria definição
+%
+% MultiplicativeExpr = MultiplicativeExpr * AddExpr
+% AddExpr = AddExpr * Expr
+%
+% no prat parsing a regra de derivação é a mesma , adicionado de uma tabela
+% Expr = Expr (*|+) Expr
+
+% Primeiro foi criado o analisdor lexico, um pacote inteiro para esse analisador na linguagem odin. O trabalho desse analisdor é transform um array de caracteres que é a entrada e retonar uma sequencia de tokens. Cada token tem um tipo ( chamado de kind em código), um valor, reservado para numeros, texto, e posição, que é usado para reportar erros.
+
+% Cada tipo (\textit{kind}) é cado pela enumeração \textbf{Token\_Kind}, essa encoda todos os possiveis tipos comomo dito @{cite previous chapter talking about the entry language}.
+% Esses token podem ser: comentarios gerados por uma linha que comece com \%, números, identificadores que são qualquer sequencia de caractheres que não seja palavras especiais, simbolo de igual ('='), simbolos de operadores ('\^', '*') .. bla, funções espciais ($\max$, $\sin$, $\arccos$, etc ...)
+%
+%
+% \begin{codigo}[H]
+%   \caption{\small } \label{}
+% \begin{lstlisting}
+% Token :: struct {
+%     kind: Token\_Kind,
+%     val: union{i64,f64},
+%     text: string,
+%     pos:  Position,
+% }
+%
+% \end{lstlisting}
+% \end{codigo}
+%
+% O processo de lexing feito com um loop, simulado a uma maquina de estados, que decide qual token deve ser criado em sequencia ao olhar o caractere atual e o estado.
+%
+% Estados estão relacionados ao processo de identificar estados pode estar relacionados a identificar palavras.
+%
+% É  adiante, por exemplo se encontrar um um '1' sabemos que é um numero, podendo ter um '.' para indicar decimal, então utilizamos 
+% uma subrotina para identificar esse continuar processando o "input" até o token de numeros ter sido totalmente coletado, se no meio de processar um número um caractere não esperado for encontrado, reportamos um error léxico, exemplos pode ser visto na imagem @{Mostre Imagem com Erro}
+% O mais simples são tokens de um caractere '\^', '*', '/', '+', '-', '?', '=', '~', '(', ')', ',', ':', '{', '}', '\_', cara um tem um proposito especifico na analise lexica. Na etapa lexica nos preopados apenas em separar nos tokens de maneira cega ao seu significado.
+%
+%
+% Todo identificador, especial ou não é processado da mesma maneira, é verificado se o caractere atual é um letra ou um '\\', isso indica o começo 
+% de um identificador. Depois de de
+%
+% A gramatica dos tokens é regular e será representada abaixio:
+%
+%
+% Vale ressaltar que nesse moment é criado uma tabela que mapeia cada numero de linha à um string dessa mesma linha, para reportar error, printando a linha do problema mais a linha anterior e posterior para.
+% Tem um token que é especial que indica o começo de um ambiente `\\begin{equation}`, qualquer comentario antes de apaerecer esse token é ignorado, isso é para poder dar como entrada ao compilador um documento inteir ocontendo begin document e ainda funciojnar
+%
+%
+%
+% \subsection{Analise Semantica}
+%
+% \subsubsection{Tabela de Symbolos}
+% Symbolos podem ser declarados fora de ordem, ciramos um grafo de dependencias e fazemos um orednação topologica de dependencia.
+% Isso é póis, ao detectar analisa um certo symbolo queremos dizer se está usando simbolos não definidos, para isso precisamos definifir todos os simbolos glocais que estão no escopo visivel à todos, isso incluisimbolos pre-definidos pela linguagem, (ver tabela @{tabela de simbolos predefinidos}, para isso precisamos primeiro primeiro coletar todos esses e analisar priomeiros oq que dependen de ninguem, e medida que tão
+% . Também pode ocorrer dependecia circular sem reoslução e nesse caso reportamos um erro, nesse caso precisamos. @{true? ciruclar dependency?}
+%
+% \subsubsection{Inferencia de Tipos}
+%
+% \subsection{SVG da arvore abstrata com inferencia de tipos}
+% Para identificar possiveis erros de ordenação algumas medidas foram feitas para auxiliar, como a geração de uma imagem da
+% em SVG da arvore sintatica, já com inferencia de tipos
+
+
+\section{Análise Léxica} \label{section-lexer}
+
+Nesta etapa, é realizado o processo de tokenização de um subconjunto dos simbolos possiveis no ambiente de equação do \LaTeX{}, como comentado na \autoref{especificacao-linguagem}. A entrada desse processo são os caracteres do arquivo fonte, enquanto a saída é uma sequência lógica desses caracteres, organizada em \textit{tokens}. O código responsável por essa funcionalidade está contido no pacote \texttt{lexer}.
+
+O processo de tokenização realiza uma varredura completa no arquivo de entrada, caractere por caractere, para identificar e extrair os \textit{tokens}. Antes de iniciar essa extração, verificamos se o trecho analisado pertence a um ambiente de equação. Essa verificação é feita ao identificar a string (cadeia de caracteres) \verb|\begin{equation}|, que marca o início da extração de \textit{tokens}. Da mesma forma, a delimitação do ambiente se encerra com a string \verb|\end{equation}|. Isso permite que o sistema ignore partes do arquivo que não pertencem ao ambiente de equação, como textos explicativos ou outros elementos presentes no mesmo arquivo \texttt{.tex}. Dessa forma, garantimos que a tokenização seja restrita às seções relevantes do código.
+
+Para fins de documentação e maior clareza, definimos uma gramática formal que descreve a geração dos \textit{tokens}, apresentada na \autoref{grammar-tokens}. O alfabeto dessa gramática é composto pelos caracteres do arquivo fonte. Apesar de documentar com uma gramatica, a geração dos \textit{tokens} é implementada internamente de maneira semelhante à simulação de uma máquina de estados.
+
+Na definição da gramática (\autoref{grammar-tokens}), utilizamos uma notação leve de sintaxe para representar suas regras. Palavras com todas as letras minúsculas representam não-terminais, enquanto palavras entre aspas simples correspondem a caracteres literais específicos. Por outro lado, palavras em letras maiúsculas denotam categorias semânticas, como \texttt{DIGIT}, que representa qualquer dígito de 0 a 9, e \texttt{LETTER}, que cobre letras de \texttt{'a'} a \texttt{'z'}. 
+
+Ainda, definimos símbolos operadores: ``$*$'' indica zero ou mais ocorrências; ``$()$'' indica agrupamento para aplicar um operador ao mesmo; ``$|$'' simboliza o início de uma regra alternativa para o mesmo não-terminal, ou se estiver dentro de um agrupamento, como por exemplo``$(a|b)$'', significa que aceita $a$ ou $b$; e ``$=$'' indica uma produção. Essa mesmta sintaxe de gramática é utilizada na análise sintática, onde cada regra é bijetiva com os tipos de nó AST, como detalhado na seção de \autoref{grammar}. Nessa etapa seguinte, o alfabeto passa a ser composto pelo conjunto de \textit{tokens} gerados.
+
+
+O pacote inteiro de tokenização pode ser acessado por meio de uma única função, descrita na \autoref{function-lex}, com sintaxe da linguagem \texttt{Odin}. Essa função, chamada \texttt{lex}, aceita uma lista de caracteres como entrada e retorna uma lista de estruturas do tipo \texttt{Token} (detalhado na \autoref{lexer-structs}). A estrutura \texttt{Token} possui três campos principais:
 
 \begin{itemize}
-    \item Geração de código para múltiplas BRDFs com visualização em \LaTeX{}
-    \item Suporte à ferramenta Disney para renderização
-    \item Processo simplificado de visualização das BRDFs que democratiza o acesso a técnicas complexas de \textit{shading}
+    \item \texttt{kind}: identifica o tipo de \textit{token}, mapeando-o para uma das regras de produção definidas na \autoref{grammar-tokens}.
+    \item \texttt{text}: contém a string correspondente ao \textit{token} gerado.
+    \item \texttt{position}: uma instância do tipo \texttt{Position}, que registra a posição exata do \textit{token} no arquivo de origem.
 \end{itemize}
 
-\subsection{}
 
-O sistema desenvolvido fornece uma base sólida para implementação de BRDFs complexas, permitindo que usuários se concentrem na lógica específica de modelagem de reflectância, em vez de lidar com detalhes técnicos de baixo nível de linguagens de \textit{shading}. O compilador mantém consistência ao dar suporte à simbolos predenfinidos em matematicas como assim como simbolos comummente usado na  area como omega_i omega_o, etc... Já transformações de coordenadas e cálculos geométricos fundamentais e convenções
-
-Identificamos diversos caminhos para aprimoramento futuro do compilador, como expansão de capacidades matemáticas e expansão de plataformas;
-
-
-
-\begin{itemize}
-    \item Implementar suporte para notações matemáticas diferentes, como somatórios ($\Sigma$) e acúmulo de multiplicações ($\Pi$)
-    \item Adicionar capacidade de definição e cálculo de derivadas e integrais
-    \item Integrar algoritmos numéricos para processamento de expressões matemáticas complexas
-\end{itemize}
-
-\subsection{Extensões de Plataforma}
-
-\begin{itemize}
-    \item Projetar saída para linguagens de shading de motores de jogos como Unity e Unreal
-    \item Criar um editor integrado com compilação e visualização simultâneas
-    \item Expandir compatibilidade com diferentes linguagens de sombreamento
-\end{itemize}
-
-As perspectivas futuras apontam para um sistema cada vez mais versátil e acessível, potencialmente revolucionando a forma como desenvolvedores e pesquisadores trabalham com sombreamento e reflectância. A democratização do acesso a técnicas complexas de computação gráfica representa não apenas um avanço tecnológico, mas uma oportunidade de expandir a criatividade e inovação em diferentes campos, desde design visual até simulações científicas.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Extensões de plataforma, como projetar a saída para outras linguagens de shading como a usada para motores de jogos como Unity e Unreal @@footnote about those sites here
-- Criar um editor integrado com compilação e visualização simultâneas
-- Expandir compatibilidade com diferentes linguagens de sombreamento
-
-O sistema desenvolvido fornece uma base sólida para implementação de BRDFs complexas, permitindo que usuários se concentrem na lógica específica do modelagem de reflectância, no lugar de conhecimentos especificos de baixo nivel como detalhes da linguagem de shading usada testar a BRDF que pesquisadores estão modelando. Mantém consistência nas transformações de coordenadas e cálculos geométricos fundamentais de, sendo especialmente relevante para simulações de iluminação física em computação gráfica, onde a precisão nos cálculos de ângulos e vetores é crucial para representação fiel do comportamento da luz.
-
-As perspectivas futuras apontam para um sistema cada vez mais versátil e acessível, potencialmente revolucionando a forma como desenvolvedores e pesquisadores trabalham com sombreamento e reflectância.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Este trabalho atinge as tarefas que setamos para fazer, cada pedaço, temos uma serie de teste que incluem não só visualização das BRDFs com uma serie de erros muito bem formatados para informar o usuário, temos testes com varias BRDFs que podemos visualizar em Latex, a linaguem gerada, uma ferramenta disney para visualizar, Realmente iria ajudar mt pessoas na area que não tem conhecimento de compilador ou shjading, isso faciita demais a vida slk. Agora é só esperar.
-Entretando poderiamos ter melhores erros com mais contexto ainda, poderiamos aumentar as capacidades do compilador ao permitir mais construções matematicas como somatório através da notação $\Sigma$, poderiamos permitir definição de derivadas e integrais e utilizar algortimos numericos para calcular o valor desses expressões na lingaugem shading.  Apesar de não encontrar essas outras expressões na BRDFs exploradas neste trabalho, podesmos ainda assim aumentar o poder do compilador. Poderiamos ter geração de código para outros tipos de shader, seria um back-end para unity que é uma ferramenta para ciração de gamers onde também é usado para visualizar e eles teem linguagem de shading propria. Poderiamos desenvolver um editor que automaticamente compila seu shader e mostra o resultado no mesmo aplicativo, entre outras melhors. 
-
-@@ Look at other conclusions to be write better @@
-
-Este sistema fornece uma base suficiente para implementação de BRDFs complexas, permitindo que o usuário se concentre na lógica específica do modelo de reflectância enquanto mantém consistência nas transformações de coordenadas e cálculos geométricos fundamentais.
-
-Esta implementação é particularmente relevante para simulações de iluminação física em computação gráfica, onde a precisão nos cálculos de ângulos e vetores é crucial para 
-a correta representação do comportamento da luz
-
-
-\chapter{Conclusão} \label{chapter-conclusion}
-
-Nosso trabalho alcançou os objetivos propostos, desenvolvendo um sistema para compilação de BRDFs. Criamos uma ferramenta abrangente que não apenas gera código de sombreamento, mas também oferece uma experiência completa de visualização e teste, com recursos de erro bem estruturados e informativos. Que exige conhecimento especifico de duas grandes area como a relacionada com lingragens livre de constexto, conhewcimento pratico de geração de código GLSL, conhecimento sobre renderização prática como renderização projetiva e raytracing, usandos pela Disney Explorar, e também conhjecimento teórico sobre refletancia e conceitos fotometricos.
-
-Diminuimos a barreira tecnica que pode restringir a exploração dos efeitos visuais por profissionais de áreas não relacionadas à programação ao fornecer uma ferramenta capaz de tranformar um documento \LaTeX{} contendo equações de BRDF para um arquivo GLSL pronto para ser carregado e visualizado por um ferramenta fornecida gratuitamente (Disney BRDF). A necessidade de ferramentas mais acessíveis para a criação de \textit{shaders} foi parcialmente suprida, principalemnte no meio acadêmico, onde as BRDFs são comumente descritas por fórmulas escritas em \LaTeX{}. O compilador compilador alcança seu objetivo de traduzir BRDFs escritas em \LaTeX{} para \textit{shaders}, permitindo uma maior acessibilidade e democratização na criação de efeitos visuais complexos.
-
-
-As principais contribuições do compilador incluem:
-
-\begin{itemize}
-    \item Geração de código para múltiplas BRDFs com visualização em \LaTeX{}
-    \item Suporte à ferramenta Disney para renderização
-    \item Processo simplificado de visualização das BRDFs que democratiza o acesso a técnicas complexas de \textit{shading}
-\end{itemize}
-
-\subsection{}
-
-O sistema desenvolvido fornece uma base sólida para implementação de BRDFs complexas, permitindo que usuários se concentrem na lógica específica de modelagem de reflectância, em vez de lidar com detalhes técnicos de baixo nível de linguagens de \textit{shading}. O compilador mantém consistência ao dar suporte à simbolos predenfinidos em matematicas como assim como simbolos comummente usado na  area como omega_i omega_o, etc... Já transformações de coordenadas e cálculos geométricos fundamentais e convenções
-
-Identificamos diversos caminhos para aprimoramento futuro do compilador, como expansão de capacidades matemáticas e expansão de plataformas;
+\begin{codigo}[htb]
+        \caption{\small Função principal do Lexer. }
+        \label{function-lex}
+  \begin{lstlisting}[language = c]
+  
+    lex :: proc(input: []u8) -> []Token
+  \end{lstlisting}
+\end{codigo}
 
 
 
-\begin{itemize}
-    \item Implementar suporte para notações matemáticas diferentes, como somatórios ($\Sigma$) e acúmulo de multiplicações ($\Pi$)
-    \item Adicionar capacidade de definição e cálculo de derivadas e integrais
-    \item Integrar algoritmos numéricos para processamento de expressões matemáticas complexas
-\end{itemize}
+Durante a iteração sobre o \texttt{input}, o processo de tokenização mantém algumas variáveis de controle para monitorar o estado do fluxo de caracteres. Quebras de linha são contadas ao encontrar sequências como \verb|"\n"| ou \verb|"\n\r"|. É mantida a coluna atual que rastreia a posição horizontal do caractere em uma linha. O cursor é o índice que aponta para o caractere atualmente em processamento. Essas informações são usadas para preencher o campo \texttt{position} de cada \textit{token}, uma funcionalidade essencial para a geração de relatórios de erro. A estrutura \texttt{Position}, detalhada na \autoref{lexer-structs}, armazena essas informações para garantir a precisão no rastreamento de problemas.
 
-\subsection{Extensões de Plataforma}
+O sistema de relatório de erros, implementado nesta etapa, é utilizado de forma consistente por todos os pacotes do projeto. Essa funcionalidade assegura que erros sejam associados a posições específicas no arquivo de entrada, facilitando a depuração e correção. A assinatura da função de tratamento de erros, bem como suas possíveis variações, está documentada na \autoref{function-errors}.
 
-\begin{itemize}
-    \item Projetar saída para linguagens de shading de motores de jogos como Unity e Unreal
-    \item Criar um editor integrado com compilação e visualização simultâneas
-    \item Expandir compatibilidade com diferentes linguagens de sombreamento
-\end{itemize}
 
-As perspectivas futuras apontam para um sistema cada vez mais versátil e acessível, potencialmente revolucionando a forma como desenvolvedores e pesquisadores trabalham com sombreamento e reflectância. A democratização do acesso a técnicas complexas de computação gráfica representa não apenas um avanço tecnológico, mas uma oportunidade de expandir a criatividade e inovação em diferentes campos, desde design visual até simulações científicas.
+\begin{codigo}[htb]
+    \caption{\small Função de erro exposto pelo pacote \texttt{lexer}. }
+        \label{function-errors}
+\begin{lstlisting}[language=C++]
+error_from_pos :: proc(pos: Position, msg: string, args: ..any)
+error_from_token :: proc(token: Token, msg: string, args: ..any);
+\end{lstlisting}.
+\end{codigo}.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Extensões de plataforma, como projetar a saída para outras linguagens de shading como a usada para motores de jogos como Unity e Unreal @@footnote about those sites here
-- Criar um editor integrado com compilação e visualização simultâneas
-- Expandir compatibilidade com diferentes linguagens de sombreamento
+\subsection{Reporte de Erros} \label{subsection-erros}
 
-O sistema desenvolvido fornece uma base sólida para implementação de BRDFs complexas, permitindo que usuários se concentrem na lógica específica do modelagem de reflectância, no lugar de conhecimentos especificos de baixo nivel como detalhes da linguagem de shading usada testar a BRDF que pesquisadores estão modelando. Mantém consistência nas transformações de coordenadas e cálculos geométricos fundamentais de, sendo especialmente relevante para simulações de iluminação física em computação gráfica, onde a precisão nos cálculos de ângulos e vetores é crucial para representação fiel do comportamento da luz.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%  Below IS NEW  %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Dada uma posição ou um \texttt{token}, exibimos uma mensagem (\texttt{msg}) diretamente no terminal, formatada para destacar visualmente o erro em vermelho. A formatação aproveita as informações do \texttt{token}, como o nome do arquivo, linha, coluna, e comprimento do \texttt{token} problemático, permitindo sublinhar exatamente onde ocorreu o erro. Isso proporciona clareza nas mensagens de erro, como demonstrado em casos de erro semântico, como o uso de identificadores não definidos (\autoref{analise-erros}). Outros erros, como uso de palavras reservadas \ também seguem esse padrão.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%  ABOVE IS NEW  %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-As perspectivas futuras apontam para um sistema cada vez mais versátil e acessível, potencialmente revolucionando a forma como desenvolvedores e pesquisadores trabalham com sombreamento e reflectância.
+\begin{figure}[H]
+    \caption{\label{error-balanceamento} \small Erro de balanceamento de parentesis.}
+    \begin{center}
+        \includegraphics[scale=0.5]{./Imagens/error-balanceamento.png}
+    \end{center}
+\end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[H]
+    \caption{\label{error-reserved-word} \small Erro de uso incorreto de palavras reservadas.}
+    \begin{center}
+        \includegraphics[scale=0.5]{./Imagens/error-reserved-word.png}
+    \end{center}
+\end{figure}
 
-Este trabalho atinge as tarefas que setamos para fazer, cada pedaço, temos uma serie de teste que incluem não só visualização das BRDFs com uma serie de erros muito bem formatados para informar o usuário, temos testes com varias BRDFs que podemos visualizar em Latex, a linaguem gerada, uma ferramenta disney para visualizar, Realmente iria ajudar mt pessoas na area que não tem conhecimento de compilador ou shjading, isso faciita demais a vida slk. Agora é só esperar.
-Entretando poderiamos ter melhores erros com mais contexto ainda, poderiamos aumentar as capacidades do compilador ao permitir mais construções matematicas como somatório através da notação $\Sigma$, poderiamos permitir definição de derivadas e integrais e utilizar algortimos numericos para calcular o valor desses expressões na lingaugem shading.  Apesar de não encontrar essas outras expressões na BRDFs exploradas neste trabalho, podesmos ainda assim aumentar o poder do compilador. Poderiamos ter geração de código para outros tipos de shader, seria um back-end para unity que é uma ferramenta para ciração de gamers onde também é usado para visualizar e eles teem linguagem de shading propria. Poderiamos desenvolver um editor que automaticamente compila seu shader e mostra o resultado no mesmo aplicativo, entre outras melhors. 
+\begin{figure}[H]
+    \caption{\label{error-incompatible-types} \small Erro de de tipos incompativeis.}
+    \begin{center}
+        \includegraphics[scale=0.5]{./Imagens/error-incompatible-types.png}
+    \end{center}
+\end{figure}
 
-@@ Look at other conclusions to be write better @@
+\begin{figure}[H]
+    \caption{\label{error-cant-make-expression} \small Erro de expectativa. Token não é capaz de .}
+    \begin{center}
+        \includegraphics[scale=0.5]{./Imagens/error-cant-make-expression.png}
+    \end{center}
+\end{figure}
 
-Este sistema fornece uma base suficiente para implementação de BRDFs complexas, permitindo que o usuário se concentre na lógica específica do modelo de reflectância enquanto mantém consistência nas transformações de coordenadas e cálculos geométricos fundamentais.
+\begin{figure}[H]
+    \caption{\label{error-undefined-symbol} \small Erro de @@@.}
+    \begin{center}
+        \includegraphics[scale=0.5]{./Imagens/error-undefined-symbol.png}
+    \end{center}
+\end{figure}
 
-Esta implementação é particularmente relevante para simulações de iluminação física em computação gráfica, onde a precisão nos cálculos de ângulos e vetores é crucial para 
-a correta representação do comportamento da luz
 
-khhh
-2
-### Conclusão
+\label{section-parser}
+autoref
 
-\begin{itemize}
+
+d
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%  Below IS NEW  %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+error-undefined-symbol
+(
+r
+\begin{figure}[H]
+    \caption{\label{error-incompatible-types} \small Erro de de tipos incompativeis.}
+    \begin{center}
+        \includegraphics[scale=0.5]{./Imagens/error-incompatible-types.png}
+    \end{center}
+\end{figure}
+
+\begin{figure}[H]
+    \caption{\label{error-balanceamento} \small Erro de balanceamento de parentesis.}
+    \begin{center}
+        \includegraphics[scale=0.5]{./Imagens/error-balanceamento.png}
+    \end{center}
+\end{figure}
+
+\begin{figure}[H]
+    \caption{\label{error-undefined-symbol} \small Erro ao usar simbolo não definido.}
+    \begin{center}
+        \includegraphics[scale=0.5]{./Imagens/error-undefined-symbol.png}
+    \end{center}
+\end{figure}
+
+\
+\atuoref{}
+\label{error-undefined-symbol}
+    \caption{\label{error-undefined-symbol} \small Erro ao usar simbolo não definido.}
+
+    \caption{\label{error-undefined-symbol} \small Erro ao usar simbolo não definido.}
+    \caption{\label{error-incompatible-types} \small Erro de de tipos incompativeis.}
+
+    \caption{\label{error-undefined-symbol} \small Erro ao usar simbolo não definido.}
+    \caption{\label{error-incompatible-types} \small Erro de de tipos incompativeis.}
+    \caption{\label{error-balanceamento} \small Erro de balanceamento de parentesis.}
+
+    \caption{\label{error-undefined-symbol} \small Erro ao usar simbolo não definido.}
+    \caption{\label{error-incompatible-types} \small Erro de de tipos incompativeis.}
+    \caption{\label{error-balanceamento} \small Erro de balanceamento de parentesis.}
+    \caption{\label{error-reserved-word} \small Erro de uso incorreto de palavras reservadas.}
+
+    \caption{\label{error-undefined-symbol} \small Erro ao usar simbolo não definido.}
+    \caption{\label{error-incompatible-types} \small Erro de de tipos incompativeis.}
+    \caption{\label{error-balanceamento} \small Erro de balanceamento de parentesis.}
+    \caption{\label{error-reserved-word} \small Erro de uso incorreto de palavras reservadas.}
+    \caption{\label{error-cant-make-expression} \small Erro de \textit{token} incapaz de produzir expressão.}
+
+ \small Erro ao usar simbolo não definido.}
+ \small Erro de de tipos incompativeis.}
+ \small Erro de balanceamento de parentesis.}
+ \small Erro de uso incorreto de palavras reservadas.}
+ \small Erro de \textit{token} incapaz de produzir expressão.}
+\autoref{error-undefined-symbol}, \autoref{error-incompatible-types}, \autoref{error-balanceamento}, \autoref{error-reserved-word}, \autoref{error-cant-make-expression},
+Dada uma posição ou um \texttt{token}, exibimos uma mensagem (\texttt{msg}) diretamente no terminal, formatada para destacar visualmente o erro em vermelho. A formatação aproveita as informações do \texttt{token}, como o nome do arquivo, linha, coluna, e comprimento do \texttt{token} problemático, permitindo sublinhar exatamente onde ocorreu o erro. Isso proporciona clareza nas mensagens de erro, como demonstrado em casos de erro semântico, como o uso de identificadores não definidos, demonstrado na \autoref{error-undefined-symbol}. Outros exemplos de erros como, tipos incompativeis, simbolo não definido, balanceamento de parentesis, uso de palavras reservadas e uso de token que não forma um expressão matematica também seguem esse padrão e podem ser vistos na, \autoref{error-incompatible-types}, \autoref{error-balanceamento}, \autoref{error-reserved-word}, \autoref{error-cant-make-expression} respectivamente.
+
+Dada uma posição ou um \texttt{token}, exibimos uma mensagem (\texttt{msg}) diretamente no terminal, formatada para destacar visualmente o erro em vermelho. A formatação aproveita as informações do \texttt{token}, como o nome do arquivo, linha, coluna, e comprimento do \texttt{token} problemático, permitindo sublinhar exatamente onde ocorreu o erro. Isso proporciona clareza nas mensagens de erro, como demonstrado em casos de erro semântico, como o uso de identificadores não definidos, demonstrado na \autoref{error-undefined-symbol}. Outros exemplos de erros como, tipos incompativeis, simbolo não definido, balanceamento de parentesis, uso de palavras reservadas e uso de token que não forma um expressão matematica também seguem esse padrão e podem ser vistos na, \autoref{error-incompatible-types}, \autoref{error-balanceamento}, \autoref{error-reserved-word}, \autoref{error-cant-make-expression} respectivamente.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%  Below IS NEW  %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%  ABOVE IS NEW  %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%  Below IS NEW  %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%  ABOVE IS NEW  %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ tokens 
+token_frac
+\verb"token\_frac"
+o
+\label{lexer-subexpression}
+Note que identificadores não permite numeros nem mesmo @underline ``\verb|_|'', pois  no analisador sintático, um nó do tipo indentificador é modelado como tipo recursivo, osi dentificadors podem ser aninhados, ao  conter outro nó. Sendo assim, não é necessario que ao nível de token seja permitido o underline em identifcador, isso permite indentificadores mais complexos a serem escritos como \verb|\pi_{n_1}| (renderizado em \LaTeX{} \ resulta em $\pi_{n_1}$). \verb"\pi"  seria o primeiro token do nó identificador e sua subexpresão seria \verb"n_1" ($n\_1$) que por sua vez é o identificador \verb"n" com subexpressão \verb"1". Também permitimos usar a palavras chave \verb"\text{id}" para descrever um indentificadores, similarmente como permitimos usar \verb"\vec{id}".
+
+
++
+\verb|\text
+\text{id}
+ dentro do sistema.
+Um enumeração que representa o tipo de token é mostrada no \autoref{enum-token-kind}, cada entrada nessa enumeração é correspondente as regras de produção na gramatica apresentada em \autoref{grammar-tokens}. Ao lado direito de cada entrada aprensetamos o simbolo que o representa em comentarios.
+
+Um enumeração que representa o tipo de token é mostrada no \autoref{enum-token-kind}, cada entrada nessa enumeração é correspondente as regras de produção na gramatica apresentada em \autoref{grammar-tokens}. Ao lado direito de cada entrada aprensetamos o simbolo que o representa em comentarios.
+
+Um enumeração que representa o tipo de token é mostrada no \autoref{enum-token-kind}, cada entrada nessa enumeração é correspondente as regras de produção na gramatica apresentada em \autoref{grammar-tokens}. Ao lado direito de cada entrada aprensetamos o simbolo que o representa em comentarios.
+
+Note que identificadores não permite numeros nem mesmo @underline ``\verb|_|'', pois  no analisador sintático, um nó do tipo indentificador é modelado como tipo recursivo, osi dentificadors podem ser aninhados, ao  conter outro nó. Sendo assim, não é necessario que ao nível de token seja permitido o underline em identifcador, isso permite indentificadores mais complexos a serem escritos como \verb|\pi_{n_1}| (renderizado em \LaTeX{} \ resulta em $\pi_{n_1}$). \verb"\pi"  seria o primeiro token do nó identificador e sua subexpresão seria \verb"n_1" ($n\_1$) que por sua vez é o identificador \verb"n" com subexpressão \verb"1". Também permitimos usar a palavras chave \verb"\text{id}" para descrever um indentificadores, similarmente como permitimos usar \verb"\vec{id}".
+
+\label{lexer-subexpression}
+
+
+
+
+
+,
+Por exemplo \verb|\text{id}| para descrever identificadores
+Por exemplo \verb|\text{id}| para descrever identificadores
+P
+o
+,
+Adicionalmente, permitimos o uso da palavra-chave \verb|\text|, por exemplo \verb|\text{id}|, para descrever identificadores. Esse palavra-chave é usada para permitir escrever texto dentro do ambiente de equações em \LaTeX{}. A extração desse token se da de forma semelhante ao suporte para \verb|\vec{id}|, garantindo flexibilidade na representação de identificadores.
+
+Um enumeração que representa o tipo de token é mostrada no \autoref{enum-token-kind}, cada entrada nessa enumeração é correspondente as regras de produção na gramatica apresentada em \autoref{grammar-tokens}. Ao lado direito de cada entrada aprensetamos o simbolo que o representa em comentarios.
+
+
+% Tokens de um a dois caracteres são simples, basta ler um ou dois caracteres do input e contrtuir o token e continuar o laço até não poder mais. Se for ecnontrado o caractere \texttt{\%}, então o restante dos caracteres são ignorates até encontrar uma quebra de linha, isso é feito para dar supporte à comentarios \LaTeX{}.
+% Se for encontrado um digito ou letra então são classificados como indentificadores, números ou tokens especiais.
+
+%
+
+
+Adicionalmente, permitimos o uso da palavra-chave \verb|\text|, por exemplo \verb|\text{id}|, para descrever identificadores. Esse palavra-chave é usada para permitir escrever texto dentro do ambiente de equações em \LaTeX{}. A extração desse token se da de forma semelhante ao suporte para \verb|\vec{id}|, garantindo flexibilidade na representação de identificadores.
+
+Um enumeração que representa o tipo de token é mostrada no \autoref{enum-token-kind}, cada entrada nessa enumeração é correspondente as regras de produção na gramatica apresentada em \autoref{grammar-tokens}. Ao lado direito de cada entrada aprensetamos o simbolo que o representa em comentarios.
+
+
+
+garantindo maior flexibilidade na representação e manipulação de identificadores
+Adicionalmente, permitimos o uso da palavra-chave \verb|\text|, como em \verb|\text{id}|, para descrever identificadores. Essa palavra-chave é utilizada para permitir a inclusão de texto dentro do ambiente de equações em \LaTeX{}; isso da maior flexibilidade na representação e manipulação de identificadores. A extração desse token segue um processo semelhante ao do suporte para \verb|\vec{id}|, .
+
+Adicionalmente, permitimos o uso da palavra-chave \verb|\text|, como em \verb|\text{id}|, para descrever identificadores. Essa palavra-chave é utilizada para permitir a inclusão de texto dentro do ambiente de equações em \LaTeX{}; isso da maior flexibilidade na representação e manipulação de identificadores. A extração desse token segue um processo semelhante ao do suporte para \verb|\vec{id}|, .
+
+A enumeração que representa os tipos de tokens pode ser vista na \autoref{enum-token-kind}. Cada entrada dessa enumeração corresponde diretamente às regras de produção definidas na gramática apresentada na \autoref{grammar-tokens}. Para facilitar a leitura, ao lado direito de cada entrada, adicionamos o símbolo que a representa, indicado em comentários.
+
+Adicionalmente, permitimos o uso da palavra-chave \verb|\text|, como em \verb|\text{id}|, para descrever identificadores. Essa palavra-chave é utilizada para permitir a inclusão de texto dentro do ambiente de equações em \LaTeX{}; isso da maior flexibilidade na representação e manipulação de identificadores. A extração desse token segue um processo semelhante ao do suporte para \verb|\vec{id}|, .
+
+
+
+
+A enumeração que representa os tipos de tokens pode ser vista na \autoref{enum-token-kind}. Cada entrada dessa enumeração corresponde diretamente às regras de produção definidas na gramática apresentada na \autoref{grammar-tokens}. Para facilitar a leitura, ao lado direito de cada entrada, adicionamos o símbolo que a representa, indicado em comentários.
+
+  
+/*
+ .  Line and colum in the source string,
+ .  we only store the end line and col position for simplicity
+*/
+
+kind =.Alpha},
+    "beta"    = Token{text = "\\beta",       
+     
+     
+     
+     
+    
+
+
+
+
+--- Used for subexpresions
+estágio foca na construção de árvores sintáticas
+que capturam a lógica e a semântica das expressões. Este próximo .
+
+,
+\section{Análise Sintática} \label{section-parser}
+
+Desenvolvemos o \textit{parser} para a linguagem subconjunto do ambiente \verb"equation" do \LaTeX{} utilizando o Pratt \textit{Parsing} na linguagem de programação Odin. Nesta seção, vamos chamar esse subconjunto de \texttt{EquationLang}, o qual inclui todos as partes essenciais para BRDFs citada em \autoref{especificacao-linguagem}, e também documentamos a sua gramática.
+
+Esse \textit{parser} é implementado por descida recursiva, o que significa que cada regra de produção tem uma função de análise associada. A implementação prioriza a simplicidade de código e a clareza de ideias, com extensos comentários para auxiliar na compreensão. Essa estapa aceita os \textit{tokens} da etapa anterior.
+
+
+\subsection{Parser}
+
+
+Diferente dos \textit{parser} de descida recursiva tradicionais, que muitas vezes exigem várias chamadas de função aninhadas para cada nível de precedência, o nosso \textit{parser} organiza as funções de análise hierarquicamente com base na precedência do operador, como demonstrado no \autoref{alg-pratt-parsing}. Esse código é a parte principal do \textit{parsing} de expressões. Nessa implementação usamos a notação original de Pratt \cite{pratt}, as funções \texttt{parse\_null\_denotations} e \texttt{parse\_left\_denotations} são equivalentes as funções \texttt{token.prefixo} e \texttt{token.infixo} declaradas no \autoref{alg1}, respectivamente.
+Além disso, pela caracteristica de descida recursiva (top-down), cada regra de produção especificada em \autoref{grammar-ast-pt1} é mapeada similiarmente para um procedimento em código. Podemos notar a semelhança entre a definição da função de parsing do nó \texttt{Start} da AST, no \autoref{cod-parsing-start}, e as regras de produção \texttt{start}, \texttt{decl}, \texttt{decl\_equation\_begin\_end\_block} presente na gramática do \autoref{grammar-ast-pt1}.
+
+Do ponto de vista da interface que o pacote \texttt{parser} oferece, o trabalho inteiro de análise sintática,  pode ser resumido a uma chamada de função e uma estrutura de controle (\autoref{cod-func-and-structs}): \texttt{parse} e \texttt{Parser}, respectivamente.
+
+Desenvolvemos o \textit{parser} para a linguagem subconjunto do ambiente \verb"equation" do \LaTeX{} utilizando o Pratt \textit{Parsing} na linguagem de programação Odin. Nesta seção, vamos chamar esse subconjunto de \texttt{EquationLang}, o qual inclui todos as partes essenciais para BRDFs citada em \autoref{especificacao-linguagem}, e também documentamos a sua gramática.
+
+
+
+Esse \textit{parser} é implementado por descida recursiva, o que significa que cada regra de produção tem uma função de análise associada. A implementação prioriza a simplicidade de código e a clareza de ideias, com extensos comentários para auxiliar na compreensão. Essa estapa aceita os \textit{tokens} da etapa anterior.
+
+
+% exemplo de como uma lingaugem um parser LALR(1) poderia fazer o encode na propria definição
+
+% Why pratt is better:
+%
+% MultiplicativeExpr = MultiplicativeExpr * AddExpr
+% AddExpr = AddExpr * Expr
+%
+% no prat parsing a regra de derivação é a mesma , adicionado de uma tabela
+% Expr = Expr (*|+) Expr
+
+do \autoref{grammar-ast-pt1}
+\texttt{decl\_equation\_begin\_end\_block}
+Nessa implementação usamos a notação original de Pratt \cite{pratt}, as funções \texttt{parse\_null\_denotations} e \texttt{parse\_left\_denotations} são equivalentes as funções \texttt{token.prefixo} e \texttt{token.infixo} declaradas no \autoref{alg1}, respectivamente.
+Além disso, pela caracteristica de descida recursiva (top-down), cada regra de produção especificada em \autoref{grammar-ast-pt1} é mapeada similiarmente para um procedimento em código. Podemos notar a semelhança entre a definição da função de parsing do nó \texttt{Start} da AST, no \autoref{cod-parsing-start}, e as regras de produção \texttt{start}, \texttt{decl},  presente na gramática do \autoref{grammar-ast-pt1}.
+
+### Resumo 
+
+
+e
+%%%%%%%%%%%%%%%%
+Pratt Parsing simplifica a análise sintática de expressões ao tratar precedência e associatividade dinamicamente, sem inflar a gramática. Na abordagem tradicional, precedências são fixadas em várias regras de produção, como:
+
+```ebnf
+MultiplicativeExpr = MultiplicativeExpr "*" AdditiveExpr | AdditiveExpr;
+AdditiveExpr = AdditiveExpr "+" Expr | Expr;
+```
+
+Isso torna a gramática mais longa, necessitanto de mais regras que derivam outras regras antes de chega à um simbolo do alfabeto da gramativa. Na desciva recursiva regras é o mesmo que um função, isso que dizer quem os metodos recursivos tradicionais com muitos niveis de precendecias fazem mais chamadas recursivas em código, geralndo mais overhead e lentidão e complexidade de implementação desciva recursiva de manter. No Pratt Parsing, uma única regra genérica é suficiente:
+
+```ebnf
+Expr = Expr ( "*" | "+" ) Expr;
+```
+
+A precedência é definida em uma tabela, e o \textit{parser} delega dinamicamente a análise com base no operador encontrado. Isso reduz a complexidade, facilita alterações e melhora a eficiência.
+
+
+---
+
+### Explicação em \LaTeX{}
+
+O método de análise sintática Pratt Parsing oferece uma abordagem mais elegante para lidar com precedência e associatividade de operadores em comparação com métodos tradicionais. Nos métodos clássicos, a gramática deve explicitamente capturar as regras de precedência, resultando em produções como:
+
+\[
+\texttt{MultiplicativeExpr} \rightarrow \texttt{MultiplicativeExpr} \, * \, \texttt{AdditiveExpr} \, | \, \texttt{AdditiveExpr}
+\]
+\[
+\texttt{AdditiveExpr} \rightarrow \texttt{AdditiveExpr} \, + \, \texttt{Expr} \, | \, \texttt{Expr}
+\]
+
+Isso aumenta a complexidade da gramática e do \textit{parser}, dificultando manutenção e extensões. No Pratt Parsing, toda a precedência é gerida por uma tabela:
+
+\[
+\text{precedência} = 
+\begin{cases} 
+* & \text{alta} \\
++ & \text{baixa}
+\end{cases}
+\]
+
+e uma única regra cobre todas as expressões:
+
+\[
+\texttt{Expr} \rightarrow \texttt{Expr} \, (\texttt{* | +}) \, \texttt{Expr}.
+\]
+
+
+a
+consulta uma tabela dinamicamente para decidir a ordem de avaliação
+Essa abordagem modular facilita a extensão e manutenção do código, garantindo que tanto a simplicidade quanto a robustez sejam preservadas ao longo do desenvolvimento.
+
+Do ponto de vista da interface que o pacote \texttt{parser} oferece, o trabalho inteiro de análise sintática,  pode ser resumido a uma chamada de função e uma estrutura de controle (\autoref{cod-func-and-structs}): \texttt{parse} e \texttt{Parser}, respectivamente.
+
+
+
+
+%%%%%%%%%%%%%%%%
+Pratt Parsing simplifica a análise sintática de expressões ao tratar precedência e associatividade dinamicamente, sem inflar a gramática. Na abordagem tradicional, precedências são fixadas em várias regras de produção, como:
+
+```ebnf
+MultiplicativeExpr = MultiplicativeExpr "*" AdditiveExpr | AdditiveExpr;
+AdditiveExpr = AdditiveExpr "+" Expr | Expr;
+```
+
+Isso torna a gramática mais longa, necessitanto de mais regras que derivam outras regras antes de chega à um simbolo do alfabeto da gramativa. Na desciva recursiva regras é o mesmo que um função, isso que dizer quem os metodos recursivos tradicionais com muitos niveis de precendecias fazem mais chamadas recursivas em código, geralndo mais overhead e lentidão e complexidade de implementação desciva recursiva de manter. No Pratt Parsing, uma única regra genérica é suficiente:
+
+```ebnf
+Expr = Expr ( "*" | "+" ) Expr;
+```
+
+A precedência é definida em uma tabela, e o \textit{parser} consulta uma tabela dinamicamente para decidir a ordem de avaliação com base no operador encontrado. Isso reduz a complexidade, facilita alterações e melhora a eficiência. O \textit{parser} , resultando em um código mais simples, eficiente e flexível para incluir novos operadores.
+%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%
+
+e
+\begin{verbatim}
+MultiplicativeExpr = MultiplicativeExpr "*" AdditiveExpr | AdditiveExpr;
+AdditiveExpr = AdditiveExpr "+" Expr | Expr;
+\end{verbatim}
+
+MultiplicativeExpr = MultiplicativeExpr "*" AdditiveExpr | AdditiveExpr;
+AdditiveExpr = AdditiveExpr "+" Expr | Expr;
+Expr = LogicalOrExpr;
+
+MultiplicativeExpr = MultiplicativeExpr "*" AdditiveExpr | AdditiveExpr;
+Expr = LogicalOrExpr;
+
+AdditiveExpr = AdditiveExpr "+" Expr | Expr;
+
+ % Exemplo de expressões primárias
+%
+%
+---
+c
+\begin{verbatim}
+Expr = Expr ( "*" | "+" ) Expr;
+\end{verbatim}
+
+Expr = Expr ( "*" | "+" ) Expr;
+
+title
+C
+\begin{verbatim}
+\begin{codigo}[htb]
+    \caption{\small Regras tradicionais de precendecia por gramática. }
+    \label{label}
+\begin{lstlisting}[language=haskell, frame=none, inputencoding=utf8]
+
+
+
+
+
+\end{verbatim}
+
+\begin{verbatim}
+
+cod-regras-tradicionais
+código 
+:
+%%%%%%%%%%%%%%%%
+Pratt Parsing simplifica a análise sintática de expressões ao tratar precedência e associatividade dinamicamente, sem inflar a gramática. Na abordagem tradicional, precedências são fixadas em várias regras de produção, como:
+
+```ebnf
+MultiplicativeExpr = MultiplicativeExpr "*" AdditiveExpr | AdditiveExpr;
+AdditiveExpr = AdditiveExpr "+" Expr | Expr;
+```
+
+Isso torna a gramática mais longa, necessitanto de mais regras que derivam outras regras antes de chega à um simbolo do alfabeto da gramativa. Na desciva recursiva regras é o mesmo que um função, isso que dizer quem os metodos recursivos tradicionais com muitos niveis de precendecias fazem mais chamadas recursivas em código, geralndo mais overhead e lentidão e complexidade de implementação desciva recursiva de manter. No Pratt Parsing, uma única regra genérica é suficiente:
+
+```ebnf
+Expr = Expr ( "*" | "+" ) Expr;
+```
+
+A precedência é definida em uma tabela, e o \textit{parser} consulta uma tabela dinamicamente para decidir a ordem de avaliação com base no operador encontrado. Isso reduz a complexidade, facilita alterações e melhora a eficiência. O \textit{parser} , resultando em um código mais simples, eficiente e flexível para incluir novos operadores.
+%%%%%%%%%%%%%%%
+
+
+
+                     
+\begin{lstlisting}[language=haskell, numbers=none, inputencoding=utf8]
+
+\begin{lstlisting}[language=haskell, frame=none, inputencoding=utf8]
+
+e
+Para formalizar a gramática da linguagem de entrada (\texttt{EquationLang}) deste compilador, definimos suas regras no \autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2}. Um exemplo de código-fonte válido em \texttt{EquationLang} é apresentado no \autoref{code-gramatica}, sua renderização em \LaTeX{} é dado em \autoref{code-gramatica-rendered}.
+
+A definição gramatical captura a estrutura sintática precisa das expressões matemáticas, possibilitando uma tradução rigorosa entre os formatos \LaTeX{} e GLSL. Esta abordagem sistemática garante a preservação da semântica original das equações durante o processo de compilação.
+
+Para formalizar a gramática da linguagem de entrada (\texttt{EquationLang}) deste compilador, definimos suas regras no \autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2}. Um exemplo de código-fonte válido em \texttt{EquationLang} é apresentado no \autoref{code-gramatica}, sua renderização em \LaTeX{} é dado em \autoref{code-gramatica-rendered}.
+
+
+
+Na definição da gramática (\autoref{grammar-ast-pt1}), utilizamos a mesma notação de sintaxe definida no \autoref{} para representá-la, exceto que uma sequencia de \verb"---", três hifêns, significa um comentário para o leitor, ela não afeta a definição da gramamatica.
+
+Essa gramática define regras para expressões, atribuições, agrupamento, literais de números e vetores, chamadas de função, definições de funções, e vários operadores, como \texttt{expr\_prefix} e \texttt{expr\_infix}, com o intuito de criar uma vasta coleção de operadores com diferentes precedências que atinge o objetivo de entender a sintaxe necessário para definições de BRDFs em \LaTeX{}. A tabela de operadores (\autoref{tab-token-precedence}) usadas no Pratt Parsing é representá-la por uma função chamada \texttt{precedence\_from\_token} que implementa esse mapeamento. Dado um token, ela retorna um inteiro que representa sua precendencia; quanto maior o número, maior a precedencia. Note que os mesmos tokens podem ser prefixo ou infixo, por exemplo '(' é o token do prefixo do agrupamento (ex: \textbf{(}$2*3$)) mas ao mesmo tempo é infixo para chamada de função $f$\textbf{(}$x$); o mesmo ocorre com '-'.
+
+\label{section-lexer}
+
+
+\label{section-lexer}
+Essa gramática define regras para expressões, atribuições, agrupamento, literais de números e vetores, chamadas de função, definições de funções, e vários operadores, como \texttt{expr\_prefix} e \texttt{expr\_infix}, com o intuito de criar uma vasta coleção de operadores com diferentes precedências que atinge o objetivo de entender a sintaxe necessário para definições de BRDFs em \LaTeX{}. A tabela de operadores (\autoref{tab-token-precedence}) usadas no Pratt Parsing é representá-la por uma função chamada \texttt{precedence\_from\_token} que implementa esse mapeamento. Dado um token, ela retorna um inteiro que representa sua precendencia; quanto maior o número, maior a precedencia. Note que os mesmos tokens podem ser prefixo ou infixo, por exemplo '(' é o token do prefixo do agrupamento (ex: \textbf{(}$2*3$)) mas ao mesmo tempo é infixo para chamada de função $f$\textbf{(}$x$); o mesmo ocorre com '-'.
+
+A gramática define regras abrangentes para expressões matemáticas, incluindo atribuições, agrupamentos, literais numéricos, vetores, chamadas de função e definições, além de operadores prefixos e infixos. O objetivo é capturar a sintaxe necessária para representações de BRDFs em \LaTeX{}.
+
+A tabela de operadores (\autoref{tab-token-precedence}) é mapeada pela função \texttt{precedence\_from\_token}, que atribui inteiros representando precedência - quanto maior o número, maior a precedência. Tokens como '(' e '-' podem atuar tanto como prefixo quanto infixo, dependendo do contexto, demonstrando a flexibilidade sintática da gramática.
+
+Na definição da gramática (\autoref{grammar-ast-pt1}), utilizamos a mesma notação de sintaxe definida no \autoref{} para representá-la, exceto que uma sequencia de \verb"---", três hifêns, significa um comentário para o leitor, ela não afeta a definição da gramamatica.
+
+Essa gramática define regras para expressões, atribuições, agrupamento, literais de números e vetores, chamadas de função, definições de funções, e vários operadores, como \texttt{expr\_prefix} e \texttt{expr\_infix}, com o intuito de criar uma vasta coleção de operadores com diferentes precedências que atinge o objetivo de entender a sintaxe necessário para definições de BRDFs em \LaTeX{}. A tabela de operadores (\autoref{tab-token-precedence}) usadas no Pratt Parsing é representá-la por uma função chamada \texttt{precedence\_from\_token} que implementa esse mapeamento. Dado um token, ela retorna um inteiro que representa sua precendencia; quanto maior o número, maior a precedencia. Note que os mesmos tokens podem ser prefixo ou infixo, por exemplo '(' é o token do prefixo do agrupamento (ex: \textbf{(}$2*3$)) mas ao mesmo tempo é infixo para chamada de função $f$\textbf{(}$x$); o mesmo ocorre com '-'.
+
+%%%%%%%%%%%%%%%
+
+
+
+
+
+Nesta seção, apresentamos os tipos de nós que compõem a árvore de sintaxe abstrata (AST), utilizada no compilador da linguagem \texttt{EquationLang}. A estrutura da AST é definida com vários tipos de nós para capturar diferentes elementos da sintaxe. Diferente da gramática definida no \autoref{lst-gramatica}, aqui os nós são representados em nível de código. Note que a Expr mais genérica possui um campo \texttt{ty\_inferred} do tipo \texttt{Type}, esse campo será preenchido pela etapa de análise semântica, e usado na geração de código. A seguir, listamos a representação semântica de cada nó, e citamos os campos que cada nó contém:
+
+%%%%%%%%%
+
+Nesta seção, apresentamos os tipos de nós que compõem a árvore de sintaxe abstrata (AST), utilizada no compilador da linguagem \texttt{EquationLang}. A estrutura da AST é definida com vários tipos de nós para capturar diferentes elementos da sintaxe. Diferente da gramática definida no \autoref{lst-gramatica}, aqui os nós são representados em nível de código. Note que a Expr mais genérica possui um campo \texttt{ty\_inferred} do tipo \texttt{Type}, esse campo será preenchido pela etapa de análise semântica, e usado na geração de código. A seguir, listamos a representação semântica de cada nó, e citamos os campos que cada nó contém:
+
+e
+r
+o
+r
+representa uma equação.
+r
+r
+r
+r
+tab-token-precedence
+|
+Expr = Expr ( '||' | '&&' | '==' | '<' | '+' | '*' ) Expr;
+
+\end{verbatim}
+
+
+
+
+
+
+No \autoref{lexer-subexpression} comentanmos que \textit{parser} é capaz de lidar com identificadores aninhados, como por exemplo $x_{i_1}$ (\verb"x_{i_1}"). No \autoref{cod-expression-ident-recursive}, apresentamos como são criados esses identificadores recursivamente. Primeiramente, esse código está inserido em um função bem maior, espeficidamente é um recorte de um \texttt{switch}\footnote{\texttt{switch} e \texttt{case} em Odin, funciona da mesma maneira que na linguagem de programação \texttt{C}} da enumeração \autoref{enum-token-kind}. Temos um \texttt{case}, que reconhece token de identificador ou símbolos especiais ($ \omega, \theta, \phi, \rho, \alpha, \beta, \sigma, \pi, \epsilon$) ou simplesmente token de identificador e, ao fazer uma chamada rescursivas a \texttt{parse\_expr}, permite subíndices numéricos, identificadores, ou até expressões binarias como $n+1$ em $f_{n+1}$. Isso oferece maior flexibilidade na hora de expressar funções e equações para descrever as BRDFs, é muito comum usar subíndices numéricos. Na estapa de geração de código isso é usado para diferenciar um simbolo de outro apesar de ter o mesmo token inicial, por exemplo, o primeiro token é $f$, mas $f_1$ é diferente semanticamente de $f_2$.
+
+No \autoref{lexer-subexpression} comentanmos que \textit{parser} é capaz de lidar com identificadores aninhados, como por exemplo $x_{i_1}$ (\verb"x_{i_1}"). No \autoref{cod-expression-ident-recursive}, apresentamos como são criados esses identificadores recursivamente. Primeiramente, esse código está inserido em um função bem maior, espeficidamente é um recorte de um \texttt{switch}\footnote{\texttt{switch} e \texttt{case} em Odin, funciona da mesma maneira que na linguagem de programação \texttt{C}} da enumeração \autoref{enum-token-kind}. Temos um \texttt{case}, que reconhece token de identificador ou símbolos especiais ($ \omega, \theta, \phi, \rho, \alpha, \beta, \sigma, \pi, \epsilon$) ou simplesmente token de identificador e, ao fazer uma chamada rescursivas a \texttt{parse\_expr}, permite subíndices numéricos, identificadores, ou até expressões binarias como $n+1$ em $f_{n+1}$. Isso oferece maior flexibilidade na hora de expressar funções e equações para descrever as BRDFs, é muito comum usar subíndices numéricos. Na estapa de geração de código isso é usado para diferenciar um simbolo de outro apesar de ter o mesmo token inicial, por exemplo, o primeiro token é $f$, mas $f_1$ é diferente semanticamente de $f_2$.
+
+
+
+Esse código serve de exemplos para outras expressões recursivas, como uma expressão infixa (operação binária). Sempre identificamos o token atual através de peek(), que vê 1 ou dois token adiante para decidir qual nó da AST deve ser construido. Em seguida, é calculado a variavel \texttt{prec} que indica precedencia do token atual, enfim 1 ou mais chamadas rescursivas (\texttt{parse\_expr}) são feitas para os campos que precisam de uma expressão aninhadas. Depois dos campos serem preenchidos a expressão é retornada.
+
+\autoref{cod-expression-ident-recursive}
+(\autoref{cod-expression-ident-recursive})
+Esse código  serve de exemplos para outras expressões recursivas, como uma expressão infixa (operação binária). Sempre identificamos o token atual através de peek(), que vê 1 ou dois token adiante para decidir qual nó da AST deve ser construido. Em seguida, é calculado a variavel \texttt{prec} que indica precedencia do token atual, enfim 1 ou mais chamadas rescursivas (\texttt{parse\_expr}) são feitas para os campos que precisam de uma expressão aninhadas. Depois dos campos serem preenchidos a expressão é retornada.
 
 A
-A
-U
-U
-\begin{itemize}
+]
+\.
+sessão
+\autoref{secion-}
+Uma vez que todos os campos necessários estejam preenchidos, a expressão completa é retornada. Esse processo é repepetido até montar a subarvóre de expressões de uma dada equação. Essa análise sintática terminar quando todas as equações forem adicionadas à AST. Esse estrutura hierárquica das expressões é anotada com tipos e validada pelo pacote \texttt{checker}, discutido na seção(\autoref{secion-checker}). Mas antes é precisa de metodos de fazer traversia dessa estrutura, esse processo é discutido na \autoref{secion-walker}.
 
-\end{itemize}
+Uma vez que todos os campos necessários estejam preenchidos, a expressão completa é retornada. Esse processo é repepetido até montar a subarvóre de expressões de uma dada equação. Essa análise sintática terminar quando todas as equações forem adicionadas à AST. Esse estrutura hierárquica das expressões é anotada com tipos e validada pelo pacote \texttt{checker}, discutido na seção(\autoref{secion-checker}). Mas antes é precisa de metodos de fazer traversia dessa estrutura, esse processo é discutido na \autoref{secion-walker}.
 
+Uma vez que todos os campos necessários estejam preenchidos, a expressão completa é retornada. Esse processo é repepetido até montar a subarvóre de expressões de uma dada equação. Essa análise sintática terminar quando todas as equações forem adicionadas à AST. Esse estrutura hierárquica das expressões é anotada com tipos e validada pelo pacote \texttt{checker}, discutido na seção(\autoref{secion-checker}). Mas antes é precisa de metodos de fazer traversia dessa estrutura, esse processo é discutido na \autoref{secion-walker}.
 
-
-sombreamento
+null
+{
+}
