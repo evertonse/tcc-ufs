@@ -3,3 +3,4 @@
 - Explain Lambertianos
 - Move Pratt parsing explanation of precende to somewhere else
 - Check for stuff BUILTIN_IDENTIFIERS
+- Remova abordagem

@@ -67,8 +67,41 @@ compilador, essas são enumeradas à seguir:
 
 \end{enumerate}
 
-Uma descrição completa dos simbolos reconhecidos são dados no @Desenvolvimento capitulo Lexer@. Construção completa da gramatica reconhecida pelo compilador é dado em @Capitulo Desenvolvimento Parser@. Note que do potno de vista do parser e lexer alguns simbolos são apenas reconhcidos, é citado que o compilador também precisa entenderlo, e para é preciso atribuir significado especifico à esses simbolos e construções, por exemplo $\omega_o$, que o angulo de saída da luz @@@ ou $f$ que é a brdf. Essa atribuição é feita em etapa de analise semantica, que vem após o parsing @ref@.
+Uma descrição completa dos simbolos reconhecidos são dados no @Desenvolvimento capitulo Lexer@. Construção completa da gramatica reconhecida pelo compilador é dado em @Capitulo Desenvolvimento Parser@. Note que do potno de vista do parser e lexer alguns simbolos são apenas reconhcidos, é citado que o compilador também precisa entenderlo, e para é preciso atribuir significado especifico à esses simbolos e construções, por exemplo $\omega_o$, que o angulo de saída da luz @@@ ou $f$ que é a brdf. Essa atribuição é feita em etapa de analise semantica, que vem após o parsing @ref@. Todos as convenções de simbolos que devem ser suportados pela linguagem é definido na tabela \autoref{tab-conventions} e seu significado pode ser encontrado
 
+\begin{table}[h]
+    \centering
+    % \begin{tabular}{|c|l|}
+    \begin{tabular}{cl}
+        \hline
+        \textbf{Símbolo} & \textbf{Descrição} \\
+        \hline
+        $\theta_i$ & Ângulo de elevação da direção da luz incidente \\
+        \hline
+        $\theta_o$ & Ângulo de elevação da direção da luz refletida \\
+        \hline
+        $\phi_i$ & Ângulo azimutal da direção da luz incidente \\
+        \hline
+        $\phi_o$ & Ângulo azimutal da direção da luz refletida \\
+        \hline
+        $\omega_i$ & Direção da luz incidente  \\
+        \hline
+        $\omega_o$ & Direção da luz refletida  \\
+        \hline
+        $f$ & BRDF de referência \\
+        \hline
+        $\vec{n}$ & Vetor normal à superfície \\
+        \hline
+        $\vec{h}$ & Vetor do meio entre $\omega_o$ e $\omega_i$ \\
+        \hline
+        $\theta_h$ & Ângulo entre $\vec{n}$ e $\vec{h}$ \\
+        \hline
+        $\theta_d$ & Ângulo entre $\omega_i$ e $\vec{h}$ \\
+        \hline
+    \end{tabular}
+    % \caption{Tabela de simbolos e seu descrições}
+    \label{tab-conventions}
+\end{table}
 %
 %
 \section{Design de Casos de Teste} \label{testes}

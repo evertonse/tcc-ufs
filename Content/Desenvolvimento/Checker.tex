@@ -47,19 +47,19 @@ O pacote \texttt{checker} é responsável por realizar diversas tarefas fundamen
 
 Essas validações são realizadas utilizando o padrão \textit{Visitor}, detalhado na \autoref{subsection-walker} e os erros encontrados são reportados usando as funções de erros introduzida na \autoref{section-lexer} (\label{function-errors}).
 
-\subsection{Uso do Padrão Visitor}
-@@@ Prefisamos manter essa subseção se já vamos detalhar mais pra frente?@@
-
-Para realizar a validação semântica, o pacote \texttt{walker} é reutilizado, permitindo a travessia modular da AST. Essa abordagem facilita a aplicação recursiva de inferência de tipos, provida pelo, mesmo em expressões aninhadas.
-
-Validações ocorrem nessa traversia e basedo no tipo do nó, a inferencia é feita, discutido na \autoref{subsection-inferencia-tipos} uma operação binária de multiplicação:
-\begin{itemize}
-    \item Se ambos os operandos forem números reais, o resultado também será um número real.
-    \item Se um dos operandos for um vetor tridimensional, o resultado dependerá do outro operando (por exemplo, um escalar ou outro vetor).
-\end{itemize}
-
-Como a esquerda ou a direita de uma operação binária podem ser expressões aninhadas (outras operações binárias, chamadas de funções, etc.), o padrão visitor permite aplicar a inferência de tipos recursivamente. Esse processo garante que o tipo de cada subexpressão seja determinado de forma consistente e confiável.
-
+% \subsection{Uso do Padrão Visitor}
+% @@@ Prefisamos manter essa subseção se já vamos detalhar mais pra frente?@@
+%
+% Para realizar a validação semântica, o pacote \texttt{walker} é reutilizado, permitindo a travessia modular da AST. Essa abordagem facilita a aplicação recursiva de inferência de tipos, provida pelo, mesmo em expressões aninhadas.
+%
+% Validações ocorrem nessa traversia e basedo no tipo do nó, a inferencia é feita, discutido na \autoref{subsection-inferencia-tipos} uma operação binária de multiplicação:
+% \begin{itemize}
+%     \item Se ambos os operandos forem números reais, o resultado também será um número real.
+%     \item Se um dos operandos for um vetor tridimensional, o resultado dependerá do outro operando (por exemplo, um escalar ou outro vetor).
+% \end{itemize}
+%
+% Como a esquerda ou a direita de uma operação binária podem ser expressões aninhadas (outras operações binárias, chamadas de funções, etc.), o padrão visitor permite aplicar a inferência de tipos recursivamente. Esse processo garante que o tipo de cada subexpressão seja determinado de forma consistente e confiável.
+%
 
 \subsection{Tipos, Simbolos e Escopos} \label{subsection-symbols-scopes}
 
