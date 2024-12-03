@@ -150,14 +150,16 @@ Para validação visual, foi implementado uma função que gera uma imagem da AS
 
 Na \autoref{fig-svg}, apresentamos a visualização gerada para a equação \autoref{eq-svg}. Observamos que os nós de operações binárias, como \texttt{+} e \texttt{-}, localizados próximos à raiz, são avaliados posteriormente, enquanto os nós mais próximos das folhas, como \texttt{*} e \texttt{\^}, têm maior precedência e são resolvidos primeiro. Além disso, o SVG inclui informações adicionais, como o tipo das expressões. Por exemplo, o identificador \( f \) é anotado como pertencente ao tipo \( \mathbb{R} \), o que é determinado na etapa de validação semântica (\texttt{checker}), como será discutido posteriormente.
 
-Os nós da AST são heterogêneos, e o modo de acessar seus filhos varia conforme o tipo do nó, já que os campos podem ter nomes ou posições diferentes nas estruturas. Para lidar com essa heterogeneidade, o pacote \texttt{walker} oferece uma função chamada \texttt{children} (\autoref{cod-childre-signature}). Essa função abstrai as diferenças entre os tipos de nós e retorna, para qualquer nó, uma lista uniforme de seus filhos. Isso simplifica o código de geração do SVG, permitindo que a função opere sobre a AST de maneira uniforme, sem a necessidade de tratar cada tipo de nó individualmente.
-%%%%%%%
 \begin{equation} \label{eq-svg}
    f =  1*2 ^ 4 +  \sqrt 4^8
 \end{equation}
 
+Os nós da AST são heterogêneos, e o modo de acessar seus filhos varia conforme o tipo do nó, já que os campos podem ter nomes ou posições diferentes nas estruturas. Para lidar com essa heterogeneidade, o pacote \texttt{walker} oferece uma função chamada \texttt{children} (\autoref{cod-childre-signature}), que abstrai as diferenças entre os tipos de nós e retorna, para qualquer nó, uma lista uniforme de seus filhos. 
+Essa função simplifica o código de geração do SVG, permitindo que a função opere sobre a AST de maneira uniforme, sem a necessidade de tratar cada tipo de nó individualmente.
+%%%%%%%
 
-\begin{codigo}[!h]
+
+\begin{codigo}[h]
         \caption{\small Assinatura da função que extrai nós filhos de maniera uniforme para qualquer tipo de nó. }
         \label{cod-childre-signature}
   \begin{lstlisting}[language = C]
@@ -167,7 +169,7 @@ Os nós da AST são heterogêneos, e o modo de acessar seus filhos varia conform
 \end{codigo}
 
 % \begin{figure}[H]
-\begin{figure}[!h]
+\begin{figure}[H]
     \caption{\label{fig-svg} \small SVG da AST gerado para \autoref{eq-svg}.}
     \begin{center}
         % \includegraphics[width=\textwidth, scale=1.1]{./Imagens/svg.png}

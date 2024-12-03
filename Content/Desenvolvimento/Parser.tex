@@ -37,7 +37,7 @@ Pratt Parsing simplifica a análise sintática de expressões ao tratar precedê
 \end{codigo}
 
 
-Isso torna a gramática mais longa, necessitando de mais regras que derivam outras regras antes de chegar a um símbolo do alfabeto da gramática. Na descrição recursiva, regras são o mesmo que funções, o que significa que os métodos recursivos tradicionais com muitos níveis de precedência fazem mais chamadas recursivas em código, gerando mais lentidão e complexidade na implementação da descrição recursiva a ser mantida. No Pratt Parsing, uma única regra é suficiente:
+Isso torna a gramática mais longa, necessitando de mais regras que derivam outras regras antes de chegar a um terminal da gramática. Na descrição recursiva, regras são o mesmo que funções, o que significa que os métodos recursivos tradicionais com muitos níveis de precedência fazem mais chamadas recursivas em código, gerando mais lentidão e complexidade na implementação da descrição recursiva a ser mantida. No Pratt Parsing, uma única regra é suficiente:
 \verb`Expr = Expr ( '||' | '&&' | '==' | '<' | '+' | '*' ) Expr;`.
 
 A precedência é definida em uma tabela (\autoref{tab-token-precedence}), e o \textit{parser} consulta essa tabela dinamicamente para decidir a ordem de avaliação com base no operador encontrado. Isso reduz a complexidade, facilita alterações e melhora a eficiência do \textit{parser}, resultando em um código mais simples, eficiente e flexível para incluir novos operadores.
@@ -111,7 +111,7 @@ parse_start :: proc(using p: ^Parser) -> ^ast.Start {
 
 \subsection{Gramática}
 
-Para formalizar a gramática da linguagem de entrada (\texttt{EquationLang}), estabelecemos regras detalhadas nos \autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2}. O \autoref{code-gramatica} apresenta um exemplo de código-fonte válido nesta linguagem, cuja renderização correspondente em \LaTeX{} é ilustrada em \autoref{code-gramatica-rendered}.
+Para formalizar a gramática da linguagem de entrada (\texttt{EquationLang}), estabelecemos regras detalhadas nos \autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2}. É apresentado um exemplo de código-fonte de três equações válidas nesta linguagem no \autoref{code-gramatica}, cuja renderização correspondente em \LaTeX{} é ilustrada em \autoref{code-gramatica-rendered}. Nesse exemplo, a primeira equação ($\rho_{d}$) é gerado pela regra \verb"expr_vector_literal". A segunda ($\rho_{s}$), é uma expressão binário derivada pela regra \verb"expr_infix". Já a última representa uma equação que necessitou de mais regras como \verb"expr_grouped" e \verb"expr_prefix".
 
 \label{code-gramatica-rendered} \begin{subequations}
 \begin{equation}
@@ -176,6 +176,9 @@ f = \frac{\rho_{d}}{\pi} + \frac{\rho_{s}}{8*\pi} *
         | expr_grouped
         | expr_prefix
         | expr_infix
+        --- É definido para criação de expressões como 5 fatorial
+        --- mas não foi discutido pois não foi necessaria para BRDFs
+        --- e portanto não passou pela analise semantica
         | expr_postfix
         --- Ressalto que `function_call` e `function_definition` tem a mesma construção.
         --- Apenas diferenciamos pela posição que aparecer, se à esquerda ou à direta de '=' da regra `field`.

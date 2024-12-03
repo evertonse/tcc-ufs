@@ -1,0 +1,49 @@
+\begin{codigo}[H]
+    \caption{\small Recorte da função \texttt{check\_expr}. }
+    \label{eq-function-check-expr}
+\begin{lstlisting}[language=C, frame=none, inputencoding=utf8]
+check_expr :: proc(expr: ^ast.Expr) {
+    // Primeiro inferimos o tipo
+    infer_type(expr)
+    // Código omitido de preambulo
+    // Partimos checar os casos para cada tipo de expressão
+        case ^Expr_Identifier:
+            // Check for using undefined indetifiers
+            identifier_key := key_from_identifier(e)
+            if !is_defined(e, false) {
+                error(e.identifier,  "Identifier `%v` is not defined in the current scope.", identifier_key)
+            }
+
+        case ^Expr_Grouped:
+            // Basta vallidar o corpo da expressão agrupada
+            check_expr(e.expr)
+
+        case ^Expr_Prefix:
+            // Validamos o lado dereito da expressão
+            check_expr(e.right)
+            if e.op.kind == .Sqrt {
+                if !is_type_equal(e.right.ty_inferred, ty_number) {
+                    error(e.op,  "Square root can only accept Numbers but instead got `%v`.", format_type(e.right.ty_inferred))
+                }
+            }
+            // Código omitido ...
+        case ^Expr_Infix:
+            // Validamos dois lados da expressão binária e
+            // checamos se são compativeis entre si
+            check_expr(e.right)
+            check_expr(e.left)
+            // Código omitido ...
+
+        case ^Expr_Vector_Literal:
+            for number in e.numbers {
+                check_expr(number)
+            }
+
+        case ^Expr_Number:
+            // base case
+        // Outros casos omitidos
+    }
+}
+
+\end{lstlisting}
+\end{codigo}

@@ -1,80 +1,126 @@
 
 \section{Geração de Código (\texttt{emitter})} \label{section-emitter}
 
-especificamente na fase de geração de código, onde as estruturas intermediárias são transformadas em código executável.
-O pacote \texttt{emitter} é responsável por transformar a arvore já anotada com a porra toda e gerar código para ser carregado pela ferramenta BRDF da disney.
-A AST está completamente anotada com tipos, informações especials, e acessamos esses dados necessarios através dos Simbolo presentes no escopo global, lembre que nós podem ser encontrados na tabela de simbolo, e nesses nós tempso informações dos tipos para geração de funções com exemplo. O Escopo global é a entrada para esse pacote; com ele, é possivel gerar o programa completamente, pois todos os escopo filhos podem ser acessados através deste.
-Como chegamos nessa etapa, assume-se corretude do programa, então podemos passar por todos os nós recursivamentes gerar código para cada tipo de nó existente na nossa AST, isso inclue principalmente, definições de funcões e expressões. Uma etapa importante é gerar o LHS de uma equação, que é evolve um pelo menos um identificador e subexpressões e (ex: $f_n+1 = \dots$, no caso de definição de funções, possivelmente parametros. Outro caso é o LHS ser um vetor ou número, nesse caso é apenas  um simbolo no lado esquerdo. 
-Esse processo será relatado em \autoref{sec-LHS} Já o lado direito RHS, é sempre uma expressão, isso envolver fazer uma travessia da arvore e usar a tabela de simbolos e o tipo inferido para gerar a expresão equivalente em GLSL, esse processo é discutido em \autoref{sec-RHS}. Um detalhe importante é que toda equação prefica ter uma variavél de nome unico em glsl, isso é elaborado em \autoref{sec-unicidade}.
+A fase de geração de código é responsável por transformar as estruturas intermediárias, como a AST anotada, em código de \textit{shading} GLSL. O pacote \texttt{emitter} realiza essa transformação, emitindo código compatível com a ferramenta da Disney BRDF Explorer.
+
+A entrada principal para esse processo é o escopo global, que contém todas as informações necessárias para gerar o programa completo, como escopos filhos, simbolos, assinatura de funções e tipos. Nesta etapa, a AST está completamente anotada com tipos e informações auxiliares, acessíveis por meio dos símbolos presentes na tabela de símbolos que será usado geração de funções e expressões no formato apropriado.
+
+Como o programa já foi validado anteriormente, assume-se sua corretude semântica, permitindo a travessia recursiva de todos os simbolos e nós, sem fazer nenhuma validação extra. A traversia abrange a geração de código para definições de funções, expressões e elementos específicos, como os lados esquerdo (LHS do inglês left hand side) e direito (RHS do inglês right hand side) das equações.
+
+O lado esquerdo (LHS) pode envolver identificadores com subexpressões (e.g., $f_{n+1} = \dots$), parâmetros em definições de funções ou simplesmente símbolos como vetores ou números. A abordagem detalhada para o LHS é apresentada na \autoref{sec-LHS}. Já o lado direito (RHS) é sempre uma expressão, exigindo o uso do pacote \texttt{walker} para fazer a traversia da árvore para traduzir as operações e tipos inferidos para o equivalente em GLSL. Esse processo é explorado em \autoref{sec-RHS}.
+
+Um ponto crucial é a necessidade de garantir que cada variável tenha um nome único no código GLSL, conforme detalhado em \autoref{sec-unicidade}.
+
+\subsection{Emissão de Equações}
+
+A emissão de código começa pelo lado esquerdo da equação. Existem três aspectos principais nesse processo:
+\begin{enumerate}
+    \item Mapeamento de Tipos (LHS): O tipo associado ao identificador é a primeira informação a ser resolvida. Caso seja um número real, ele é mapeado para \verb"float" em GLSL. Para vetores ($\mathbb{R}^3$), o mapeamento é feito para \verb"vec3", que representa vetores tridimensionais. Em definições de funções, utiliza-se o simbolo da funlão para acessar os tipos de parâmetros e do retorno, construindo assim a assinatura da função no formato GLSL.
+
+    \item Identificador (LHS): O identificador associado ao símbolo é traduzido conforme regras específicas que garantem unicidade e conformidade com as restrições do GLSL. Este processo é detalhado em \autoref{sec-unicidade}.
+
+    \item Expressões (RHS): No caso do lado direito da equação, tanto funções quanto de variaveis, são expressões. Para gerar isso, realiza-se uma travessia da AST, mapeando nós de expressões (como somas e chamadas de funções trigonométricas) para seu equivalente em GLSL. Detalhes adicionais sobre a emissão de código para expressões estão na \autoref{}.
+\end{enumerate}
 
 
-\subsection{LHS}
-Para emissão de código começamos do lado esquerdo da equação possui. Nela existem 3 partes importantes para geração do código. O tipo é aprimeira parte a se resolver, o mapeamento é se temos um número real, então o tipo em GLSL é mapeado para ponto flutuante, \verb`float`. Se for vetor ($\mathbb{R}^3$), será mapeado para \verb`vec3`, que representa um vetor de 3 dimensões em GLSL. No caso de uma definição de função, precisa usar o \verb`Symbol` para buscar os tipos de parametros e retorno que está, para construir uma função em GLSL. Segundo, temos o identificador presente no simbolo que deve ser mapeado, existe algumas regras que devemos seguir, o processo é delineado em \autoref{sec-unicidade}. Por úlimo, temos que gerar o lado esquerdo da função, assim como foi na inferencia de tipos, temos um traversia na AST para fazer uma mapeamento dos nós de expressões para o equilavente em GLSL, como somas, chamadas de cosseno, seno, etc. A emissão de código à partir de um nó expressão é explicada na sessão \autoref{}
-
-\subsection{Unicidade de variaveis}
-
-Para garantir o comentado em @@checker-chapter. Deve-se também, garantir que as variaveis emitidas são únicas, glsl não permite os caracteres \verb'{,}' em seus identificadores, isso singica que uma euqação definida em latex \verb`f_{1} = 2` não pode ser transformado para um identificador \verb`f_{1} = 2` em glsl, para resolver isso cada simbolo não permitido em glsl é substituido por unmderline \verb'_' gerlando o resultado parical \verb`f__1_`. Isso ainda gera colisão pois outros @@ simbolos poder gerar a mesma indeficiador em glsl, para garantir cada identificador ser realmennte unico um mapeamento é feito entre a string do identificar na equação latex para um inteiro único de 64 bits adicionamos a string "var" + o esse inteiro denomiado ID ao resultado parcial, garantido que todo simbolo de euqação recebe um unico symbolo em glsl. Em contrapartido o compilador permite um máximo de $2^64 - 1$ equações, oq é um número mt bom é possivel permitir mais com big ints, mas para os propositos de cirar BRDFs é suficiente. Uma outra etapa é remover possiveis sequencia de 2 ou mais \verb"_" pois OpenGL reserva nomes contendo \verb"__", ai sim temos a variavel final.
-
-A linguagem GLSL impõe restrições sintáticas na definição de identificadores. Caracteres especiais como '{', '}' são proibidos, o que impossibilita uma transformação direta de notações matemáticas para identificadores de programação. Considere, por exemplo, uma equação em notação LaTeX:
 
 
-\[ f_{1} = 2 \]
 
-A transformação direta resultaria em um identificador inválido em GLSL.
-Para garantir a unicidade e a compatibilidade dos identificadores durante este processo de geração de código foi feitos três tarefas principais:
+\subsection{Unicidade de Variáveis} \label{sec-unicidade}
 
-\subsubsection{1. **Substituição de Caracteres Especiais**}
-   
-   Primeiro todos construimos uma cadeira de caracteres baseado no nó indentificador e todos as subexpressões presente, já que é permitido ver subexpressões como vimos em.Mas Em seguida, todos os caracteres não permitidos em GLSL são substituídos pelo caractere sublinhado (\verb'_'). No exemplo anterior, a transformação inicial seria:
+Para garantir unicidade e compatibilidade dos identificadores gerados no GLSL, é necessário lidar com algumas restrições sintáticas e evitar colisões entre identificadores.
 
-   \[ f\_\_1\_ \]
+\begin{enumerate}
+    \item \textbf{Restrição de Caracteres}: O GLSL não permite caracteres especiais, como \verb"{" e \verb"}", em seus identificadores. Por exemplo, uma equação em \texttt{EquationLang} \verb "f_{1} = 2" não pode ser diretamente transformada no identificador \verb`f_{1}`. Para resolver isso, todos os caracteres inválidos são substituídos por sublinhados (\verb`_`), considerando subexpressões, resultando em identificadores como \verb`f__1_`.
 
-2. **Prevenção de Colisões de Identificadores**
-   
-   Para garantir a unicidade absoluta, implementa-se um mapeamento que associa cada identificador original a um inteiro único de 64 bits. A estratégia consiste em:
-   
-   - Prefixar a string "var"
-   - Concatenar um identificador numérico exclusivo
-   
-   Exemplo, seja $\text{ID}_i$ o identificador único para o símbolo $i$:
+    \item \textbf{Prevenção de Colisões}: Mesmo após a substituição de caracteres, podem ocorrer colisões. Para resolver isso, mapeia-se cada a simbolo de identificador cada para um inteiro único de 64 bits (ID). Esse ID é então concatenado ao começo desse identificador com o prefixo \verb`var`, resultando em \verb`var12345_f__1_`; uma cadeia de carateres unica para simbolo.
 
-   \[ \text{ID}_i = \text{hash}(\text{"var"} + i) \]
+    \item \textbf{Remoção de Sequências Reservadas}: O GLSL reserva identificadores que contêm duas ou mais ocorrências consecutivas de \verb`_`, Também é necessário remover sublinhados ao final, resultando em \verb`var12345_f_1`. Após a geração inicial, identificadores que contenham essas sequências são corrigidos para atender às restrições do GLSL, resultado.
+\end{enumerate}
 
-3. **Normalização Final**
-   
-   Remove-se sequências consecutivas de sublinhados, respeitando as convenções do OpenGL que \emph{reservam} identificadores com sequências duplas de sublinhados para uso interno.
 
-O método proposto oferece:
+Essas etapas garantem que cada variável no código GLSL seja única e válida. Apesar da limitação de $2^{64} - 1$ identificadores distintos imposta pelo uso de inteiros de 64 bits, esse valor é mais do que suficiente para o propósito de criação de BRDFs. Caso necessário, a utilização de inteiros de tamanho arbitrário implementado por \textit{software} para ampliar esse limite.
 
-- Espaço de identificadores: $2^{64} - 1$ equações
-- Possibilidade de extensão utilizando inteiros de precisão arbitrária
+%%%%%%%
 
-### Considerações Teóricas
-
-Teorema: O algoritmo garante injetividade na transformação de identificadores matemáticos para identificadores GLSL.
-
-\[ \forall x, y \in \mathbb{E}, x \neq y \implies \text{GLSL\_Identifier}(x) \neq \text{GLSL\_Identifier}(y) \]
 
 \subsection{Geração de Expressões}
 
 
-Esta tarefa é fundamental no processo de compilação e ocupa a maior parte deste pacote \texttt{emitter}.
-A emissão de expressões é implementada na função \verb`emit_expr`. Essa função aceita uma nó expressão qualquer e um referencia à uma lista de caracteres (tipo `StringBuilder` disponibilizado pela biblioteca padrão de Odin) onde ira escrever um código GLSL correto. Para isso é realizado a travessia recursiva da (AST), usando \texttt{walker} convertendo todas as expressões binárias, prefixas, chamada de funções,  e operações vetoriais em código GLSL válido. A a função checa o tipo do da expressão em um \verb`switch` discriminado para processar diferentes tipos de nós da AST, um recorte dessa função pode ser vista no \autoref{cod-emit-expr}. As principais categorias de expressões tratadas são:
 
-1. Expressões prefixas (`Expr_Prefix`):
+A geração de expressões é uma das etapas mais importantes no processo de compilação e ocupa uma parte substancial do pacote \texttt{emitter}. Essa tarefa consiste em emitir código paras todas as expressões do lado direito das equações em código GLSL válido usando a AST anotada com tipos inferidos.
+
+A implementação é realizada na função \verb"emit_expr", que recebe um nó de expressão e uma referência a um objeto \verb"StringBuilder" (da biblioteca padrão de Odin). Este objeto é utilizado para construir a cadeia de caracteres que corresponde a expressão equivalente em GLSL, evitando concatenações excessivas de strings.
+
+A travessia da AST é realizada de forma recursiva utilizando o pacote \texttt{walker}, que converte diferentes tipos de expressões, incluindo operações binárias, prefixas, vetoriais e chamadas de função para código GLSL. Para isso, a função discrimina o tipo de nó, determinando qual operação correspondente deve ser utilizada em GLSL. Um recorte dessa função pode ser observado no \autoref{cod-emit-expr}, onde a discriminação é feita por meio da palavra-chave \texttt{case}, e a construção de strings para funções trigonométricas é realizada na instância de \texttt{StringBuilder} através da função \verb|sbprint|. A seguir, detalharemos as principais categorias de expressões tratadas:
+
+\begin{enumerate}
+    \item \textbf{Expressões Prefixas (\texttt{Expr\_Prefix})}:
+    Essas expressões incluem operações unárias e funções matemáticas básicas. A implementação:
+    \begin{itemize}
+        \item Emite funções trigonométricas através dão funlão providas por GLSL autometicamente, como \verb|sin|, \verb|cos| e \verb|tan|.
+        \item Lida com operadores unários, como negação (\verb|-|) e raiz quadrada (\verb|sqrt|). Nesses casos é aplicar escrever o operador com parentesis ao redor. Por exemplo, \verb"\sqrt{-2}" ($\sqrt{-2}$) emite \verb"(sqrt(-(2)))".
+        \item Constrói vetores usando o construtor provido por OpenGL \verb|vec3()|.
+        \item Mantém a precedência de operadores adicionando parênteses apropriados.
+    \end{itemize}
+
+    \item \textbf{Expressões Binárias (\texttt{Expr\_Infix})}:  
+    Operações binárias representam a maior parte das expressões matemáticas.
+    \begin{itemize}
+        \item Operações aritméticas básicas (\verb|+|, \verb|-|, \verb|*|, \verb|/|), basta adionar parenteses com o operador no meio, e emitir a esquerda e direita recursivamente.
+        \item Produto interno (\verb|dot|).
+        \item Multiplicação escalar-vetor é suportado por GLSL, então fica similair ao original \verb"\vec{n} \cdot 2" equivalente à \verb"(vec3(n)*2)".
+        \item Suporta o produto vetorial (\verb|cross|). Nesse caso o operador vem primeiro, \verb"\vec{n_1} \cross $\vec{n_2}$" equivalente à \verb"cross(vec3(var_1_n_1),vec3(var_2_n_2))".
+        \item Processa exponenciação (\verb|x^y|) chamando a função \verb|pow()| do GLSL.
+    \end{itemize}
+
+    \item \textbf{Expressões Literais e Agrupamentos}:
+        \item Constrói vetores literais utilizando \verb|vec3|.
+        \item Adicionar parentesis em expressões agrupadas.
+    \end{itemize}
+
+    \item \textbf{Expressões Chamadas de Função}:  
+        Na geração de uma chamada de função, ocorre a chamada recursiva para emitir a expressão do indentificador dessa função, depois abre parentesis \verb"(", e emite uma expressão para cada argumentos separado por virgula, demonstrado no recorte do \autoref{cod-emission-func}.
+
+    \end{itemize}
+\end{enumerate}
+
+\begin{codigo}[htb]
+    \caption{\small Emissão de chamada de funlões. }
+    \label{cod-emission-func}
+\begin{lstlisting}[language=C, frame=none, inputencoding=utf8]
+
+        case ^Expr_Function_Call:
+        emit_expr(sb, e.left)
+        sbprint(sb, '(')
+        for arg, idx in e.exprs {
+            emit_expr(sb, arg)
+            if idx < (len(e.exprs) -1)  {
+                sbprint(sb, ',')
+            }
+        }
+        sbprint(sb, ')')
+\end{lstlisting}
+\end{codigo}
+
+Esse sistema permite traduzir expressões matemáticas como mostado em \autoref{eq-emit-expr-example}, gerando o código correspondente apresentado em \autoref{cod-emit-expr-example}.
+
+A emissão de expressões é implementada na função \verb`emit_expr`. Essa função aceita uma nó expressão qualquer e um referencia à uma lista de caracteres (tipo `StringBuilder` disponibilizado pela biblioteca padrão de Odin) onde ira escrever um código GLSL correto. Para isso é realizado a travessia recursiva da (AST), usando \texttt{walker} convertendo todas as expressões binárias, prefixas, chamada de funções,  e operações vetoriais em código GLSL válido. A a função checa o tipo do da expressão em um \verb`switch` discriminado para processar diferentes tipos de nós da AST, . As principais categorias de expressões tratadas são:
+
+1. Expressões prefixas (\verb`Expr_Prefix`):
    - Implementa a emissão de funções trigonométricas (sin, cos, tan, asin, acos, atan)
    - Processa operadores unários como negação (-) e raiz quadrada (sqrt)
    - Realiza a conversão de vetores através da construção vec3()
    - Mantém a precedência de operadores através de parênteses apropriados
 
-2. Expressões binárias (`Expr_Infix`):
+2. Expressões binárias (\verb`Expr_Infix`):
    - Gerencia operações aritméticas básicas (+, -, *, /)
    - Implementa tratamento especial para multiplicação vetorial, diferenciando:
      * Produto interno entre vetores
      * Multiplicação escalar-vetor
      * Multiplicação escalar-escalar
    - Processa operações vetoriais, a unica que damos suporte é produto vetorial (\verb`cross`).
-   - Exponenciação (\veb'x ^ y') é implementada fazendo chamanda a função \verb`pow()` que embutida em GLSL.
+   - Exponenciação (\verb'x ^ y') é implementada fazendo chamanda a função \verb`pow()` que embutida em GLSL.
 
 3. Expressões Literais e Identificadores:
    - Processa literais numéricos com formatação apropriada para GLSL
@@ -214,11 +260,11 @@ A função \verb`emit` representa o ponto de entrada do processo de emissão de 
    - Emite as declarações de funções embutidas (comumente chamda de \verb`built-in`) necessárias para o funcionamento do shader
 
 2. Fase de Processamento de Símbolos:
-   - Itera sobre uma tabela de símbolos ordenada (Scope)
+   - Itera sobre uma tabela de símbolos ordenada (\verb"Scope")
    - Processa três categorias principais de símbolos:
-     * Variáveis numéricas escalares (Type_Basic)
-     * Definições de funções (Type_Function)
-     * Variáveis vetoriais (Type_Vector)
+     * Variáveis numéricas escalares (\verb"Type_Basic")
+     * Definições de funções (\verb"Type_Function")
+     * Variáveis vetoriais (\verb"Type_Vector")
    - Mantém separação entre declarações e definições através de builders distintos
    - Implementa um sistema de buffer duplo onde as equações são acumuladas separadamente das declarações, isso é feito para simular escopo global em GLSL.
 
@@ -235,38 +281,38 @@ Uma característica notável é a utilização de um sistema de builders para co
 O processo de emissão é crucial para a geração de shaders GLSL válidos, pois mantém a ordem correta de declarações e definições, essencial para a compilação posterior pelo compilador GLSL. A função retorna um booleano indicando o sucesso da operação de escrita, permitindo tratamento adequado de erros em níveis superiores do compilador.
 
 Estas funções implementam a infraestrutura necessária para cálculos de reflectância bidirecional em shaders GLSL, estabelecendo as variáveis fundamentais para computação de interações luz-material. As variaveis enbutidas são aquelas definidas na tabelas @@@, que são a angulo de incidencia, entre outros, a ferramenta disney oferece algumas dessas variaveis embutidas como parametro para função de entrada \verb`BRDF`, mas com convenções de nomes diferentes do estabelicdo neste trabalho. Essas são:
-     * `normal_vector`: normal da superfície (N)
-     * `omega_i`: direção da luz incidente (L)
-     * `omega_o`: direção de visualização (V)
-Todas as outras são calculadas por nós e gerado para todas as entradas automaticamente, pronto para uso em qualquer equação. 
-Para calcular as embutidas omega_i, theta_d, phi_i, etc.., é foi desenvolvida algumas funções auxiliares de coordenadas esféricas: 
+      \verb`normal_vector`: normal da superfície (N)
+      \verb`omega_i`: direção da luz incidente (L)
+      \verb`omega_o`: direção de visualização (V)
+Todas as outras são calculadas por nós e gerado para todas as entradas automaticamente, pronto para uso em qualquer equação.
+Para calcular as embutidas \verb"omega_i", \verb"theta_d", \verb"phi_i", etc.., é foi desenvolvida algumas funções auxiliares de coordenadas esféricas:
 
-   - A função `phi(v)` calcula o ângulo azimutal (φ) a partir de um vetor:
-     * Implementa a conversão de coordenadas cartesianas para esféricas
-     * Utiliza atan(sqrt(y² + x²), z) para computar φ
-   - A função `theta(v)` calcula o ângulo polar (θ):
-     * Implementa atan(y, x) para computação do ângulo no plano xy
+   - A função \verb`phi(v)` calcula o ângulo azimutal ($\phi$) a partir de um vetor:
+     - Implementa a conversão de coordenadas cartesianas para esféricas
+     - Utiliza \verb"\atan(sqrt(y² + x²), z)" para computar $\phi$
+   - A função \verb`theta(v)` calcula o ângulo polar ($\theta$):
+     - Implementa atan(y, x) para computação do ângulo no plano xy
 
-Assim podemos podemos fazer declaração das variáveis built-in  ( através da função `emit_builtin_globals_declaration`):
-     * `half_vector`: vetor intermediário entre direção de luz e visualização (H)
-     * `normal_vector`: normal da superfície (N)
-     * `omega_i`: direção da luz incidente (L)
-     * `omega_o`: direção de visualização (V)
+Assim podemos podemos fazer declaração das variáveis built-in  ( através da função \verb`emit_builtin_globals_declaration`):
+     - \verb`half_vector`: vetor intermediário entre direção de luz e visualização (H)
+     - \verb`normal_vector`: normal da superfície (N)
+     - \verb`omega_i`: direção da luz incidente (L)
+     - \verb`omega_o`: direção de visualização (V)
    
    - Ângulos Esféricos:
-     * `theta_h`: ângulo entre H e N
-     * `theta_d`: ângulo entre H e L
-     * `theta_i`: ângulo polar da luz incidente
-     * `theta_o`: ângulo polar da visualização
-     * `phi_i`: ângulo azimutal da luz incidente
-     * `phi_o`: ângulo azimutal da visualização
+     - \verb`theta_h`: ângulo entre H e N
+     - \verb`theta_d`: ângulo entre H e L
+     - \verb`theta_i`: ângulo polar da luz incidente
+     - \verb`theta_o`: ângulo polar da visualização
+     - \verb`phi_i`: ângulo azimutal da luz incidente
+     - \verb`phi_o`: ângulo azimutal da visualização
 
 E também constantes matemáticas:
-     * `pi`: valor de π
-     * `epsilon`: valor de precisão numérica
+     - \verb`pi`: valor de $\pi$
+     - \verb`epsilon`: valor de precisão numérica
 
 
-A função `emit_builtin_entry_function` encapsula toda esta lógica na função BRDF principal. 
+A função \verb`emit_builtin_entry_function` encapsula toda esta lógica na função BRDF principal. 
 - Recebe os vetores de entrada (L, V, N, X, Y), X e Y não usados.
 - Inicializa todas as variáveis built-in, seu código gerado das variaveis embutidas pode ser visto em \autoref{cod-builtins-emitted}
 - Incorpora as equações específicas do usuário
@@ -313,8 +359,8 @@ A emissão de definições de função segue um processo similiar ao de equaçõ
 \begin{itemize}
    \item Extração de tipo de retorno, extraido pelo campo results em \autoref{thingy}
    \item Processamento de identificadores de função, usando a estratégia citada na \autoref{sec-unicidade}
-   \item Geração dos parametros entre parenteses, inclue tipo e nome da variaveis, também na estratégia\autoref{sec-unicidade}  ncparamétrica tipada, seguido
-   \item Emissão de corpo de função, que consiste no token '{', seguido da palavra-chave return, agora chamada recursiva para emit_expr, ';' e por fecha chave '}'.
+   \item Geração dos parametros entre parenteses, inclue tipo e nome da variaveis, também na estratégia \autoref{sec-unicidade}  ncparamétrica tipada, seguido
+   % \item Emissão de corpo de função, que consiste no token `\verb{`, seguido da palavra-chave return, agora chamada recursiva para \verb`emit_expr`, \verb`;` e por fecha chave \verb`}`.
 \end{itemize}
 
 A parametrização implementa um mapeamento bijetivo entre tipos inferidos e representações GLSL, garantindo preservação semântica durante a tradução.

@@ -167,7 +167,7 @@ Tokens simples, como aqueles compostos por um ou dois caracteres, são extraído
 
 Tokens mais complexos, como números, identificadores ou \textit{tokens} especiais, são extraídos com base em suas características. Números podem opcionalmente conter um ponto decimal, como em $1.0$. Já identificadores consistem em uma ou mais letras, opcionalmente prefixadas pelo símbolo \verb|\|.
 
-A gramática de \textit{tokens} provida é intrinsecamente ambígua. Por exemplo, uma sequência como \verb|\frac| pode ser interpretada como um identificador comum ou como \verb"token\_frac". Para resolver essa ambiguidade, criamos um dicionário que mapeia identificadores especificos para \textit{tokens} especiais (\autoref{map-special-identifiers}). Assim, se um identificador começar com o caractere \verb|\|, ele será verificado no dicionário e classificado como um token especial, se apropriado.
+A gramática de \textit{tokens} provida é intrinsecamente ambígua. Por exemplo, uma sequência como \verb|\frac| pode ser interpretada como um identificador comum ou como \verb"token_frac". Para resolver essa ambiguidade, criamos um dicionário que mapeia identificadores especificos para \textit{tokens} especiais (\autoref{map-special-identifiers}). Assim, se um identificador começar com o caractere \verb|\|, ele será verificado no dicionário e classificado como um token especial, se apropriado.
 
 
 \label{lexer-subexpression}

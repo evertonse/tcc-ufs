@@ -1,0 +1,104 @@
+\begin{codigo}[htb]
+    \caption{\small Validação da definição de funções. }
+    \label{cod-func-defn}
+\begin{lstlisting}[language=C, inputencoding=utf8]
+
+check_function_definition :: proc(fn : ^ast.Expr_Function_Definition, body: ^ast.Expr) {
+    using ast, fmt
+
+    fn_sym, ok := scope_get(key_from_identifier(fn.name))
+    assert(ok, fmt.tprint("The fn symbol for", key_from_identifier(fn.name), " should have been set by now") )
+
+
+    parameter_types := [dynamic]^Type{}
+
+    scope_enter(fn_sym.scope)
+        // We can'tr really loop by scope because order is not preserved for parameter_key, parameter in fn_sym.scope.elements {
+        for &parameter in fn.parameters {
+            parameter_key := key_from_identifier(parameter)
+            // By default if it didn't recognise as vector
+            // we set it a default to number
+            ty := infer_type(parameter, true, ty_number)
+
+            parameter_sym, parameter_exits := scope_get_from(fn_sym.scope, parameter_key)
+            assert(parameter_exits)
+
+            parameter_sym.type = ty
+            append(&parameter_types, ty)
+        }
+    scope_exit()
+
+    //
+    // Now we gotta make sure every instance where the parameter identifier is
+    // used inside the body, it has the type expected from the parameter
+    //
+    check_single_identifier :: proc(parameters: []^ast.Expr_Identifier, ident: ^ast.Expr_Identifier, ) {
+        // Just in case we infer it, no problem can occur if the type is already set
+        infer_type(ident)
+        ident_key := key_from_identifier(ident)
+        for p in parameters {
+            infer_type(p)
+            p_key := key_from_identifier(p)
+
+            // if match, they should have the same type
+            if ident_key == p_key {
+                if !is_type_equal(ident.ty_inferred, p.ty_inferred) {
+                    error(ident.identifier, "Parameter `%v` being use as type `%v` when the expected type is `%v`\nRemember that if you want a vector you should prefix it with `\\vec`", p_key,  format_type(ident.ty_inferred), format_type(p.ty_inferred)  )
+                }
+            }
+        }
+
+    }
+
+    check_for_identifiers_inside_function :: proc(node: ^ast.Node, parameters: []^ast.Expr_Identifier,) {
+        ident, ident_ok := node.derived.(^ast.Expr_Identifier)
+        if ident_ok {
+            check_single_identifier(parameters, ident)
+            //
+            // We don't wanna go into more in depth sub indenfitiers
+            // because the scope only cares about top level identifiers
+            // because of that we just return
+            //
+            return;
+        }
+
+        children := ast.children(node)
+        defer delete(children)
+        for c in children {
+            check_for_identifiers_inside_function(c, parameters)
+        }
+    }
+
+
+
+    // assert(false,  "scope_print(fn_sym.scope)")
+
+    //
+    // We push this scope
+    // to make parameters being used in the body
+    // have a symbol defined
+    //
+    scope_enter(fn_sym.scope)
+        check_expr(body)
+        body_type := infer_type(body)
+
+        when #config(DEV, false) {
+            // Quickly check for le types by printing the type annotated ast
+            if true do walker.print_ast(body)
+        }
+
+        result_types := [dynamic]^Type{body_type}
+        fn_type := make_function_type(parameter_types[:], result_types[:] )
+        fn.ty_inferred = fn_type
+
+
+        check_for_identifiers_inside_function(body, fn.parameters)
+    scope_exit()
+
+    fn_sym.type = fn.ty_inferred
+    fn_sym.fn_defn = fn
+}
+
+\end{lstlisting}
+\end{codigo}
+
