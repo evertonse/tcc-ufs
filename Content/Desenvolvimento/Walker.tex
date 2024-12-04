@@ -104,9 +104,10 @@ walk :: proc(v: ^Visitor($T), node: ^ast.Node) {
 
 
 \subsection{Validação de Precedencia}
-As funções e a estrutura de travessia foram utilizadas para validar a precedência dos operadores na AST gerada pelo \texttt{parser}. A função de parentização processa todos os tipos de expressões durante a travessia da AST, inserindo parênteses para preservar a precedência implícita original (sem parênteses). Isso garante que a representação textual reflita corretamente a ordem de avaliação das operações matemáticas, assegurando que a hierarquia das operações foram corretamente representada na árvore gerada.
+As funções e a estrutura de travessia foram utilizadas para validar a precedência dos operadores na AST gerada pelo \texttt{parser}. Uma função de parentização foi implementada para percorrer a AST e inserir parênteses, preservando a precedência original implícita. Assim, é possivel testar se a representação textual reflete corretamente a ordem de avaliação das operações matemáticas e assegurar que a hierarquia das operações foram corretamente representadas na árvore gerada.
 
-Os testes de precedência comparam o texto original de uma expressão com sua versão esperada, onde os parênteses refletem a ordem correta de avaliação (\autoref{cod-test-paren}). Casos mais complexos, como operadores associativos à direita (ex: exponenciação) combinados com outros operadores de diferentes precedências, também são testados. Expressões aninhadas e funções também são consideradas para abranger todos os cenários.
+Os testes de precedência comparam o texto original de uma expressão com sua versão esperada, onde os parênteses indicam a ordem correta de avaliação (\autoref{cod-test-paren}). Casos complexos, como operadores associativos à direita (por exemplo, exponenciação) combinados com operadores de diferentes precedências, bem como expressões aninhadas e funções, também são testados para abranger variados cenários possíveis.
+
 
 \begin{codigo}[!ht]
     \caption{\small Validação de precendencia por parentização de expressões. }
@@ -140,7 +141,7 @@ Os testes de precedência comparam o texto original de uma expressão com sua ve
 
 \subsection{Visualização da AST por Imagem} \label{subsection-svg}
 
-Para validação visual, foi implementada uma função que gera uma imagem da AST no formato SVG, que é textual e fácil de manipular. Cada nó da AST é representado por um retângulo com textos que fornecem informações como o tipo de operador, o tipo do nó e o identificador, quando aplicável. Anteriormente, era usada a função \texttt{print\_ast}, que imprimia os nós e seus atributos com indentação correspondente à profundidade. No entanto, essa abordagem se tornou limitada conforme a complexidade da AST aumentou, exigindo uma solução mais robusta para depuração.
+Para validação visual, foi implementada uma função que gera uma imagem da AST no formato SVG. Cada nó da AST é representado por um retângulo com textos que fornecem informações como o tipo de operador, o tipo do nó e o identificador, quando aplicável. Anteriormente, era usada a função \texttt{print\_ast}, que imprimia os nós e seus atributos com indentação correspondente à profundidade. No entanto, essa abordagem se tornou limitada conforme a complexidade da AST aumentou, exigindo uma solução mais robusta para depuração.
 
 Na \autoref{fig-svg}, é ilustrada a imagem gerada para a equação \autoref{eq-svg}. Observa-se que o nó da operação binária \texttt{+} (\verb"Expr_Infix Plus"), localizado mais próximo da raiz, é avaliado por último, enquanto o nós mais próximos das folhas, como \texttt{*} e \texttt{\^} (\verb"Expr_Infix Caret"), têm maior precedência e são resolvidos primeiro. Além disso, o SVG inclui informações adicionais, como o tipo das expressões. Por exemplo, o identificador \( f \) é anotado como \( \mathbb{R} \), determinado na validação semântica (\texttt{checker}).
 

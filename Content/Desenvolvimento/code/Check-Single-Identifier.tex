@@ -1,0 +1,17 @@
+
+\begin{codigo}[htb]
+    \caption{\small Validação de um uníco identificador dentro de contexto de parametros de uma função. }
+    \label{cod-check-single-ident}
+\begin{lstlisting}[language=C, numbers=none, frame=none, inputencoding=latin1]
+
+check_single_identifier :: proc(parameters: []^ast.Expr_Identifier, ident: ^ast.Expr_Identifier) {
+    infer_type(ident)
+    ident_key := key_from_identifier(ident)
+    // Validates type consistency between declaration and usage
+    if !is_type_equal(ident.ty_inferred, p.ty_inferred) {
+        error(ident.identifier, "Parameter `%v` being use as type `%v` when the expected type is `%v`", ...)
+    }
+    // Código omitido por brevidade ..
+}
+\end{lstlisting}
+\end{codigo}

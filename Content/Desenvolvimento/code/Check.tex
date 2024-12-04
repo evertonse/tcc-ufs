@@ -1,46 +1,35 @@
 \begin{codigo}[H]
     \caption{\small Recorte da função \texttt{check\_expr}. }
     \label{eq-function-check-expr}
-\begin{lstlisting}[language=C, frame=none, inputencoding=utf8]
+\begin{lstlisting}[language=C, basicstyle=\ttfamily\footnotesize, frame=none, inputencoding=utf8]
 check_expr :: proc(expr: ^ast.Expr) {
     // Primeiro inferimos o tipo
     infer_type(expr)
     // Código omitido de preambulo
-    // Partimos checar os casos para cada tipo de expressão
         case ^Expr_Identifier:
             // Check for using undefined indetifiers
             identifier_key := key_from_identifier(e)
             if !is_defined(e, false) {
                 error(e.identifier,  "Identifier `%v` is not defined in the current scope.", identifier_key)
             }
-
-        case ^Expr_Grouped:
-            // Basta vallidar o corpo da expressão agrupada
-            check_expr(e.expr)
-
-        case ^Expr_Prefix:
-            // Validamos o lado dereito da expressão
-            check_expr(e.right)
-            if e.op.kind == .Sqrt {
-                if !is_type_equal(e.right.ty_inferred, ty_number) {
-                    error(e.op,  "Square root can only accept Numbers but instead got `%v`.", format_type(e.right.ty_inferred))
-                }
-            }
-            // Código omitido ...
-        case ^Expr_Infix:
-            // Validamos dois lados da expressão binária e
-            // checamos se são compativeis entre si
-            check_expr(e.right)
+        case ^Expr_Function_Call:
             check_expr(e.left)
-            // Código omitido ...
-
-        case ^Expr_Vector_Literal:
-            for number in e.numbers {
-                check_expr(number)
+            fn_ident, fn_ident_ok := e.left.expr_derived.(^ast.Expr_Identifier)
+            if !fn_ident_ok {
+                error(e.open,  "Tried to call an expression that is not an identifier")
             }
-
-        case ^Expr_Number:
-            // base case
+            fn_string := key_from_identifier(fn_ident)
+            fn_sym, fn_sym_ok := scope_get(fn_string)
+            fn_type, fn_type_ok := e.left.ty_inferred.derived.(^ast.Type_Function)
+            if !fn_type_ok {
+                error(e.open,  "Tried to call`%v`, which is not a function. Its type is `%v`", fn_string, format_type(e.left.ty_inferred))
+            }
+            if len(e.exprs) != len(fn_type.params) {
+                error(
+                    e.open,  "Args number mismatch. `%v` function expects  `%v` arguments but `%v` were given.",
+                    fn_string, len(fn_type.params), len(e.exprs)
+                )
+            }
         // Outros casos omitidos
     }
 }

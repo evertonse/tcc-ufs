@@ -28,12 +28,11 @@ O pacote \texttt{checker} é responsável por realizar diversas tarefas fundamen
     \item \textbf{Compatibilidade de Tipos}:
     O \texttt{checker} também verifica a compatibilidade entre tipos em diferentes contextos do programa. Essa validação assegura que:
     \begin{itemize}
-        \item Não sejam realizadas operações não definidas por \texttt{EquationLang}, como a multiplicação entre dois vetores. Por exemplo, $\vec{u} * \vec{v}$ seria inválido para uma multiplicação direta, mas pode ser válido para um produto escalar ou vetorial.
+        \item Não sejam realizadas operações não definidas por \texttt{EquationLang}, como a divisão entre dois vetores. Por exemplo, $\vec{u} / \vec{v}$, mas pode ser válido para um produto escalar ou vetorial.
 
         \item Não sejam aplicados operadores em tipos incompatíveis, como elevar um número a um vetor ($2^{\vec{n}}$).
-
-        \item Os argumentos de uma função pertençam ao domínio da função. Por exemplo, se a função $\texttt{normalize}(\vec{u})$ retorna um vetor tridimensional ($\mathbb{R}^3$), usá-lo como argumento para funlção seno, que espera um número escalar ($\mathbb{R}$). Então, $\sin(\texttt{normalize}(\vec{u}))$ seria inválido.
-        \item O tipo do valor de retorno de uma função seja adequado ao contexto onde é utilizado.
+        \item Os argumentos de uma função devem pertencer ao domínio esperado pela função. Por exemplo, se a função $\texttt{normalize}(\vec{u})$ retorna um vetor tridimensional ($\mathbb{R}^3$), utilizá-lo como argumento para a função seno, que espera um número escalar ($\mathbb{R}$), seria inválido. Assim, $\sin(\texttt{normalize}(\vec{u}))$ não é permitido.
+        \item O tipo do valor de retorno de uma função deve ser compatível com o contexto em que é utilizado.
     \end{itemize}
 
     \item \textbf{Validação de Definições de Símbolos}:
@@ -45,7 +44,7 @@ O pacote \texttt{checker} é responsável por realizar diversas tarefas fundamen
     \end{itemize}
 \end{enumerate}
 
-Essas validações são realizadas utilizando o padrão \textit{Visitor}, detalhado na \autoref{subsection-walker} e os erros encontrados são reportados usando as funções de erros introduzida na \autoref{section-lexer} (\label{function-errors}).
+Essas validações são realizadas utilizando as funções do pacote \textit{walker} e os erros encontrados são reportados usando as funções de erros introduzida na \autoref{section-lexer}.
 
 % \subsection{Uso do Padrão Visitor}
 % @@@ Prefisamos manter essa subseção se já vamos detalhar mais pra frente?@@
@@ -63,7 +62,7 @@ Essas validações são realizadas utilizando o padrão \textit{Visitor}, detalh
 
 \subsection{Tipos, Simbolos e Escopos} \label{subsection-symbols-scopes}
 
-Cada expressão na AST possui um tipo associado, modelado como uma união de estruturas na linguagem Odin, conforme mostrado na \autoref{cod-types-structs}. Essa união permite representar as seguintes categorias semânticas: tipos primitivos fundamentais, como números e vetores; assinaturas de funções, que capturam o domínio e o contradomínio. Por exemplo, o produto vetorial possui a assinatura $\mathbb{R}^3 \times \mathbb{R}^3 \to \mathbb{R}^3$. Já o vetor normal ($\vec{n}$), possui tipo primitivo de número ($\mathbb{R}$). A modelagem clara de tipos e o conceito de escopos e símbolos é essencial para validar expressões em diferentes contextos, verificar compatibilidade de operações e garantir a consistência semântica do programa.
+Cada expressão na AST possui um tipo associado, modelado como uma união de estruturas na linguagem Odin. Essa união permite representar as seguintes categorias semânticas: tipos primitivos fundamentais, como números e vetores; assinaturas de funções, que capturam o domínio e o contradomínio. Por exemplo, o produto vetorial possui a assinatura $\mathbb{R}^3 \times \mathbb{R}^3 \to \mathbb{R}^3$. Já o vetor normal ($\vec{n}$), possui tipo primitivo de número ($\mathbb{R}$). A modelagem clara de tipos e o conceito de escopos e símbolos é essencial para validar expressões em diferentes contextos, verificar compatibilidade de operações e garantir a consistência semântica do programa.
 
 
 \subsubsection{Tipos}
@@ -92,9 +91,7 @@ como referência ao nó na arvóre sintática, identificador de tipo concreto. O
 Type :: struct {
     node:    ^Node,
     size:    i64,
-    derived: Any_Type,
-
-    /* Easy comparison, types aren't equal if they are not even the same odin typeid */
+    derived: Any_Type, // Ou Type_Vector, ou Type_Basic, ou Type_Function.
     id:      typeid,
 }
 
@@ -113,7 +110,6 @@ Type_Basic :: struct {
 
 Type_Function :: struct {
     using _: Type,
-    // node:   ^Expr_Procedure,
     params, results :[]^Type,
 };
 
@@ -125,7 +121,7 @@ Type_Function :: struct {
 
 Os símbolos representam entidades nomeadas em \texttt{EquationLang}. A estrutura \texttt{Symbol}, apresentada no \autoref{cod-symbol}, encapsula as informações semânticas necessárias sobre os identificadores para validação da AST e geração de código. Essas informações incluem: \begin{itemize} \item \textbf{Escopo}: o escopo em que o símbolo foi definido. \item \textbf{Nó do identificador}: referência ao nó correspondente na AST para uso futuro. \item \textbf{Definição de função (opcional)}: nó da definição de função, quando aplicável. \item \textbf{Estado de resolução}: indica se o símbolo já foi resolvido. \item \textbf{Tipo associado}: o tipo inferido ou declarado do símbolo. \end{itemize}
 
-O gerenciamento de símbolos é essencial para garantir que o estado de cada símbolo seja mantido durante a resolução, como discutido na \autoref{sec-symbol-resolution}.
+O gerenciamento de símbolos é essencial para garantir que o estado de cada símbolo seja mantido durante a resolução, como discutido na \autoref{subsection-sym-resolution}. Os possíveis estados são listados a seguir:
 \begin{enumerate}
     \item \textbf{Não Resolvido:} Estado inicial
     \item \textbf{Em Progresso:} Resolução em andamento
@@ -163,22 +159,14 @@ Nesse projeto, foi desenvolvido também uma tabela de símbolos, cuja implementa
 \begin{lstlisting}[language=C]
 Scope_Table :: [dynamic]^Scope
 
-SCOPES := Scope_Table{}
-
 Scope :: struct {
 /*
  . `node` Is a parent node that created that scope
  . Ex: a block, a function block, a struct or namespace
- . If null, then the scope is the file/global idk yet @LOOK
+ . If null, then the scope is the global
 */
     parent:   ^Scope,
     children:   [dynamic]^Scope,
-    /*
-     . It does not need to be a pointer to a map
-     . because we don't ever copy a Scope we have only one scope
-     . per map elements, and we access this ONLY scope value trought a pointer
-    */
-
     elements: map[string]^Symbol,
     ordered_keys: []string, // bit of a HACK, yeah
 };
@@ -190,7 +178,6 @@ A tabela de símbolos fornece funções para gerenciar escopos, incluindo:
 \begin{itemize}
     \item \texttt{scope\_enter}: entrar em um novo escopo, anexando-o à pilha de escopos.
     \item \texttt{scope\_exit}: sai do escopo atual, removendo-o da pilha de escopos e o retornando.
-    \item \texttt{scope\_reset}: redefine a tabela de símbolos limpando todos os escopos.
     \item \texttt{scope\_get}: recupera um símbolo da tabela de símbolos pelo seu identificador.
     \item \texttt{scope\_add}: adiciona um novo símbolo ao escopo atual.
 \end{itemize}
@@ -207,7 +194,7 @@ Um escopo global é criado contendo todos os símbolos definidos, e a validaçã
 %%%%
 
 
-Nesse caso da \autoref{eq-preref}, \texttt{b} é atribuído a \texttt{a} antes que \texttt{a} seja definido. O \texttt{checker} deve resolver essa dependência, analisando \texttt{a} antes de \texttt{b} para inferir corretamente o tipo de \texttt{b}. Isso é possível por conta da construção de um grafo de dependências entre símbolos (apresentado na \autoref{cod-grafo-simbol-deps}). A partir de uma ordenação topológica desse grafo, o sistema determina uma ordem de avaliação válida, além de identificar dependências circulares que possam impedir a compilação.
+Nesse caso da \autoref{eq-preref}, \texttt{b} é atribuído a \texttt{a} antes que \texttt{a} seja definido. O \texttt{checker} deve resolver essa dependência, analisando \texttt{a} antes de \texttt{b} para inferir corretamente o tipo de \texttt{b}. Isso é possível por conta da construção de um grafo de dependências entre símbolos (apresentado no \autoref{cod-symbol-graph}). A partir de uma ordenação topológica desse grafo, o sistema determina uma ordem de avaliação válida, além de identificar dependências circulares que possam impedir a compilação.
 
 \begin{subequations} \label{eq-preref}
 \begin{equation}
@@ -222,7 +209,7 @@ Nesse caso da \autoref{eq-preref}, \texttt{b} é atribuído a \texttt{a} antes q
 \end{subequations}
 
 
-Essa ordenação permite usar símbolos antes de suas equações serem declaradas, desde que definidos em alguma equação posterior. A resolução também considera escopos, parâmetros de funções e identificadores embutidos e matem em memória uma lista da ordem correta de avaliação das declarações. Essa lista é essencial para geração de código GLSL, onde referências a variáveis antes de suas definições são proibidas. 
+Essa ordenação permite usar símbolos antes de suas equações serem declaradas, desde que definidos em alguma equação posterior. A resolução matem em memória uma lista da ordem correta de avaliação das declarações, que é essencial para geração de código GLSL, onde referências a variáveis antes de suas definições são proibidas.
 
 Para implementar essas funcionalidades, o \texttt{checker} realiza múltiplas passadas na AST, duas são para resolução de símbolos e a última é para validação das equações, na seguinte ordem:
 
@@ -238,12 +225,13 @@ Para implementar essas funcionalidades, o \texttt{checker} realiza múltiplas pa
         \item Construir o grafo de dependências. Estruturas podem ser vistas no \autoref{cod-symbol-graph}, um simples grafo que associa um símbolo a outros símbolos dos quais depende
         \item Validar referências de símbolos, incluindo detectar uso de símbolos que nunca foram definidos
         \item Estabelecer a ordem de avaliação por meio de ordenação topológica
+        \item Verificação do ponto de entrada
     \end{itemize}
 
     \item \textbf{Validação Final}:
     \begin{itemize}
         \item Inferência e verificação de tipos
-        \item Verificação do ponto de entrada
+        \item Validação de exporessões
         \item Validação de definição de funções com uso de escopo
     \end{itemize}
 \end{enumerate}
@@ -284,17 +272,14 @@ Symbol_Graph :: map[^Symbol]Symbol_Dependency
 \end{figure}
 
 
-\subsection{Inferencia de Tipos} \label{subsection-inferencia-tipos}
+\subsection{Inferencia de Tipos} \label{subsection-type-inference}
 
 
-A função \verb`infer_type` serve para determinar o tipo de uma expressão sintática (representada por \verb`expr`) na AST durante a análise semântica. É usado um conjunto de regras para inferir e atribuir tipos à expressões. A base das regras são matematicas, como multiplicação entre numero real e vetor, produtor vetorial dentre dois vetores, assinatura de funções definidas, entre outras.
+A função \verb`infer_type` determina o tipo de uma expressão (\verb`expr`) na AST durante a análise semântica, aplicando regras baseadas em operações matemáticas, como multiplicação entre número real e vetor, produto vetorial entre vetores e assinaturas de funções. 
 
+Projetada para processar todas as expressões de \texttt{EquationLang} — como identificadores, operadores, chamadas de função e literais —, a função verifica inicialmente se o tipo já foi inferido (\verb"expr.ty_inferred") para evitar processamento redundante. Caso contrário, realiza a inferência com base em um \verb"switch" que é capaz de avaliar todos tipos de expressões. Um trecho relevante desse processo está no \autoref{cod-type-inference}, que ilustra a discriminação e validação dos tipos.
 
-Essa função é projetada para lidar com todas construções que são expressões em \texttt{EquationLang}, como identificadores, operadores prefixados e infixados, chamadas de função e literais.
-
-Inicialmente, a função verifica se o tipo da expressão já foi inferido (\verb"expr.ty_inferred"). Se sim, retorna o tipo previamente inferido, evitando processamento redundante. Caso contrário, prossegue com a inferência. O bloco central da função é um \verb"switch" que analisa os diferentes tipos de expressões derivadas de \verb"expr". Um trecho relevante dessa implementação está no \autoref{cod-type-inference}.
-
-Para \textbf{identificadores} (\verb"Expr_Identifier"), verifica se o identificador corresponde a um vetor especial, como $\omega_i$ ou $\vec{v}$. Nesse caso, o tipo é inferido como $\mathbb{R}^3$ (vetor tridimensional). Identificadores específicos, como \verb"\pi" ou \verb"\epsilon", são atribuídos ao tipo numérico real ($\mathbb{R}$). Para outros identificadores, a função consulta o escopo atual para determinar o tipo, usando as estruturas detalhado na sessão \autoref{section-escope-table}.
+Para \textbf{identificadores} (\verb"Expr_Identifier"), verifica se o identificador corresponde a um vetor especial, como $\omega_i$ ou $\vec{n}$. Nesse caso, o tipo é inferido como $\mathbb{R}^3$ (vetor tridimensional). Identificadores específicos, como \verb"\pi" ou \verb"\epsilon", são atribuídos ao tipo numérico real ($\mathbb{R}$). Para outros identificadores, a função consulta o escopo atual para determinar o tipo, usando as estruturas detalhado na sessão \autoref{section-escope-table}.
 
 \input{Content/Desenvolvimento/code/Infer}
 
@@ -302,10 +287,11 @@ Para \textbf{operações prefixadas} (\verb"Expr_Prefix"), como raiz quadrada (\
 
 \begin{itemize}
     \item A multiplicação de um número por um vetor ($2*\vec{n}$) ou a divisão de um vetor por um número ($\frac{\vec{u}}{\sqrt{\vec{u} \cdot \vec{u}}}$) resultam no tipo vetor ($\mathbb{R}^3$).
-    \item Operações entre dois vetores ou dois números seguem as regras padrão associadas ao operador.
+    \item Operações entre dois números resultam em um número.
+    \item Operações entre dois vetores resultam em um número ou um vetor a depender se a operação foi um produto vetorial ou produto interno.
 \end{itemize}
 
-Outros casos incluem \textbf{literais}, como números (\verb"Expr_Number") e vetores literais (\verb"Expr_Vector_Literal"), cujos tipos são atribuídos diretamente como $\mathbb{R}$ (números reais) e $\mathbb{R}^3$ (vetores tridimensionais), respectivamente.
+Outros casos incluem \textbf{literais}, como números (\verb"Expr_Number") e vetores literais \\(\verb"Expr_Vector_Literal"), cujos tipos são atribuídos diretamente como $\mathbb{R}$ (números reais) e $\mathbb{R}^3$ (vetores tridimensionais), respectivamente.
 
 
 
@@ -316,23 +302,17 @@ Para chamadas de função (\verb"Expr_Function_Call"), o tipo da expressão é d
 
 \subsection{Validação de Equaçoes}
 
+As declarações de equações são validadas após a coleta e ordenação descritas em \autoref{subsection-sym-resolution}, portanto assume-se que o lado esquerdo das equações seja um identificador válido ou uma definição de função e que estão na ordem correta de avaliação.
 
-%%%%
+Qualquer violação semântica, como incompatibilidades de tipos ou uso de escalares onde vetores são esperados, é reportada ao usuário, com detalhes sobre o contexto e a localização do erro, conforme descrito em \autoref{subsection-erros}.
 
-Declarações de equações são validadas após a etapa de coleta e ordenação descrita em \autoref{subsection-sym-resolution}, portanto assume-se que o lado esquerdo das equações deve ser um identificador válido ou a definição de uma função. Esse processo também verifica redefinições de símbolos, prevenindo múltiplas declarações do mesmo identificador no mesmo escopo.
-
-Todas as violações semânticas, como incompatibilidades de tipos ou uso de valores escalares onde vetores são esperados, são reportadas ao usuário, juntamente com informações detalhadas sobre o contexto e o local do erro, como descrito na \autoref{subsection-erros}.
-
-A função \verb"check_expr" realiza uma traversia similiar a interencia de tipos e é ser responsável por chamar \texttt{infer\_type}. Nessa função, a análise de expressões que \texttt{infer\_type} deixou de fazer são feitas para todas os tipos de expressões, alguns dessas validações estão listado logo após este paragrafo. O recorte dessa traversia pode ser visto no \autoref{eq-function-check-expr}.
+A função \verb"check_expr" realiza uma travessia semelhante à inferência de tipos e chama \texttt{infer\_type}. Nela, a análise de expressões que não foram abordadas por \texttt{infer\_type} é realizada para todos os tipos de expressões. Algumas dessas validações estão listadas após este parágrafo, e um trecho dessa travessia pode ser visto no \autoref{eq-function-check-expr}.
 
 \begin{itemize}
-    \item **Expressões de chamada de função (\verb`Expr_Function_Call`)**: Verifica se estamos fazendo a chamada com um identificador, pode ocoprrer o caso de tentar fazer a chamada com um número $123(x,y)$, e isso está incorreto.
-    \item **Expressões com Prefixo (\verb`Expr_Prefix`)**: Verifica operadores (\verb`-`, \verb`+`) e funções como \verb`sqrt(x)` e \verb`sin(x)`. Certifica que os tipos sejam compatíveis, gerando erro caso contrário.
-    \item **Literais de Vetor (\verb`Expr_Vector_Literal`)**: Garante que vetores tenham exatamente 3 dimensões, reportando erros para formatos inválidos.
+    \item \verb`Expr_Function_Call`: Verifica se estamos fazendo a chamada corretamente com um identificador, evitando casos como tentar chamar uma função com um número, por exemplo, $123(x,y)$, o que é incorreto. Também checa se o número de argumentos corresponde ao número de parâmetros esperados.
+    \item \verb`Expr_Prefix`: Verifica operadores (\verb`-`, \verb`+`) e funções como \verb`sqrt(x)` e \verb`sin(x)`. Certifica-se de que os tipos sejam compatíveis, gerando erro em caso contrário, como quando um vetor é passado para a função seno.
+    \item Literais de Vetor \verb`Expr_Vector_Literal`: Garante que os vetores tenham exatamente 3 dimensões\footnote{Exigir vetores de apenas 3 dimensões pode ser considerado uma limitação semântica imposta pelo compilador}.
 \end{itemize}
-
-
-
 
 
 
@@ -342,7 +322,6 @@ A função \verb"check_expr" realiza uma traversia similiar a interencia de tipo
     \label{cod-builtins}
 \begin{lstlisting}[language=C, numbers=none, frame=none, inputencoding=latin1]
 BUILTIN_IDENTIFIERS :: []string {
-    `\max`,
     `\pi`,
     `\epsilon`,
     `\theta{h}`,
@@ -366,29 +345,26 @@ BUILTIN_IDENTIFIERS :: []string {
 
 \subsection{Validação de Funções}
 A validação semântica de definições e chamadas de funções segue um processo semelhante ao da análise de expressões, mas com o uso da pilha de escopos.
-Nas definições de funções, as variáveis no corpo da função (lado direito da equação) são validadas para assegurar que todos os símbolos usados realmente estejam definidos no escopo da função. Já nas chamadas de funções, os argumentos fornecidos são comparados aos parâmetros esperados para validação.
-
-
+Nas definições de funções, as variáveis no corpo da função são validadas para assegurar que todos os símbolos usados realmente estejam definidos no escopo da função. Já nas chamadas de funções, os argumentos fornecidos são comparados aos parâmetros esperados para validação.
 
 \subsubsection{Definição de Funções} \label{subsubsection-eq-func-defn}
 
-O procedimento \verb"check_function_definition" implementa a validação para definições de função, garantindo segurança de tipos e consistência de parâmetros. Ela é responsável pelas tarefas à seguir:
+O procedimento \verb"check_function_definition" valida definições de funções, garantindo segurança de tipos e consistência através das seguintes tarefas:
 
 \begin{enumerate}
-    \item Inferir os tipos para cada parâmetro
-    \item Inferir o tipo de retorno com base na expressão final.
+    \item Inferir os tipos dos parâmetros.
+    \item Inferir o tipo de retorno baseado na expressão final.
     \item Construir o tipo completo da função, incluindo parâmetros e retorno.
-    \item Garantir que todos os identificadores utilizados estejam consistentes com seus tipos declarados.
-    \item Validar todas as expressões no corpo da função.
-    \item Criar um novo escopo para os parâmetros da funçã\textbackslash{}o
+    \item Garantir que os identificadores usados estejam consistentes com seus tipos declarados.
+    \item Validar as expressões no corpo da função.
+    \item Criar um novo escopo para os parâmetros da função.
 \end{enumerate}
-%%%
 
-O processo começa com o processamento dos parâmetros e o gerenciamento do escopo, como aparece no \autoref{cod-func-defn}. Quando uma função é definida, o sistema cria um novo escopo para armazenar informações dos parâmetros e da própria função em forma de símbolos a serem adicionados ao escopo atrelado a essa definição.
+O processo começa com o processamento dos parâmetros e o gerenciamento do escopo, como mostrado no \autoref{cod-parametros-validation}. Quando uma função é definida, um novo escopo é criado para armazenar informações dos parâmetros e da função, que são adicionadas ao escopo correspondente.
 
-Esse escopo com simbolos são essencial para validar tanto as chamadas de função quanto as expressões no corpo da função. Cada função tem seu próprio escopo, cujo escopo pai é o global, prevenindo conflitos de identificadores.
+Esse escopo é essencial para validar chamadas de função e expressões no corpo. Cada função tem seu próprio escopo, com o escopo pai sendo o global, evitando conflitos de identificadores.
 
-O controle de visibilidade de símbolos é feito de forma específica. Na definição de escopo, se o $x$ existe nos parâmetros, primeiro é usado o $x$ do parâmetro antes de tentar acessar um $x$ global. Isso é chamado de \textit{shadowing} ou sombreamento do símbolo, como no caso da equação \autoref{eq-shadowing}, o resultado de $f$ é 3 e não 2.
+O controle de visibilidade funciona como esperado, se um parâmetro $x$ existe, ele é preferido ao $x$ global, resultando no fenômeno de \textit{shadowing} ou sombreamento, como exemplificado na equação \autoref{eq-shadowing}, onde o valor de $f$ é 3, não 2.
 
 \begin{align} \label{eq-shadowing}
     &x = 2 \\
@@ -397,20 +373,14 @@ O controle de visibilidade de símbolos é feito de forma específica. Na defini
 \end{align}
 
 
-%%%
 Durante a validação dos parâmetros, cada identificador passa por um processo de inferência de tipo. Parâmetros marcados explicitamente com o prefixo \verb"\vec" recebem o tipo padrão $\mathbb{R}^3$ (vetor tridimensional), enquanto os demais são tratados como número real ($\mathbb{R}$).
 
-A validação de identificadores no corpo da função utiliza o escopo da função para realizar três verificações principais: confirmar se o identificador está definido, verificar a compatibilidade do seu tipo com o símbolo no escopo e garantir que não haja violação das regras semânticas.
-
-Por exemplo, um parâmetro $\vec{x}$ é declarado como vetor. Neste caso, todas as operações envolvendo $x$ no corpo da função devem respeitar as operações vetoriais; caso contrário, um erro será automaticamente reportado.
+Se um parâmetro $\vec{x}$ é declarado como vetor, todas as operações envolvendo $x$ no corpo da função devem respeitar as operações vetoriais; caso contrário, um erro será automaticamente reportado.
 
 \subsubsection{Chamada de Funções}
 Chamadas de função passam por uma validação semelhante: os argumentos têm seus tipos inferidos e são comparados com a assinatura da função chamada (\verb"Type_Function").
 
-No exemplo da \autoref{cod-type-mismatch}, a função $g$ possui a assinatura $\mathbb{R} \times \mathbb{R} \to \mathbb{R}$, significando que espera dois números reais como entrada e retorna um número real. A expressão resultante da chamada de função terá o tipo do contradomínio da função. Também é necessário confirmar que $g$ refere-se a um símbolo do tipo função.
-
-Se a função $f$ esperar dois números reais como argumentos e um vetor for passado no lugar de um deles, um erro será gerado. A \autoref{fig-type-mismatch} ilustra esse erro, indicando precisamente o argumento incompatível. Na hora de passar os argumentos também validamos que o quantidade de argumentos correspondem ao numero de parâmetros esperados.
-
+No exemplo da \autoref{cod-type-mismatch}, a função $g$ possui a assinatura $\mathbb{R} \times \mathbb{R} \to \mathbb{R}$. A expressão resultante da chamada de função terá o tipo do contradomínio da função. Também é necessário confirmar que $g$ refere-se a um símbolo do tipo função.
 
 \begin{codigo}[htb]
     \caption{\small Equação com uso incorreto de tipos na chamada de função. }
@@ -426,6 +396,8 @@ Se a função $f$ esperar dois números reais como argumentos e um vetor for pas
 
 \end{lstlisting}
 \end{codigo}
+
+A função $g$ espera dois números reais como argumentos, mas na equação $f$, um vetor foi passado no lugar de um número, o que gera um erro. A \autoref{fig-type-mismatch} ilustra esse erro, indicando a função com o argumento incompatível. Além disso, ao passar os argumentos, também validamos se a quantidade de argumentos corresponde ao número de parâmetros esperados.
 
 \begin{figure}[H]
     \caption{\label{fig-type-mismatch} \small Erro gerado por uso incorreto de tipos na chamada de função.}
@@ -453,54 +425,36 @@ scope_enter(fn_sym.scope) {
 \end{lstlisting}
 \end{codigo}
 
+%
+% \begin{codigo}[htb]
+%     \caption{\small Gerenciamento de escopo na validação do corpo da função.}
+%     \label{cod-scope-management}
+% \begin{lstlisting}[language=C, numbers=none, frame=none, inputencoding=latin1]
+% scope_enter(fn_sym.scope) {
+%     // Validação do corpo da função
+%     check_expr(body)
+%     // Inferência e validação de tipo
+%     body_type := infer_type(body)
+% }
+% \end{lstlisting}
+% \end{codigo}
 
-\begin{codigo}[htb]
-    \caption{\small Validação de um uníco identificador dentro de contexto de parametros de uma função. }
-    \label{cod-check-single-ident}
-\begin{lstlisting}[language=C, numbers=none, frame=none, inputencoding=latin1]
-
-check_single_identifier :: proc(parameters: []^ast.Expr_Identifier, ident: ^ast.Expr_Identifier) {
-    infer_type(ident)
-    ident_key := key_from_identifier(ident)
-    // Validates type consistency between declaration and usage
-    if !is_type_equal(ident.ty_inferred, p.ty_inferred) {
-        error(ident.identifier, "Parameter `%v` being use as type `%v` when the expected type is `%v`", ...)
-    }
-    // Código omitido por brevidade ..
-}
-\end{lstlisting}
-\end{codigo}
-
-
-\begin{codigo}[htb]
-    \caption{\small Gerenciamento de escopo na validação do corpo da função.}
-    \label{cod-scope-management}
-\begin{lstlisting}[language=C, numbers=none, frame=none, inputencoding=latin1]
-scope_enter(fn_sym.scope) {
-    // Validação do corpo da função
-    check_expr(body)
-    // Inferência e validação de tipo
-    body_type := infer_type(body)
-}
-\end{lstlisting}
-\end{codigo}
-
-
-\begin{codigo}[htb]
-    \caption{\small Estruturas que representam o tipo de um expressão da AST.}
-    \label{cod-types-structs}
-\begin{lstlisting}[language=C, numbers=none, frame=none, inputencoding=utf8]
-case ^Decl_Equation:
-    check_decl(s)
-
-scope_enter(fn_sym.scope) {
-    // Validação do corpo da função
-    check_expr(body)
-    // Inferência e validação de tipo
-    body_type := infer_type(body)
-    result_types := [dynamic]^Type{body_type}
-    fn_type := make_function_type(parameter_types[:], result_types[:])
-}
-\end{lstlisting}
-\end{codigo}
+%
+% \begin{codigo}[htb]
+%     \caption{\small .}
+%     \label{cod-types-structs}
+% \begin{lstlisting}[language=C, numbers=none, frame=none, inputencoding=utf8]
+% case ^Decl_Equation:
+%     check_decl(s)
+%
+% scope_enter(fn_sym.scope) {
+%     // Validação do corpo da função
+%     check_expr(body)
+%     // Inferência e validação de tipo
+%     body_type := infer_type(body)
+%     result_types := [dynamic]^Type{body_type}
+%     fn_type := make_function_type(parameter_types[:], result_types[:])
+% }
+% \end{lstlisting}
+% \end{codigo}
 

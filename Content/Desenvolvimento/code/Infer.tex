@@ -1,7 +1,7 @@
 \begin{codigo}[htb]
     \caption{\small Parte do switch da inferencia de tipos. }
     \label{cod-type-inference}
-\begin{lstlisting}[language=C, frame=none, inputencoding=utf8]
+\begin{lstlisting}[language=C, basicstyle=\ttfamily\footnotesize,frame=none, inputencoding=utf8]
 infer_type :: proc(expr: ^ast.Expr, allow_invalid := false, default : ^ast.Type = ast.ty_invalid ) -> ^Type {
     /// Código omitido por brevidade  ///
     #partial switch e in expr.derived {
