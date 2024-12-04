@@ -321,16 +321,9 @@ Esta seção apresenta os tipos de nós que compõem a AST do compilador da ling
 \item \textbf{Expr\_Function\_Definition}: Representa definições de funções, incluindo o nome, parâmetros e o corpo da função.
 \end{itemize}
 
-Anteriormente, na \autoref{lexer-subexpression}, discutiu-se que o \textit{parser} é capaz de lidar com identificadores aninhados, como \( x_{i_1} \) (\verb"x_{i_1}"). Esse suporte é demonstrado no código apresentado na \autoref{cod-expression-ident-recursive}, que ilustra como identificadores desse tipo são processados de forma recursiva. O trecho mostrado faz parte de uma função maior e é extraído de um \texttt{switch}\footnote{Os comandos \texttt{switch} e \texttt{case} na linguagem Odin funcionam de forma semelhante aos da linguagem C.}, aplicado sobre a enumeração descrita na \autoref{enum-token-kind}. Dentro desse \texttt{switch}, há um \texttt{case} específico que reconhece \textit{tokens} de identificadores ou símbolos especiais, como \( \omega, \theta, \phi, \rho, \alpha, \beta, \sigma, \pi, \epsilon \).
+Anteriormente, na \autoref{lexer-subexpression}, foi discutido que o \textit{parser} suporta identificadores aninhados, como \( x_{i_1} \) (\verb"x_{i_1}"). Esse suporte é demonstrado no \autoref{cod-expression-ident-recursive}, que processa identificadores de forma recursiva. O trecho faz parte de uma função maior onde um \texttt{switch}\footnote{Os comandos \texttt{switch} e \texttt{case} na linguagem Odin são semelhantes aos da linguagem C.} é aplicado sobre a enumeração descrita na \autoref{enum-token-kind}. Dentro desse \texttt{switch}, há um \texttt{case} específico que reconhece \textit{tokens} de identificadores ou símbolos especiais, como \( \omega, \theta, \phi, \rho, \alpha, \beta, \sigma, \pi, \epsilon \).
 
-A funcionalidade recursiva é habilitada por chamadas à função \texttt{parse\_expr}, permite a inclusão de subíndices numéricos, subexpressões de identificadores, ou até mesmo expressões mais complexas, como \( n+1 \) em \( f_{n+1} \). Isso amplia a flexibilidade na representação de equações de BRDFs, onde o uso de subíndices numéricos é bastante comum.
-
-% Essa capacidade do \textit{parser} é essencial na etapa de geração de código, pois permite distinguir semanticamente identificadores que, à primeira vista, podem parecer idênticos. Por exemplo, embora o identificador base seja \( f \), os símbolos \( f_1 \) e \( f_2 \) são tratados como semanticamente distintos devido aos seus índices. Essa distinção é crucial para o correto mapeamento e interpretação dos elementos durante a análise semântica e a geração de código GLSL.
-
-
-
-%%%%%
-
+A recursividade, realizada por meio da função \texttt{parse\_expr}, permite incluir subíndices numéricos, subexpressões de identificadores ou expressões mais complexas, como \( n+1 \) em \( f_{n+1} \). Isso amplia a flexibilidade na representação de equações de BRDFs, onde o uso de subíndices numéricos é bastante comum.
 
 \begin{codigo}[htb]
     \caption{\small Parte do código de \textit{parsing} de expressão para identificadores. }
@@ -372,8 +365,9 @@ A funcionalidade recursiva é habilitada por chamadas à função \texttt{parse\
   \end{lstlisting}
 \end{codigo}
 
-Essa mesma lógica exemplifica o processamento todas as outras expressões recursivas, como operações binárias. Para identificar o \textit{token} atual, utilizamos a função \texttt{peek()}, que permite visualizar um ou dois \textit{tokens} à frente e decidir qual nó da AST será construído. Após identificar o \textit{token}, calcula-se a variável \texttt{prec}, que determina a precedência do operador. Com base nessa precedência, são realizadas chamadas recursivas à função \texttt{parse\_expr} para processar expressões aninhadas.
+Essa mesma lógica exemplifica o processamento de todas as expressões recursivas, como operações binárias. Para identificar o \textit{token} atual, utilizamos a função \texttt{peek()}, que permite visualizar um ou dois \textit{tokens} à frente e decidir qual nó da AST será construído. Após identificar o \textit{token}, calcula-se a variável \texttt{prec}, que determina a precedência do operador. Com base nessa precedência, são realizadas chamadas recursivas à função \texttt{parse\_expr} para processar expressões aninhadas.
 
-Após preencher todos os campos necessários, a expressão completa é retornada. Esse processo é repetido até que toda a subárvore de expressões de uma equação seja construída. A análise sintática é concluída quando todas as equações são adicionadas à AST.
+Uma vez preenchidos todos os campos necessários, a expressão completa é retornada. Esse processo se repete até que toda a subárvore de expressões de uma equação seja construída. A análise sintática é concluída quando todas as equações são adicionadas à AST.
 
-Em seguida, essa estrutura hierárquica é anotada com tipos e validada pelo pacote \texttt{checker}, como descrito na \autoref{section-checker}. Antes da validação, é necessário implementar métodos para a travessia da árvore. Esse processo é detalhado na \autoref{section-walker}, que apresenta técnicas para percorrer a árvore, acessar seus dados e facilitar as etapas subsequentes de análise semântica e geração de código.
+Posteriormente, essa estrutura hierárquica é anotada com tipos e validada pelo pacote \texttt{checker}, conforme descrito na \autoref{section-checker}. Antes da validação, é necessário implementar métodos para a travessia da árvore. Esse processo é detalhado na \autoref{section-walker}, que apresenta técnicas para percorrer a árvore, acessar seus dados e facilitar as etapas subsequentes de análise semântica e geração de código.
+
