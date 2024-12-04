@@ -1,6 +1,6 @@
-- Add table of predefined symbols
+- [x] Add table of predefined symbols
 - [x] Explain what is albedo
-- Explain Lambertianos
+- Explain Lambertianos e Lambert
 - Move Pratt parsing explanation of precende to somewhere else
 - Check for stuff BUILTIN_IDENTIFIERS
 - Remova abordagem

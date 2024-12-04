@@ -1,28 +1,21 @@
 
 \section{Geração de Código (\texttt{emitter})} \label{section-emitter}
 
-A fase de geração de código é responsável por transformar as estruturas intermediárias, como a AST anotada, em código de \textit{shading} GLSL. O pacote \texttt{emitter} realiza essa transformação, emitindo código compatível com a ferramenta da Disney BRDF Explorer.
 
-A entrada principal para esse processo é o escopo global, que contém todas as informações necessárias para gerar o programa completo, como escopos filhos, simbolos, assinatura de funções e tipos. Nesta etapa, a AST está completamente anotada com tipos e informações auxiliares, acessíveis por meio dos símbolos presentes na tabela de símbolos que será usado geração de funções e expressões no formato apropriado.
+A etapa de geração de código é realizada pelo pacote \texttt{emitter}, que cria um \textit{shader} compatível com a ferramenta Disney BRDF Explorer. Essa etapa é separada em três fases, descrita na \autoref{sub-start-emitting}. O processo começa com o escopo global, que contém informações essenciais, como símbolos, assinaturas de funções, tipos e nós da AST completamente anotada. A travessia recursiva dos símbolos e nós ocorre sem validações adicionais, uma vez que a etapa semântica já foi realizada.
 
-Como o programa já foi validado anteriormente, assume-se sua corretude semântica, permitindo a travessia recursiva de todos os simbolos e nós, sem fazer nenhuma validação extra. A traversia abrange a geração de código para definições de funções, expressões e elementos específicos, como os lados esquerdo (LHS do inglês left hand side) e direito (RHS do inglês right hand side) das equações.
+A geração de código abrange o lado esquerdo da equação, que inclui identificadores e parâmetros de funções, e o lado direito, que é sempre uma expressão, cuja emissão é explorada em \autoref{sec-RHS}. Além disso, é fundamental garantir que cada variável tenha um nome único no código GLSL, conforme descrito em \autoref{sec-unicidade}.
 
-O lado esquerdo (LHS) pode envolver identificadores com subexpressões (e.g., $f_{n+1} = \dots$), parâmetros em definições de funções ou simplesmente símbolos como vetores ou números. A abordagem detalhada para o LHS é apresentada na \autoref{sec-LHS}. Já o lado direito (RHS) é sempre uma expressão, exigindo o uso do pacote \texttt{walker} para fazer a traversia da árvore para traduzir as operações e tipos inferidos para o equivalente em GLSL. Esse processo é explorado em \autoref{sec-RHS}.
-
-Um ponto crucial é a necessidade de garantir que cada variável tenha um nome único no código GLSL, conforme detalhado em \autoref{sec-unicidade}.
-
-\subsection{Emissão de Equações}
+\subsection{Emissão de Equações} \label{subsection-emission}
 
 A emissão de código começa pelo lado esquerdo da equação. Existem três aspectos principais nesse processo:
 \begin{enumerate}
-    \item Mapeamento de Tipos (LHS): O tipo associado ao identificador é a primeira informação a ser resolvida. Caso seja um número real, ele é mapeado para \verb"float" em GLSL. Para vetores ($\mathbb{R}^3$), o mapeamento é feito para \verb"vec3", que representa vetores tridimensionais. Em definições de funções, utiliza-se o simbolo da funlão para acessar os tipos de parâmetros e do retorno, construindo assim a assinatura da função no formato GLSL.
+    \item Mapeamento de Tipos: O tipo associado ao identificador é a primeira informação a ser resolvida. Caso seja um número real, ele é mapeado para \verb"float" em GLSL. Para vetores ($\mathbb{R}^3$), o mapeamento é feito para \verb"vec3". Em definições de funções, a assinatura é construída com base nos tipos dos parâmetros e do retorno.
 
-    \item Identificador (LHS): O identificador associado ao símbolo é traduzido conforme regras específicas que garantem unicidade e conformidade com as restrições do GLSL. Este processo é detalhado em \autoref{sec-unicidade}.
+    \item Identificado: O identificador associado ao símbolo é traduzido conforme regras específicas que garantem unicidade e conformidade com as restrições do GLSL. Este processo é detalhado em \autoref{sec-unicidade}.
 
-    \item Expressões (RHS): No caso do lado direito da equação, tanto funções quanto de variaveis, são expressões. Para gerar isso, realiza-se uma travessia da AST, mapeando nós de expressões (como somas e chamadas de funções trigonométricas) para seu equivalente em GLSL. Detalhes adicionais sobre a emissão de código para expressões estão na \autoref{}.
+    \item Expressões: No caso do lado direito da equação, tanto funções quanto de variaveis, são expressões. Para gerar isso, realiza-se uma travessia da AST, mapeando nós de expressões (como somas e chamadas de funções trigonométricas) para seu equivalente em GLSL. Detalhes adicionais sobre a emissão de código para expressões estão na \autoref{sec-RHS}.
 \end{enumerate}
-
-
 
 
 
@@ -33,9 +26,9 @@ Para garantir unicidade e compatibilidade dos identificadores gerados no GLSL, �
 \begin{enumerate}
     \item \textbf{Restrição de Caracteres}: O GLSL não permite caracteres especiais, como \verb"{" e \verb"}", em seus identificadores. Por exemplo, uma equação em \texttt{EquationLang} \verb "f_{1} = 2" não pode ser diretamente transformada no identificador \verb`f_{1}`. Para resolver isso, todos os caracteres inválidos são substituídos por sublinhados (\verb`_`), considerando subexpressões, resultando em identificadores como \verb`f__1_`.
 
-    \item \textbf{Prevenção de Colisões}: Mesmo após a substituição de caracteres, podem ocorrer colisões. Para resolver isso, mapeia-se cada a simbolo de identificador cada para um inteiro único de 64 bits (ID). Esse ID é então concatenado ao começo desse identificador com o prefixo \verb`var`, resultando em \verb`var12345_f__1_`; uma cadeia de carateres unica para simbolo.
+    \item \textbf{Prevenção de Colisões}: Mesmo após a substituição de caracteres, podem ocorrer colisões. Para resolver isso, mapeia-se cada a simbolo de identificador cada para um inteiro único de 64 bits (ID). Esse ID é então concatenado ao começo desse identificador com o prefixo \verb`var`, resultando em \verb`var1_f__1_`; uma cadeia de carateres unica para simbolo.
 
-    \item \textbf{Remoção de Sequências Reservadas}: O GLSL reserva identificadores que contêm duas ou mais ocorrências consecutivas de \verb`_`, Também é necessário remover sublinhados ao final, resultando em \verb`var12345_f_1`. Após a geração inicial, identificadores que contenham essas sequências são corrigidos para atender às restrições do GLSL, resultado.
+    \item \textbf{Remoção de Sequências Reservadas}: O GLSL reserva identificadores que contêm duas ou mais ocorrências consecutivas de \verb`_`, Também é necessário remover sublinhados ao final, resultando em \verb`var1_f_1`. Após a geração inicial, identificadores que contenham essas sequências são corrigidos para atender às restrições do GLSL, resultado.
 \end{enumerate}
 
 
@@ -44,17 +37,13 @@ Essas etapas garantem que cada variável no código GLSL seja única e válida. 
 %%%%%%%
 
 
-\subsection{Geração de Expressões}
+\subsection{Geração de Expressões} \label{sec-RHS}
 
+A geração de expressões no pacote \texttt{emitter} converte as expressões do lado direito das equações em código GLSL válido, usando a AST anotada com tipos inferidos.
 
+A função principal, \verb"emit_expr", processa cada nó de expressão e constrói a cadeira de caracteres correspondente em GLSL usando um \verb"StringBuilder" da biblioteca padrão de Odin, evitando concatenações excessivas. Na travessia recursiva da AST, realizada pelo pacote \texttt{walker}, converte operações binárias, prefixas, vetoriais e chamadas de função em código \textit{shading}.
 
-A geração de expressões é uma das etapas mais importantes no processo de compilação e ocupa uma parte substancial do pacote \texttt{emitter}. Essa tarefa consiste em emitir código paras todas as expressões do lado direito das equações em código GLSL válido usando a AST anotada com tipos inferidos.
-
-A implementação é realizada na função \verb"emit_expr", que recebe um nó de expressão e uma referência a um objeto \verb"StringBuilder" (da biblioteca padrão de Odin). Este objeto é utilizado para construir a cadeia de caracteres que corresponde a expressão equivalente em GLSL, evitando concatenações excessivas de strings.
-
-A travessia da AST é realizada de forma recursiva utilizando o pacote \texttt{walker}, que converte diferentes tipos de expressões, incluindo operações binárias, prefixas, vetoriais e chamadas de função para código GLSL. Para isso, a função discrimina o tipo de nó, determinando qual operação correspondente deve ser utilizada em GLSL. 
-
-Um recorte dessa função pode ser observado no \autoref{cod-emit-expr}, onde a discriminação dos tipos é feita é feita (\texttt{case}), e a construção de strings para funções trigonométricas é realizada na instância de \texttt{StringBuilder} através da função \verb|sbprint|. A seguir, são enumeradas as principais categorias de expressões tratadas:
+Um trecho dessa função está no \autoref{cod-emit-expr}, que demonstra como os tipos são discriminados (\texttt{case}) e \textit{string}s\footnote{string é uma cadeia de caracteres} para funções trigonométricas são geradas usando \verb|sbprint|. A seguir, são enumeradas as principais categorias de expressões tratadas:
 
 \begin{enumerate}
     \item \textbf{Expressões Prefixas (\texttt{Expr\_Prefix})}:
@@ -79,11 +68,11 @@ Um recorte dessa função pode ser observado no \autoref{cod-emit-expr}, onde a 
     \item \textbf{Expressões Literais e Agrupamentos}:
     \begin{itemize}
         \item Constrói vetores literais utilizando \verb|vec3|.
-        \item Adicionar parentesis em expressões agrupadas.
+        \item Adicionar parênteses em expressões agrupadas.
     \end{itemize}
 
-    \item \textbf{Expressões Chamadas de Função}:
-        Na geração de uma chamada de função, ocorre a chamada recursiva para emitir a expressão do indentificador dessa função, depois abre parentesis \verb"(", e emite uma expressão para cada argumentos separado por virgula e, por fim, fecha o parentesis. Demonstrado no recorte do \autoref{cod-emission-func}.
+    \item \textbf{Expressões de Chamadas de Função}:
+       Na geração de uma chamada de função, ocorre a chamada recursiva para emitir a expressão do identificador dessa função. Em seguida, abre-se um parêntese \verb"(", emite-se uma expressão para cada argumento, separados por vírgula, e, por fim, fecha-se o parêntese. Isso é demonstrado pelo trecho no \autoref{cod-emission-func}.
 
 \end{enumerate}
 
@@ -106,9 +95,10 @@ Um recorte dessa função pode ser observado no \autoref{cod-emit-expr}, onde a 
 \end{codigo}
 
 
- Esse sistema permite traduzir expressões matemáticas como mostado em \autoref{eq-emit-expr-example}, gerando o código correspondente apresentado em \autoref{cod-emit-expr-example}.
+ Esse sistema permite traduzir expressões matemáticas como mostrada na \autoref{eq-emit-expr-example}, gerando o código correspondente apresentado no \autoref{cod-emit-expr-example}.
 
 \begin{subequations}
+    \label{eq-emit-expr-example}
 \begin{equation}
     \rho_{d} = \vec{0,1,1}
 \end{equation}
@@ -143,7 +133,7 @@ f = \frac{\rho_{d}}{\pi} + \rho_{s} * \frac{n+2}{2*\pi} *
 \begin{codigo}[htb]
    \caption{\small Emitir expressão. }
    \label{cod-emit-expr}
-\begin{lstlisting}[language=C, frame=none, inputencoding=utf8]
+\begin{lstlisting}[language=C, basicstyle=\ttfamily\footnotesize, frame=none, inputencoding=utf8]
     case ^Expr_Prefix:
         #partial switch e.op.kind {
         case .ArcSin:
@@ -219,9 +209,9 @@ f = \frac{\rho_{d}}{\pi} + \rho_{s} * \frac{n+2}{2*\pi} *
 
 \end{lstlisting}
 \end{codigo}
----
+
 \subsection{Fases do Processo de Geração do Shader}
-\label{sub:start-emitting}
+\label{sub-start-emitting}
 
 A função \verb"emit" é o ponto de partida do processo de emissão de código, onde ocorre a transformação final da AST em um shader GLSL. Este processo é dividido em três fases principais, cada uma com responsabilidades bem definidas para garantir a geração correta do código.
 
@@ -229,9 +219,9 @@ A função \verb"emit" é o ponto de partida do processo de emissão de código,
     \item \textbf{Inicialização e Estruturação} \\
     Nesta etapa inicial, o foco está em estabelecer a base do shader GLSL. Isso inclui:
     \begin{itemize}
-        \item \textbf{Parâmetros}: Emissão de uma seção parametrizável, \verb"::begin parameters ::end parameters", dos shaders, requerida pela ferramenta Disney BRDF Explorer. 
+        \item \textbf{Parâmetros}: Emissão de uma seção parametrizável, \verb"::begin parameters ::end parameters", dos shaders, requerida pela ferramenta Disney BRDF Explorer.
         \item \textbf{Marcadores de Seção}: Adição de delimitadores como \verb|::begin shader| e \verb|::end shader|, que iniciam o código GLSL na ferramenta da Disney.
-        \item \textbf{Built-in}s: Emissão das declarações e definições de variáveis e funções \textit{built-in} necessárias, para dar ao shader suporte às convenções da \autoref{table-conventions}.
+        \item \textbf{Built-in}s: Emissão das declarações e definições de variáveis e funções \textit{built-in} necessárias, para dar ao shader suporte às convenções da \autoref{tab-conventions-metodologia}.
     \end{itemize}
 
     \item \textbf{Processamento de Símbolos} \\
@@ -247,11 +237,11 @@ A função \verb"emit" é o ponto de partida do processo de emissão de código,
 
 
 \subsubsection{Variáveis Built-in}
-A emissão correta de um shader de BRDF necessita da geração de variáveis \textit{built-in} diretamente no \textit{shader}, conforme ilustrado na \autoref{cod-builtins-emitted}. Essas variáveis, descritas na tabela \autoref{va trabalhar na tabela}, seguem as convenções estabelecidas e são inicializadas automaticamente de maneira padronizada dentro da função de entrada do \textit{shader}, denominada \verb|BRDF|, conforme o padrão da ferramenta Disney.
+A emissão correta de um shader de BRDF necessita da geração de variáveis \textit{built-in} diretamente no \textit{shader}, conforme ilustrado na \autoref{cod-builtins-emitted}. Essas variáveis, presentes na tabela \autoref{tab-conventions}, seguem as convenções estabelecidas e são inicializadas automaticamente dentro da função de entrada do \textit{shader}, denominada \verb|BRDF|, conforme o padrão da ferramenta Disney.
 
 Essas variáveis fornecem a infraestrutura necessária para cálculos de reflectância bidirecional em shaders GLSL. A ferramenta Disney disponibiliza algumas delas como parâmetros da função de entrada \verb`BRDF`, mas com nomenclaturas diferentes das adotadas neste trabalho. Essas parametros são: \verb"N" que representa a normal da superfície; \verb"L" que indica a direção da luz incidente (L); \verb"V" que representa a direção de visualização. As demais variáveis são calculadas na emissão de código.
 
-Para calcular variáveis como \verb`omega_i`, \verb`theta_d` e \verb`phi_i`, foram desenvolvidas funções auxiliares que produzem strings válidas em GLSL. A entrada dessas funções é uma string representando o vetor (\verb`v`), substituída diretamente no corpo do GLSL gerado:  
+Para calcular variáveis como \verb`omega_i`, \verb`theta_d` e \verb`phi_i`, foram desenvolvidas funções auxiliares que produzem strings válidas em GLSL. A entrada dessas funções é uma \textit{string} representando o vetor (\verb`v`), substituída diretamente no corpo do GLSL gerado:
 \begin{itemize}
     \item \verb`phi(v)`: Calcula o ângulo azimutal ($\phi$), gera \verb`atan(sqrt(v.y*v.y + v.x*v.x), v.z)`.
     \item \verb`theta(v)`: Calcula o ângulo polar ($\theta$) com a expressão \verb`atan(v.y, v.x)`.
@@ -333,9 +323,10 @@ A declaração dessas variáveis embutidas é realizada pela função \\ \verb`e
 
 \subsection{Emissão de Definições de Função}
 
-A emissão de definições de função ocorre antes da inicialização das variáveis. Gera-se a assinatura da função, incluindo o nome (baseado na estratégia da \autoref{sec-unicidade}), o tipo de retorno e os parâmetros, mapeados conforme a \autoref{mapeamento de tipos}.  Os nomes dos parâmetros são determinados pelos símbolos presentes no escopo da função. Já o corpo da função é emitido chamando \verb|emit_expr|, semelhante à emissão de expressões.
+A emissão de definições de função ocorre antes da inicialização das variáveis. A assinatura da função, que inclui o nome (baseado na estratégia da \autoref{sec-unicidade}), é gerada, juntamente com o tipo de retorno e os parâmetros, mapeados conforme a \autoref{subsection-emission}. Os nomes dos parâmetros são determinados pelos símbolos presentes no escopo da função, enquanto o corpo da função é emitido chamando \verb|emit_expr|, da mesma forma que a emissão de expressões.
 
-O mapeamento entre tipos em \texttt{EquationLang} e GLSL é bijetivo, garantindo que qualquer função definida em \texttt{EquationLang} possa ser representada em GLSL. Um exemplo de definição gerada é mostrado na \autoref{cod-normalize-reflect}, emitida para as funções de reflexão e normalização da equação \autoref{eq-normalize-reflect}. Os nomes gerados seguem a numeração discutida na \autoref{sec-unicidade}, e o retorno é sempre avaliado como uma única expressão.
+O mapeamento entre tipos em \texttt{EquationLang} e GLSL é bijetivo, garantindo que qualquer função definida em \texttt{EquationLang} possa ser representada em GLSL. Um exemplo de definição gerada é mostrado na \autoref{cod-normalize-reflect}, que se refere às funções de reflexão e normalização da equação \autoref{eq-normalize-reflect}. Os nomes gerados seguem a numeração discutida na \autoref{sec-unicidade}, e o retorno é sempre avaliado como uma única expressão.
+
 
 \label{eq-normalize-reflect} \begin{subequations}
 \begin{equation}

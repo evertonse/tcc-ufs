@@ -19,15 +19,13 @@ Seguindo essa metodologia, a ferramenta proposta busca compilar descrições de 
 \section{Análise e Técnicas} \label{analise}
 
 
-
-
 O primeiro passo envolve a realização de uma análise detalhada das áreas relacionadas ao desenvolvimento da ferramenta proposta. Isso inclui a revisão da literatura (\autoref{revisao}) sobre BRDFs, linguagens de \textit{shaders}, \textit{design} de compiladores e técnicas de renderização gráfica. Além disso, envolve o estudo de ferramentas e bibliotecas pertinentes.
 
 Durante essa análise, foram estudados conceitos de radiometria para compreender tecnicamente as BRDFs. A principal fonte de informação sobre radiância e BRDFs foi o livro ``Physically Based Rendering: From Theory To Implementation'' \cite{pbr}. Esse livro foi importante para compreensão da equação de renderização (\autoref{eq-rendering-equation}).
 
 A leitura de exemplos práticos e leitura das código fonte da ferramente \autoref{fig-disney-tool} permitiu a familiarização com o desenvolvimento de BRDFs, fornecendo uma base sólida para a compreensão do mapeamento da equação para código, aspecto fundamental para o desenvolvimento do compilador proposto neste trabalho.
 
-Ademais, foram exploradas diversas técnicas para compilação, como o método de Pratt \textit{Parsing} para a construção de um compilador, conforme detalhado na \autoref{parser}, somado ao uso do conhecimento de recursividade e caminhada em arvóres para realizar a analise semantica e geração de código.
+Ademais, foram exploradas diversas técnicas para compilação, como o método de Pratt \textit{Parsing} para a construção de um compilador, somado ao uso do conhecimento de recursividade e caminhada em arvóres para realizar a análise semantica e geração de código.
 
 
 \section{Especificação da Linguagem}\label{especificacao-linguagem}
@@ -105,7 +103,7 @@ O ambiente de equações do \LaTeX{} oferece uma ampla gama de construções mat
 
 A descrição completa dos símbolos reconhecidos em nivel de código está na seção dedicado ao \textit{lexer} (\autoref{section-lexer}). A gramática completa reconhecida pelo compilador é apresentada na seção sobre o \textit{parser} (\autoref{section-parser}).
 
-Embora o \textit{lexer} e o \textit{parser} identifiquem os símbolos, o compilador também precisa atribuir significado a eles durante a análise semântica, que ocorre após o \textit{parsing}. Por exemplo, $\omega_o$ representa o ângulo de saída da luz, enquanto $f$ é a função BRDF. Todas as convenções de símbolos suportados pela linguagem estão detalhadas na tabela \autoref{tab-conventions}, junto com seus significados.
+Embora o \textit{lexer} e o \textit{parser} identifiquem os símbolos, o compilador também precisa atribuir significado a eles durante a análise semântica, que ocorre após o \textit{parsing}. Por exemplo, $\omega_o$ representa o ângulo de saída da luz, enquanto $f$ é a função BRDF. Todas as convenções de símbolos suportados pela linguagem estão detalhadas na tabela \autoref{tab-conventions-metodologia}, junto com seus significados.
 
 \begin{table}[h]
     \centering
@@ -137,8 +135,8 @@ Embora o \textit{lexer} e o \textit{parser} identifiquem os símbolos, o compila
         $\theta_d$ & Ângulo entre $\omega_i$ e $\vec{h}$ \\
         \hline
     \end{tabular}
-    % \caption{Tabela de simbolos e seu descrições}
-    \label{tab-conventions}
+    \caption{Tabela de símbolos e suas descrições}
+    \label{tab-conventions-metodologia}
 \end{table}
 %
 %
