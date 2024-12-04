@@ -1,0 +1,290 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Revisão Bibliográfica
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Revisão Bibliográfica} \label{revisao}
+
+
+Para esta seção, será conduzida uma revisão literária abrangente com o objetivo de explorar trabalhos relacionados ao desenvolvimento de compiladores para tradução de BRDFs expressas em \LaTeX{} para a linguagem de \textit{shading}, empregando técnicas de \textit{parsing}. O processo de busca será conduzido em duas etapas distintas. Inicialmente, será realizado um levantamento dos trabalhos existentes nas bases de dados  com relevantes periódicos, anais de eventos, artigos e trabalhos. Por fim, será realizada uma busca por produtos ou ferramentas similares no mercado, utilizando \textit{strings} de busca específicas em repositórios digitais, especificamente GitHub e SourceForge. Esses processos de busca permitirão identificar referências relevantes e estabelecer um panorama do estado da arte no campo dos compiladores de BRDFs  para \textit{shaders}, contribuindo para a compreensão do contexto acadêmico e prático no qual este trabalho se insere.
+
+
+\section{Mapeamento Sistemático}
+
+
+Com o intuito de obter resultados relevantes para a pesquisa, foram elaboradas frases de busca com base nos termos-chave relacionados ao tema deste trabalho. Também foram criadas questões de pesquisa para guiar a seleção dos trabalhos.
+
+
+\subsection{Seleção das Bases}
+As bases escolhidas foram: ACM Digital Library \footnote{\url{https://dl.acm.org/}},  IEEE Xplorer Digital Library \footnote{\url{https://ieeexplore.ieee.org/}},  Biblioteca Digital Brasileira de Teses e Dissertações (BDTD) \footnote{\url{https://bdtd.ibict.br/}}, Portal de Periódicos da CAPES \footnote{\url{https://www-periodicos-capes-gov-br.ezl.periodicos.capes.gov.br/index.php?}},  Google Acadêmico \footnote{\url{https://scholar.google.com/}}. Essas foram escolhidas por serem acessíveis gratuitamente pela afiliação à Universidade Federal de Sergipe, já o Google Scholar foi escolhido por agregar pesquisas em outras bases que possam ter trabalhos relevantes.
+
+
+% 
+%
+
+
+%
+% \url{https://www-periodicos-capes-gov-br.ezl.periodicos.capes.gov.br/}
+
+
+
+
+
+
+
+
+\subsection{Questões de Pequisa}  \label{questoes-pesquisa}
+
+
+Foram elaboradas questões de pesquisa específicas, que guiam as frases-chave que refletem os principais aspectos do tema em questão. A partir desse processo, foram identificados e selecionados os trabalhos que melhor atendiam às questões propostas, garantindo maior relevância para este estudo.
+
+
+\begin{enumerate}
+  \item Quais são as abordagens mais comuns utilizadas na criação de compiladores para tradução de BRDFs expressas em alguma linguagem de texto, como \LaTeX{}, para \textit{shaders}?
+
+
+  \item Quais as técnicas de \textit{parsing} têm sido aplicadas no desenvolvimento de compiladores para linguagens matemáticas?
+
+
+  \item O trabalho utiliza árvores ou gramáticas livres de contexto para representar uma BRDF?
+
+
+ \item Quais são os principais desafios enfrentados ao traduzir funções matemáticas complexas, como as BRDFs, em \textit{shaders}?
+
+
+ \item Quais são as ferramentas e recursos disponíveis para auxiliar no desenvolvimento de compiladores para BRDFs e \textit{shaders}, e como eles podem ser integrados ao processo de desenvolvimento?
+
+
+\end{enumerate}
+
+
+
+
+
+
+\subsection{Termos de Busca}
+ As frases foram construídas considerando suas variações equivalentes através de operadores lógicos. Posteriormente, as frases de pesquisa foram adaptadas de acordo com as características individuais de cada base de dados utilizada. Os termos-chave escolhidos foram: ("shader" AND "BRDF" AND ("compiler"\ OR "parser"\ OR "grammar")), conforme demonstrado na \autoref{tab-bases}.
+
+
+
+
+\begin{table}[H]
+\ABNTEXfontereduzida
+\caption[bases]{\small Tabela de pesquisa.}
+\label{tab-bases}
+\begin{tabular}{p{2.6cm}|p{6.0cm}|p{2.25cm}|p{3.40cm}}
+  %\hline
+   \textbf{Bases} & \textbf{Termos de Pesquisa}  & \textbf{Resultados}\\
+   \hline
+    IEEE Xplore Digital Library
+    &
+    ("Full Text \& Metadata":brdf)
+AND (("Full Text \& Metadata":shader) OR  ("Full Text \& Metadata":shading))
+AND (("Full Text \& Metadata":compiler) OR  ("Full Text \& Metadata":parsing) OR  ("Full Text \& Metadata":parser) OR  ("Full Text \& Metadata":grammar))
+   & 36
+    \\ \hline
+
+
+    BDTD
+    & (Todos os campos:compiler OU Todos os campos:parsing OU Todos os campos:parser OU Todos os campos:compilador) E (Todos os campos:shader OU Todos os campos:shading) E (Todos os campos:brdf)
+    & 0
+    \\ \hline
+    CAPES Periódico
+    &  Qualquer campo contém brdf E 
+ Qualquer campo contém compi* E shad*  
+    & 0
+    \\ \hline
+
+
+  ACM Digital Library
+  & AllField:((shader OR shading) AND brdf AND (compiler OR compiling) AND (parser OR grammar OR parsing))
+  & 46
+    \\ \hline
+
+
+ Google Acadêmico 
+  & 
+  ("BRDF" AND ("COMPILER" OR "COMPILING") AND( "PARSER" OR "PARSING") AND ("SHADER" OR "SHADING"))
+  & 69
+   % \hline
+\end{tabular}
+\end{table}
+
+
+\subsection{Critérios}
+
+
+Para garantir a relevância dos resultados obtidos, seguimos os critérios de inclusão e exclusão estabelecidos, de forma a filtrar os resultados. Ao fim desse procedimento, apenas os resultados com maior compatibilidade com este trabalho foram analisados e descritos de maneira detalhada. O resultados se encontram na \autoref{tab-result}.
+
+
+\subsubsection{Critérios de Inclusão}
+
+
+\begin{enumerate}
+  \item Foram incluídos artigos relacionados às palavras-chaves;
+  \item Foram incluídos artigos que de alguma forma citem a criação de um compilador ou um \textit{parser};
+  \item Foram incluídos artigos que sintetizam uma árvore como representação de BRDFs.
+\end{enumerate}
+
+
+\subsubsection{Critérios de Exclusão}
+
+
+\begin{enumerate}
+  \item Foram excluídos artigos que dispunham de \textit{links} incorretos e ou quebrados;
+  \item Foram excluídos artigos no quais os projetos são muito similares;
+  \item Foram excluídos artigos que não respondem as questões de pesquisa na \autoref{questoes-pesquisa};
+  \item Foram excluídos artigos que não têm como entrada uma BRDF no formato de equação, ou seja, utilizam a representação diretamente como código;
+  \item Foram excluídos artigos que não consideram a geração de \textit{shaders} como saída ou estrutura da BRDF em árvore;
+  \item Foram excluídos artigos que não citam BRDFs e compilador ou árvores em seu resumo;
+  \item Se, após a leitura completa, o artigo não concerne os interesses deste trabalho, esse foi excluído.
+\end{enumerate}
+
+
+
+
+\begin{table}[H]
+\ABNTEXfontereduzida
+  \caption{\small Resultados das bases após aplicar os critérios.}
+\label{tab-result}
+\begin{tabular}{p{6.6cm}|p{6.6cm}}
+  %\hline
+   \textbf{Bases}  & \textbf{Filtrados}\\
+   \hline
+    IEEE Xplore Digital Library
+   & 2
+    \\ \hline
+    BDTD
+    & 0
+    \\ \hline
+    CAPES Periódico
+    & 0
+    \\ \hline
+
+
+  ACM Digital Library
+  & 1
+    \\ \hline
+ Google Acadêmico 
+  & 1
+   % \hline
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+\subsection{Descrição dos Trabalhos Relacionados}
+
+
+\subsubsection{genBRDF: Discovering New Analytic BRDFs with Genetic Programming}
+
+
+Neste artigo é introduzido uma  \textit{framework} chamada genBRDF, a qual aplica técnicas de programação genética para explorar e descobrir novas BRDFs de maneira analítica \cite{genbrdf}. O processo inicia utilizando uma BRDF existente, e interativamente aplica mutações e recombinações de partes das expressões matemáticas que compõem essas BRDFs à medida que novas gerações surgem. Essas mutações são guiadas por uma função \textit{fitness}, que seria o inverso de uma função de erro, elas são baseadas em um \textit{dataset} de materiais já medidos. Por meio da avaliação de milhares de expressões, a  \textit{framework} identifica as viáveis.
+
+
+Os autores geraram uma gramática que inclui constantes e operadores matemáticos comuns encontrados em equações BRDF. A gramática é compilada, e a árvore de sintaxe abstrata resultante passa por modificações realizadas pelo algoritmo genético. Nós na árvore podem ser trocados, substituídos, removidos e novos nós podem ser adicionados. Esse processo, após refinamento e análise, resulta em novas BRDFs. Alguns dos novos modelos BRDF apresentados no documento incluem aqueles que superam os modelos existentes em termos de precisão e simplicidade.
+ 
+Esse artigo se concentra em automaticamente encontrar novos modelos analíticos de BRDF, em vez de compilar diretamente equações BRDF em linguagens de \textit{shading}. Embora a representação das expressões das BRDFs possa potencialmente inspirar o nosso trabalho, o principal objetivo do artigo difere do nosso tema.
+
+
+\subsubsection{Slang: language mechanisms for extensible real-time shading systems}
+
+
+O artigo descreve a linguagem \texttt{Slang}, uma extensão da amplamente utilizada linguagem de \textit{shading} HLSL, projetada para melhorar o suporte à modularidade e extensibilidade \cite{slang}. A abordagem de \textit{design} da \texttt{Slang} é baseada em dois princípios fundamentais: manter a compatibilidade com o HLSL existente sempre que possível e introduzir recursos com precedentes em linguagens de programação \textit{mainstream} para facilitar a familiaridade e intuição dos desenvolvedores.
+
+
+O autor enfatiza que cada extensão da \texttt{Slang} busca oferecer uma progressão incremental para a adoção a partir do código HLSL existente, eliminando a necessidade de uma migração completa. Algumas dessas extensões incluem: funções genéricas, estruturas genéricas e tipos que implementam interfaces específicas, semelhantes ao funcionamento das interfaces em \texttt{Java}, mas aplicadas a estruturas. Um exemplo de função genérica escrita em \texttt{Slang} é:
+
+
+\begin{verbatim}
+float3 integrateSingleRay<B:IBxDF>(B bxdf,
+SurfaceGeometry geom, float3 wi, float3 wo, float3 Li)
+{ return bxdf.eval(wo, wi) * Li * max(0, dot(wi, geom.n)); }
+
+
+\end{verbatim}
+
+
+
+
+Enquanto o artigo tenta melhorar a eficiência e a extensibilidade dos sistemas de \textit{shading} em tempo real, o nosso trabalho se concentra na compilação de equações BRDF em linguagens de \textit{shading}. Embora ambos os projetos façam uso de \textit{shaders} e compilação, as abordagens e focos são diferentes.
+
+
+\subsubsection{Tree-Structured Shading Decomposition}
+
+
+Esse trabalho propõe uma abordagem para inferir uma representação de BRDF estruturada em árvore a partir de uma única imagem para o sombreamento de objetos \cite{tree_decomposition}. Em vez de usar representações paramétricas, como é comum, é proposta uma abordagem que utiliza uma representação em árvore de \textit{shading}, combinando nós básicos e métodos para decompor o \textit{shading} da superfície do objeto, representado na \autoref{fig_decomp}.
+
+
+\begin{figure}[H]
+        \caption{\label{fig_decomp} \small Exemplo de decomposição de BRDFs em nós de uma árvore.}
+        \begin{center}
+            \includegraphics[scale=0.5]{./Imagens/tree-shading.png}
+        \end{center}
+        \legend{Fonte: \citeonline[]{radiometry_introduction}.}
+\end{figure}
+
+
+
+
+Assim como o nosso trabalho, esse artigo se concentra em facilitar o processo para usuários inexperientes, pois ambos visam fornecer ferramentas acessíveis para manipular representações de \textit{shading} sem exigir conhecimento avançado em programação. Esse artigo também emprega uma representação em árvore, embora para um propósito diferente.
+
+
+\subsubsection{A Real-Time Configurable Shader Based on Lookup Tables}
+
+
+Esse trabalho propõe uma arquitetura de \textit{hardware} que permite cálculos de \textit{shading} por pixel em tempo real, utilizando \textit{lookup-tables} \cite{configurable}. Para isso, são projetados circuitos configuráveis baseados nessas tabelas, memórias de acesso aleatório (RAMs) e memórias somente leitura (ROMs). Vários circuitos base foram projetados para as operações mais comuns. Por exemplo, circuitos para calcular o produto interno entre dois vetores e circuitos de rotação de um vetor por um ângulo, um exemplo desses diagramas é representado na \autoref{fig_circuit}. Ademais, foi utilizada interpolação em um sistema de coordenadas polares em vez da interpolação vetorial convencional, com o objetivo de reduzir o tamanho dos circuitos e melhorar o desempenho.
+
+
+
+
+\begin{figure}[H]
+        \caption{\label{fig_circuit}\small Exemplo de circuito de produto interno entre vetores.}
+        \begin{center}
+            \includegraphics[scale=0.7]{./Imagens/rom-cos-lookup-table.png}
+        \end{center}
+  \legend{\small Fonte: \cite{configurable}.}
+\end{figure}
+
+
+
+
+Além disso, o circuito suporta diversas BRDFs, como Blinn-Phong, Cook-Torrance, Ward e modelos baseados em microfacetas, com tabelas específicas para cada modelo. O uso de tabelas de pesquisa permite a representação organizada da parametrização das BRDFs, tornando o processo de transformação de BRDF para \textit{shaders} mais acessível. Esse trabalho foi aceito por incluir o processo de tradução estruturada de BRDFs para os circuitos. Assim como as árvores, eles são hierárquicos e são usados em composição para representar uma BRDF. Similar a este trabalho, a abordagem facilita a geração de \textit{shaders} a partir da descrição de BRDFs, apesar da metodologia ser diferente.
+
+
+\section{Pesquisa por Repositórios Online}
+Também foram analisados repositórios no GitHub e SourceForge, cada um com uma \textit{string} de busca específica. Os repositórios encontrados foram filtrados baseados em seus resumos. Caso não haja a menção da criação de um compilador ou não seja citada uma transformação de BRDF para outra estrutura, esse repositório foi excluído. O resultado se encontra na \autoref{tab-repo}.
+
+
+
+
+% @IMPORTANT 'preciso incluir o trabalho de conclusão de tulasi, que tem um repositório associado. Você pode colocar em uma seção diferente aqui neste capítulo. também é importante mencionar no capítulo 1 que esse trabalho existe, e que a abordagem do seu difere nas técnicas usadas.
+
+
+\begin{table}[H]
+\ABNTEXfontereduzida
+\caption[bases]{\small Resultados da pesquisa nos repositórios.}
+\label{tab-repo}
+\begin{tabular}{p{2.6cm}|p{6.0cm}|p{2.25cm}|p{3.40cm}}
+  %\hline
+   \textbf{Plataformas} & \textbf{Termos de Pesquisa}  & \textbf{Resultados}\\
+   \hline
+   GitHub
+   &
+   in:readme (GLSL AND BRDF AND  (compiler OR compilation) AND (shader OR shading))
+   & 15
+   \\ \hline
+   SourceForge
+   &
+   compiler bdrf
+   & 0
+\end{tabular}
+\end{table}
+
+
+
+
+Após ler por completo os resumos dos repositórios do GitHub, é evidente que nenhum desses projetos é relacionado com o proposto neste trabalho. Apesar de comentarem sobre BRDFs, esses projetos não implementam compiladores, não fazem \textit{parsing} de equações de BRDFs e nem mesmo geram \textit{shaders} a partir de BRDFs.
+

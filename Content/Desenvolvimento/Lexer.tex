@@ -70,15 +70,15 @@ Nesta etapa, é realizado o processo de tokenização de um subconjunto dos simb
 
 O processo de tokenização realiza uma varredura completa no arquivo de entrada, caractere por caractere, para identificar e extrair os \textit{tokens}. Antes de iniciar essa extração, verificamos se o trecho analisado pertence a um ambiente de equação. Essa verificação é feita ao identificar a string (cadeia de caracteres) \verb|\begin{equation}|, que marca o início da extração de \textit{tokens}. Da mesma forma, a delimitação do ambiente se encerra com a string \verb|\end{equation}|. Isso permite que o sistema ignore partes do arquivo que não pertencem ao ambiente de equação, como textos explicativos ou outros elementos presentes no mesmo arquivo \texttt{.tex}. Dessa forma, garantimos que a tokenização seja restrita às seções relevantes do código.
 
-Para fins de documentação e maior clareza, definimos uma gramática formal que descreve a geração dos \textit{tokens}, apresentada na \autoref{grammar-tokens}. O alfabeto dessa gramática é composto pelos caracteres do arquivo fonte. Apesar de documentar com uma gramatica, a geração dos \textit{tokens} é implementada internamente de maneira semelhante à simulação de uma máquina de estados.
+Para fins de documentação e maior clareza, definimos uma gramática formal que descreve a geração dos \textit{tokens}, apresentada na \autoref{grammar-tokens}. O alfabeto dessa gramática é composto pelos caracteres do arquivo fonte. Apesar de documentar com uma gramática, a geração dos \textit{tokens} é implementada internamente de maneira semelhante à simulação de uma máquina de estados.
 
-Na definição da gramática (\autoref{grammar-tokens}), utilizamos uma notação leve de sintaxe para representar suas regras. Palavras com todas as letras minúsculas representam não-terminais, enquanto palavras entre aspas simples correspondem a caracteres literais específicos. Por outro lado, palavras em letras maiúsculas denotam categorias semânticas, como \texttt{DIGIT}, que representa qualquer dígito de 0 a 9, e \texttt{LETTER}, que cobre letras de \texttt{'a'} a \texttt{'z'}.
+Na definição da gramática (\autoref{grammar-tokens}), utilizamos uma notação leve de sintaxe para representar suas regras. Palavras com todas as letras minúsculas representam não-terminais, enquanto palavras entre aspas simples correspondem a uma sequencia de caracteres literais, ou seja, os terminais. Por outro lado, palavras em letras maiúsculas denotam um terminal de uma categoria, como \texttt{DIGIT}, que representa qualquer dígito de 0 a 9, e \texttt{LETTER}, que cobre letras de \texttt{'a'} a \texttt{'z'}.
 
-Ainda, definimos símbolos operadores: ``$*$'' indica zero ou mais ocorrências; ``$()$'' indica agrupamento para aplicar um operador ao mesmo; ``$|$'' simboliza o início de uma regra alternativa para o mesmo não-terminal, ou se estiver dentro de um agrupamento, como por exemplo``$(a|b)$'', significa que aceita $a$ ou $b$; e ``$=$'' indica uma produção. Essa mesmta sintaxe de gramática é utilizada na análise sintática, onde cada regra é faz bijeção com os tipos de nó da AST, como detalhado na \autoref{section-parser}. Nessa etapa seguinte, o alfabeto passa a ser composto pelo conjunto de \textit{tokens} gerados.
+Ainda, definimos símbolos operadores: ``$*$'' indica zero ou mais ocorrências; ``$()$'' indica agrupamento para aplicar um operador ao mesmo; ``$|$'' simboliza o início de uma regra alternativa para o mesmo não-terminal, ou se estiver dentro de um agrupamento, como por exemplo``$(a|b)$'', significa que aceita $a$ ou $b$; e ``$=$'' indica uma produção. Essa mesmta sintaxe de gramática é utilizada na análise sintática, onde cada regra é faz bijeção com os tipos de nó da AST, como detalhado na \autoref{section-parser}. Na etapa de análise sintática, é usada a mesma sintaxe para definir uma gramática, mas alfabeto passa a ser composto pelo conjunto de \textit{tokens} gerados pelo \texttt{lexer}.
 
 %%%%%%%%%%%%%
 
-O pacote inteiro de tokenização pode ser acessado por meio de uma única função, descrita na \autoref{function-lex}, escrita na linguagem \texttt{Odin}. Essa função, chamada \texttt{lex}, aceita uma lista de caracteres como entrada e retorna uma lista de estruturas do tipo \texttt{Token} (detalhado na \autoref{lexer-structs}). A estrutura \texttt{Token} possui três campos principais:
+O pacote inteiro de tokenização pode ser acessado por meio de uma única função, descrita no \autoref{function-lex}, escrita na linguagem \texttt{Odin}. Essa função, chamada \texttt{lex}, aceita uma lista de caracteres como entrada e retorna uma lista de estruturas do tipo \texttt{Token} (detalhado no \autoref{lexer-structs}). A estrutura \texttt{Token} possui três campos principais:
 
 \begin{itemize}
     \item \texttt{kind}: identifica o tipo de \textit{token}, mapeando-o para uma das regras de produção definidas na \autoref{grammar-tokens}.
@@ -98,14 +98,14 @@ O pacote inteiro de tokenização pode ser acessado por meio de uma única funç
 
 
 
-Durante a iteração sobre o \texttt{input}, o processo de tokenização mantém algumas variáveis de controle para monitorar o estado do fluxo de caracteres. Quebras de linha são contadas ao encontrar sequências como \verb|"\n"| ou \verb|"\n\r"|. É mantida a coluna atual que rastreia a posição horizontal do caractere em uma linha. O cursor é o índice que aponta para o caractere atualmente em processamento. Essas informações são usadas para preencher o campo \texttt{position} de cada \textit{token}, uma funcionalidade essencial para a geração de relatórios de erro. A estrutura \texttt{Position}, detalhada na \autoref{lexer-structs}, armazena essas informações para garantir a precisão no rastreamento de problemas.
+Durante a iteração sobre o \texttt{input}, o processo de tokenização mantém algumas variáveis de controle para monitorar o estado do fluxo de caracteres. Quebras de linha são contadas ao encontrar sequências como \verb|"\n"| ou \verb|"\n\r"|. É mantida a coluna atual que rastreia a posição horizontal do caractere em uma linha. O cursor é o índice que aponta para o caractere atualmente em processamento. Essas informações são usadas para preencher o campo \texttt{position} de cada \textit{token}. A estrutura \texttt{Position}, detalhada na \autoref{lexer-structs}, é essencial para garantir a precisão na geração de relatórios e rastreamento de erros.
 
-O sistema de relatório de erros, implementado nesta etapa, é utilizado de forma consistente por todos os pacotes do projeto. Essa funcionalidade assegura que erros sejam associados a posições específicas no arquivo de entrada, facilitando a depuração e correção. A assinatura da função de tratamento de erros, bem como suas possíveis variações, está documentada na \autoref{function-errors}.
+O sistema informação de erros, implementado nesta etapa, é utilizado por todos os pacotes do projeto. Essa funcionalidade assegura que erros sejam associados a posições específicas no arquivo de entrada, facilitando a depuração e correção. A assinatura da função de tratamento de erros, bem como suas possíveis variações, está documentada no \autoref{cod-function-errors}.
 
 
 \begin{codigo}[htb]
     \caption{\small Função de erro exposto pelo pacote \texttt{lexer}. }
-        \label{function-errors}
+        \label{cod-function-errors}
 \begin{lstlisting}[language=C++]
 error_from_pos :: proc(pos: Position, msg: string, args: ..any)
 error_from_token :: proc(token: Token, msg: string, args: ..any);
@@ -167,17 +167,17 @@ Tokens simples, como aqueles compostos por um ou dois caracteres, são extraído
 
 Tokens mais complexos, como números, identificadores ou \textit{tokens} especiais, são extraídos com base em suas características. Números podem opcionalmente conter um ponto decimal, como em $1.0$. Já identificadores consistem em uma ou mais letras, opcionalmente prefixadas pelo símbolo \verb|\|.
 
-A gramática de \textit{tokens} provida é intrinsecamente ambígua. Por exemplo, uma sequência como \verb|\frac| pode ser interpretada como um identificador comum ou como \verb"token_frac". Para resolver essa ambiguidade, criamos um dicionário que mapeia identificadores especificos para \textit{tokens} especiais (\autoref{map-special-identifiers}). Assim, se um identificador começar com o caractere \verb|\|, ele será verificado no dicionário e classificado como um token especial, se apropriado.
+A gramática de \textit{tokens} provida é intrinsecamente ambígua. Por exemplo, uma sequência como \verb|\frac| pode ser interpretada como um identificador comum ou como \verb"token_frac". Para resolver essa ambiguidade, criamos um dicionário que mapeia identificadores especificos para \textit{tokens} especiais (\autoref{map-special-identifiers}). Assim, se um identificador começar com o caractere \verb|\|, ele será verificado no dicionário e classificado como um 	extit{token} especial, se apropriado.
 
 
 \label{lexer-subexpression}
-Identificadores não permitem números nem mesmo o caractere de sublinhado (\verb|_|). Isso ocorre porque, no analisador sintático, um nó do tipo identificador é modelado como um tipo recursivo, permitindo que identificadores sejam aninhados ao conter outros nós. Dessa forma, não é necessário permitir sublinhados diretamente no nível de token, o que possibilita a escrita de identificadores mais complexos, como \verb|\pi{n_1}| (renderizado em \LaTeX{} como $\pi_{n_1}$). Nesse caso, \verb|\pi| seria o primeiro token do nó identificador, e sua subexpressão seria \verb|n_1| (renderizado como $n_1$), que, por sua vez, é o identificador \verb|n| com a subexpressão \verb|1|.
+Identificadores não permitem números nem mesmo o caractere de sublinhado (\verb|_|). Isso ocorre porque, no analisador sintático, um nó do tipo identificador é modelado como um tipo recursivo, permitindo que identificadores sejam aninhados ao conter outros nós. Dessa forma, não é necessário permitir sublinhados diretamente no nível de token, o que possibilita a escrita de identificadores mais complexos, como \verb|\pi{n_1}| (renderizado em \LaTeX{} como $\pi_{n_1}$). Nesse caso, \verb|\pi| seria o primeiro \textit{token} do nó identificador, e sua subexpressão seria \verb|n_1| (renderizado como $n_1$), que, por sua vez, é o identificador \verb|n| com a subexpressão \verb|1|.
 
-Adicionalmente, permitimos o uso da palavra-chave \verb|\text|, como em \verb|\text{id}|, para descrever identificadores. Essa palavra-chave é utilizada para incluir texto dentro do ambiente de equações em \LaTeX{}, proporcionando maior flexibilidade na representação e manipulação de identificadores. A extração desse token segue um processo semelhante ao do suporte para \verb|\vec{id}|.
+Adicionalmente, permitimos o uso da palavra-chave \verb|\text|, como em \verb|\text{id}|, para descrever identificadores. Essa palavra-chave é utilizada para incluir texto dentro do ambiente de equações em \LaTeX{}, proporcionando maior flexibilidade na representação de identificadores. A extração desse \textit{token} segue um processo semelhante ao do suporte para \verb|\vec{id}|.
 
-A enumeração que representa os tipos de tokens pode ser consultada na \autoref{enum-token-kind}. Cada entrada dessa enumeração corresponde diretamente às regras de produção definidas na gramática apresentada na \autoref{grammar-tokens}. Para facilitar a leitura, adicionamos, à direita de cada entrada, o símbolo que a representa, indicado em comentários.
+A enumeração que representa os tipos de \textit{tokens} pode ser consultada na \autoref{enum-token-kind}. Cada entrada dessa enumeração corresponde diretamente às regras de produção definidas na gramática apresentada na \autoref{grammar-tokens}. Para facilitar a leitura, adicionamos, à direita de cada entrada, o símbolo que a representa, indicado em comentários.
 
-Com a etapa de tokenização concluída, avançamos para a análise sintática, onde exploramos como os \textit{tokens} gerados são organizados em estruturas hierárquicas que formam a árvore sintática.
+Com a etapa de tokenização concluída, é possível avançar para a análise sintática, onde é explorada a forma como os \textit{tokens} gerados são organizados em estruturas hierárquicas que formam a árvore sintática.
 
 \begin{codigo}[htb]
         \caption{\small Estuturas do Lexer. }
@@ -252,7 +252,7 @@ SPECIAL_WORDS := map[string]Token{
 
 
 \begin{codigo}[htb]
-    \caption{\small Gramatica ilustrativa para \texttt{tokens}. }
+    \caption{\small Gramática ilustrativa para \texttt{tokens}. }
         \label{grammar-tokens}
   \begin{lstlisting}[numbers=none, frame=none, language=haskell]
 

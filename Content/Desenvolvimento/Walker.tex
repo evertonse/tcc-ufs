@@ -2,35 +2,19 @@
 \section{Implementação do Padrão de Visitante (\texttt{walker})} \label{section-walker}
 
 
-Desenvolvemos o pacote \texttt{walker} para auxiliar em quatro tarefas-chave: inferência de tipos das expressões, validação da precedência da AST gerada pelo \textit{parser}, visualização gráfica da AST, e geração de código. Para atingir esses objetivos, empregamos o padrão de projeto \textit{visitor} \footnote{\url{https://refactoring.guru/pt-br/design-patterns/visitor}}, que facilita a travessia e manipulação da AST. A estrutura principal do pacote consiste em duas peças fundamentais: a estrutura \texttt{Visitor} e a função \texttt{walk}.
+Nessa etapa, é desenvolvido o pacote \texttt{walker} para auxiliar em quatro tarefas-chave: inferência de tipos das expressões, validação da precedência da AST gerada pelo \textit{parser}, visualização gráfica da AST, e geração de código. Para atingir esses objetivos, o padrão de projeto \textit{visitor} \footnote{\url{https://refactoring.guru/pt-br/design-patterns/visitor}} é usado, o qual facilita a travessia e manipulação da AST. A estrutura principal do pacote consiste em duas peças fundamentais: a estrutura \texttt{Visitor} e a função \texttt{walk}.
 
 \subsection{Estrutura \texttt{Visitor}}
 
-A estrutura \texttt{Visitor} (\autoref{cod-visitor-struct}) encapsula uma função de visita polimórfica (\texttt{visit}) que pode ser invocada em cada nó da AST. Essa abordagem permite que a lógica de manipulação da AST seja flexível e extensível. A função \texttt{visit} pode ser definida nessa estrutura para realizar operações transformação de nós, como mudar o campo \texttt{ty\_inferred} do nó do tipo \texttt{Expr}; também é permitido remoção ou adicição de nós. Além disso, a estrutura permite que o visitante mantenha um estado interno (\texttt{data}), que pode ser modificado dinamicamente durante a travessia. Como exemplo, esse estado é usado para manter um inteiro indicando a profundidade atual para gerar um SVG da arvóres \autoref{SVG}, ou uma lista de indentificadores usados para fazer resolução de simbolos pelo pacote \texttt{checker}, entre outros usos.
+A estrutura \texttt{Visitor} (\autoref{cod-visitor-struct}) encapsula uma função de visita polimórfica (\texttt{visit}) que pode ser invocada em cada nó da AST. A função \texttt{visit} é definida nessa estrutura para realizar operações de transformação de nós, como: modificar o campo \texttt{ty\_inferred} do nó do tipo \texttt{Expr}; e remover ou adicionar nós.
 
-% A estrutura \texttt{Visitor} (\autoref{cod-visitor-struct}) encapsula uma função de visita polimórfica que pode ser chamada para cada tipo de nó, possibilitando um processamento flexível e extensível, onde o visitante pode modificar seu próprio estado durante a travessia, decidir continuar ou interromper o caminhamento, e realizar operações arbitrárias como transformação, análise semântica, geração de código ou depuração.
+A estrutura também permite que o visitante mantenha um estado interno (\texttt{data}), que pode ser alterado dinamicamente durante a travessia. Um exemplo de uso desse estado é o acompanhamento da profundidade atual para gerar um arquivo SVG da árvore (\autoref{subsection-svg}), ou a manutenção de uma lista de identificadores usados para a resolução de símbolos pelo pacote \texttt{checker}.
 
-
-\subsection{Função \texttt{walk}}
-A função \texttt{walk} (\autoref{cod-visitor-walk}) implementa um mecanismo genérico e recursivo de travessia profunda (\textit{depth-first}) da AST. Essa função percorre todos os nós, incluindo declarações, expressões e equações e definição de funções, aplicando a função \texttt{visit} antes e depois de explorar cada subárvore. Isso é especialmente útil para criar \textit{visitors} personalizados para tarefas como:
-
-\begin{itemize}
-    \item Checagem de tipos: Verifica a consistência dos tipos em diferentes nós da árvore.
-    \item Parentização de expressões: Modifica nós para assegurar precedência correta de operadores.
-    \item Geração de gráficos: Produz uma representação visual em arquivo no formato SVG da AST.
-    \item Geração de código: Traduz a AST para uma linguagem GLSL.
-\end{itemize}
-
-O controle de parada em \texttt{walk} é essencial para evitar chamadas recursivas desnecessárias ou operações em nós inválidos. Este controle é realizado por meio de duas verificações principais
-
-Verificação de nulidade: A função verifica se o visitante (\texttt{v}) ou o nó (\texttt{node}) atual são nulos antes de proceder. Isso garante que a execução não tente operar em dados inexistentes.
-
-Interrupção de travessia: Após cada chamada à função \texttt{visit}, verifica-se o retorno do visitante. Se for \texttt{nil}, a travessia é interrompida, permitindo que o \textit{visitor} decida dinamicamente se deseja continuar ou parar; adaptando-se a diferentes cenários de análise e manipulação da AST.
-
+% Essa abordagem usa tipos genéricos da linguagem Odin, por isso permite que a lógica de manipulação da AST seja flexível e extensível.
 
 
 \begin{codigo}[!ht]
-    \caption{\small Estrutura polimórfica \texttt{Visitor}}
+    \caption{\small Estrutura polimórfica \texttt{Visitor}. \texttt{DataType} é o parametro concreto dessa estrutura. }
         \label{cod-visitor-struct}
 \begin{lstlisting}[language = C]
 
@@ -42,7 +26,24 @@ Visitor :: struct (DataType: typeid) {
 \end{lstlisting}
 \end{codigo}
 
-\begin{codigo}[!ht]
+\subsection{Função \texttt{walk}}
+A função \texttt{walk} (\autoref{cod-visitor-walk}) realiza a travessia profunda (\textit{depth-first}) da AST usando a estrutura genérica de visita. Ela percorre todos os nós, como declarações, expressões, equações e definições de funções, aplicando a função \texttt{visit} antes e depois de explorar cada subárvore. Isso permite criar \textit{visitors} personalizados para tarefas como:
+
+\begin{itemize}
+    \item Checagem de tipos: Verifica a consistência dos tipos nos nós.
+    \item Parentização de expressões: Usa os nós para testar a precedência correta de operadores.
+    \item Geração de gráficos: Cria uma representação visual da AST em formato SVG.
+    \item Geração de código: Converte a AST para a linguagem GLSL.
+\end{itemize}
+
+O controle de parada em \texttt{walk} é feito por duas verificações principais:
+
+\begin{enumerate}
+    \item Verificação de nulidade: A função checa se o visitante (\texttt{v}) ou o nó (\texttt{node}) são nulos antes de prosseguir, evitando operações em dados inexistentes.
+    \item Interrupção de travessia: Após cada chamada à função \texttt{visit}, se o retorno for nulo, a travessia é interrompida, permitindo ao \textit{visitor} decidir dinamicamente se deseja continuar ou parar; adaptando-se ao cenário de uso.
+\end{enumerate}
+
+\begin{codigo}[ht]
 \caption{\small Função de percurso \texttt{walk}. }
         \label{cod-visitor-walk}
 \begin{lstlisting}[language = C]
@@ -62,9 +63,9 @@ walk :: proc(v: ^Visitor($T), node: ^ast.Node) {
                 walk(v, d)
             }
 
-        case ^Decl_Equation:
-            walk(v, n.field)
-
+        // ...
+        // casos OMITIDOS aqui Também
+        // ...
         case ^Field:
             walk(v, n.name)
             walk(v, n.value)
@@ -78,9 +79,8 @@ walk :: proc(v: ^Visitor($T), node: ^ast.Node) {
         case ^Expr_Identifier:
                 walk(v, n.sub_expression)
 
-        // ...
         // casos OMITIDOS aqui Também
-        // ...
+
         case ^Expr_Infix:
             walk(v, n.left)
             walk(v, n.right)
@@ -104,20 +104,11 @@ walk :: proc(v: ^Visitor($T), node: ^ast.Node) {
 
 
 \subsection{Validação de Precedencia}
+As funções e a estrutura de travessia foram utilizadas para validar a precedência dos operadores na AST gerada pelo \texttt{parser}. A função de parentização processa todos os tipos de expressões durante a travessia da AST, inserindo parênteses para preservar a precedência implícita original (sem parênteses). Isso garante que a representação textual reflita corretamente a ordem de avaliação das operações matemáticas, assegurando que a hierarquia das operações foram corretamente representada na árvore gerada.
 
-Utilizamos o pacote \texttt{walker} para validar a precedência dos operadores na AST gerada pelo \texttt{parser}. A função de parentização implementa a inserção de parênteses para capturar a precedência original das expressões da AST. Dessa forma, a representação textual resultante reflete corretamente a ordem de avaliação das expressões matemáticas.
+Os testes de precedência comparam o texto original de uma expressão com sua versão esperada, onde os parênteses refletem a ordem correta de avaliação (\autoref{cod-test-paren}). Casos mais complexos, como operadores associativos à direita (ex: exponenciação) combinados com outros operadores de diferentes precedências, também são testados. Expressões aninhadas e funções também são consideradas para abranger todos os cenários.
 
-Durante a travessia da AST, o algoritmo processa todos os tipos de expressões, como prefixas, binárias e chamadas de função, inserindo parênteses sempre que necessário. Isso garante que a hierarquia das operações seja explicitamente representada, permitindo verificar se a construção da AST durante o parsing respeitou corretamente as regras de precedência matemáticas.
-
-Os testes de precedência consistem em comparar o texto original de uma expressão com sua versão esperada, na qual os parênteses refletem a ordem de avaliação correta (\autoref{cod-test-paren}). Casos mais complexos, como a combinação de operadores associativos à direita (como a exponenciação) com operadores de diferentes precedências, são incluídos para abranger cenários que envolvem todas as operações aritméticas suportadas. Além disso, as expressões podem conter sub-expressões aninhadas, chamadas de funções e expressões como parâmetros na definição de funções.
-
-À medida que o compilador foi sendo desenvolvido, esses testes se mostraram úteis para evitar regressões. Sempre que uma nova funcionalidade era adicionada, os testes garantiam que funcionalidades já existentes não fossem quebradas.
-
-
-%%%%
-
-
-\begin{codigo}[htb]
+\begin{codigo}[!ht]
     \caption{\small Validação de precendencia por parentização de expressões. }
         \label{cod-test-paren}
   \begin{lstlisting}[language = C]
@@ -142,24 +133,24 @@ Os testes de precedência consistem em comparar o texto original de uma express�
   \end{lstlisting}
 \end{codigo}
 
+À medida que o compilador foi sendo desenvolvido, esses testes foram úteis para evitar regressões. Sempre que uma nova funcionalidade for adicionada, os testes garantem que as funcionalidades já existentes não fossem quebradas.
 
 
-\subsection{Visualização da AST por Imagem}
 
-Para validação visual, foi implementado uma função que gera uma imagem da AST no formato SVG, que é textual e fácil de manipular. Cada nó da AST é representado por um retangulo com textos associados que fornecem informações, como o tipo de operador, o tipo do nó e a string do identificador, se aplicavel. Anteriormente, utilizávamos a função \texttt{print\_ast}, que imprimia os nós e seus atributos com indentação correspondente à profundidade. Essa abordagem se tornou limitada à medida que a AST crescia em complexidade, demandando uma solução mais robusta para depuração.
 
-Na \autoref{fig-svg}, apresentamos a visualização gerada para a equação \autoref{eq-svg}. Observamos que os nós de operações binárias, como \texttt{+} e \texttt{-}, localizados próximos à raiz, são avaliados posteriormente, enquanto os nós mais próximos das folhas, como \texttt{*} e \texttt{\^}, têm maior precedência e são resolvidos primeiro. Além disso, o SVG inclui informações adicionais, como o tipo das expressões. Por exemplo, o identificador \( f \) é anotado como pertencente ao tipo \( \mathbb{R} \), o que é determinado na etapa de validação semântica (\texttt{checker}), como será discutido posteriormente.
+\subsection{Visualização da AST por Imagem} \label{subsection-svg}
+
+Para validação visual, foi implementada uma função que gera uma imagem da AST no formato SVG, que é textual e fácil de manipular. Cada nó da AST é representado por um retângulo com textos que fornecem informações como o tipo de operador, o tipo do nó e o identificador, quando aplicável. Anteriormente, era usada a função \texttt{print\_ast}, que imprimia os nós e seus atributos com indentação correspondente à profundidade. No entanto, essa abordagem se tornou limitada conforme a complexidade da AST aumentou, exigindo uma solução mais robusta para depuração.
+
+Na \autoref{fig-svg}, é ilustrada a imagem gerada para a equação \autoref{eq-svg}. Observa-se que o nó da operação binária \texttt{+} (\verb"Expr_Infix Plus"), localizado mais próximo da raiz, é avaliado por último, enquanto o nós mais próximos das folhas, como \texttt{*} e \texttt{\^} (\verb"Expr_Infix Caret"), têm maior precedência e são resolvidos primeiro. Além disso, o SVG inclui informações adicionais, como o tipo das expressões. Por exemplo, o identificador \( f \) é anotado como \( \mathbb{R} \), determinado na validação semântica (\texttt{checker}).
 
 \begin{equation} \label{eq-svg}
-   f =  1*2 ^ 4 +  \sqrt 4^8
+   f =  1*2 ^ 4 + \sqrt 4^8
 \end{equation}
 
-Os nós da AST são heterogêneos, e o modo de acessar seus filhos varia conforme o tipo do nó, já que os campos podem ter nomes ou posições diferentes nas estruturas. Para lidar com essa heterogeneidade, o pacote \texttt{walker} oferece uma função chamada \texttt{children} (\autoref{cod-childre-signature}), que abstrai as diferenças entre os tipos de nós e retorna, para qualquer nó, uma lista uniforme de seus filhos. 
-Essa função simplifica o código de geração do SVG, permitindo que a função opere sobre a AST de maneira uniforme, sem a necessidade de tratar cada tipo de nó individualmente.
-%%%%%%%
+Os nós da AST possuem diferentes formas de acesso aos seus filhos, pois os campos podem ter nomes ou posições variadas conforme o tipo do nó. Para lidar com essa heterogeneidade, o pacote \texttt{walker} oferece a função \texttt{children} (\autoref{cod-childre-signature}), que abstrai essas diferenças e retorna uma lista uniforme de filhos para qualquer nó.
 
-
-\begin{codigo}[h]
+\begin{codigo}[H]
         \caption{\small Assinatura da função que extrai nós filhos de maniera uniforme para qualquer tipo de nó. }
         \label{cod-childre-signature}
   \begin{lstlisting}[language = C]
@@ -172,10 +163,7 @@ Essa função simplifica o código de geração do SVG, permitindo que a funçã
 \begin{figure}[H]
     \caption{\label{fig-svg} \small SVG da AST gerado para \autoref{eq-svg}.}
     \begin{center}
-        % \includegraphics[width=\textwidth, scale=1.1]{./Imagens/svg.png}
-        % \includegraphics[scale=0.9]{./Imagens/svg.png}
-        \includegraphics[scale=0.65]{./Imagens/svg.pdf} % Best outta of them all, because it gets to indefinitely zoom in
-        % \includesvg[scale=0.9]{./Imagens/svg.svg}
+        \includegraphics[scale=0.64]{./Imagens/svg.pdf}
     \end{center}
 \end{figure}
 
