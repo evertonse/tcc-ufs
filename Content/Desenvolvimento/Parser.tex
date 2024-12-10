@@ -6,6 +6,34 @@ O \textit{parser} para a linguagem subconjunto do ambiente \verb|equation| do \L
 A implementação deste \textit{parser} adota o método de descida recursiva, no qual cada regra de produção da gramática possui uma função de análise correspondente. Este método foi escolhido por priorizar a  simplicidade do código e clareza da gramática. A entrada do \textit{parser} consiste nos \textit{tokens} gerados na etapa de análise léxica.
 
 
+\subsection{Sintaxe de Gramáticas} \label{section-sintatic-grammar-notation}
+Na definição de gramáticas deste capítulo, utilizamos uma notação simplificada de sintaxe para representar as regras. Palavras compostas por letras minúsculas representam \textit{não-terminais}, enquanto palavras entre aspas simples correspondem a \textit{terminais}.
+
+Além disso, os seguintes operadores são utilizados na notação:
+\begin{itemize}
+    \item ``$*$'' indica zero ou mais ocorrências de um elemento, que pode ser tanto um \textit{terminal} quanto um \textit{não-terminal};
+    \item ``$()$'' define agrupamentos para aplicar um operador sobre os elementos agrupados;
+    \item ``$|$''  introduz uma regra alternativa para o mesmo \textit{não-terminal}. Caso esteja dentro de um agrupamento, como em ``$(a|b)$'', significa que aceita $a$ ou $b$;
+    \item ``$=$''  representa uma produção.
+\end{itemize}
+
+Adicionalmente, sequências de três hífens (``\verb|---|'') são usadas para comentários destinados ao leitor, sem impacto na definição gramatical.
+
+No caso da gramática da \texttt{EquationLang}, apresentada na \autoref{subsection-grammar}, todas as palavras em letras minúsculas que começam com \texttt{token\_} são tratadas como \textit{terminais}. Esses terminais correspondem diretamente aos \textit{tokens} gerados pelo \texttt{lexer} e estão presentes na lista de expressões regulares descrita na \autoref{section-lexer}.
+
+% %%%
+% Na definição de gramáticas deste capítulo, é utilizado uma notação leve de sintaxe para representar suas regras. Palavras com todas as letras minúsculas representam não-terminais, enquanto palavras entre aspas simples correspondem a uma sequência literal de terminais.
+%
+% Ainda, definimos símbolos operadores: ``$*$'' indica zero ou mais ocorrências; ``$()$'' indica agrupamento para aplicar um operador@@agrupa oq@@@; ``$|$'' simboliza o início de uma regra alternativa para o mesmo não-terminal, ou se estiver dentro de um agrupamento, como por exemplo``$(a|b)$'', significa que aceita $a$ ou $b$; e ``$=$'' indica uma produção.
+%
+% com o adicional que sequências de três hífens ("\verb"---"") representam comentários para o leitor, sem impactar a definição gramatical.
+%
+% No caso da gramática da \texttt{EquationLang}, todas as palavras com letras minusculos que começam com \texttt{token\_}, são terminais. Esses terminals estão definilos
+
+
+% Essa mesma sintaxe de gramática é utilizada na análise sintática, onde cada regra faz bijeção com os tipos de nó da AST, como detalhado na \autoref{section-parser}, porém o alfabeto passa a ser composto pelo conjunto de \textit{tokens} gerados pelo \texttt{lexer}.
+
+
 \subsection{Parser} \label{section-parser-pratt}
 Diferentemente dos \textit{parsers} tradicionais de descida recursiva, que frequentemente utilizam múltiplas chamadas de função indiretamente recursivas para tratar diferentes níveis de precedência, o \textit{parser} aqui implementado organiza as funções de análise com base na tabela de precedência dos operadores. Essa abordagem é detalhada no \autoref{alg-pratt-parsing}, que descreve a lógica central para o \textit{parsing} de expressões.
 
@@ -108,7 +136,7 @@ parse_start :: proc(using p: ^Parser) -> ^ast.Start {
 
 
 
-\subsection{Gramática}
+\subsection{Gramática} \label{subsection-grammar}
 
 
 Para formalizar a gramática da linguagem de entrada (\texttt{EquationLang}), suas regras estão detalhadas nos \autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2}. Um exemplo de código-fonte contendo três equações válidas nessa linguagem se encontra no \autoref{code-gramatica}. Sua renderização correspondente em \LaTeX{} é ilustrada na \autoref{code-gramatica-rendered}.
@@ -251,8 +279,7 @@ f = \frac{\rho_{d}}{\pi} + \frac{\rho_{s}}{8*\pi} *
 \end{lstlisting}
 \end{codigo}
 
-Na definição da gramática (\autoref{grammar-ast-pt1}), adotamos a notação sintática previamente estabelecida na \autoref{section-lexer}, com o adicional que sequências de três hífens ("\verb"---"") representam comentários para o leitor, sem impactar a definição gramatical.
-
+Na definição da gramática (\autoref{grammar-ast-pt1}), adotamos a notação sintática previamente estabelecida na \autoref{section-sintatic-grammar-notation}. 
 A gramática apresentada inclui regras para expressões, atribuições, agrupamento, literais numéricos e vetoriais, chamadas e definições de funções, além de operadores, como \verb"expr_prefix" e \verb"expr_infix". Ela é projetada para suportar a sintaxe necessária à definição de BRDFs em \LaTeX{}.
 
 

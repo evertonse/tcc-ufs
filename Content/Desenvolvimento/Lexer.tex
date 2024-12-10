@@ -1,23 +1,28 @@
+
 \section{Análise Léxica (\texttt{lexer})} \label{section-lexer}
 
-Nesta etapa, é realizado o processo de tokenização de um subconjunto dos símbolos possíveis no ambiente de equação do \LaTeX{}, como comentado na \autoref{especificacao-linguagem}. A entrada desse processo são os caracteres do arquivo fonte, enquanto a saída é uma sequência lógica desses caracteres, organizada em \textit{tokens}. O código responsável por essa funcionalidade está contido no pacote \texttt{lexer}.
 
-O processo de tokenização realiza uma varredura completa no arquivo de entrada, caractere por caractere, para identificar e extrair os \textit{tokens}. Antes de iniciar essa extração, verificamos se o trecho analisado pertence a um ambiente de equação. Essa verificação é feita ao identificar a \textit{string}\footnote{\textit{string} é uma cadeia de caracteres} \verb|\begin{equation}|, que marca o início da extração de \textit{tokens}. Da mesma forma, a delimitação do ambiente se encerra com a string \verb|\end{equation}|. Isso permite que o sistema ignore partes do arquivo que não pertencem ao ambiente de equação, como textos explicativos ou outros elementos presentes no mesmo arquivo \texttt{.tex}. Dessa forma, garantimos que a tokenização seja restrita às secções relevantes do código.
+Nesta etapa, é realizado o processo de tokenização de um subconjunto dos símbolos possíveis no ambiente de equação do \LaTeX{}, conforme comentado na \autoref{especificacao-linguagem}. A entrada desse processo são caracteres do arquivo fonte, enquanto a saída é uma sequência lógica desses caracteres, organizada em \textit{tokens}. O código responsável por essa funcionalidade  está contido no pacote \texttt{lexer}.
 
-Para fins de documentação e maior clareza, definimos uma gramática formal que descreve a geração dos \textit{tokens}, apresentada na \autoref{grammar-tokens}. O alfabeto dessa gramática é composto pelos caracteres do arquivo fonte. Apesar de documentar com uma gramática, a geração dos \textit{tokens} é implementada internamente de maneira semelhante à simulação de uma máquina de estados.
+O processo de análise léxica realiza uma varredura completa no arquivo de entrada, caractere por caractere, para identificar e extrair os \textit{tokens}. Antes de iniciar essa extração, verificamos se o trecho analisado pertence a um ambiente de equação. Essa verificação é feita ao identificar a \textit{string}\footnote{\textit{string} é uma cadeia de caracteres} \verb|\begin{equation}|, que marca o início da extração de \textit{tokens}. Da mesma forma, a delimitação do ambiente se encerra com a string \verb|\end{equation}|. Isso permite que o sistema ignore partes do arquivo que não pertencem ao ambiente de equação, como textos explicativos ou outros elementos presentes no mesmo arquivo \texttt{.tex}. Dessa forma, garantimos que a tokenização seja restrita às secções relevantes do código.
 
-Na definição da gramática (\autoref{grammar-tokens}), utilizamos uma notação leve de sintaxe para representar suas regras. Palavras com todas as letras minúsculas representam não-terminais, enquanto palavras entre aspas simples correspondem a uma sequência de caracteres literais, que são os terminais dessa etapa. Por outro lado, palavras em letras maiusculas denotam um terminal de uma categoria, como \texttt{DIGIT}, que representa qualquer dígito de 0 a 9, e \texttt{LETTER}, que cobre letras de \texttt{'a'} a \texttt{'z'}.
+    
+% Para fins de documentação e maior clareza, definimos uma lista estruturada de expressões regulares que descreve a geração dos \textit{tokens}, apresentada na \autoref{grammar-tokens}\footnote{Vale observar que a "gramática dos \textit{tokens}" não possui atributos típicos de gramáticas livres de contexto, como recursão, símbolo inicial ou lados direitos compostos por não-terminais. Assim, pode ser mais adequado considerá-la como uma lista estruturada de expressões regulares.}.
+%
+% O alfabeto dessa gramática é composto pelos caracteres do arquivo fonte. Apesar de ser chamada de gramática, ela se assemelha mais a um conjunto de expressões regulares que descrevem padrões utilizados para identificar os \textit{tokens}. A escolha do termo "gramática" reflete a intenção de estabelecer uma a sintaxe de descrição da gramatica que será usada na gramática da análise sintática, a qual faz uso de uma gramática livre de contexto (GLC) para construção da árvore de sintaxe abstrata. Internamente, a geração dos \textit{tokens} é implementada como a simulação de uma máquina de estados finitos, que segue os padrões definidos por essas expressões regulares.
 
-Ainda, definimos símbolos operadores: ``$*$'' indica zero ou mais ocorrências; ``$()$'' indica agrupamento para aplicar um operador ao mesmo; ``$|$'' simboliza o início de uma regra alternativa para o mesmo não-terminal, ou se estiver dentro de um agrupamento, como por exemplo``$(a|b)$'', significa que aceita $a$ ou $b$; e ``$=$'' indica uma produção.
+    % Para fins de documentação e maior clareza, definimos uma gramática que descreve a geração dos \textit{tokens}, apresentada na \autoref{grammar-tokens}\footnote{essa gramatica está mais para uma lista}. O alfabeto dessa gramática é composto pelos caracteres do arquivo fonte. Apesar de documentar com uma gramática, a geração dos \textit{tokens} é implementada internamente de maneira semelhante à simulação de uma máquina de estados.
 
-Essa mesma sintaxe de gramática é utilizada na análise sintática, onde cada regra faz bijeção com os tipos de nó da AST, como detalhado na \autoref{section-parser}, porém o alfabeto passa a ser composto pelo conjunto de \textit{tokens} gerados pelo \texttt{lexer}.
+Na lista de expressões regulares (\autoref{grammar-tokens}), definimos os tipos de \textit{tokens}, onde o lado esquerdo do símbolo ``$=$'' corresponde ao tipo de \textit{token}, e o lado direito descreve sua expressão regular. Palavras em letras maiúsculas representam categorias de caracteres, como \texttt{DIGIT}, que denota qualquer dígito de 0 a 9, e \texttt{LETTER}, que cobre letras de \texttt{'a'} a \texttt{'z'}. Já palavras entre aspas simples correspondem a sequências literais de caracteres.
+
+Além disso, utilizamos os seguintes símbolos na notação: ``$*$'' indica zero ou mais ocorrências do caractere especificado; ``$|$'' representa alternativas para a geração do mesmo tipo de \textit{token}; e ``$;$'' marca o fim da definição do tipo de \textit{token}.
 
 %%%%%%%%%%%%%
 
 O pacote inteiro de tokenização pode ser acessado por meio de uma única função, descrita no \autoref{function-lex}, escrita na linguagem \texttt{Odin}. Essa função, chamada \texttt{lex}, aceita uma lista de caracteres como entrada e retorna uma lista de estruturas do tipo \texttt{Token} (detalhado no \autoref{lexer-structs}). A estrutura \texttt{Token} possui três campos principais:
 
 \begin{itemize}
-    \item \texttt{kind}: identifica o tipo de \textit{token}, mapeando-o para uma das regras de produção definidas na \autoref{grammar-tokens}.
+    \item \texttt{kind}: identifica o tipo de \textit{token}, mapeando-o para uma dos tipos definidos no \autoref{grammar-tokens}.
     \item \texttt{text}: contém a \textit{string} correspondente ao \textit{token} gerado.
     \item \texttt{position}: uma instância do tipo \texttt{Position}, que registra a posição exata do \textit{token} no arquivo de origem.
 \end{itemize}
@@ -26,15 +31,15 @@ O pacote inteiro de tokenização pode ser acessado por meio de uma única funç
 \begin{codigo}[htb]
         \caption{\small Função principal do Lexer. }
         \label{function-lex}
-  \begin{lstlisting}[language = c]
+\begin{lstlisting}[language = c]
   
     lex :: proc(input: []u8) -> []Token
-  \end{lstlisting}
+\end{lstlisting}
 \end{codigo}
 
 
 
-Durante a iteração sobre o \texttt{input}, o processo de tokenização mantém algumas variáveis de controle para monitorar o estado do fluxo de caracteres. Quebras de linha são contadas ao encontrar sequências como \verb|"\n"| ou \verb|"\n\r"|. É mantida a coluna atual que rastreia a posição horizontal do caractere em uma linha. O cursor é o índice que aponta para o caractere atualmente em processamento. Essas informações são usadas para preencher o campo \texttt{position} de cada \textit{token}. A estrutura \texttt{Position}, detalhada na \autoref{lexer-structs}, é essencial para garantir a precisão na geração de relatórios e rastreamento de erros.
+Durante a iteração sobre o \texttt{input}, o processo de tokenização mantém algumas variáveis de controle para monitorar o estado do fluxo de caracteres. Quebras de linha são contadas ao encontrar sequências como \verb|"\n"| ou \verb|"\n\r"|. É mantida a coluna atual que rastreia a posição horizontal do caractere em uma linha. O cursor é o índice que aponta para o caractere atualmente em processamento. Essas informações são usadas para preencher o campo \texttt{position} de cada \textit{token}. A estrutura \texttt{Position}, detalhada no \autoref{lexer-structs}, é essencial para garantir a precisão na geração de relatórios e rastreamento de erros.
 
 \subsection{Reporte de Erros} \label{subsection-erros}
 
@@ -51,12 +56,29 @@ error_from_token :: proc(token: Token, msg: string, args: ..any);
 
 
 
-Dada uma posição ou um \texttt{token}, é exibido uma mensagem (\texttt{msg}) diretamente no terminal, formatada para destacar visualmente o erro em vermelho. A formatação utiliza as informações do \texttt{token}, como o nome do arquivo, linha, coluna e comprimento do \texttt{token} problemático, permitindo sublinhar precisamente onde o erro ocorreu. Isso proporciona maior clareza nas mensagens de erro, como exemplificado no caso de erro semântico de uso de identificadores não definidos (\autoref{error-undefined-symbol}).
+Dada uma posição ou um \texttt{token}, é exibida uma mensagem (\texttt{msg}) diretamente no terminal, formatada para destacar visualmente o erro em vermelho. A formatação utiliza as informações do \texttt{token}, como o nome do arquivo, a linha, a coluna e o comprimento do \texttt{token} problemático, permitindo sublinhar precisamente onde o erro ocorreu. Isso proporciona maior clareza às mensagens de erro, como exemplificado no caso de erro semântico devido ao uso de identificadores não definidos (\autoref{error-undefined-symbol}).
 
-Outros exemplos de erros seguem o mesmo padrão de exibição e incluem: tipos incompatíveis (\autoref{error-incompatible-types}), símbolos não definidos (\autoref{error-undefined-symbol}), balanceamento de parênteses (\autoref{error-balanceamento}), uso de palavras reservadas (\autoref{error-reserved-word}) e \textit{tokens} que não formam uma expressão matemática válida (\autoref{error-cant-make-expression}).
+Optou-se por exibir, nesta seção, erros de forma uniforme para ilustrar como o compilador os reporta, independentemente de serem léxicos, sintáticos ou semânticos. Isso facilita o entendimento do diagnóstico sem sobrecarregar as seções de análise sintática e semântica com detalhes adicionais de erros. A seguir, são apresentados algums tipos de erros possíveis:
+\begin{enumerate}
+   \item \textbf{Erros léxicos}: uso de palavras reservadas (\autoref{error-reserved-word}).
+   
+   \item \textbf{Erros sintáticos}: relacionados a problemas de estrutura, como balanceamento incorreto de parênteses (\autoref{error-balanceamento}) e \textit{tokens} que não formam uma expressão matemática válida (\autoref{error-cant-make-expression});
+   
+   \item \textbf{Erros semânticos}: envolvendo tipos incompatíveis (\autoref{error-incompatible-types}), símbolos não definidos (\autoref{error-undefined-symbol}); redefinição de símbolos (\autoref{error-redefinition}).
+\end{enumerate}
+
+
+% Outros exemplos de erros seguem o mesmo padrão de exibição e incluem: tipos incompatíveis (\autoref{error-incompatible-types}), símbolos não definidos (\autoref{error-undefined-symbol}), balanceamento de parênteses (\autoref{error-balanceamento}), uso de palavras reservadas (\autoref{error-reserved-word}) .
 
 \begin{figure}[H]
     \caption{\label{error-undefined-symbol} \small Erro ao usar símbolo não definido.}
+    \begin{center}
+        \includegraphics[scale=0.5]{./Imagens/error-undefined-symbol.png}
+    \end{center}
+\end{figure}
+
+\begin{figure}[H]
+    \caption{\label{error-undefined-symbol} \small Erro ao tentar símbolo não definido.}
     \begin{center}
         \includegraphics[scale=0.5]{./Imagens/error-undefined-symbol.png}
     \end{center}
@@ -90,6 +112,12 @@ Outros exemplos de erros seguem o mesmo padrão de exibição e incluem: tipos i
     \begin{center}
         \includegraphics[scale=0.5]{./Imagens/error-cant-make-expression.png}
     \end{center}
+
+\begin{figure}[H]
+    \caption{\label{error-redefinition} \small Erro de redefinição de símbolo.}
+    \begin{center}
+        \includegraphics[scale=0.5]{./Imagens/error-redefinition.png}
+    \end{center}
 \end{figure}
 
 
@@ -112,7 +140,7 @@ A enumeração que representa os tipos de \textit{tokens} pode ser consultada na
 
 Com a etapa de tokenização concluída, é possível avançar para a análise sintática, onde é explorada a forma como os \textit{tokens} gerados são organizados em estruturas hierárquicas que formam a árvore sintática.
 
-\begin{codigo}[htb]
+\begin{codigo}[H]
         \caption{\small Estruturas do Lexer. }
         \label{lexer-structs}
 \begin{lstlisting}[language=C++]
@@ -136,7 +164,7 @@ Position :: struct {
 \end{codigo}
 
 
-\begin{codigo}[htb]
+\begin{codigo}[H]
         \caption{\small Mapa de identificadores especiais. }
         \label{map-special-identifiers}
   \begin{lstlisting}[language=C++]
@@ -184,7 +212,7 @@ SPECIAL_WORDS := map[string]Token{
 \end{codigo}
 
 
-\begin{codigo}[htb]
+\begin{codigo}[H]
     \caption{\small Gramática ilustrativa para \texttt{tokens}. }
         \label{grammar-tokens}
   \begin{lstlisting}[numbers=none, frame=none, language=haskell]
@@ -244,7 +272,7 @@ SPECIAL_WORDS := map[string]Token{
 
 
 
-\begin{codigo}[htb]
+\begin{codigo}[H]
 \caption{\small Enumeração dos tipos de \texttt{tokens}. }
     \label{enum-token-kind}
 \begin{lstlisting}[language = C++]

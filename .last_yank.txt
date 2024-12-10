@@ -23,3 +23,1031 @@ void main() {
 }
 \end{lstlisting}
 \end{codigo}
+\autoref{tab-bases}
+ As frases foram construídas considerando suas variações equivalentes através de operadores lógicos. Posteriormente, as frases de pesquisa foram adaptadas de acordo com as características individuais de cada base de dados utilizada. Os termos-chave escolhidos foram: (("shader" OR "shading") AND "BRDF" AND ("compiler"\ OR "parser"\ OR "grammar")). As adaptações para cada base  e o número de trabalhos encontrados são listados na \autoref{tab-bases}.
+
+As adaptações para cada base  e o número de trabalhos encontrados são listados na \autoref{tab-bases}.
+
+Foram elaboradas questões de pesquisa específicas que guiam as frases-chave que refletem os principais aspectos do tema em questão, ou ainda que sirvam como base para auxiliar nas tarefas deste trabalho, como transformar BRDFs em sequências computáveis que possam ser executadas por um renderizador, representar BRDFs em estruturas hierárquica ou realizar a compilação de descrições BRDF em linguagens de \textit{shading}, mesmo quando a entrada não é em \LaTeX{}. As perguntas foram formuladas para auxiliar na construção do trabalho ao abordar aspectos como geração de código ou tradução de BRDFs para representações computacionais. A partir desse processo, foram identificados e selecionados os trabalhos que melhor atendiam às questões propostas, garantindo maior relevância para este estudo.
+
+As perguntas foram formuladas para auxiliar na construção do trabalho ao abordar aspectos como geração de código ou tradução de BRDFs para representações computacionais. 
+
+
+\begin{enumerate}
+  \item Quais são as abordagens mais comuns utilizadas na criação de compiladores para tradução de BRDFs expressas em alguma linguagem de texto, como \LaTeX{}, para \textit{shaders}?
+
+
+  \item Quais as técnicas de \textit{parsing} têm sido aplicadas no desenvolvimento de compiladores para linguagens matemáticas?
+
+
+  \item O trabalho utiliza gramáticas ou árvores de sintaxe para gerar/representar BRDFs ?
+
+  \item A proposta do trabalho transforma informações de \textit{shading} em uma representação hierárquica estruturada?
+
+  \item O trabalho mostra como transformar descrições matemáticas de BRDF em implementações computacionais a serem usadas em renderização?
+
+  \item O artigo emprega transformação de uma arvore em uma saída em linguagem de \textit{shading}?
+
+ \item Quais são os principais desafios enfrentados ao traduzir funções matemáticas complexas, como as BRDFs, em \textit{shaders}?
+
+ \item Como decompor modelos de \textit{shading} de superfícies em estruturas de árvores?
+
+ \item Quais são as ferramentas e recursos disponíveis para auxiliar no desenvolvimento de compiladores para BRDFs e \textit{shaders}, e como eles podem ser integrados ao processo de desenvolvimento?
+
+
+\end{enumerate}
+
+
+Foram elaboradas questões de pesquisa específicas que guiam as frases-chave que refletem os principais aspectos do tema em questão, ou ainda que sirvam como base para auxiliar nas tarefas deste trabalho, como transformar BRDFs em sequências computáveis que possam ser executadas por um renderizador, representar BRDFs em estruturas hierárquica ou realizar a compilação de descrições BRDF em linguagens de \textit{shading}, mesmo quando a entrada não é em \LaTeX{}. A partir desse processo, foram identificados e selecionados os trabalhos que melhor atendiam às questões propostas, garantindo maior relevância para este estudo.
+
+r
+
+
+
+
+ \item Como decompor modelos de \textit{shading} de superfícies em estruturas de árvores?
+
+
+
+
+
+  \item O artigo emprega transformação de uma arvore em uma saída em linguagem de \textit{shading}?
+
+
+
+
+Foram elaboradas questões de pesquisa específicas que guiam as frases-chave que refletem os principais aspectos do tema em questão, ou ainda que sirvam como base para procurar trabalhos que contenham informação que auxiliam nas tarefas deste trabalho, como transformar BRDFs em sequências computáveis que possam ser executadas por um renderizador, representar BRDFs em estruturas hierárquicas ou realizar a compilação de descrições BRDF para linguagens de \textit{shading}, mesmo quando a entrada não é em \LaTeX{}. A partir desse processo, foram identificados e selecionados os trabalhos que melhor atendiam às questões propostas, garantindo maior relevância para este estudo.
+
+
+Melhorias realizadas:
+- Mantive a essência do texto original
+- Explicitei o objetivo das questões de pesquisa
+- Destaquei a busca por subsídios técnicos
+- Mantive o foco nas transformações de BRDF
+- Adicionei maior clareza sobre o processo de seleção
+
+Gostaria que eu detalhasse algum aspecto da revisão?
+
+,
+A partir dessa abordagem sistemática, selecionamos criteriosamente as referências mais relevantes e alinhadas com os objetivos específicos de nossa pesquisa.
+
+Foram elaboradas questões de pesquisa específicas que guiam as frases-chave que refletem os principais aspectos do tema em questão, ou ainda que sirvam como base para procurar trabalhos que contenham informação que auxiliam nas tarefas deste trabalho, como transformar BRDFs em sequências computáveis que possam ser executadas por um renderizador, representar BRDFs em estruturas hierárquicas ou realizar a compilação de descrições BRDF para linguagens de \textit{shading}, mesmo quando a entrada não é em \LaTeX{}. A partir desse processo, foram identificados e selecionados os trabalhos que melhor atendiam às questões propostas, garantindo maior relevância para este estudo.
+
+%%
+
+%%
+Foram elaboradas questões de pesquisa específicas que guiam as frases-chave que refletem os principais aspectos do tema em questão, ou ainda que sirvam como base para procurar trabalhos que contenham informação que auxiliam nas tarefas deste trabalho, como transformar BRDFs em sequências computáveis que possam ser executadas por um renderizador, representar BRDFs em estruturas hierárquicas ou realizar a compilação de descrições BRDF para linguagens de \textit{shading}, mesmo quando a entrada não é em \LaTeX{}. A partir desse processo, foram identificados e selecionados os trabalhos que melhor atendiam às questões propostas, garantindo maior relevância para este estudo.
+
+\begin{enumerate}
+  \item Quais são as abordagens mais comuns utilizadas na criação de compiladores para tradução de BRDFs expressas em alguma linguagem de texto, como \LaTeX{}, para \textit{shaders}?
+
+  \item Quais as técnicas de \textit{parsing} têm sido aplicadas no desenvolvimento de compiladores para linguagens matemáticas?
+
+  \item O trabalho utiliza gramáticas ou árvores de sintaxe para gerar/representar BRDFs ?
+
+  \item A proposta do trabalho transforma informações de \textit{shading} em uma representação hierárquica estruturada?
+
+  \item O trabalho demonstra como decompor descrições matemáticas de BRDF em implementações computacionais a serem usadas em renderização?
+
+ \item Quais são os principais desafios enfrentados ao traduzir funções matemáticas complexas, como as BRDFs, em \textit{shaders}?
+
+ \item Quais são as ferramentas e recursos disponíveis para auxiliar no desenvolvimento de compiladores para BRDFs e \textit{shaders}, e como eles podem ser integrados ao processo de desenvolvimento?
+
+\end{enumerate}
+
+  \item A proposta do trabalho transforma informações de \textit{shading} em uma representação hierárquica estruturada?
+
+  \item O trabalho demonstra como decompor descrições matemáticas de BRDF em implementações computacionais a serem usadas em renderização?
+
+% As perguntas foram formuladas para auxiliar na construção do trabalho ao abordar aspectos como geração de código ou tradução de BRDFs para representações computacionais. 
+
+%
+
+
+  \item De que maneira é possível transformar informações de \textit{shading} em representações hierárquicas estruturadas que facilitem sua implementação computacional?
+
+  \item Como operações matemáticas de BRDFs podem ser decompostas em cálculos modulares, permitindo sua implementação em sistemas computacionais?
+
+  %% @@@ Especial
+
+  %% @@@ Novo
+
+  %% @@@ Especial
+
+  %% @@@ Novo deve ser referenciado
+
+  %% @@@ Novo
+
+  %% @@@ Novo deve ser referenciado
+
+Foram elaboradas questões de pesquisa específicas que servem como guia para identificar e selecionar trabalhos científicos capazes de fornecer estratégias fundamentais para o desenvolvimento do nosso projeto. Essas questões orientam a busca por artigos que apresentem soluções para desafios como: transformar descrições matemáticas de BRDFs em sequências computáveis executáveis por renderizadores; representar modelos de \textit{shading} em estruturas hierárquicas; e desenvolver estratégias de compilação de BRDFs para linguagens de \textit{shading}. A partir desse processo, foram identificados e selecionados os trabalhos que melhor atendiam às questões propostas, garantindo maior relevância
+
+Foram elaboradas questões de pesquisa específicas que servem como guia para identificar e selecionar trabalhos científicos capazes de fornecer estratégias fundamentais para o desenvolvimento do nosso projeto. Essas questões orientam a busca por artigos que apresentem soluções para desafios como: transformar descrições matemáticas de BRDFs em sequências computáveis executáveis por renderizadores; representar modelos de \textit{shading} em estruturas hierárquicas; e desenvolver estratégias de compilação de BRDFs para linguagens de \textit{shading}. A partir desse processo, foram identificados e selecionados os trabalhos que melhor atendiam às questões propostas, garantindo maior relevância para este estudo.
+
+A partir desse processo,
+Foram elaboradas questões de pesquisa específicas que servem como guia para identificar e selecionar trabalhos científicos capazes de fornecer estratégias fundamentais para o desenvolvimento do nosso projeto. Essas questões orientam a busca por artigos que apresentem soluções para desafios como: transformar descrições matemáticas de BRDFs em sequências computáveis executáveis por renderizadores; representar modelos de \textit{shading} em estruturas hierárquicas; e desenvolver estratégias de compilação de BRDFs para linguagens de \textit{shading}. A partir desse processo, foram identificados e selecionados os trabalhos que melhor atendiam às questões propostas, garantindo maior relevância para este estudo.
+
+%%
+
+  %% @@@ Novo deve ser referenciado
+
+  \item Foram excluídos artigos no quais os projetos são muito similares;
+
+n
+,
+D
+  \item Foram excluídos artigos que dispunham de \textit{links} incorretos e ou quebrados;
+  \item Foram excluídos artigos que não estão relacionados com as questões de pesquisa da \autoref{questoes-pesquisa};
+  % \item Foram excluídos artigos que não têm como entrada uma BRDF no formato de equação, ou seja, utilizam a representação diretamente como código;
+  \item Foram excluídos artigos que não consideram nnhuma das coisas a seguir:a geração de \textit{shaders} como saída: estrutura hierárquicas da BRDF; cecomposição das operações matemáticas das BRDFs;
+  \item Foram excluídos artigos que não citam BRDFs e compilador ou árvores em seu resumo;
+  \item Se, após a leitura completa, o artigo não concerne os interesses deste trabalho, esse foi excluído.
+
+Foram excluídos artigos
+,
+  \item Foram excluídos artigos que não abordavam nenhum dos seguintes aspectos: a geração de \textit{shaders} como saída, a estruturação hierárquica de BRDFs ou a decomposição das operações matemáticas associadas a BRDFs.
+
+    Foram excluídos artigos que não abordavam, pelo menos, um dos seguintes aspectos: geração de shaders como produto final, estruturação hierárquica de Funções de Distribuição de Reflectância Bidirecional (BRDFs) ou decomposição das operações matemáticas associadas a essas funções.
+
+\begin{enumerate}
+  \item Foram incluídos artigos relacionados às palavras-chaves;
+  \item Foram incluídos artigos que de alguma forma citem a criação de um compilador ou um \textit{parser};
+  \item Foram incluídos artigos que sintetizam uma representação hierárquica para representação de BRDFs, pois seria util entender como outros trabalhos decompoões BRDFs alguma estrutura hierárquicas que pode ser uttilizada pelo nosso trabalho já que um compialdor usa arvores.
+  \item Foram incluídos artigos que linearizam um BRDF de alguma forma, isso é util para geração de código que é uma linearizam de uma árvore sintática, assim como código de máquina.
+\end{enumerate}
+
+\begin{enumerate}
+  \item Foram incluídos artigos relacionados às palavras-chaves;
+  \item Foram incluídos artigos que de alguma forma citem a criação de um compilador ou um \textit{parser};
+  \item Foram incluídos artigos que sintetizam uma representação hierárquica para representação de BRDFs, pois seria util entender como outros trabalhos decompoões BRDFs alguma estrutura hierárquicas que pode ser uttilizada pelo nosso trabalho já que um compialdor usa arvores.
+  \item Foram incluídos artigos que linearizam um BRDF em alguma sequencia computavél, isso é util para geração de código que é uma linearizam de uma árvore sintática, assim como código de máquina.
+\end{enumerate}
+
+  \item Foram incluídos artigos que sintetizam uma representação hierárquica para representação de BRDFs, pois seria util entender como outros trabalhos decompoões BRDFs alguma estrutura hierárquicas que pode ser uttilizada pelo nosso trabalho já que um compialdor usa arvores.
+
+\begin{enumerate}
+  \item Foram incluídos artigos relacionados às palavras-chaves;
+  \item Foram incluídos artigos que de alguma forma citem a criação de um compilador ou um \textit{parser};
+    \item Foram incluídos artigos que utilizam representações hierárquicas para BRDFs, pois ajudam a decompor BRDFs em estruturas adequadas para compiladores como o nosso que são baseados em árvores.
+  \item Foram incluídos artigos que linearizam uma BRDF em alguma sequencia computavél, isso é util para geração de código deste projeto que é uma linearizam de uma árvore sintática, assim como código de máquina.
+\end{enumerate}
+
+  \item Foram incluídos artigos que linearizam uma BRDF em alguma sequencia computavél, isso é util para geração de código deste projeto que é uma linearizam de uma árvore sintática, assim como código de máquina.
+
+\begin{enumerate}
+  \item Foram incluídos artigos relacionados às palavras-chaves;
+  \item Foram incluídos artigos que de alguma forma citem a criação de um compilador ou um \textit{parser};
+    \item Foram incluídos artigos que utilizam representações hierárquicas para BRDFs, pois auxiliam a compreender como decompor BRDFs em estruturas adequadas para compiladores como o nosso que são baseados em árvores.
+    \item Foram incluídos artigos que apresentam linearização de BRDFs em sequências computáveis, úteis para o nosso projeto que envolve a geração de código a partir em árvores sintáticas.
+\end{enumerate}
+
+  
+  \item Foram incluídos artigos que utilizam representações hierárquicas para BRDFs, pois auxiliam na compreensão de como decompor BRDFs em estruturas adequadas para compiladores como o nosso que são baseados em árvores.
+
+    Entendi! Aqui está uma versão concisa que mantém a ideia de compreensão:
+
+a
+  \item Foram incluídos artigos que utilizam representações hierárquicas para BRDFs, pois auxiliam na compreensão de como decompor BRDFs em estruturas adequadas para o nosso compiladore que é baseado em árvores.
+
+  % \item Foram incluídos artigos que utilizam representações hierárquicas para BRDFs, pois auxiliam na compreensão de como decompor BRDFs em estruturas adequadas para o nosso compiladore que é baseado em árvores.
+
+Essas mutações são guiadas por uma função \textit{fitness}, que seria o inverso de uma função de erro, elas são baseadas em um \textit{dataset} de materiais já medidos. Por meio da avaliação de milhares de expressões, o  \textit{framework} identifica as viáveis.
+
+Neste artigo é introduzido um \textit{framework} chamada genBRDF, a qual aplica técnicas de programação genética para explorar e descobrir novas BRDFs de maneira analítica \cite{genbrdf}. O processo inicia utilizando uma BRDF existente, e interativamente aplica mutações e recombinações de partes das expressões matemáticas que compõem essas BRDFs à medida que novas gerações surgem. 
+Essas mutações são guiadas por uma função \textit{fitness}, que seria o inverso de uma função de erro, elas são baseadas em um \textit{dataset} de materiais já medidos. Por meio da avaliação de milhares de expressões, o  \textit{framework} identifica as viáveis.
+
+
+
+viáveis
+, que seria o inverso de uma função de erro, elas são baseadas em um \textit{dataset} de materiais já medidos. Por meio da avaliação de milhares de expressões, o  \textit{framework} identifica as viáveis.
+
+
+
+Os autores geraram uma gramática que inclui constantes e operadores matemáticos comuns encontrados em equações de BRDFs. A gramática é compilada, e a árvore de sintaxe abstrata resultante passa por modificações realizadas pelo algoritmo genético. Nós na árvore podem ser trocados, substituídos, removidos e novos nós podem ser adicionados. Esse processo, após refinamento e análise, resulta em novas BRDFs. Alguns dos novos modelos de BRDF apresentados no documento incluem exemplares que superam os modelos existentes em termos de precisão e simplicidade.
+
+sequências computáveis
+s
+operações matemáticas de BRDFs podem ser decompostas em cálculos modulares
+o
+
+
+O artigo descreve a linguagem \texttt{Slang}, uma extensão da amplamente utilizada linguagem de \textit{shading} HLSL, projetada para melhorar o suporte à modularidade e extensibilidade \cite{slang}. A abordagem de \textit{design} da \texttt{Slang} é baseada em dois princípios fundamentais: manter a compatibilidade com o HLSL existente sempre que possível e introduzir recursos com precedentes em linguagens de programação \textit{mainstream} para facilitar a familiaridade e intuição dos desenvolvedores.
+
+
+
+O autor enfatiza que cada extensão da \texttt{Slang} busca oferecer uma progressão incremental para a adoção a partir do código HLSL existente, eliminando a necessidade de uma migração completa. Algumas dessas extensões incluem: funções genéricas, estruturas genéricas e tipos que implementam interfaces específicas, semelhantes ao funcionamento das interfaces em \texttt{Java}, mas aplicadas a estruturas. Um exemplo de função genérica escrita em \texttt{Slang} é:
+
+O autor enfatiza que cada extensão da \texttt{Slang} busca oferecer uma progressão incremental para a adoção a partir do código HLSL existente, eliminando a necessidade de uma migração completa. Algumas dessas extensões incluem: funções genéricas, estruturas genéricas e tipos que implementam interfaces específicas, semelhantes ao funcionamento das interfaces em \texttt{Java}, mas aplicadas a estruturas. Um exemplo de função genérica escrita em \texttt{Slang} é:
+
+\begin{verbatim}
+float3 integrateSingleRay<B:IBxDF>(B bxdf,
+SurfaceGeometry geom, float3 wi, float3 wo, float3 Li)
+{ return bxdf.eval(wo, wi) * Li * max(0, dot(wi, geom.n)); }
+
+
+\end{verbatim}
+
+
+
+%%
+% O artigo descreve a linguagem \texttt{Slang}, uma extensão da amplamente utilizada linguagem de \textit{shading} HLSL, projetada para melhorar o suporte à modularidade e extensibilidade \cite{slang}. A abordagem de \textit{design} da \texttt{Slang} é baseada em dois princípios fundamentais: manter a compatibilidade com o HLSL existente sempre que possível e introduzir recursos com precedentes em linguagens de programação \textit{mainstream} para facilitar a familiaridade e intuição dos desenvolvedores.
+
+Isso elimina a necessidade de uma migração completa.
+, sem a necessidade de migração completa.
+\texttt{Slang}
+\texttt{Slang}
+Um exemplo de função genérica escrita em \texttt{Slang} é:
+e
+é
+\label{cod-sland}
+:
+e
+, IBar
+a
+\texttt{IFoo}
+myGenericMethod
+O autor enfatiza que cada extensão da \texttt{Slang} foi projetada para permitir uma transição gradual a partir do código HLSL existente, garantindo a compatibilidade com a maioria do código HLSL já desenvolvido. Isso elimina a necessidade de uma migração completa. Algumas dessas extensões incluem: funções genéricas, estruturas genéricas e tipos que implementam interfaces específicas, semelhantes às interfaces em \texttt{Java}. 
+
+Um exemplo do uso de interfaces e fuções genéricas escritas em \texttt{Slang} está no \autoref{cod-sland}. Ao declarar a conformidade com a interface \texttt{IFoo}, a definição da estrutura \texttt{MyType} deve incluir um método chamado \texttt{myMethod}, com a assinatura correspondente àquela definida na interface \texttt{IFoo}. Na função \texttt{myGenericMethod} parametro arg é generico.
+
+- Take a look at revision again
+
+- 
+
+bem como tipos que implementam interfaces específicas, semelhantes às interfaces em \texttt{Java}.
+
+como tipos que implementam interfaces específicas, semelhantes às interfaces em \texttt{Java}
+
+
+O autor enfatiza que cada extensão da \texttt{Slang} busca oferecer uma progressão incremental para a adoção do código HLSL existente, aproveitando a compatibilidade retroativa da \texttt{Slang} com a maioria dos códigos HLSL. Isso elimina a necessidade de uma migração completa. Algumas dessas extensões incluem: funções genéricas, estruturas genéricas e tipos que implementam interfaces específicas, 
+semelhantes ao funcionamento das interfaces em \texttt{Java}, mas aplicadas a estruturas. Um exemplo de função genérica escrita em \texttt{Slang} é:
+
+Um exemplo do uso de interfaces e funções genéricas em \texttt{Slang} é apresentado no \autoref{cod-sland}. Ao declarar a conformidade com a interface \texttt{IFoo}, a definição da estrutura \texttt{MyType} deve incluir um método chamado \texttt{myMethod}, com a assinatura correspondente àquela definida na interface \texttt{IFoo}. Já na função \texttt{myGenericMethod}, o parâmetro \texttt{arg} é genérico, permitindo maior flexibilidade na implementação.
+
+\textit{shading}
+ 
+, because
+the Slang compiler outputs HLSL text that must be compiled by
+an existing HLSL compiler
+
+O artigo descreve a linguagem \texttt{Slang}, uma extensão da amplamente utilizada linguagem de \textit{shading} HLSL, projetada para aprimorar a modularidade e a extensibilidade \cite{slang}. A abordagem de \textit{design} da \texttt{Slang} é baseada em dois princípios fundamentais: garantir compatibilidade com o HLSL existente sempre que possível e introduzir recursos inspirados em linguagens de programação \textit{mainstream}, visando facilitar a familiaridade e a intuição dos desenvolvedores. O compilador desenvolvimento neste artigo é capaz de gerar código de shading na lingaugem HLSL que pode ser compilador por um compilador existente
+
+O compilador desenvolvimento neste artigo é capaz de gerar código de shading na lingaugem HLSL que pode ser compilador por um compilador existente
+
+Enquanto o artigo tenta melhorar a eficiência e a extensibilidade dos sistemas de \textit{shading} em tempo real, o nosso trabalho se concentra na compilação de equações BRDF em linguagens de \textit{shading}.  Embora ambos os projetos façam uso de \textit{shaders} e geração de código de \textit{shading}, as abordagens e focos são diferentes.
+
+Embora ambos os projetos façam uso de \textit{shaders} e geração de código de \textit{shading}, as abordagens e focos são diferentes.
+
+
+
+\begin{verbatim}
+float3 integrateSingleRay<B:IBxDF>(B bxdf,
+SurfaceGeometry geom, float3 wi, float3 wo, float3 Li)
+{ return bxdf.eval(wo, wi) * Li * max(0, dot(wi, geom.n)); }
+
+
+\end{verbatim}
+
+HLSL
+n
+O objetivo é automatizar o processo de tradução de funções complexas de materiais descritas em equações \LaTeX{}, para o código GLSL utilizado em programação de \textit{shaders} para OpenGL
+  O objetivo é automatizar o processo de tradução de funções complexas de materiais descritas em equações \LaTeX{}, para o código GLSL utilizado em programação de \textit{shaders} para OpenGL. 
+
+  %%
+
+modificação
+raio
+.
+ 
+
+
+de luz
+do raio
+a
+Lustrosa
+Brilhosa
+\subsection{BRDF Brilhosa}
+
+Brilhosa
+Uma superfície retro-refletora reflete a luz incidente de volta na direção de onde veio, como na \autoref{retro_refletora}. A BRDF para uma superfície retro-refletora envolve tipicamente geometria especializada ou revestimentos projetados para redirecionar a luz de volta para a fonte.
+
+
+, emulando o comportamento de materiais reais.
+A BRDF para uma superfície retro-refletora envolve, tipicamente, uma formulação matemática ou modelagem especializada que representa o redirecionamento da luz de volta para a fonte.
+
+como na \autoref{retro_refletora}
+Uma superfície retro-refletora reflete a luz incidente de volta na direção de onde veio, . A BRDF para uma superfície retro-refletora envolve tipicamente geometria especializada ou revestimentos projetados para redirecionar a luz de volta para a fonte.
+
+
+
+
+
+,
+como na
+O termo \textit{shading} refere-se ao processo de determinar a cor e o brilho dos pixels em uma imagem renderizada. Isso envolve simular a interação da luz com as superfícies, levando em consideração as propriedades dos materiais, condições de iluminação e orientação da superfície. Isso é alcançado por meio de pequenos programas chamados \textit{shaders}, que são compilados e executados na unidade de processamento gráfico, do inglês \texit{} (GPU).
+
+o
+ Além disso, a CPU também pode enviar variáveis uniformes (\textit{uniform variables}) para os \textit{shaders}, que são essenciais para a etapa de renderização e contribuem para a geração da imagem final.
+
+variáveis uniformes
+durante a execução de um \textit{shader}
+, essenciais para a etapa de renderização e a geração da imagem final.
+Variáveis uniformes são parâmetros como dados de luz, matrizes de transformação usados durante a execução de um \textit{shader}
+Variáveis uniformes são parâmetros como dados de luz, matrizes de transformação usados durante a execução de um \textit{shader}
+Variáveis uniformes são parâmetros como dados de luz, matrizes de transformação usados durante a execução de um \textit{shader}
+
+
+,
+e
+pela
+  address = {Boston, MA},
+
+9781133187790
+leslie1994latex
+sisper2012chapter2
+sisper2012chapter2
+[seção 5.2.2]
+5
+5
+\cite[seção 2.2]{sisper2012chapter2}
+\cite[seção 2.2]{sisper2012chapter2}
+\cite[seção 2.2]{sisper2012chapter2}
+\cite[seção 2.2]{sisper2012chapter2}
+Um tipo comum de gramática usado na definição de linguagens é a gramática livre de contexto (GLC). Uma GLC pode ser descrita formalmente como $ G=(V,\Sigma,R,S)$, conforme o capitulo 2 do livro \textit{Introduction to the Theory of Computation}\cite[seção 2.2]{sisper2012chapter2}:
+
+Michael Sipser
+\label{section-parser-pratt}
+section-parser-pratt
+prati
+Por fim, \textbf{precedencia\_anterior} representa a precedência do \textit{token} anterior. Uma demonstração em código desse algoritmo pode ser visto na \autoref{section-parser-pratt}, onde mostramos casos práticos de como pratt parsing pode ajudar a diminuir a quantidade de regras de produção de uma gramatica e 
+
+Por fim, \textbf{precedencia\_anterior} representa a precedência do \textit{token} anterior. Uma demonstração em código desse algoritmo pode ser visto na \autoref{section-parser-pratt}, onde mostramos casos práticos de como pratt parsing pode ajudar a diminuir a quantidade de regras de produção de uma gramatica e 
+
+*
+Por fim, \textbf{precedencia\_anterior} representa a precedência do \textit{token} anterior. Uma demonstração em código desse algoritmo pode ser visto na \autoref{section-parser-pratt}, onde mostramos casos práticos de como pratt parsing pode ajudar a diminuir a quantidade de regras de produção de uma gramatica e 
+
+Dado um programa $ a \in L_1 $, existem vários programas $ b_{i=1,2,3,\ldots} \in L_2 $ que possuem estrutura semanticamente equivalente a $ a $
+a
+.
+%%%%%%%%%%%%%%% REMOVED FOR NOW
+
+%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%% REMOVED FOR NOW %%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+IEEE Xplore Digital Library
+("Full Text \& Metadata":brdf)
+AND (("Full Text \& Metadata":shader) OR  ("Full Text \& Metadata":shading))
+AND (("Full Text \& Metadata":compiler) OR  ("Full Text \& Metadata":parsing) OR  ("Full Text \& Metadata":parser) OR  ("Full Text \& Metadata":grammar))
+    ("Full Text \& Metadata":brdf)
+AND (("Full Text \& Metadata":shader) OR  ("Full Text \& Metadata":shading))
+AND (("Full Text \& Metadata":compiler) OR  ("Full Text \& Metadata":parsing) OR  ("Full Text \& Metadata":parser) OR  ("Full Text \& Metadata":grammar))
+
+    ("Full Text \& Metadata":brdf)
+AND (("Full Text \& Metadata":shader) OR  ("Full Text \& Metadata":shading))
+AND (("Full Text \& Metadata":compiler) OR  ("Full Text \& Metadata":parsing) OR  ("Full Text \& Metadata":parser) OR  ("Full Text \& Metadata":grammar))
+
+("Full Text \& Metadata":brdf)
+AND (("Full Text \& Metadata":shader) OR  ("Full Text \& Metadata":shading))
+AND (("Full Text \& Metadata":compiler) OR  ("Full Text \& Metadata":parsing) OR  ("Full Text \& Metadata":parser) OR  ("Full Text \& Metadata":grammar))
+("Full Text & Metadata":brdf) AND (("Full Text & Metadata":shader) OR  ("Full Text & Metadata":shading)) AND (("Full Text & Metadata":compiler) OR  ("Full Text & Metadata":parsing) OR  ("Full Text & Metadata":parser) OR  ("Full Text & Metadata":grammar))
+
+("Full Text & Metadata":brdf) AND (("Full Text & Metadata":shader) OR  ("Full Text & Metadata":shading)) AND (("Full Text & Metadata":compiler) OR  ("Full Text & Metadata":parsing) OR  ("Full Text & Metadata":parser) OR  ("Full Text & Metadata":grammar))
+
+
+
+("Full Text & Metadata":brdf) AND (("Full Text & Metadata":shader) OR  ("Full Text & Metadata":shading)) AND (("Full Text & Metadata":compiler) OR  ("Full Text & Metadata":parsing) OR  ("Full Text & Metadata":parser) OR  ("Full Text & Metadata":grammar))
+
+2
+ACM Digital Library
+
+AllField:((shader OR shading) AND brdf AND (compiler OR compiling) AND (parser OR grammar OR parsing))
+
+("Full Text & Metadata":brdf) AND (("Full Text & Metadata":shader) OR  ("Full Text & Metadata":shading)) AND (("Full Text & Metadata":compiler) OR  ("Full Text & Metadata":parsing) OR  ("Full Text & Metadata":parser) OR  ("Full Text & Metadata":grammar))
+
+
+
+Neste artigo é introduzido um \textit{framework} chamada genBRDF, a qual aplica técnicas de programação genética para explorar e descobrir novas BRDFs de maneira analítica \cite{genbrdf}. O processo inicia com a descrição analitica de uma BRDF existente, usando expressões matemáticas, e interativamente aplica mutações e recombinações de partes das expressões matemáticas que compõem essas BRDFs à medida que novas gerações surgem.
+
+Neste artigo é introduzido um \textit{framework} chamada genBRDF, a qual aplica técnicas de programação genética para explorar e descobrir novas BRDFs de maneira analítica \cite{genbrdf}. O processo inicia com a descrição analitica de uma BRDF existente, usando expressões matemáticas, e interativamente aplica mutações e recombinações de partes das expressões matemáticas que compõem essas BRDFs à medida que novas gerações surgem.
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+|
+|
+|
+|
+|
+|
+|
+,
+s
+{
+k
+p
+
+Neste artigo é introduzido um \textit{framework} chamada genBRDF, a qual aplica técnicas de programação genética para explorar e descobrir novas BRDFs de maneira analítica \cite{genbrdf}. O processo inicia com a descrição analitica de uma BRDF existente, contendo operações matemáticas\footnote{Os autores mostra a gramática que geram essas operações (\verb"sin, cos, tan, exp, asin, acos, atan, sqrt"). Entrada para do algoritmo são BRDFs iniciais escritas nessa gramatica. O artigo exemplifica uma brdf válida já renderizado em latex $\text{brdf}_{init} = \rho_s\cos(R\cdotV)^\alpha$}, e interativamente aplica mutações e recombinações de partes das expressões matemáticas que compõem essas BRDFs à medida que novas gerações surgem.
+
+O processo inicia com a descrição analitica de uma BRDF existente, contendo operações matemáticas\footnote{Os autores mostra a gramática que geram essas operações (\verb"sin, cos, tan, exp, asin, acos, atan, sqrt"). Entrada para do algoritmo são BRDFs iniciais escritas nessa gramatica. O artigo exemplifica uma brdf válida já renderizado em latex $\text{brdf}_{init} = \rho_s\cos(R\cdotV)^\alpha$}, e interativamente aplica mutações e recombinações de partes das expressões matemáticas que compõem essas BRDFs à medida que novas gerações surgem.
+
+O processo inicia com a descrição analitica de uma BRDF existente, contendo operações matemáticas\footnote{Os autores mostra a gramática que geram essas operações (\verb"sin, cos, tan, exp, asin, acos, atan, sqrt"). Entrada para do algoritmo são BRDFs iniciais escritas nessa gramatica. O artigo exemplifica uma brdf válida já renderizado em latex $\text{brdf}_{init} = \rho_s\cos(R\cdotV)^\alpha$}
+$\text{brdf}_{init} = \rho_s\cos(R\cdot V)^\alpha$
+O processo inicia com a descrição analítica de uma BRDF existente, contendo operações matemáticas\footnote{As BRDFs de entrada são escritas na linguagem definida pela gramática apresentada pelos autores, a qual permite operações matemáticas básicas (como \verb"sin, cos, tan, exp, asin, acos, atan, sqrt"). Como exemplo, os autores ilustram $\text{brdf}_{init} = \rho_s\cos(R\cdot V)^\alpha$ como uma BRDF válida renderizada em \LaTeX{}}., e interativamente aplica mutações e recombinações de partes das expressões matemáticas que compõem essas BRDFs à medida que novas gerações surgem.
+As BRDFs de entrada são escritas na linguagem definida pela gramática apresentada pelos autores, que permite operações matemáticas básicas, como \verb"sin", \verb"cos", \verb"tan", \verb"exp", \verb"asin", \verb"acos", \verb"atan", \verb"sqrt". Como exemplo, os autores ilustram $\text{brdf}_{init} = \rho_s \cos(R \cdot V)^\alpha$, uma BRDF válida renderizada em \LaTeX{}.}
+O processo começa com a descrição analítica de uma BRDF existente, utilizando operações matemáticas\footnote{As BRDFs de entrada são escritas na linguagem definida pela gramática apresentada pelos autores, que permite operações matemáticas básicas, como \verb"sin", \verb"cos", \verb"tan", \verb"exp", \verb"asin", \verb"acos", \verb"atan", \verb"sqrt". Como exemplo, os autores ilustram $\text{brdf}_{init} = \rho_s \cos(R \cdot V)^\alpha$, uma BRDF válida renderizada em \LaTeX{}.}, e, de forma iterativa, aplica mutações e recombinações nas expressões matemáticas que as compõem, gerando novas gerações de BRDFs.
+
+
+O processo começa com a descrição analítica de uma BRDF existente, utilizando operações matemáticas\footnote{As BRDFs de entrada são escritas na linguagem definida pela gramática apresentada pelos autores, que permite operações matemáticas básicas, como \verb"sin", \verb"cos", \verb"tan", \verb"exp", \verb"asin", \verb"acos", \verb"atan", \verb"sqrt". Como exemplo, os autores ilustram $\text{brdf}_{init} = \rho_s \cos(R \cdot V)^\alpha$, uma BRDF válida renderizada em \LaTeX{}.}, e, de forma iterativa, aplica mutações e recombinações nas expressões matemáticas que as compõem, gerando novas gerações de BRDFs.
+
+\verb"dot",
+Vários circuitos base foram projetados para as operações mais comuns. Por exemplo, circuitos para calcular o produto interno entre dois vetores e circuitos de rotação de um vetor por um ângulo, um exemplo desses diagramas é representado na \autoref{fig_circuit}. Ademais, foi utilizada interpolação em um sistema de coordenadas polares em vez da interpolação vetorial convencional, com o objetivo de reduzir o tamanho dos circuitos e melhorar o desempenho.
+
+Vários circuitos base foram projetados para as operações mais comuns, como o cálculo do produto interno entre dois vetores e a rotação de um vetor por um ângulo. Um exemplo desses diagramas é representado na \autoref{fig_circuit}.
+Ademais
+Vários circuitos base foram projetados para as operações mais comuns, como o cálculo do produto interno entre dois vetores e a rotação de um vetor por um ângulo. Um exemplo desses diagramas é representado na \autoref{fig_circuit}.
+Vários circuitos base foram projetados para as operações mais comuns. Por exemplo, circuitos para calcular o produto interno entre dois vetores e circuitos de rotação de um vetor por um ângulo, um exemplo desses diagramas é representado na \autoref{fig_circuit}.
+Vários circuitos base foram projetados para as operações mais comuns, como o cálculo do produto interno entre dois vetores e a rotação de um vetor por um ângulo. Um exemplo desses diagramas é representado na \autoref{fig_circuit}.
+Esse trabalho foi aceito por incluir o processo de tradução estruturada de BRDFs para uma sequência computável através dos circuitos. Assim, esse artigo mostra como modularizar o calcula das operações matematicas contidas em BRDFs. Similar a este trabalho, a abordagem facilita a geração de \textit{shaders} a partir da descrição de BRDFs, pois o processo de geração de shader a partir de uma arvore envolve linearizar as operações da brdf em um sequencia correta, apesar da metodologia ser diferente.
+
+Similar a este trabalho,
+De forma semelhante,
+Similar a este trabalho,
+Este trabalho foi aceito por incluir o processo de tradução estruturada de BRDFs para uma sequência computável através de circuitos. Assim, o artigo demonstra como modularizar o cálculo das operações matemáticas contidas em BRDFs. A abordagem é útil para nosso projeto, pois o processo de geração de \textit{shaders} a partir de uma árvore envolve linearizar as operações da BRDF em uma sequência correta, embora a metodologia utilizada seja diferente.
+
+%%
+Este trabalho foi aceito por incluir o processo de tradução estruturada de BRDFs para uma sequência computável por meio de circuitos. O artigo demonstra como modularizar o cálculo das operações matemáticas contidas em BRDFs. Tal abordagem revela-se útil para nosso projeto, pois o processo de geração de shaders a partir de uma árvore demanda a linearização das operações da BRDF em uma sequência precisa, não obstante as diferenças metodológicas.
+
+Este trabalho foi aceito por incluir o processo de tradução estruturada de BRDFs para uma sequência computável através de circuitos. Assim, o artigo demonstra como modularizar o cálculo das operações matemáticas contidas em BRDFs. A abordagem é útil para nosso projeto, pois o processo de geração de \textit{shaders} a partir de uma árvore envolve linearizar as operações da BRDF em uma sequência correta, embora a o proposito dessa tarefa no nosso projeto difere desse trabalho.
+
+Este trabalho foi aceito por incluir o processo de tradução estruturada de BRDFs para uma sequência computável através de circuitos. Assim, o artigo demonstra como modularizar o cálculo das operações matemáticas contidas em BRDFs. A abordagem é útil para nosso projeto, pois o processo de geração de \textit{shaders} a partir de uma árvore envolve linearizar as operações da BRDF em uma sequência correta, embora a o proposito dessa tarefa no nosso projeto difere desse trabalho.
+
+% Esse trabalho foi aceito por incluir o processo de tradução estruturada de BRDFs para uma sequência computável através dos circuitos. Assim, esse artigo mostra como modularizar o calcula das operações matematicas contidas em BRDFs. Similar a este trabalho, a abordagem facilita a geração de \textit{shaders} a partir da descrição de BRDFs, pois o processo de geração de shader a partir de uma arvore envolve linearizar as operações da brdf em um sequencia correta, apesar da metodologia ser diferente.
+%
+
+
+
+
+
+
+
+
+
+
+
+o
+A leitura de exemplos práticos e leitura das código fonte da ferramente \autoref{fig-disney-tool} permitiu a familiarização com o desenvolvimento de BRDFs, fornecendo uma base sólida para a compreensão do mapeamento da equação para código, aspecto fundamental para o desenvolvimento do compilador proposto neste trabalho.
+
+A leitura de exemplos práticos e leitura das código fonte da ferramente \autoref{fig-disney-tool} permitiu a familiarização com o desenvolvimento de BRDFs, fornecendo uma base sólida para a compreensão do mapeamento da equação para código, aspecto fundamental para o desenvolvimento do compilador proposto neste trabalho.
+
+Ademais, foram exploradas diversas técnicas para compilação, como o método de Pratt \textit{Parsing} para a construção de um compilador, somado ao uso do conhecimento de recursividade e caminhada em arvóres para realizar a análise semantica e geração de código.
+
+,
+Ademais
+\textit{Parsing}
+Ademais, foram exploradas algumas técnicas de compilação, que culminou na escolha do método de Pratt \textit{Parsing} para a construção do compilador. Também foi estudados conceitos de recursividade e caminhada em árvores para realizar a análise semântica e a geração de código.
+
+Ademais, foram exploradas algumas técnicas de compilação, que culminou na escolha do método de Pratt \textit{Parsing} para a construção do compilador. Também foi estudados conceitos de recursividade e caminhada em árvores para realizar a análise semântica e a geração de código.
+
+Ademais
+para a construção de um compilador,
+Ademais, foram exploradas diversas técnicas para compilação, como o método de Pratt \textit{Parsing}  somado ao uso do recursividade e caminhada em arvóres para realizar a análise semantica e geração de código.
+
+Ademais, foram exploradas diversas técnicas para compilação, como o método de Pratt \textit{Parsing} para a construção de um compilador, somado ao uso do recursividade e caminhada em arvóres para realizar a análise semantica e geração de código.
+
+A leitura de exemplos práticos e a análise do código-fonte da ferramenta Disney Explorer (\autoref{fig-disney-tool}) permitiram a familiarização com o desenvolvimento de BRDFs, fornecendo uma base para a compreensão do mapeamento de equações para para código, um aspecto fundamental para o desenvolvimento do compilador proposto neste trabalho.
+
+permitiram a familiarização
+permitiram
+% A leitura de exemplos práticos e a análise do código-fonte da ferramenta Disney Explorer (\autoref{fig-disney-tool}) permitiram a familiarização com o desenvolvimento de BRDFs, fornecendo uma base para a compreensão do mapeamento de equações para para código, um aspecto fundamental para o desenvolvimento do compilador proposto neste trabalho.
+
+Parsing 
+    \begin{enumerate}
+\item Função raiz quadrada: \verb"\sqrt" ($\sqrt{}$);
+\item Função exponencial: \verb"\exp" ($\exp{}$);
+\item Funções utilitárias: \verb"\max, \min";
+\item Definições de equações, como \verb"f = x" ($f = x$);
+\item Definições de funções, como \verb"f(x, y) = x^y" ($f(x, y) = x^y$);
+\item Constantes comuns: \verb"\pi" ($\pi$), \verb"\epsilon" ($\epsilon$);
+\item Constantes de radiometria: \verb"\theta_i" ($\theta_i$) e outras detalhadas na \autoref{tab-conventions};
+\item Indicadores de vetor: \verb"\vec{}" (exemplo: $\vec{n}$);
+\item Identificadores aninhados: \verb"f_{n_{i}}" ($f_{n_{i}}$);
+\item Chamadas de funções: \verb"f(x+y)";
+\item Operadores:
+\begin{itemize}
+\item Produto vetorial: \verb"x \times y" ($x \times y$);
+\item Soma e Subtração: \verb"x + y", \verb"x - y";
+\item Negação: \verb"-y";
+\item Multiplicação: \verb"x \cdot y" ($x \cdot y$);
+\item Frações: \verb"\frac{x}{y}" ($\frac{x}{y}$);
+\item Divisão: \verb"x / y";
+\item Potenciação: \verb"x^y" ($x^y$).
+\end{itemize}
+\end{enumerate}
+
+ Estas construções são enumeradas à seguir:
+\LaTeX{}
+ 
+(
+\max, \min
+Operadores: & & \\ \hline
+
+e outras detalhadas na \autoref{tab-conventions}
+tab:latex-operations
+Especificação da Linguagem
+de o esse e seus códigos em LaTeX
+tab-definition-of-lang}
+tab-definition-of-lang
+\item Principais funções trigonométricas: \verb"\tan", \verb"\sin", \verb"\cos", \verb"\arctan", \verb"\arcsin", \verb"\arccos";
+
+:
+\verb"\tan", \verb"\sin", \verb"\cos", \verb"\arctan", \verb"\arcsin", \verb"\arccos"
+\
+\
+\
+\
+\
+\
+v
+v
+v
+v
+v
+v
+e
+e
+e
+e
+e
+e
+r
+r
+r
+r
+r
+r
+b
+b
+b
+b
+b
+b
+"
+"
+"
+"
+"
+"
+"
+"
+"
+"
+"
+"
+$
+$
+\\ \hline
+c
+l
+c
+    \small
+
+\ABNTEXfontereduzida
+
+\ABNTEXfontereduzida
+
+c
+O ambiente de equações do \LaTeX{} oferece uma ampla gama de construções matemáticas, mas, para este projeto, é necessário restringir-se a um subconjunto essencial para representar BRDFs. Ao analisar as principais BRDFs, como as citadas na \autoref{testes}, identificam-se construções indispensáveis que devem ser reconhecidas e interpretadas pelo compilador para gerar código GLSL. Essas construções são apresentadas na \autoref{tab-definition-of-lang}.
+
+\small
+\small
+small
+\small
+, e suas funções inversas
+Ao analisar as principais BRDFs, como as citadas na \autoref{testes}, identificam-se construções indispensáveis
+O ambiente de equações do \LaTeX{} oferece uma ampla gama de construções matemáticas, mas, para este projeto, é necessário restringir-se a um subconjunto essencial para representar BRDFs. Ao analisar as principais BRDFs, como as citadas na \autoref{testes}, identificam-se construções indispensáveis que devem ser reconhecidas e interpretadas pelo compilador para gerar código GLSL. Essas construções são apresentadas na \autoref{tab-definition-of-lang}.
+
+
+\small 
+\usepackage{tabularx}
+
+{\textwidth}
+    
+
+\begin{tabularx}{|l|l|l|}
+
+\begin{tabularx}{|l|l|l|}
+
+\begin{tabular}{|l|l|l|}
+
+l
+l
+l
+{\textwidth}
+    
+
+ht
+% \begin{tabularx}{\textwidth}{|X|X|X|}
+
+    
+\usepackage{lscape}
+
+\makecell{
+l
+l|
+l
+X
+X
+X
+ \newline
+\verb"\tan", \verb"\sin", \verb"\cos"
+\verb"\arctan", \verb"\arcsin", \verb"\arccos"
+l
+l
+ 
+\small
+\begin{enumerate}
+\item Principais funções trigonométricas: \verb"\tan", \verb"\sin", \verb"\cos", \verb"\arctan", \verb"\arcsin", \verb"\arccos";
+\item Função raiz quadrada: \verb"\sqrt" ($\sqrt{}$);
+\item Função exponencial: \verb"\exp" ($\exp{}$);
+\item Funções utilitárias: \verb"\max, \min";
+\item Definições de equações, como \verb"f = x" ($f = x$);
+\item Definições de funções, como \verb"f(x, y) = x^y" ($f(x, y) = x^y$);
+\item Constantes comuns: \verb"\pi" ($\pi$), \verb"\epsilon" ($\epsilon$);
+\item Constantes de radiometria: \verb"\theta_i" ($\theta_i$) ;
+\item Indicadores de vetor: \verb"\vec{}" (exemplo: $\vec{n}$);
+\item Identificadores aninhados: \verb"f_{n_{i}}" ($f_{n_{i}}$);
+\item Chamadas de funções: \verb"f(x+y)";
+\item Operadores:
+\begin{itemize}
+\item Produto vetorial: \verb"x \times y" ($x \times y$);
+\item Soma e Subtração: \verb"x + y", \verb"x - y";
+\item Negação: \verb"-y";
+\item Multiplicação: \verb"x \cdot y" ($x \cdot y$);
+\item Frações: \verb"\frac{x}{y}" ($\frac{x}{y}$);
+\item Divisão: \verb"x / y";
+\item Potenciação: \verb"x^y" ($x^y$).
+\end{itemize}
+\end{enumerate}
+
+% \label{subconjunto-latex-equantion} \begin{enumerate}
+%   \item principais funções trigonometricas \verb" \tan, \sin, \cos, \arctan, \arcsin, \arccos";
+%
+% \item funcão raiz quadrada \verb"\sqrt" $\left(\sqrt{}\right)$;
+% \item funcão exponencial \verb"\sqrt" $\left(\sqrt{}\right)$;
+% \item funções utilitárias como $\max, \min$, ($\max, \min$);
+% \item definição de equações, por exemplo \verb"f = x" (rederizado fica $f = x$).
+% \item denifição de funções, por exemplo  \verb"f(x, y) = x^y" (rederizado fica $f(x, y) = x^y$) respectivamente;
+% \item constantes comuns como \verb"\pi" ($\pi$), \verb"\epsilon" ($\epsilon$);
+% \item constantes especificar \verb"\theta" ($\theta$), entre outros detalhados na @ref capitulo@;
+% \item indicador de vetor como \verb"\vec{}" (ex: $\vec{n}$);
+% \item identificadores aninhandos como \verb"f_{n_{i}}" ($f_{n_{i}}$).;
+% \item chamada de funções \verb"f(x+y)";
+% \item operadores de produto vetorial (\verb"x \times y", $x \times v$), soma ($+$), multiplicação ($x*y$ ou \verb"x \cdot y", $x \cdot y$), fração (\verb"\frac{x}{y}", $\frac{x}{y}$), divisão (\verb"{x}/{y}", ${x}/{y}$), power \verb"^", ($x^y$);
+%
+% \end{enumerate}
+
+
+A descrição completa dos símbolos reconhecidos em nivel de código está na seção dedicado ao \textit{lexer} (\autoref{section-lexer}). A gramática completa reconhecida pelo compilador é apresentada na seção sobre o \textit{parser} (\autoref{section-parser}).
+
+A descrição completa dos símbolos reconhecidos em nivel de código está na seção dedicado ao \textit{lexer} (\autoref{section-lexer}). A gramática completa reconhecida pelo compilador é apresentada na seção sobre o \textit{parser} (\autoref{section-parser}).
+
+\textbf{Símbolo} & 
+\textbf{Símbolo} &
+\LaTeX{}
+p
+$\theta_i$ &
+$\theta_o$ &
+$\phi_i$   &
+$\phi_o$   &
+$\omega_i$ &
+$\omega_o$ &
+$f$        &
+$\vec{n}$  &
+$\vec{h}$  &
+$\theta_h$ &
+$\theta_d$ &
+\hline      
+$\theta_i$ &
+$\theta_o$ &
+$\phi_i$   &
+$\phi_o$   &
+$\omega_i$ &
+$\omega_o$ &
+$f$        &
+$\vec{n}$  &
+$\vec{h}$  &
+$\theta_h$ &
+$\theta_d$ &
+$\theta_i$ &
+$\theta_o$ &
+$\phi_i$   &
+$\phi_o$   &
+$\omega_i$ &
+$\omega_o$ &
+$f$        &
+$\vec{n}$  &
+$\vec{h}$  &
+$\theta_h$ &
+$\theta_d$ &
+$\theta_i$ &
+$\theta_o$ &
+$\phi_i$   &
+$\phi_o$   &
+$\omega_i$ &
+$\omega_o$ &
+$f$        &
+$\vec{n}$  &
+$\vec{h}$  &
+$\theta_h$ &
+$\theta_d$ &
+$\
+$\
+$\
+$\
+$\
+$\
+$f
+$\
+$\
+$\
+$\
+$\theta_i$ &
+$\theta_o$ &
+$\phi_i$   &
+$\phi_o$   &
+$\omega_i$ &
+$\omega_o$ &
+$f$        &
+$\vec{n}$  &
+$\vec{h}$  &
+$\theta_h$ &
+$\theta_d$ &
+\theta_i
+\theta_o
+\phi_i
+\phi_o
+\omega_i
+\omega_o
+f$
+\vec
+\vec
+\theta_h
+\theta_d
+$\theta_i$
+$\theta_o$
+$\phi_i$
+$\phi_o$
+$\omega_i$
+$\omega_o$
+$f$
+$\vec{n}$
+$\vec{h}$
+$\theta_h$
+$\theta_d$
+\theta_d
+\theta_h
+\vec
+\vec
+f$
+\omega_o
+\omega_i
+\phi_o
+\phi_i
+\theta_o
+\theta_i
+$
+\verb"\theta_i" &
+\verb"\theta_o" &
+\verb"\phi_i"   &
+\verb"\phi_o"   &
+\verb"\omega_i" &
+\verb"\omega_o" &
+\verb"f"        &
+\verb"\vec"     &
+\verb"\vec"     &
+\verb"\theta_h" &
+\verb"\theta_d" &
+Embora o \textit{lexer} e o \textit{parser} identifiquem os símbolos, o compilador também precisa atribuir significado a eles durante a análise semântica, que ocorre após o \textit{parsing}. Por exemplo, $\omega_o$ representa o ângulo de saída da luz, enquanto $f$ é a função BRDF. Todas as convenções de símbolos suportados pela linguagem estão detalhadas na \autoref{tab-conventions-metodologia}, junto com seus significados.
+
+Embora o \textit{lexer} e o \textit{parser} identifiquem os símbolos, o compilador também precisa atribuir significado a eles durante a análise semântica, que ocorre após o \textit{parsing}. Por exemplo, $\omega_o$ representa o ângulo de saída da luz, enquanto $f$ é a função BRDF. Todas as convenções de símbolos suportados pela linguagem estão detalhadas na \autoref{tab-conventions-metodologia}, junto com seus significados.
+
+
+
+Embora as funções \(D\), \(G\), \(F\) não tenham sido definidas explicitamente, é importante ressaltar que, caso essas funções sejam definidas na equação \LaTeX{}, elas também devem ser definidas no \autoref{cod-glsl-esperado}, GLSL esperado de saída. Vale resaltar que nessa sessão de metodologia estamos dandos uma versão simplificada de como o design de casos de teste ocorre para auxiliar entendimento. Na prática, unidades, como $\rho_d$, e funções, como $D,G$ e $F$, devem estar definidas. Casos de teste completos e detalhados estão disponíveis no \autoref{chapter.resultados}.
+
+Aqui está uma versão revisada com melhor coesão, ortografia e fluidez:  
+
+
+importante ressaltar que
+essas funções sejam definidas na equação
+Vale resaltar que nessa sessão
+estão disponíveis no
+Embora as funções \(D\), \(G\), \(F\) não tenham sido definidas explicitamente, é importante ressaltar que, caso essas funções sejam definidas na equação \LaTeX{}, elas também devem ser definidas no \autoref{cod-glsl-esperado}, GLSL esperado de saída. Vale resaltar que nessa sessão de metodologia estamos dandos uma versão simplificada de como o design de casos de teste ocorre para auxiliar o entendimento. Na prática, unidades, como $\rho_d$, e funções, como $D,G$ e $F$, devem estar definidas. Casos de teste completos e detalhados estão disponíveis no \autoref{chapter.resultados}.
+
+
+Inicialmente, os casos de teste priorizam a avaliação da geração de operações e precedências. No entanto, é importante ressaltar que o compilador desenvolvido produz código GLSL que inclui a definição completa da função BRDF, juntamente com todas as variáveis de convenções necessárias. Esse código permite que a BRDF calculada seja utilizada para determinar a cor final e encaminhada para as etapas subsequentes do \textit{pipeline} gráfico, possibilitando sua renderização na ferramenta Disney BRDF Explorer.
+
+Inicialmente, os casos de teste priorizam a avaliação da geração de operações e precedências. No entanto, é importante ressaltar que o compilador desenvolvido produz código GLSL que inclui a definição completa da função BRDF, juntamente com todas as variáveis de convenções necessárias. Esse código permite que a BRDF calculada seja utilizada para determinar a cor final e encaminhada para as etapas subsequentes do \textit{pipeline} gráfico, possibilitando sua renderização na ferramenta Disney BRDF Explorer.
+
+Além disso, nenhuma biblioteca externa foi utilizada, sendo usada apenas as bibliotecas padrão básicas que acompanham a instalação da linguagem.
+
+ Além disso, nenhuma biblioteca externa foi utilizada, sendo usada apenas as bibliotecas padrão básicas que acompanham a instalação da linguagem.
+
+% Para a análise e construção da estrutura do compilador, foram adotadas técnicas de análise recursiva, com destaque para o método Pratt Parsing. Inicialmente, o lexer e o parser foram implementados para suportar o subconjunto da linguagem \LaTeX{} descrito em \autoref{subconjunto-latex-equantion}. O objetivo inicial foi garantir que os fundamentos do compilador estivessem funcionais, com precedências devidamente testadas na geração da árvore sintática abstrata (AST).
+
+Além disso, foi implementada uma etapa de análise semântica por meio do pacote chamado \texttt{checker}. Essa etapa consiste em validar todos as expressões, criar os escopos e a tabela de símbolos, além de anotar a AST com informações como os tipos inferidos de cada nó, incluindo funções com seus domínios e contradomínios, vetores e suas dimensões, e números reais.
+
+o
+o
+Além disso, foi implementada uma etapa de análise semântica por meio do pacote \texttt{checker}. Essa etapa valida todas as expressões, criar os escopos e a tabela de símbolos, e anota a AST com informações importantes, como os tipos inferidos de cada nó. Isso inclui detalhes sobre funções e seus domínios e contradomínios, vetores e suas dimensões, além de números reais.
+
+Existe a seção para código GLSL e outra seção delimitada por \texttt{::begin parameters} e \texttt{::end parameters}, na qual podemos definir os parâmetros que se tornam constantes dessa BRDF. O nosso compilador gera shaders nesse formato.
+
+ 
+em 
+Existe a seção para código GLSL e outra seção delimitada por \texttt{::begin parameters} e \texttt{::end parameters}, na qual podemos definir os parâmetros que se tornam constantes dessa BRDF.
+O nosso compilador gera shaders nesse formato.
+
+fig-disney-code
+\small O código GLSL com sintaxe extra para definir parâmetros.
+
+\begin{figure}[h]
+        \caption{\label{fig-disney-code} \small O código GLSL com sintaxe extra para definir parâmetros.}
+        \begin{center}
+            \includegraphics[scale=0.7]{./Imagens/disney-brdf-code.png}
+        \end{center}
+\end{figure}
+
+            \includegraphics[scale=0.65]{./Imagens/disney-brdf-tool-original.png}
+
+
+
+
+
+
+
+
+
+
+
+6
+o
+o
+no
+(parte 1)
+1
+2
+o
+No módulo de \texttt{checker} (\autoref{section-checker}), foi implementada as  inferências de tipos e validações semânticas. Este componente garante a consistência das expressões matemáticas antes da geração de código com o auxilio da tabela de simbolos, \autoref{subsection-symbols-scopes}, eliminando potenciais erros de modelagem. A saída dessa etapa deve está apta a emitir código GLSL e na ordem correta dos simbolos.
+
+garante
+apta
+No módulo de \texttt{checker} (\autoref{section-checker}), foi implementada as  inferências de tipos e validações semânticas. Este componente garante a consistência das expressões matemáticas antes da geração de código com o auxilio da tabela de simbolos, \autoref{subsection-symbols-scopes}, eliminando potenciais erros de modelagem. A saída dessa etapa deve está apta a emitir código GLSL e na ordem correta dos simbolos.
+
+ss
+
+%
+
+{Pratt Parsing} para construir a árvore de sintaxe abstrata (AST). Essa abordagem possibilita uma representação hierárquica precisa das expressões matemáticas de BRDFs, capturando as nuances sintáticas e estruturais do documento original. A especificação da linguagem, apresentada no \autoref{grammar-ast-pt1} (parte 1) e no \autoref{grammar-ast-pt2} (parte 2), é definida na seção de análise sintática, juntamente com a precedência dos operadores prefixos e infixos.
+
+Na \autoref{section-parser}, é discutido sobre o pacote \texttt{parser}, que utiliza gramática livre de contexto e a técnica de \textit{Pratt Parsing} para construir a árvore de sintaxe abstrata (AST). Essa abordagem possibilita uma representação hierárquica precisa das expressões matemáticas de BRDFs, capturando as nuances sintáticas e estruturais do documento original. A especificação da linguagem, apresentada no \autoref{grammar-ast-pt1} (parte 1) e no \autoref{grammar-ast-pt2} (parte 2), é definida na seção de análise sintática, juntamente com a precedência dos operadores prefixos e infixos.
+
+Na \autoref{section-parser}, é discutido sobre o pacote \texttt{parser}, que utiliza gramática livre de contexto e a técnica de \textit{Pratt Parsing} para construir a árvore de sintaxe abstrata (AST). Essa abordagem possibilita uma representação hierárquica precisa das expressões matemáticas de BRDFs, capturando as nuances sintáticas e estruturais do documento original. A especificação da linguagem, apresentada no \autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2}, é detalhada na seção de análise sintática, juntamente com a precedência dos operadores prefixos e infixos.
+
+na \autoref{section-parser}, é discutido sobre o pacote \texttt{parser}, que utiliza gramática livre de contexto e a técnica de \textit{pratt parsing} para construir a árvore de sintaxe abstrata (ast). essa abordagem possibilita uma representação hierárquica precisa das expressões matemáticas de brdfs, capturando as nuances sintáticas e estruturais do documento original. a especificação da linguagem, apresentada no \autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2}, é detalhada na seção de análise sintática, juntamente com a precedência dos operadores prefixos e infixos.
+
+
+
+
+
+
+
+
+
+
+
+o
+Por fim, o \texttt{emitter} faz uso da AST validada, tabela de símbolos e escopos para gerar código GLSL, transformando expressões matemáticas de BRDFs contidas na AST em um \textit{shader} com toda implementação necessária para ser carregada na ferramenta de visualização Disney Explorer. Os resultados detalhados e experimentos de aplicação do compilador em BRDFs usadas na literatura podem ser consultados no \autoref{chapter.resultados}, onde é demonstrada a eficácia da ferramenta na tradução de diversos modelos de BRDFs. Os experimentos também serviram de guia para verificação da corretude da gramática durante seu desenvolvimento.
+
+contidas
+toda implementação necessária
+%
+Por fim, o \texttt{emitter} faz uso da AST validada, tabela de símbolos e escopos para gerar código GLSL, transformando expressões matemáticas de BRDFs contidas na AST em um \textit{shader} com toda implementação necessária para ser carregada na ferramenta de visualização Disney Explorer. Os resultados detalhados e experimentos de aplicação do compilador em BRDFs usadas na literatura podem ser consultados no \autoref{chapter.resultados}, onde é demonstrada a eficácia da ferramenta na tradução de diversos modelos de BRDFs. Os experimentos também serviram de guia para verificação da corretude da gramática durante seu desenvolvimento.
+
+\input{Content/Resultados/Experimentos/Blinn-Phong}
+\input{Content/Resultados/Experimentos/Cook-Torrance}
+\input{Content/Resultados/Experimentos/Ward}
+\input{Content/Resultados/Experimentos/Ashikhmin-Shirley}
+\input{Content/Resultados/Experimentos/Oren-Nayar}
+\input{Content/Resultados/Experimentos/Ashikhmin-Shirley-Alternative}
+\input{Content/Resultados/Experimentos/Cook-Torrance-Alternative}
+\input{Content/Resultados/Experimentos/Duer}
+\input{Content/Resultados/Experimentos/Edwards-2006}
+\input{Content/Resultados/Experimentos/Aniso}
+\input{Content/Resultados/Experimentos/Minnaert}
+
+\input{Content/Desenvolvimento/Lexer}
+\input{Content/Desenvolvimento/Parser}
+\input{Content/Desenvolvimento/Walker}
+\input{Content/Desenvolvimento/Checker}
+\input{Content/Desenvolvimento/Emitter}
+
+\input{Content/Desenvolvimento/Lexer}
+\input{Content/Desenvolvimento/Parser}
+\input{Content/Desenvolvimento/Walker}
+\input{Content/Desenvolvimento/Checker}
+\input{Content/Desenvolvimento/Emitter}
+
+tokenização
+Nesta etapa, é realizado o processo de tokenização de um subconjunto dos símbolos possíveis no ambiente de equação do \LaTeX{}, como comentado na \autoref{especificacao-linguagem}. A entrada desse processo são os caracteres do arquivo fonte, enquanto a saída é uma sequência lógica desses caracteres, organizada em \textit{tokens}. O código responsável por essa funcionalidade está contido no pacote \texttt{lexer}.
+
+é realizado
+possíveis no ambiente
+ão
+são
+desses caracteres
+comentado
+responsável por essa funcionalidade
+Nesta etapa, é realizado o processo de tokenização de um subconjunto dos símbolos possíveis no ambiente de equação do \LaTeX{}, como comentado na \autoref{especificacao-linguagem}. A entrada desse processo são os caracteres do arquivo fonte, enquanto a saída é uma sequência lógica desses caracteres, organizada em \textit{tokens}. O código responsável por essa funcionalidade está contido no pacote \texttt{lexer}.
+
+Para fins de documentação e maior clareza, definimos uma gramática formal que descreve a geração dos \textit{tokens}, apresentada na \autoref{grammar-tokens}. O alfabeto dessa gramática é composto pelos caracteres do arquivo fonte. Apesar de documentar com uma gramática, a geração dos \textit{tokens} é implementada internamente de maneira semelhante à simulação de uma máquina de estados.
+
+Segue uma versão revisada e ampliada do trecho, incluindo a explicação que você mencionou:
+
+
+
+ 
+lista estruturada de expressões regulares
+o
+e
+e
+Na lista de expressões regulares (\autoref{grammar-tokens}), utilizamos uma notação leve de sintaxe para representar suas regras de geração. Essa notação é aproveitada na definição da gramática na analise sintaitca. Palavras com todas as letras minúsculas representam não-terminais, enquanto palavras entre aspas simples correspondem a uma sequência de caracteres literais, que vou emprestar o termo terminais em GLCs. Por outro lado, palavras em letras maiusculas denotam um terminal de uma categoria, como \texttt{DIGIT}, que representa qualquer dígito de 0 a 9, e \texttt{LETTER}, que cobre letras de \texttt{'a'} a \texttt{'z'}.
+
+Ainda, definimos símbolos operadores: ``$*$'' indica zero ou mais ocorrências; ``$()$'' indica agrupamento para aplicar um operador ao mesmo; ``$|$'' simboliza o início de uma regra alternativa para o mesmo não-terminal, ou se estiver dentro de um agrupamento, como por exemplo``$(a|b)$'', significa que aceita $a$ ou $b$; e ``$=$'' indica uma produção.
+
+Por outro lado, palavras em letras maiusculas denotam um terminal de uma categoria, como \texttt{DIGIT}, que representa qualquer dígito de 0 a 9, e \texttt{LETTER}, que cobre letras de \texttt{'a'} a \texttt{'z'}.
+
+texttt{EquationLang}
+\texttt{EquationLang}
+á
+utilizamos uma notação leve de sintaxe para representar suas regras de geração
+O
+palavras entre aspas simples correspondem a uma sequência literal de terminais.
+
+e
+.
+``$|$''
+|
+/
+Essa mesma sintaxe de gramática é utilizada na análise sintática, onde cada regra faz bijeção com os tipos de nó da AST, como detalhado na \autoref{section-parser}, porém o alfabeto passa a ser composto pelo conjunto de \textit{tokens} gerados pelo \texttt{lexer}.
+
+
+
+Na lista de expressões regulares (\autoref{grammar-tokens}), definimos os tipos de tokens, a notação é o lado esquerdo de '=' é um tipo de token e o lado direito é sua expressão reguloar. Palavras em letras maiusculas denotam um caractere de uma categoria, como \texttt{DIGIT}, que representa qualquer dígito de 0 a 9, e \texttt{LETTER}, que cobre letras de \texttt{'a'} a \texttt{'z'}. Palavras entre aspas simples correspondem a uma sequência literal dos caracteres.
+
+
+Ainda, definimos os seguinte símbolos:``$*$'' indica zero ou mais ocorrências daquele caractere; ``$|$'' simboliza o geração alternativa para o mesmo tipo de token; ``$;$'' fim da definição do tipo de token.
+
+--- 
+
+Se precisar de mais refinamentos ou ajustes, é só avisar!
+
+Na lista de expressões regulares (\autoref{grammar-tokens}), definimos os tipos de tokens, a notação é o lado esquerdo de '=' é um tipo de token e o lado direito é sua expressão reguloar. Palavras em letras maiusculas denotam um caractere de uma categoria, como \texttt{DIGIT}, que representa qualquer dígito de 0 a 9, e \texttt{LETTER}, que cobre letras de \texttt{'a'} a \texttt{'z'}. Palavras entre aspas simples correspondem a uma sequência literal dos caracteres.
+
+
+Ainda, definimos os seguinte símbolos:``$*$'' indica zero ou mais ocorrências daquele caractere; ``$|$'' simboliza o geração alternativa para o mesmo tipo de token; ``$;$'' fim da definição do tipo de token.
+
+Segue uma versão revisada do trecho, melhorando a coesão e clareza:
+
+---
+
+
+
+``
+a
+a
+a
+a
+section-sintatic-grammar-notation
+,
+com o adicional que sequências de três hífens ("\verb"---"") representam comentários para o leitor, sem impactar a definição gramatical.
+
+com o adicional que sequências de três hífens ("\verb"---"") representam comentários para o leitor, sem impactar a definição gramatical.
+
+Na definição de gramáticas deste capítulo, é utilizado uma notação leve de sintaxe para representar suas regras. Palavras com todas as letras minúsculas representam não-terminais, enquanto palavras entre aspas simples correspondem a uma sequência literal de terminais.
+
+Ainda, definimos símbolos operadores: ``$*$'' indica zero ou mais ocorrências; ``$()$'' indica agrupamento para aplicar um operador@@agrupa oq@@@; ``$|$'' simboliza o início de uma regra alternativa para o mesmo não-terminal, ou se estiver dentro de um agrupamento, como por exemplo``$(a|b)$'', significa que aceita $a$ ou $b$; e ``$=$'' indica uma produção.
+
+com o adicional que sequências de três hífens ("\verb"---"") representam comentários para o leitor, sem impactar a definição gramatical.
+
+No caso da gramática da \texttt{EquationLang}, todas as palavras com letras minusculos que começam com \texttt{token\_}, são terminais. Esses terminals estão definilos
+
