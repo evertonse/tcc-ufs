@@ -19,7 +19,8 @@ pull:
 	git pull
 
 
-FINAL_PDF_FILENAME := TCC_II_EVERTON_SANTOS_JR.pdf
+# FINAL_PDF_FILENAME := TCC_II_EVERTON_SANTOS_JR.pdf
+FINAL_PDF_FILENAME := "TCC2 - EvertonSantosDeAndradeJunior.pdf"
 
 run: clean all
 	cp $(FILENAME).pdf $(FINAL_PDF_FILENAME)

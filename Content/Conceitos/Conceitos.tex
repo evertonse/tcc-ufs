@@ -8,8 +8,10 @@ Neste capítulo, abordam-se os conceitos fundamentais da interação da luz com 
 Especificamente na \autoref{radiometria}, são apresentados os conceitos fundamentais relacionados à luz, como a capacidade de um material refletir raios de luz e sua importância na computação gráfica e renderização. Destaca-se a relação entre a intensidade de um pixel de imagem, a iluminação, a orientação da superfície e a definição de funções de refletância, as BRDFs. Já na \autoref{brdfmodels}, são destacados alguns modelos comuns de BRDFs.
 
 
-A \autoref{shading} aborda o processo de \textit{shading} e o funcionamento do \textit{pipeline} de renderização na GPU. Nela, são introduzidos os processos de transformação de vértices e de determinação da cor dos fragmentos, mostrando exemplos de código. 
+% A \autoref{shading} aborda o processo de \textit{shading} e o funcionamento do etapas ordenadas de renderização na GPU, conhecida nesse contexto como \textit{pipeline}, onde cada estágio transforma dados de entrada e os passa para o próximo estágio. Nela, são introduzidos os processos de transformação de vértices e de determinação da cor dos fragmentos, mostrando exemplos de código.
+A \autoref{shading} aborda o processo de \textit{shading} e o funcionamento das etapas ordenadas de renderização na GPU, conhecidas nesse contexto como \textit{pipeline}\footnote{Do inglês, \textit{pipeline} representa uma sequencia de estágios de processamento, onde a saída de cada etapa serve como entrada para a próxima.}. Nela, são introduzidos os processos de transformação de vértices e de determinação da cor dos fragmentos, mostrando exemplos de código.
 
+% \footnote{Pipeline de renderização: sequência ordenada de etapas de processamento gráfico, onde cada estágio transforma dados de entrada e os passa para o próximo estágio, permitindo processamento paralelo e eficiente na unidade de processamento gráfico.}.
 
 Na \autoref{compiladores}, é fornecida uma visão abrangente dos elementos essenciais na criação de compiladores. Ela começa com a definição de conceitos fundamentais, como cadeias de símbolos e alfabetos, necessários para entender linguagens formais. Além disso, é discutida a importância das gramáticas na definição de linguagens e é descrito o processo de compilação, incluindo a análise léxica, a análise sintática, o Pratt \textit{Parsing} e análise semântica.
 
@@ -113,13 +115,12 @@ Assim, é possível definir radiância conforme a \autoref{eq-radiance}. Ao inv�
 % \end{align*}
 
 
-Equivalentemente, podemos definir radiância para diferentes orientações da superfície e direção do raio ao introduzir o fator $\cos(\theta)$, tal que $\theta$ é o ângulo entre a normal da superfície e a direção ${\omega}$ \cite[5.4.1]{pbr}. Essa definição é dada pela \autoref{eq-radiance-2}. 
+Equivalentemente, podemos definir radiância para diferentes orientações da superfície e direção do raio de luz incidente ao introduzir o fator $\cos(\theta)$, tal que $\theta$ é o ângulo entre a normal da superfície e a direção ${\omega}$ \cite[5.4.1]{pbr}. Essa definição é dada pela \autoref{eq-radiance-2}.
 
 
 \begin{equation} \label{eq-radiance-2}
-  L(p,{\omega}) = \frac{d^2\phi(p)}{dAd{\omega} \cos(\theta)} = \frac{dE(p)}{d{\omega} \cos(\theta)} 
+  L(p,{\omega}) = \frac{d^2\phi(p)}{dAd{\omega} \cos(\theta)} = \frac{dE(p)}{d{\omega} \cos(\theta)}
 \end{equation}
-
 
 
 
@@ -136,18 +137,18 @@ A radiância pode fornecer informação sobre o quanto um ponto específico est�
 
 
 
-A principal funcionalidade de um renderizador fotorrealista é estimar a radiância em um ponto $p$ numa dada direção ${\omega}_o$. Essa radiância é dada pela \autoref{eq-rendering-equation}, conhecida como equação de renderização apresentada por \citeonline{rendering_equation}. Note que essa equação envolve um termo de radiância recursivo; o caso base ocorre quando não há mais o termo recursivo, isto é, a radiância é contribuída apenas por radiância emitida $L_e$, como ocorre com fontes de luz.
+A principal funcionalidade de um renderizador fotorrealista é estimar a radiância em um ponto $p$ numa dada direção ${\omega}_o$. Essa radiância é dada pela \autoref{eq-rendering-equation}, conhecida como equação de renderização, apresentada por \citeonline{rendering_equation}. Note que essa equação envolve um termo de radiância recursivo; o caso base ocorre quando não há mais o termo recursivo, isto é, a radiância é contribuída apenas por radiância emitida $L_e$, como ocorre com fontes de luz.
 
 
 \begin{equation}\label{eq-rendering-equation}
 \begin{aligned}
-  &L_o(p, {\omega}_o) = L_e(p, {\omega}_o) + 
+  &L_o(p, {\omega}_o) = L_e(p, {\omega}_o) +
 \int_{H^2}f(p, {\omega}_i, {\omega}_o){L_i(p,{\omega}_i)\cos(\theta_i)d{\omega}_i}\\
     &L_o \text{ é radiância de saída (\textit{outgoing})}\\
     &L_e \text{ é radiância emitida pela superfície (i.e. fonte de luz)}\\
     &L_i \text{ é radiância incidente na superfície}\\
-    &{\omega}_i \text{ é a direção incidente}\\
-    &{\omega}_o \text{ é a direção de saída}\\
+    &{\omega}_i \text{ é a direção do raio incidente}\\
+    &{\omega}_o \text{ é a direção do raio refletido}\\
     &H^2 \text{ são todas as direções no hemisfério no ponto $p$}\\
     &\theta_i \text{ ângulo entre direção incidente e a normal da superfície}\\
     &f \text{ função de refletância}\\
@@ -159,10 +160,10 @@ A Função de Distribuição Bidirecional de Reflectância (BRDF) descreve como 
 
 
 \begin{itemize}
-  \item A positividade, $f(\omega_i, \omega_o) \geq 0 $, que garante não existência de energia negativa. 
+  \item A positividade, $f(\omega_i, \omega_o) \geq 0 $, que garante não existência de energia negativa.
 
 
-  \item A reciprocidade de Helmhotz, $f(\omega_i, \omega_o) = f(\omega_o, \omega_i)$, é o princípio que indica que a função de refletância de uma superfície permanece inalterada quando os ângulos de incidência e reflexão da luz são trocados. Isso é utilizado na otimização do traçado de raios durante a renderização, permitindo traçar os raios da câmera para a fonte de luz. Essa abordagem evita o desperdício computacional em raios que não contribuem significativamente para a intensidade de um pixel na imagem final.
+  \item A reciprocidade de Helmhotz, $f(\omega_i, \omega_o) = f(\omega_o, \omega_i)$, é o princípio que indica que a função de refletância de uma superfície permanece inalterada quando os ângulos de incidência e reflexão da luz são trocados. Ele é utilizado na otimização do traçado de raios durante a renderização, permitindo traçar os raios da câmera para a fonte de luz. Essa abordagem evita o desperdício computacional em raios que não contribuem significativamente para a intensidade de um pixel na imagem final.
 
 
   \item A conservação de energia, expressa por $\forall \omega_i, \int_{H^2}{f(\omega_i, \omega_o)cos(\theta_o) d\omega_o} \leq 1$, implica que parte da energia pode ser absorvida, transformando-se em outras formas de energia, como calor. Portanto, a soma infinitesimal pode atingir no máximo 1, mas nunca ultrapassá-la.
@@ -195,7 +196,7 @@ f(\omega_i, \omega_o) = k_s \cdot \delta(\omega_i - \omega_o)
 
 
 \subsection{BRDF Difusa Ideal}
-Uma BRDF difusa ideal reflete a luz incidente uniformemente em todas as direções, sem preferência por ângulos específicos. É representada pela função $f$ na \autoref{eq-diffuse}, onde $\rho_d$ é o albedo da superfície\footnote{Albedo: propriedade óptica que quantifica a fração da radiação incidente que é refletida por uma superfície. Varia de 0 (superfície totalmente absorvente) a 1 (superfície que reflete toda a luz incidente)} e $\theta$ é o ângulo entre a direção da luz incidente e a normal da superfície. O termo cosseno garante que a radiância refletida seja proporcional ao cosseno do ângulo entre a direção da luz incidente e a normal da superfície, como ilustrado na \autoref{diffuse}. Esse modelo pode representar superfícies como tinta fosca ou papel.
+Uma BRDF difusa ideal reflete a luz incidente uniformemente em todas as direções, sem preferência por ângulos específicos. É representada pela função $f$ na \autoref{eq-diffuse}, onde $\rho_d$ é o albedo da superfície\footnote{Albedo é a propriedade óptica que quantifica a fração da radiação incidente que é refletida por uma superfície. Varia de $0$ (superfície totalmente absorvente) a $1$ (superfície que reflete toda a luz incidente)} e $\theta$ é o ângulo entre a direção da luz incidente e a normal da superfície. O termo cosseno garante que a radiância refletida seja proporcional ao cosseno do ângulo entre a direção da luz incidente e a normal da superfície, como ilustrado na \autoref{diffuse}. Esse modelo pode representar superfícies como tinta fosca ou papel.
 
 
 \begin{equation} \label{eq-diffuse}
@@ -212,7 +213,7 @@ f(\omega_i, \omega_o) = \frac{\rho_d}{\pi} \cdot \cos \theta
 \end{figure}
 
 
-\subsection{BRDF \textit{Glossy}}
+\subsection{BRDF Brilhante}
 Uma superfície pode exibir propriedades de reflexão tanto especulares quanto difusas, como na \autoref{glossy}. Uma BRDF para uma superfície brilhante é frequentemente representada por uma combinação de termos especulares e difusos, como o modelo de Blinn-Phong \cite{blinn_phong}.
 
 
@@ -228,8 +229,7 @@ Uma superfície pode exibir propriedades de reflexão tanto especulares quanto d
 
 
 \subsection{BRDF Retro-Refletora}
-Uma superfície retro-refletora reflete a luz incidente de volta na direção de onde veio, como na \autoref{retro_refletora}. A BRDF para uma superfície retro-refletora envolve tipicamente geometria especializada ou revestimentos projetados para redirecionar a luz de volta para a fonte.
-
+A BRDF para uma superfície retro-refletora envolve, tipicamente, uma formulação matemática ou modelagem especializada que representa o redirecionamento da luz de volta para a fonte, como ilustrado na \autoref{retro_refletora}.
 
 \begin{figure}[H]
   \caption{\label{retro_refletora} \small Reflexão retro-refletora.}
@@ -245,20 +245,15 @@ Uma superfície retro-refletora reflete a luz incidente de volta na direção de
 \section{Introdução ao Shading e ao \textit{pipeline} de GPU} \label{shading}
 
 
-\textit{Shading} refere-se ao processo de determinar a cor e o brilho dos pixels em uma imagem renderizada. Isso envolve simular a interação da luz com as superfícies, levando em consideração as propriedades dos materiais, condições de iluminação e orientação da superfície. Isso é alcançado por meio de pequenos programas chamados \textit{shaders}, que são compilados e executados na unidade de processamento gráfico (GPU).
+O termo \textit{shading} refere-se ao processo de determinar a cor e o brilho dos pixels em uma imagem renderizada. Isso envolve simular a interação da luz com as superfícies, levando em consideração as propriedades dos materiais, condições de iluminação e orientação da superfície. Isso é alcançado por meio de pequenos programas chamados \textit{shaders}, que são compilados e executados na unidade de processamento gráfico, do inglês \textit{Graphics Processing Unit} (GPU).
 
 
 
+A interação com as GPUs é facilitada por meio de uma API, sendo o OpenGL uma das mais utilizadas para acessar funções da GPU \cite{opengl_spec}. O \textit{pipeline} de renderização do OpenGL é composto por várias etapas, incluindo a definição de dados de vértices e a aplicação de \textit{shaders} de vértice e fragmento. Os vértices representam os pontos das primitivas geométricas, geralmente triângulos, que formam o objeto a ser renderizado, enquanto os fragmentos são os elementos gerados durante o processamento dessas primitivas, correspondendo a pontos discretos na tela onde a cor final será determinada. 
 
-A interação com as GPUs é facilitada por meio de uma 
-API, sendo o OpenGL uma API padrão para o uso de funções na GPU \cite{opengl_spec}. O \textit{pipeline} de renderização do OpenGL é composto por várias etapas, incluindo definição de dados de vértices, \textit{shaders} de vértice e fragmento, \textit{shaders} de tesselação e geometria opcionais, configuração de primitivas, recorte e rasterização.
+Além desses \textit{shaders}, o OpenGL oferece suporte a \textit{shaders} de tesselação e geometria, que são etapas opcionais: a tesselação subdivide superfícies em triângulos menores para aumentar o nível de detalhe, e o shader de geometria permite manipular primitivas (como pontos e linhas) antes da rasterização. No entanto, estas etapas não serão utilizadas neste trabalho.
 
-
-% Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. As etapas mais importantes para o nosso trabalho são os \textit{shaders} de fragmento e de vértice, representados na \autoref{fig-pipeline}, os quais executam a manipulação dos vértices e determinam cores de pixels, respectivamente.
-
-
-Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. Uma representação visual desse processo pode ser observada na \autoref{fig-pipeline}. Nela, é representado a CPU enviando os dados da cena para a GPU, que utiliza essas informações nos \textit{shaders} de vértice e fragmento. O \textit{shader} de vértice manipula os vértices da cena, enquanto o \textit{shader} de fragmento determina as cores dos pixels. Os fragmentos são elementos gerados durante o processamento das primitivas geométricas, como triângulos. Eles correspondem a pontos discretos na tela onde a cor final será determinada. Além disso, a CPU também pode enviar variáveis uniformes (\textit{uniform variables}) para os \textit{shaders}, que são essenciais para a etapa de renderização e contribuem para a geração da imagem final.
-
+Essas etapas do \textit{pipeline} coordenam o fluxo de dados da CPU para a GPU e suas transformações, culminando na geração da imagem final. Uma representação visual desse processo pode ser observada na \autoref{fig-pipeline}. Nela, é representada a CPU enviando os dados da cena para a GPU, que utiliza essas informações nos \textit{shaders} de vértice e fragmento. O \textit{shader} de vértice manipula os vértices da cena, enquanto o \textit{shader} de fragmento determina as cores dos pixels. Além disso, a CPU também pode enviar variáveis uniformes\footnote{Variáveis uniformes são parâmetros, como dados de luz e matrizes de transformação, que podem ser passados para um \textit{shader} durante sua execução.} (\textit{uniform variables}) para os \textit{shaders}, que são essenciais para a etapa de renderização e contribuem para a geração da imagem final.
 
 \begin{figure}[H]
         \caption{\label{fig-pipeline}\small O \textit{pipeline}.}
@@ -272,10 +267,9 @@ Essas etapas coordenam o fluxo de dados da CPU para a GPU e suas transformaçõe
 
 
 \subsection{Shader de Vértice}
+O \textit{shader} de vértice opera em vértices individuais de primitivas geométricas antes de serem rasterizados em fragmentos. Sua principal tarefa é transformar vértices e passar os dados necessários para o \textit{shader} de fragmentos. Esses \textit{shaders} geralmente realizam várias transformações nos dados dos vértices, permitindo que objetos sejam posicionados, orientados e projetados em uma tela bidimensional (2D). Para ilustrar como esse \textit{shader} pode ser implementado, apresentamos um exemplo no \autoref{vertex_code1}, onde uma matriz é utilizada para transformar a posição dos vértices de entrada (\texttt{inPosition}).
 
-
-O \textit{shader} de vértice opera em vértices individuais de primitivas geométricas antes de serem rasterizados em fragmentos. Sua principal tarefa é transformar vértices e passar os dados necessários para o \textit{shader} de fragmentos. Esses \textit{shaders} geralmente realizam várias transformações nos dados dos vértices, permitindo que objetos sejam posicionados, orientados e projetados em uma tela bidimensional (2D). Um exemplo desse \textit{shader} está no \autoref{vertex_code1}, que usa uma matriz para realizar essas transformações. Ao fim dessa etapa, os vértices são normalizados para coordenadas homogêneas. Essa normalização é essencial para realizar a projeção perspectiva e outros cálculos no \textit{pipeline} de renderização.
-
+Neste exemplo, a posição de saída dos vértices (\texttt{gl\_Position}) é a posição dos vértices de entrada manipulada por uma função seno baseada no identificador do vértice (\texttt{gl\_VertexID}), adicionando uma oscilação à posição original. O \textit{shader} também repassa adiante as normais dos vértices (\texttt{fragNormal}) para o \textit{shader} de fragmentos. Além disso, a multiplicação pela matriz (\texttt{modelViewProjection}) é responsável por aplicar uma projeção de perspectiva.
 
 
 
@@ -329,19 +323,26 @@ As BRDFs podem ser implementadas nesse estágio do \textit{pipeline} para atingi
 \subsection{Cadeia de Símbolos e Alfabeto} \label{símbolos}
 
 
-Um \textbf{cadeia de símbolos} é uma sequência finita de símbolos retirados de um alfabeto $ \Sigma $. Formalmente, uma cadeia $ w $ é representada como $ [w_1, w_2, ..., w_n] $, onde cada $ w_i $ pertence ao alfabeto $ \Sigma $. O \textbf{alfabeto} $ \Sigma $ é um conjunto finito de símbolos distintos usados para construir cadeias em uma linguagem. Ele define os blocos de construção a partir dos quais cadeias válidas na linguagem são formadas.
+Uma \textbf{cadeia de símbolos} é uma sequência finita de símbolos retirados de um alfabeto $ \Sigma $. Formalmente, uma cadeia $ w $ é representada como $ [w_1, w_2, ..., w_n] $, onde cada $ w_i $ pertence ao alfabeto $ \Sigma $. O \textbf{alfabeto} $ \Sigma $ é um conjunto finito de símbolos distintos usados para construir cadeias em uma linguagem. Ele define os blocos de construção a partir dos quais cadeias válidas na linguagem são formadas.
 
 
 \subsection{Definições de Linguagens} \label{linguagem}
 
 
-Na ciência da computação, as linguagens são sistemas formais compostos por símbolos e regras que são muito úteis para definir um significado algorítmico. Uma \textbf{linguagem} $L$ é definida como um conjunto de cadeias sobre um alfabeto finito $ \Sigma $, $ L \subseteq \Sigma^* $, onde  $ \Sigma^* $ denota o conjunto de todas as cadeias possíveis sobre $ \Sigma $ \cite{language_theory}. A estrutura semântica de uma linguagem inclui seu alfabeto $ \Sigma $, sintaxe e regras de gramática.
+Na ciência da computação, as linguagens são sistemas formais compostos por símbolos e regras que são muito úteis para definir um significado algorítmico. Uma \textbf{linguagem} $L$ é definida como um conjunto de cadeias sobre um alfabeto finito $ \Sigma $, $ L \subseteq \Sigma^* $, onde  $ \Sigma^* $ denota o conjunto de todas as cadeias possíveis sobre $ \Sigma $ \cite{language_theory}. 
 
+\subsection{Compilador como uma Transformação}
 
-\subsection{Compilador como um Transformação}
+% Um compilador pode ser visto como uma transformação entre linguagens $ L_1 $ e $ L_2 $ que preserva a estrutura interna dos conjuntos, isto é, deve manter o mesmo significado algorítmico. Assim, o compilador $ C: L_1 \rightarrow L_2 $ mapeia programas escritos na linguagem de origem $ L_1 $ para programas equivalentes na linguagem de destino $ L_2 $. Essa transformação garante a preservação semântica, mantendo o comportamento pretendido do programa original durante a tradução.
 
+Um compilador pode ser visto como uma transformação entre linguagens $L_1$ e $L_2$ que preserva a estrutura interna dos conjuntos, isto é, deve manter o mesmo significado algorítmico ou conceitual. A estrutura semântica de uma linguagem pode ser entendida como o conjunto de regras e convenções que determinam o significado de seus elementos. Para uma linguagen como o conjunto de equações escritas em \LaTeX{}, a semântica está nas convenções matemáticas, que definem como expressões devem ser interpretadas.
 
-Um compilador pode ser visto como uma transformação entre linguagens $ L_1 $ e $ L_2 $ que preserva a estrutura interna dos conjuntos, isto é, deve manter o mesmo significado algorítmico. Assim, o compilador $ C: L_1 \rightarrow L_2 $ mapeia programas escritos na linguagem de origem $ L_1 $ para programas equivalentes na linguagem de destino $ L_2 $. Essa transformação garante a preservação semântica, mantendo o comportamento pretendido do programa original durante a tradução.
+Manter a semântica entre duas linguagens significa garantir que o programa traduzido de $L_1$ para $L_2$ preserve tanto os resultados produzidos, quando aplicáveis, quanto as intenções originais. No caso do \LaTeX{}, isso envolve traduzir expressões matemáticas para uma representação equivalente na linguagem de destino, respeitando propriedades algébricas, significado de funções e valor de constantes (como $\cos$ e $\pi$), entre outros elementos semânticos da matemática.
+
+Assim, o compilador $ C: L_1 \rightarrow L_2 $ mapeia programas escritos na linguagem de origem $ L_1 $ para programas equivalentes na linguagem de destino $ L_2 $, de modo que essa transformação assegure a preservação semântica, mantendo o comportamento pretendido do programa original durante a tradução.
+
+% Manter a semântica entre duas linguagens significa garantir que o programa traduzido de $L_1$ para $L_2$ preserve tanto os resultados produzido, se aplicável, quanto as intenções originais. No caso de \LaTeX{}, isso envolve traduzir expressões matemáticas para uma representação equivalente na linguagem de destino, respeitando propriedades como associações algébricas, operadores, manter o significado de funções ( como \senno \coseno). Assim, o compilador $C: L_1 \rightarrow L_2$ mapeia programas escritos na linguagem de origem $L_1$ para programas equivalentes na linguagem de destino $L_2$. Essa transformação garante a preservação semântica, assegurando que o comportamento esperado ou significado matemático do programa original seja mantido na tradução.
+
 
 
 
@@ -349,7 +350,7 @@ Um compilador pode ser visto como uma transformação entre linguagens $ L_1 $ e
 \subsection{Gramática} \label{gramatica}
 
 
-Durante a criação de um compilador, é necessário entender as regras que auxiliam na validação da linguagem de entrada, essas regras podem ser formalizadas pela gramática. Uma gramática $G$ é um sistema formal composto por um conjunto de regras de produção que especificam como cadeias válidas na linguagem podem ser geradas \cite{language_theory}. Ela inclui terminais, não-terminais, regras de produção e um símbolo inicial.
+Durante a criação de um compilador, é necessário entender as regras que auxiliam na validação da linguagem de entrada. Essas regras podem ser formalizadas através de uma gramática. Uma gramática $G$ é um sistema formal composto por um conjunto de regras de produção que especificam como cadeias válidas na linguagem podem ser geradas \cite{language_theory}. Ela inclui terminais, não-terminais, regras de produção e um símbolo inicial.
 
 
 \begin{itemize}
@@ -369,8 +370,8 @@ Durante a criação de um compilador, é necessário entender as regras que auxi
 \subsubsection{Gramáticas Livres de Contexto (GLCs)}
 
 
-Um tipo comum de gramática usado na definição de linguagens é a gramática livre de contexto (GLC).  Uma GLC pode ser descrita formalmente como $ G=(V,\Sigma,R,S)$:
-
+% Um tipo comum de gramática usado na definição de linguagens é a gramática livre de contexto (GLC). Uma GLC pode ser descrita formalmente como $ G=(V,\Sigma,R,S)$, conforme o capitulo 2 do livro \textit{Introduction to the Theory of Computation}\cite[seção 2.2]{sisper2012chapter2}:
+Um tipo comum de gramática usado na definição de linguagens é a gramática livre de contexto (GLC). Uma GLC pode ser descrita formalmente como $ G=(V,\Sigma,R,S)$, conforme apresentado por Michael Sipser \cite[seção 2.2]{sisper2012chapter2} em sua obra ``Introduction to the Theory of Computation''.
 
 \begin{itemize}
   \item $V$ é um conjunto finito de símbolos não-terminais.
@@ -395,12 +396,12 @@ Uma árvore sintática é uma representação gráfica do processo de derivaçã
 
 
 \subsection{Análise Léxica}
-A análise léxica, também conhecida como \textit{lexing} ou \textit{tokenization}, é a primeira etapa do processo de compilação, na qual a entrada textual é dividida em unidades léxicas significativas chamadas de \textit{tokens}. Esses \textit{tokens} representam os componentes básicos da linguagem, como palavras-chave, identificadores, operadores e literais. O analisador léxico percorre o código-fonte caractere por caractere, agrupando-os em \textit{tokens} conforme regras pré-definidas pela gramática da linguagem. Essa linguagem é, geralmente, reconhecível por máquinas de estado \cite{automata}.
+A análise léxica, também conhecida como \textit{lexing} ou \textit{tokenization}, é a primeira etapa do processo de compilação, na qual a entrada textual é dividida em unidades léxicas significativas chamadas de \textit{tokens}. Esses \textit{tokens} representam os componentes básicos da linguagem, como palavras-chave, identificadores, operadores e literais. O analisador léxico percorre o código-fonte caractere por caractere, agrupando-os em \textit{tokens} conforme regras pré-definidas pela gramática da linguagem. Essa linguagem é, geralmente, reconhecível por máquinas de estado \cite{automata}. Os \textit{tokens} gerados nessa etapa correspondem aos terminais das gramáticas livres de contexto.
+
 
 
 \subsection{Análise Sintática ou \textit{Parsing}}
-A análise sintática é a segunda fase do processo de compilação, na qual os \textit{tokens} gerados pela análise léxica são organizados e verificados quanto à conformidade com a gramática da linguagem. Essa etapa envolve a construção de uma árvore sintática, ou estrutura de dados equivalente, que representa a estrutura hierárquica das expressões e instruções do programa. O analisador sintático utiliza regras de produção gramatical para validar a sintaxe do código-fonte e identificar possíveis erros.
-
+A análise sintática, que é a segunda fase do processo de compilação, recebe os \textit{tokens} gerados pela análise léxica, formando o alfabeto da gramática da linguagem. Nessa etapa, o analisador sintático aplica regras de produção gramatical para validar a conformidade do código-fonte com a sintaxe da linguagem, identificando e relatando possíveis erros. Além disso, essas regras são utilizadas para construir uma árvore sintática, ou uma estrutura equivalente, que representa a organização hierárquica das expressões e instruções do programa. Essa árvore sintática atua como uma representação intermediária crucial para a análise semântica e a geração de código.
 
 \subsubsection{Pratt Parsing}
 O Pratt \textit{Parsing}, introduzido por Vaughan Pratt, é uma técnica de análise sintática recursiva que permite analisar expressões com precedência de operadores de forma eficiente e sem ambiguidades \cite{pratt}. Uma das suas características distintivas é determinar a ordem de avaliação das expressões. Ao contrário da análise descendente recursiva tradicional, na qual cada não-terminal possui uma função de \textit{parsing}, a análise Pratt associa funções de manipulação (\textit{handlers}) com \textit{tokens}.
@@ -424,6 +425,10 @@ A precedência das expressões é definida por meio de uma tabela, na qual cada 
 %
 % Por outro lado, em uma árvore inclinada à esquerda, operadores com maior precedência são resolvidos por último, seguindo uma ordem de avaliação da esquerda para a direita. As árvores inclinadas à esquerda estão tipicamente associadas a chamadas recursivas de \textit{parsing}, já as inclinadas à direita estão associadas a iteração. Para alcançar a estrutura correta da árvore, o Pratt \textit{parsing} alterna entre recursão e iteração com base na precedência dos operadores para saber o momento de gerar uma subárvore inclinada para esquerda ou direita.
 
+% Proximidade com a raiz é identifica a grau de binding power ao continua no loop ou seja que a predencia do token atnerior é menor que o token atual implica em mais chamadar recursiva.
+
+% Como vamos mostrar que evita inflação da gramatica e maior flexibidade de mudar a gramatica na seção de desenvolvimento não boteio aki pq precisa de definir a sintaxe usada pra definir gramaticas
+
 
 \subsubsection{Pseudo-código para Análise de Expressões}
 
@@ -437,8 +442,8 @@ Nesse algoritmo,
 \textbf{token.precedencia}() retorna a procedência do token atual, \textbf{token.prefixo()} é a função associada ao \textit{token} que faz o \textit{parsing} de uma expressão quando o \textit{token} é o primeiro símbolo em uma subexpressão (e.g. o token ``$-$'' é o primeiro na expressão ``$-3$''). Enquanto o \textbf{token.infixo(esquerda)} é a função associada ao \textit{token} que utiliza outra subárvore já criada como entrada. Por exemplo a subárvore \textbf{esquerda} pode ser a expressão ``$-3$'', o \textit{token} atual ser ``$*$'' e o retorno gera a expressão completa ``$-3 * 1$''.
 
 
-Tanto \textbf{token.infixo} quanto \textbf{token.prefixo} podem ser indiretamente recursivas, isto é, ambas podem chamar a função \textbf{expressão} no \autoref{alg1}. 
-Por fim, \textbf{precedencia\_anterior} representa a precedência do \textit{token} anterior.
+Tanto \textbf{token.infixo} quanto \textbf{token.prefixo} podem ser indiretamente recursivas, isto é, ambas podem chamar a função \textbf{expressão} no \autoref{alg1}.
+Por fim, \textbf{precedencia\_anterior} representa a precedência do \textit{token} anterior. Uma demonstração em código desse algoritmo pode ser vista na \autoref{section-parser-pratt}, onde casos práticos demonstram como o Pratt \textit{parsing} pode ajudar a reduzir o número de regras de produção de uma gramática e simplificar a análise sintática.
 
 
 \begin{algoritmo}[H]
@@ -459,7 +464,7 @@ Por fim, \textbf{precedencia\_anterior} representa a precedência do \textit{tok
 \subsection{Análise Semântica}
 
 
-A análise semântica é uma etapa essencial no processo de compilação, responsável por garantir a corretude semântica das declarações e instruções do programa. Durante essa fase, são aplicadas verificações para garantir que as operações sejam realizadas com tipos compatíveis.
+A análise semântica é uma etapa fundamental no processo de compilação, responsável por garantir a corretude semântica das declarações e instruções do programa. Durante essa fase, são realizadas verificações, com uso da árvore sintática, para garantir que as operações sejam executadas com tipos compatíveis.
 
 
 Um exemplo típico de verificação semântica é a inferência de tipos em expressões. Por exemplo, no \autoref{cod-exemplo-c} o analisador semântico infere que o número inteiro $30$ deve ser convertido para o tipo \textit{float} antes da multiplicação, garantindo consistência de tipos. Além da verificação de tipos, o analisador semântico identifica e reporta outros erros comuns, como variáveis não declaradas e falhas no controle de fluxo do programa.
@@ -482,10 +487,12 @@ No contexto deste trabalho, a análise semântica é importante para validar exp
 \subsection{Geração da Linguagem Alvo} \label{codegen}
 
 
-Nesta fase, fazemos a transição da representação intermediária  da linguagem origem \( L_1 \)  para  a linguagem de destino \( L_2 \), processo que envolve traduzir construções de \( L_1 \) para equivalentes em $L_2$. Podemos realizar essa tradução ao percorrer recursivamente os nós da árvore sintática usando as informações contidas nesses nós para gerar partes do programa final em $L_2$.
+Nesta fase, fazemos a transição da representação intermediária da linguagem origem \( L_1 \), gerada pelo analisador sintático,  para  a linguagem de destino \( L_2 \), processo que envolve traduzir construções de \( L_1 \) para equivalentes em $L_2$. Podemos realizar essa tradução ao percorrer recursivamente os nós da árvore sintática usando as informações contidas nesses nós para gerar partes do programa final em $L_2$.
 
 
-Dado um programa $a \in L_1$ existem vários programas $b_{i=1,2,3,...} \in L_2$ que possui estrutura semanticamente equivalentes à $a$. Ao explorar esse conjunto, é possível escolher um $b_j \in L_2$ tal que esse programa seja otimizado em algum sentido, como uso eficiente de memória ou executar menos instruções de \textit{hardware}. Nosso foco neste trabalho está na tradução semanticamente correta, sem envolver exploração das saídas  equivalentes.
+% Dado um programa $a \in L_1$ existem vários programas $b_{i=1,2,3,...} \in L_2$ que possui estrutura semanticamente equivalentes à $a$. Ao explorar esse conjunto, é possível escolher um $b_j \in L_2$ tal que esse programa seja otimizado em algum sentido, como uso eficiente de memória ou executar menos instruções de \textit{hardware}. Nosso foco neste trabalho está na tradução semanticamente correta, sem envolver exploração das saídas  equivalentes.
+
+Dado um programa $ a \in L_1 $, existem vários programas $ b_{i=1,2,3,\ldots} \in L_2 $ que possuem estruturas semanticamente equivalente a de $ a $. Ao explorar esse conjunto, é possível escolher um $ b_j \in L_2 $ tal que esse programa seja otimizado em algum sentido, como uso eficiente de memória ou executar menos instruções de \textit{hardware}. Nosso foco neste trabalho está na tradução semanticamente correta, sem envolver exploração das saídas  equivalentes.
 
 
 Como exemplo, considere a tradução de um cálculo matemático de \( L_1 \) (\LaTeX{}), para \( L_2 \) (GLSL). O cálculo apresentado na \autoref{eq-calculo-vetorial} pertence a $L_1$. O \autoref{cod-fonte-calculo} mostra o código-fonte desse cálculo. 

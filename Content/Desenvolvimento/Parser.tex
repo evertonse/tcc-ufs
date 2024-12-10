@@ -1,18 +1,18 @@
 
 \section{Análise Sintática, (\texttt{parser})} \label{section-parser}
 
-O \textit{parser} para a linguagem subconjunto do ambiente \verb|equation| do \LaTeX{} foi desenvolvido utilizando o método de Pratt \textit{Parsing} na linguagem Odin. Neste contexto, esse subconjunto é denominado como \texttt{EquationLang}, que abrange todas as partes essenciais para a definição de BRDFs descritas em \autoref{especificacao-linguagem}, e sua gramática é documentada.
+O \textit{parser} para a linguagem subconjunto do ambiente \verb|equation| do \LaTeX{} foi desenvolvido utilizando o método de Pratt \textit{Parsing} na linguagem Odin. Neste contexto, esse subconjunto é denominado como \texttt{EquationLang}, que abrange todas as partes essenciais para a definição de BRDFs descritas na \autoref{especificacao-linguagem}, e sua gramática é documentada.
 
 A implementação deste \textit{parser} adota o método de descida recursiva, no qual cada regra de produção da gramática possui uma função de análise correspondente. Este método foi escolhido por priorizar a  simplicidade do código e clareza da gramática. A entrada do \textit{parser} consiste nos \textit{tokens} gerados na etapa de análise léxica.
 
 
-\subsection{Parser}
+\subsection{Parser} \label{section-parser-pratt}
 Diferentemente dos \textit{parsers} tradicionais de descida recursiva, que frequentemente utilizam múltiplas chamadas de função indiretamente recursivas para tratar diferentes níveis de precedência, o \textit{parser} aqui implementado organiza as funções de análise com base na tabela de precedência dos operadores. Essa abordagem é detalhada no \autoref{alg-pratt-parsing}, que descreve a lógica central para o \textit{parsing} de expressões.
 
 O Pratt Parsing simplifica a análise sintática de expressões ao tratar precedência e associatividade de forma dinâmica, sem inflar a gramática. Na abordagem tradicional, as precedências são fixadas por meio de várias regras de produção, como demonstrado neste exemplo de expressões binárias no \autoref{cod-regras-tradicionais}. Regras intermediárias são adicionadas à gramática com o principal propósito de embutir a precedência na estrutura gramatical.
 
 \begin{codigo}[htb]
-    \caption{\small Regras tradicionais de precendecia por gramática. }
+    \caption{\small Regras tradicionais de precedência por gramática. }
     \label{cod-regras-tradicionais}
 \begin{lstlisting}[language=haskell, numbers=none, inputencoding=utf8]
     expr    = or_expr;
@@ -36,7 +36,7 @@ O Pratt Parsing simplifica a análise sintática de expressões ao tratar preced
 
 Isso torna a gramática mais longa, exigindo mais regras que derivam outras antes de chegar a um terminal. Na descida recursiva, as regras atuam como funções, o que significa que métodos recursivos tradicionais com muitos níveis de precedência resultam em um maior número de chamadas recursivas, aumentando a complexidade da implementação e a rigidez na modificação da gramática. Em contraste, no Pratt Parsing, uma única regra é suficiente, juntamente com uma tabela de precedência: \verb"expr = expr ( '||' | '&&' | '==' | '<' | '+' | '*' ) expr";.
 
-O \textit{parser} desenvolvido para \texttt{EquantionLang} consulta a tabela de precedência dinamicamente, conforme definida na \autoref{tab-token-precedence}, para decidir a ordem de avaliação com base no \textit{token} operador encontrado.
+O \textit{parser} desenvolvido para \texttt{EquantionLang} consulta à tabela de precedência dinamicamente, conforme definida na \autoref{tab-token-precedence}, para decidir a ordem de avaliação com base no \textit{token} operador encontrado.
 
 
 Foi utilizada uma notação semelhante à original de Pratt \cite{pratt}, onde as funções \verb"parse_null_denotations" e \verb"parse_left_denotations" desempenham papéis equivalentes às funções \texttt{token.prefixo} e \texttt{token.infixo}, respectivamente, como demonstrado no \autoref{alg1}. 
@@ -71,7 +71,7 @@ parse_expr :: proc(prec_prev: i64) -> ^Expr {
 \end{codigo}
 
 \begin{codigo}[htb]
-        \caption{\small Estruturas e Funções do Parser. }
+    \caption{\small Estrutura e função principal do pacote \texttt{parser}. }
         \label{cod-func-and-structs}
   \begin{lstlisting}[language = C]
 Parser :: struct {
@@ -111,12 +111,13 @@ parse_start :: proc(using p: ^Parser) -> ^ast.Start {
 \subsection{Gramática}
 
 
-Para formalizar a gramática da linguagem de entrada (\texttt{EquationLang}), suas regras estão detalhadas nos \autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2}. O \autoref{code-gramatica} apresenta um exemplo de código-fonte contendo três equações válidas nessa linguagem, cuja renderização correspondente em \LaTeX{} é ilustrada no \autoref{code-gramatica-rendered}.
+Para formalizar a gramática da linguagem de entrada (\texttt{EquationLang}), suas regras estão detalhadas nos \autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2}. Um exemplo de código-fonte contendo três equações válidas nessa linguagem se encontra no \autoref{code-gramatica}. Sua renderização correspondente em \LaTeX{} é ilustrada na \autoref{code-gramatica-rendered}.
 
 Nesse exemplo, a primeira equação ($\rho_{d}$) é gerado pela regra \verb"expr_vector_literal". A segunda ($\rho_{s}$), é uma expressão binária derivada da regra \verb"expr_infix". Já a última equação utiliza múltiplas regras, como \verb"expr_grouped" e \verb"expr_prefix".
 
 
-\label{code-gramatica-rendered} \begin{subequations}
+\begin{subequations}
+\label{code-gramatica-rendered} 
 \begin{equation}
     \rho_{d} = \vec{0.3,0.3,0.3}
 \end{equation}

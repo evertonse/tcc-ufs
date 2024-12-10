@@ -43,7 +43,7 @@ A geração de expressões no pacote \texttt{emitter} converte as expressões do
 
 A função principal, \verb"emit_expr", processa cada nó de expressão e constrói a cadeira de caracteres correspondente em GLSL usando um \verb"StringBuilder" da biblioteca padrão de Odin, evitando concatenações excessivas. Na travessia recursiva da AST, realizada pelo pacote \texttt{walker}, converte operações binárias, prefixas, vetoriais e chamadas de função em código \textit{shading}.
 
-Um trecho dessa função está no \autoref{cod-emit-expr}, que demonstra como os tipos são discriminados (\texttt{case}) e \textit{string}s\footnote{string é uma cadeia de caracteres} para funções trigonométricas são geradas usando \verb|sbprint|. A seguir, são enumeradas as principais categorias de expressões tratadas:
+Um trecho dessa função está no \autoref{cod-emit-expr}, que demonstra como os tipos são discriminados (\texttt{case}) e \textit{strings} para funções trigonométricas são geradas usando \verb|sbprint|. A seguir, são enumeradas as principais categorias de expressões tratadas:
 
 \begin{enumerate}
     \item \textbf{Expressões Prefixas (\texttt{Expr\_Prefix})}:
@@ -241,7 +241,7 @@ A emissão correta de um shader de BRDF necessita da geração de variáveis \te
 
 Essas variáveis fornecem a infraestrutura necessária para cálculos de reflectância bidirecional em shaders GLSL. A ferramenta Disney disponibiliza algumas delas como parâmetros da função de entrada \verb`BRDF`, mas com nomenclaturas diferentes das adotadas neste trabalho. Essas parametros são: \verb"N" que representa a normal da superfície; \verb"L" que indica a direção da luz incidente (L); \verb"V" que representa a direção de visualização. As demais variáveis são calculadas na emissão de código.
 
-Para calcular variáveis como \verb`omega_i`, \verb`theta_d` e \verb`phi_i`, foram desenvolvidas funções auxiliares que produzem strings válidas em GLSL. A entrada dessas funções é uma \textit{string} representando o vetor (\verb`v`), substituída diretamente no corpo do GLSL gerado:
+Para calcular variáveis como \verb`omega_i`, \verb`theta_d` e \verb`phi_i`, foram desenvolvidas funções auxiliares que produzem \textit{strings} válidas em GLSL. A entrada dessas funções é uma \textit{string} representando o vetor (\verb`v`), substituída diretamente no corpo do GLSL gerado:
 \begin{itemize}
     \item \verb`phi(v)`: Calcula o ângulo azimutal ($\phi$), gera \verb`atan(sqrt(v.y*v.y + v.x*v.x), v.z)`.
     \item \verb`theta(v)`: Calcula o ângulo polar ($\theta$) com a expressão \verb`atan(v.y, v.x)`.

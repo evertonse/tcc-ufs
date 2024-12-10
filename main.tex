@@ -148,7 +148,11 @@
 
 
 
-\titulo{Desenvolvimento de um Compilador de BRDFs em \LaTeX{}  para linguagem de shading GLSL, através da técnica Pratt Parsing} 
+% \titulo{Desenvolvimento de um Compilador de BRDFs em \LaTeX{}  para linguagem de shading GLSL, através da técnica Pratt Parsing}
+% \titulo{Compilador de funções de distribuição de reflexão bidirecional escritas em \LaTeX{} para linguagem de shading GLSL, através da técnica Pratt Parsing}
+\titulo{Compilador de Funções de Distribuição de Reflexão Bidirecional descritas em \LaTeX{} para Linguagem de Shading}
+
+
 \autor{Everton Santos de Andrade Júnior}
 \orientador{Dra. Beatriz Trinchão Andrade}
 % \coorientador{Dr. Gastao Florencio Miranda Junior}
@@ -213,14 +217,15 @@ As BRDFs, essencialmente, calculam a proporção entre a energia luminosa que at
 
 
 
-Existem linguagens específicas para a programação de \textit{shaders}, as quais permitem a modificação de procedimentos que representam uma BRDF. No entanto, essa aplicação requer conhecimento especializado em programação. Essa barreira técnica pode restringir a exploração dos efeitos visuais por profissionais de áreas não relacionadas à programação. Diante disso, surge a necessidade de ferramentas mais acessíveis para a criação de \textit{shaders}.
+Existem linguagens específicas para a programação de \textit{shaders}, as quais permitem a criação e edição de procedimentos que representam uma BRDF. No entanto, essa aplicação requer conhecimento especializado em programação. Essa barreira técnica pode restringir a exploração dos efeitos visuais por profissionais de áreas não relacionadas à programação. Diante disso, surge a necessidade de ferramentas mais acessíveis para a criação de \textit{shaders}.
 
 
-No meio acadêmico, as BRDFs são comumente descritas por fórmulas escritas em \LaTeX{}, Desta forma, uma abordagem promissora para simplificar a criação de \textit{shaders} é o desenvolvimento de um compilador capaz de traduzir BRDFs   escritas em \LaTeX{} para \textit{shaders}. Isso permitiria uma maior acessibilidade e democratização na criação de efeitos visuais complexos.
+No meio acadêmico, as BRDFs são comumente descritas por fórmulas escritas em \LaTeX{}\footnote{\LaTeX{} foi desenvolvido por Leslie Lamport \cite{leslie1994latex}, baseado no sistema \TeX{} de Donald Knuth, e permite a representação de equações matemáticas complexas.}, que é um sistema de preparação de documentos para alta qualidade tipográfica, geralmente utilizado para a criação de artigos científicos. Desta forma, uma abordagem promissora para simplificar a criação de \textit{shaders} é o desenvolvimento de um compilador capaz de traduzir BRDFs   escritas em \LaTeX{} para \textit{shaders}. Isso permitiria uma maior acessibilidade e democratização na criação de efeitos visuais complexos.
 
 
 \section{Objetivo}
-Este trabalho visa projetar e implementar um compilador que, a partir de BRDFs escritas como equações em \LaTeX{}, seja capaz de gerar código de \textit{shading} na linguagem alvo da API OpenGL. O resultado será um \textit{shader} capaz de reproduzir as características de reflexão da BRDF original ou, ao menos, alcançar uma aproximação satisfatória dessas características, levando em conta as limitações da linguagem de \textit{shading} da API, principalmente as representações de dados de forma discreta.
+%%
+Este trabalho visa projetar e implementar um compilador que, a partir de BRDFs escritas como equações em \LaTeX{}, seja capaz de gerar código de sombreamento (\textit{shading})\footnote{O termo \textit{shading} refere-se ao processo computacional realizado por um \textit{shader}, ou seja, o cálculo de cor, iluminação e textura para cada ponto de uma superfície em uma cena gráfica.} na linguagem alvo da API OpenGL. O resultado será um \textit{shader} capaz de reproduzir as características de reflexão da BRDF original ou, ao menos, alcançar uma aproximação satisfatória dessas características, levando em conta as limitações da linguagem de \textit{shading} da API, principalmente as representações de dados de forma discreta.
 
 
 \section{Estrutura do Documento}

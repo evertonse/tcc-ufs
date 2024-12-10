@@ -1,78 +1,79 @@
-\contentsline {codigo}{\numberline {1}{\ignorespaces \small Exemplo GLSL de \textit {shader} de vértice.}}{25}{codigo.2.1}%
-\contentsline {codigo}{\numberline {2}{\ignorespaces \small Exemplo de código escrito em C.}}{29}{codigo.2.2}%
-\contentsline {codigo}{\numberline {3}{\ignorespaces \small Cálculo vetorial em código-fonte \LaTeX {}.}}{30}{codigo.2.3}%
-\contentsline {codigo}{\numberline {4}{\ignorespaces \small Cálculo vetorial em código GLSL.}}{30}{codigo.2.4}%
-\contentsline {codigo}{\numberline {5}{\ignorespaces \small Código-fonte de função quadrática.}}{39}{codigo.4.5}%
-\contentsline {codigo}{\numberline {6}{\ignorespaces \small Código GLSL da função quadrática g.}}{39}{codigo.4.6}%
-\contentsline {codigo}{\numberline {7}{\ignorespaces \small Entrada em \LaTeX \ (Cook-Torrance BRDF).}}{42}{codigo.4.7}%
-\contentsline {codigo}{\numberline {8}{\ignorespaces \small Saída em GLSL esperada (Cook-Torrance BRDF).}}{42}{codigo.4.8}%
-\contentsline {codigo}{\numberline {9}{\ignorespaces \small Função principal do Lexer. }}{50}{codigo.5.9}%
-\contentsline {codigo}{\numberline {10}{\ignorespaces \small Função de erro exposto pelo pacote \texttt {lexer}. }}{50}{codigo.5.10}%
-\contentsline {codigo}{\numberline {11}{\ignorespaces \small Estuturas do Lexer. }}{53}{codigo.5.11}%
-\contentsline {codigo}{\numberline {12}{\ignorespaces \small Mapa de indentificadores especiais. }}{54}{codigo.5.12}%
-\contentsline {codigo}{\numberline {13}{\ignorespaces \small Gramática ilustrativa para \texttt {tokens}. }}{55}{codigo.5.13}%
-\contentsline {codigo}{\numberline {14}{\ignorespaces \small Enumeração dos tipos de \texttt {tokens}. }}{56}{codigo.5.14}%
-\contentsline {codigo}{\numberline {15}{\ignorespaces \small Regras tradicionais de precendecia por gramática. }}{57}{codigo.5.15}%
-\contentsline {codigo}{\numberline {16}{\ignorespaces \small Parsing de expressão em código Odin.}}{58}{codigo.5.16}%
-\contentsline {codigo}{\numberline {17}{\ignorespaces \small Estruturas e Funções do Parser. }}{59}{codigo.5.17}%
-\contentsline {codigo}{\numberline {18}{\ignorespaces \small \textit {Parsing} do nó \texttt {Start}. }}{59}{codigo.5.18}%
-\contentsline {codigo}{\numberline {19}{\ignorespaces \small Exemplo código escrito na linguagem \texttt {EquationLang}. }}{60}{codigo.5.19}%
-\contentsline {codigo}{\numberline {20}{\ignorespaces \small Gramática para \texttt {EquantionLang} parte 1.}}{60}{codigo.5.20}%
-\contentsline {codigo}{\numberline {21}{\ignorespaces \small Gramática para \texttt {EquantionLang} parte 2.}}{61}{codigo.5.21}%
-\contentsline {codigo}{\numberline {22}{\ignorespaces \small Parte do código de \textit {parsing} de expressão para identificadores. }}{64}{codigo.5.22}%
-\contentsline {codigo}{\numberline {23}{\ignorespaces \small Estrutura polimórfica \texttt {Visitor}. \texttt {DataType} é o parametro concreto dessa estrutura. }}{65}{codigo.5.23}%
-\contentsline {codigo}{\numberline {26}{\ignorespaces \small Assinatura da função que extrai nós filhos de maniera uniforme para qualquer tipo de nó. }}{67}{codigo.5.26}%
-\contentsline {codigo}{\numberline {24}{\ignorespaces \small Função de percurso \texttt {walk}. }}{69}{codigo.5.24}%
-\contentsline {codigo}{\numberline {25}{\ignorespaces \small Validação de precendencia por parentização de expressões. }}{70}{codigo.5.25}%
-\contentsline {codigo}{\numberline {27}{\ignorespaces \small Estruturas que representam o tipo de um expressão da AST. }}{73}{codigo.5.27}%
-\contentsline {codigo}{\numberline {28}{\ignorespaces \small Esturura do Simbolo. }}{74}{codigo.5.28}%
-\contentsline {codigo}{\numberline {29}{\ignorespaces \small Código da estrutura de símbolos escrito em Odin.}}{75}{codigo.5.29}%
-\contentsline {codigo}{\numberline {30}{\ignorespaces \small Estrutura de grafo de dependencias. }}{77}{codigo.5.30}%
-\contentsline {codigo}{\numberline {31}{\ignorespaces \small Entrada para o compilador que gera dependencia circular. }}{77}{codigo.5.31}%
-\contentsline {codigo}{\numberline {32}{\ignorespaces \small Parte do switch da inferencia de tipos. }}{78}{codigo.5.32}%
-\contentsline {codigo}{\numberline {33}{\ignorespaces \small Identificadores embutidos pela convenção deste trabalho.}}{80}{codigo.5.33}%
-\contentsline {codigo}{\numberline {34}{\ignorespaces \small Recorte da função \texttt {check\_expr}. }}{80}{codigo.5.34}%
-\contentsline {codigo}{\numberline {35}{\ignorespaces \small Equação com uso incorreto de tipos na chamada de função. }}{82}{codigo.5.35}%
-\contentsline {codigo}{\numberline {36}{\ignorespaces \small Validação de parametros de uma função. }}{83}{codigo.5.36}%
-\contentsline {codigo}{\numberline {37}{\ignorespaces \small Emissão de chamada de funções. }}{86}{codigo.5.37}%
-\contentsline {codigo}{\numberline {38}{\ignorespaces \small Exemplo de código de expressão gerado. }}{87}{codigo.5.38}%
-\contentsline {codigo}{\numberline {39}{\ignorespaces \small Emitir expressão. }}{90}{codigo.5.39}%
-\contentsline {codigo}{\numberline {40}{\ignorespaces \small Recorte da função BRDF one as variaveis built-ins são inicializadas }}{91}{codigo.5.40}%
-\contentsline {codigo}{\numberline {41}{\ignorespaces \small Código GLSL gerado pelo compilador para as funções de normalização e reflexão de vetores. }}{91}{codigo.5.41}%
-\contentsline {codigo}{\numberline {42}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }}{95}{codigo.6.42}%
-\contentsline {codigo}{\numberline {43}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 2). }}{96}{codigo.6.43}%
-\contentsline {codigo}{\numberline {44}{\ignorespaces \small Código fonte da BRDF deste experimento (parte 1).}}{97}{codigo.6.44}%
-\contentsline {codigo}{\numberline {45}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }}{99}{codigo.6.45}%
-\contentsline {codigo}{\numberline {46}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 2). }}{100}{codigo.6.46}%
-\contentsline {codigo}{\numberline {47}{\ignorespaces \small Código fonte da BRDF deste experimento.}}{101}{codigo.6.47}%
-\contentsline {codigo}{\numberline {48}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }}{104}{codigo.6.48}%
-\contentsline {codigo}{\numberline {49}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 2). }}{105}{codigo.6.49}%
-\contentsline {codigo}{\numberline {50}{\ignorespaces \small Código fonte da BRDF deste experimento (parte 1).}}{106}{codigo.6.50}%
-\contentsline {codigo}{\numberline {51}{\ignorespaces \small Código fonte da BRDF deste experimento (parte 2).}}{107}{codigo.6.51}%
-\contentsline {codigo}{\numberline {52}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }}{110}{codigo.6.52}%
-\contentsline {codigo}{\numberline {53}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 2). }}{111}{codigo.6.53}%
-\contentsline {codigo}{\numberline {54}{\ignorespaces \small Código fonte da BRDF deste experimento (parte 1).}}{112}{codigo.6.54}%
-\contentsline {codigo}{\numberline {55}{\ignorespaces \small Código fonte da BRDF deste experimento (parte 2).}}{113}{codigo.6.55}%
-\contentsline {codigo}{\numberline {56}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }}{116}{codigo.6.56}%
-\contentsline {codigo}{\numberline {57}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 2). }}{117}{codigo.6.57}%
-\contentsline {codigo}{\numberline {58}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 3). }}{118}{codigo.6.58}%
-\contentsline {codigo}{\numberline {59}{\ignorespaces \small Código fonte da BRDF deste experimento (parte 1).}}{119}{codigo.6.59}%
-\contentsline {codigo}{\numberline {60}{\ignorespaces \small Código fonte da BRDF deste experimento (parte 2).}}{120}{codigo.6.60}%
-\contentsline {codigo}{\numberline {61}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }}{122}{codigo.6.61}%
-\contentsline {codigo}{\numberline {62}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 2). }}{123}{codigo.6.62}%
-\contentsline {codigo}{\numberline {63}{\ignorespaces \small Código fonte da BRDF deste experimento.}}{124}{codigo.6.63}%
-\contentsline {codigo}{\numberline {64}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }}{126}{codigo.6.64}%
-\contentsline {codigo}{\numberline {65}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 2). }}{127}{codigo.6.65}%
-\contentsline {codigo}{\numberline {66}{\ignorespaces \small Código fonte da BRDF deste experimento.}}{128}{codigo.6.66}%
-\contentsline {codigo}{\numberline {67}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }}{130}{codigo.6.67}%
-\contentsline {codigo}{\numberline {68}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 2). }}{131}{codigo.6.68}%
-\contentsline {codigo}{\numberline {69}{\ignorespaces \small Código fonte da BRDF deste experimento.}}{132}{codigo.6.69}%
-\contentsline {codigo}{\numberline {70}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }}{134}{codigo.6.70}%
-\contentsline {codigo}{\numberline {71}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 2). }}{135}{codigo.6.71}%
-\contentsline {codigo}{\numberline {72}{\ignorespaces \small Código fonte da BRDF deste experimento.}}{136}{codigo.6.72}%
-\contentsline {codigo}{\numberline {73}{\ignorespaces \small Saida do compilador, código GLSL da BRDF do experimento baseado em Kajiya-Kay (parte 1). }}{139}{codigo.6.73}%
-\contentsline {codigo}{\numberline {74}{\ignorespaces \small Saida do compilador, código GLSL da BRDF do experimento baseado em Kajiya-Kay (parte 2). }}{140}{codigo.6.74}%
-\contentsline {codigo}{\numberline {75}{\ignorespaces \small Código fonte da BRDF do experimento Kajiya-Kay.}}{141}{codigo.6.75}%
-\contentsline {codigo}{\numberline {76}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }}{143}{codigo.6.76}%
-\contentsline {codigo}{\numberline {77}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 2). }}{144}{codigo.6.77}%
-\contentsline {codigo}{\numberline {78}{\ignorespaces \small Código fonte da BRDF deste experimento (parte 1).}}{145}{codigo.6.78}%
+\contentsline {codigo}{\numberline {1}{\ignorespaces \small Exemplo GLSL de \textit {shader} de vértice.}}{26}{codigo.2.1}%
+\contentsline {codigo}{\numberline {2}{\ignorespaces \small Exemplo de código escrito em C.}}{31}{codigo.2.2}%
+\contentsline {codigo}{\numberline {3}{\ignorespaces \small Cálculo vetorial em código-fonte \LaTeX {}.}}{32}{codigo.2.3}%
+\contentsline {codigo}{\numberline {4}{\ignorespaces \small Cálculo vetorial em código GLSL.}}{32}{codigo.2.4}%
+\contentsline {codigo}{\numberline {5}{\ignorespaces \small Código de interface em \texttt {Slang}. }}{37}{codigo.3.5}%
+\contentsline {codigo}{\numberline {6}{\ignorespaces \small Código-fonte de função quadrática.}}{42}{codigo.4.6}%
+\contentsline {codigo}{\numberline {7}{\ignorespaces \small Código GLSL da função quadrática g.}}{42}{codigo.4.7}%
+\contentsline {codigo}{\numberline {8}{\ignorespaces \small Entrada em \LaTeX \ (Cook-Torrance BRDF).}}{45}{codigo.4.8}%
+\contentsline {codigo}{\numberline {9}{\ignorespaces \small Saída em GLSL esperada (Cook-Torrance BRDF).}}{45}{codigo.4.9}%
+\contentsline {codigo}{\numberline {10}{\ignorespaces \small Função principal do Lexer. }}{53}{codigo.5.10}%
+\contentsline {codigo}{\numberline {11}{\ignorespaces \small Função de erro exposto pelo pacote \texttt {lexer}. }}{53}{codigo.5.11}%
+\contentsline {codigo}{\numberline {12}{\ignorespaces \small Estruturas do Lexer. }}{56}{codigo.5.12}%
+\contentsline {codigo}{\numberline {13}{\ignorespaces \small Mapa de identificadores especiais. }}{57}{codigo.5.13}%
+\contentsline {codigo}{\numberline {14}{\ignorespaces \small Gramática ilustrativa para \texttt {tokens}. }}{58}{codigo.5.14}%
+\contentsline {codigo}{\numberline {15}{\ignorespaces \small Enumeração dos tipos de \texttt {tokens}. }}{59}{codigo.5.15}%
+\contentsline {codigo}{\numberline {16}{\ignorespaces \small Regras tradicionais de precedência por gramática. }}{60}{codigo.5.16}%
+\contentsline {codigo}{\numberline {17}{\ignorespaces \small Parsing de expressão em código Odin.}}{61}{codigo.5.17}%
+\contentsline {codigo}{\numberline {18}{\ignorespaces \small Estrutura e função principal do pacote \texttt {parser}. }}{62}{codigo.5.18}%
+\contentsline {codigo}{\numberline {19}{\ignorespaces \small \textit {Parsing} do nó \texttt {Start}. }}{62}{codigo.5.19}%
+\contentsline {codigo}{\numberline {20}{\ignorespaces \small Exemplo código escrito na linguagem \texttt {EquationLang}. }}{63}{codigo.5.20}%
+\contentsline {codigo}{\numberline {21}{\ignorespaces \small Gramática para \texttt {EquantionLang} parte 1.}}{63}{codigo.5.21}%
+\contentsline {codigo}{\numberline {22}{\ignorespaces \small Gramática para \texttt {EquantionLang} parte 2.}}{64}{codigo.5.22}%
+\contentsline {codigo}{\numberline {23}{\ignorespaces \small Parte do código de \textit {parsing} de expressão para identificadores. }}{67}{codigo.5.23}%
+\contentsline {codigo}{\numberline {24}{\ignorespaces \small Estrutura polimórfica \texttt {Visitor}. \texttt {DataType} é o parametro concreto dessa estrutura. }}{68}{codigo.5.24}%
+\contentsline {codigo}{\numberline {27}{\ignorespaces \small Assinatura da função que extrai nós filhos de maniera uniforme para qualquer tipo de nó. }}{70}{codigo.5.27}%
+\contentsline {codigo}{\numberline {25}{\ignorespaces \small Função de percurso \texttt {walk}. }}{72}{codigo.5.25}%
+\contentsline {codigo}{\numberline {26}{\ignorespaces \small Validação de precendencia por parentização de expressões. }}{73}{codigo.5.26}%
+\contentsline {codigo}{\numberline {28}{\ignorespaces \small Estruturas que representam o tipo de um expressão da AST. }}{76}{codigo.5.28}%
+\contentsline {codigo}{\numberline {29}{\ignorespaces \small Esturura do Simbolo. }}{77}{codigo.5.29}%
+\contentsline {codigo}{\numberline {30}{\ignorespaces \small Código da estrutura de símbolos escrito em Odin.}}{78}{codigo.5.30}%
+\contentsline {codigo}{\numberline {31}{\ignorespaces \small Estrutura de grafo de dependencias. }}{80}{codigo.5.31}%
+\contentsline {codigo}{\numberline {32}{\ignorespaces \small Entrada para o compilador que gera dependencia circular. }}{80}{codigo.5.32}%
+\contentsline {codigo}{\numberline {33}{\ignorespaces \small Parte do switch da inferencia de tipos. }}{81}{codigo.5.33}%
+\contentsline {codigo}{\numberline {34}{\ignorespaces \small Identificadores embutidos pela convenção deste trabalho.}}{83}{codigo.5.34}%
+\contentsline {codigo}{\numberline {35}{\ignorespaces \small Recorte da função \texttt {check\_expr}. }}{83}{codigo.5.35}%
+\contentsline {codigo}{\numberline {36}{\ignorespaces \small Equação com uso incorreto de tipos na chamada de função. }}{85}{codigo.5.36}%
+\contentsline {codigo}{\numberline {37}{\ignorespaces \small Validação de parametros de uma função. }}{86}{codigo.5.37}%
+\contentsline {codigo}{\numberline {38}{\ignorespaces \small Emissão de chamada de funções. }}{89}{codigo.5.38}%
+\contentsline {codigo}{\numberline {39}{\ignorespaces \small Exemplo de código de expressão gerado. }}{90}{codigo.5.39}%
+\contentsline {codigo}{\numberline {40}{\ignorespaces \small Emitir expressão. }}{93}{codigo.5.40}%
+\contentsline {codigo}{\numberline {41}{\ignorespaces \small Recorte da função BRDF one as variaveis built-ins são inicializadas }}{94}{codigo.5.41}%
+\contentsline {codigo}{\numberline {42}{\ignorespaces \small Código GLSL gerado pelo compilador para as funções de normalização e reflexão de vetores. }}{94}{codigo.5.42}%
+\contentsline {codigo}{\numberline {43}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }}{98}{codigo.6.43}%
+\contentsline {codigo}{\numberline {44}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 2). }}{99}{codigo.6.44}%
+\contentsline {codigo}{\numberline {45}{\ignorespaces \small Código fonte da BRDF deste experimento (parte 1).}}{100}{codigo.6.45}%
+\contentsline {codigo}{\numberline {46}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }}{102}{codigo.6.46}%
+\contentsline {codigo}{\numberline {47}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 2). }}{103}{codigo.6.47}%
+\contentsline {codigo}{\numberline {48}{\ignorespaces \small Código fonte da BRDF deste experimento.}}{104}{codigo.6.48}%
+\contentsline {codigo}{\numberline {49}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }}{107}{codigo.6.49}%
+\contentsline {codigo}{\numberline {50}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 2). }}{108}{codigo.6.50}%
+\contentsline {codigo}{\numberline {51}{\ignorespaces \small Código fonte da BRDF deste experimento (parte 1).}}{109}{codigo.6.51}%
+\contentsline {codigo}{\numberline {52}{\ignorespaces \small Código fonte da BRDF deste experimento (parte 2).}}{110}{codigo.6.52}%
+\contentsline {codigo}{\numberline {53}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }}{113}{codigo.6.53}%
+\contentsline {codigo}{\numberline {54}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 2). }}{114}{codigo.6.54}%
+\contentsline {codigo}{\numberline {55}{\ignorespaces \small Código fonte da BRDF deste experimento (parte 1).}}{115}{codigo.6.55}%
+\contentsline {codigo}{\numberline {56}{\ignorespaces \small Código fonte da BRDF deste experimento (parte 2).}}{116}{codigo.6.56}%
+\contentsline {codigo}{\numberline {57}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }}{119}{codigo.6.57}%
+\contentsline {codigo}{\numberline {58}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 2). }}{120}{codigo.6.58}%
+\contentsline {codigo}{\numberline {59}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 3). }}{121}{codigo.6.59}%
+\contentsline {codigo}{\numberline {60}{\ignorespaces \small Código fonte da BRDF deste experimento (parte 1).}}{122}{codigo.6.60}%
+\contentsline {codigo}{\numberline {61}{\ignorespaces \small Código fonte da BRDF deste experimento (parte 2).}}{123}{codigo.6.61}%
+\contentsline {codigo}{\numberline {62}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }}{125}{codigo.6.62}%
+\contentsline {codigo}{\numberline {63}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 2). }}{126}{codigo.6.63}%
+\contentsline {codigo}{\numberline {64}{\ignorespaces \small Código fonte da BRDF deste experimento.}}{127}{codigo.6.64}%
+\contentsline {codigo}{\numberline {65}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }}{129}{codigo.6.65}%
+\contentsline {codigo}{\numberline {66}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 2). }}{130}{codigo.6.66}%
+\contentsline {codigo}{\numberline {67}{\ignorespaces \small Código fonte da BRDF deste experimento.}}{131}{codigo.6.67}%
+\contentsline {codigo}{\numberline {68}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }}{133}{codigo.6.68}%
+\contentsline {codigo}{\numberline {69}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 2). }}{134}{codigo.6.69}%
+\contentsline {codigo}{\numberline {70}{\ignorespaces \small Código fonte da BRDF deste experimento.}}{135}{codigo.6.70}%
+\contentsline {codigo}{\numberline {71}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }}{137}{codigo.6.71}%
+\contentsline {codigo}{\numberline {72}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 2). }}{138}{codigo.6.72}%
+\contentsline {codigo}{\numberline {73}{\ignorespaces \small Código fonte da BRDF deste experimento.}}{139}{codigo.6.73}%
+\contentsline {codigo}{\numberline {74}{\ignorespaces \small Saida do compilador, código GLSL da BRDF do experimento baseado em Kajiya-Kay (parte 1). }}{142}{codigo.6.74}%
+\contentsline {codigo}{\numberline {75}{\ignorespaces \small Saida do compilador, código GLSL da BRDF do experimento baseado em Kajiya-Kay (parte 2). }}{143}{codigo.6.75}%
+\contentsline {codigo}{\numberline {76}{\ignorespaces \small Código fonte da BRDF do experimento Kajiya-Kay.}}{144}{codigo.6.76}%
+\contentsline {codigo}{\numberline {77}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }}{146}{codigo.6.77}%
+\contentsline {codigo}{\numberline {78}{\ignorespaces \small Saida do compilador, código GLSL da BRDF deste experimento (parte 2). }}{147}{codigo.6.78}%
+\contentsline {codigo}{\numberline {79}{\ignorespaces \small Código fonte da BRDF deste experimento (parte 1).}}{148}{codigo.6.79}%
