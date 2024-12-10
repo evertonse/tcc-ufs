@@ -35,7 +35,7 @@ As bases escolhidas foram: ACM Digital Library \footnote{\url{https://dl.acm.org
 \subsection{Questões de Pequisa}  \label{questoes-pesquisa}
 
 
-Foram elaboradas questões de pesquisa específicas que servem como guia para identificar e selecionar trabalhos científicos capazes de fornecer estratégias para o desenvolvimento do nosso projeto. Essas questões orientam a busca por artigos que apresentem soluções para desafios como: transformar descrições matemáticas de BRDFs em sequências computáveis adequadas para execução por renderizadores; representar modelos de \textit{shading} em estruturas hierárquicas; e desenvolver estratégias de compilação de BRDFs para linguagens de \textit{shading}. A partir desse processo, foram identificados e selecionados os trabalhos que melhor atendem às questões propostas, garantindo maior relevância e consistência para este estudo.
+Foram elaboradas questões de pesquisa específicas que servem como guia para identificar e selecionar trabalhos científicos capazes de fornecer estratégias para o desenvolvimento do nosso projeto. Essas questões orientam a busca por artigos que apresentem soluções para desafios como: transformar descrições matemáticas de BRDFs em sequências computáveis adequadas para execução por renderizadores; representar modelos de \textit{shading} em estruturas hierárquicas; e desenvolver estratégias de compilação de BRDFs para linguagens de \textit{shading}. A partir desse processo, foram identificados e selecionados os trabalhos que melhor atendem às questões propostas, garantindo maior relevância para este estudo.
 
 
 \begin{enumerate}
@@ -68,7 +68,7 @@ Foram elaboradas questões de pesquisa específicas que servem como guia para id
 
 \begin{table}[H]
 \ABNTEXfontereduzida
-\caption[bases]{\small Tabela de pesquisa.}
+\caption{\small Tabela de pesquisa.}
 \label{tab-bases}
 \begin{tabular}{p{2.6cm}|p{6.0cm}|p{2.25cm}|p{3.40cm}}
   %\hline
@@ -136,7 +136,7 @@ Para garantir a relevância dos resultados obtidos, seguimos os critérios de in
   \item Foram excluídos artigos que dispunham de \textit{links} incorretos e ou quebrados;
   \item Foram excluídos artigos que não estão relacionados com as questões de pesquisa da \autoref{questoes-pesquisa};
   % \item Foram excluídos artigos que não têm como entrada uma BRDF no formato de equação, ou seja, utilizam a representação diretamente como código;
-  \item Foram excluídos artigos que não abordam nenhum dos seguintes aspectos: a geração de \textit{shaders} como saída, a estruturação hierárquica de BRDFs ou a decomposição das operações matemáticas associadas a BRDFs.
+  \item Foram excluídos artigos que não abordam nenhum dos seguintes aspectos: a geração de \textit{shaders} como saída, a estruturação hierárquica de BRDFs ou a decomposição das operações matemáticas associadas a BRDFs;
 
   \item Foram excluídos artigos que não citam BRDFs e compilador ou árvores em seu resumo;
   \item Se, após a leitura completa, o artigo não concerne os interesses deste trabalho, esse foi excluído.
@@ -154,7 +154,8 @@ Para garantir a relevância dos resultados obtidos, seguimos os critérios de in
    \textbf{Bases}  & \textbf{Filtrados}\\
    \hline
     IEEE Xplore Digital Library
-   & 2
+    % NOTE: Eram 2, mas removi 'Tree-Structured Shading Decomposition'.
+   & 1 
     \\ \hline
     BDTD
     & 0
@@ -167,12 +168,11 @@ Para garantir a relevância dos resultados obtidos, seguimos os critérios de in
   ACM Digital Library
   & 1
     \\ \hline
- Google Acadêmico 
+ Google Acadêmico
   & 1
    % \hline
 \end{tabular}
 \end{table}
-
 
 
 
@@ -184,7 +184,8 @@ Para garantir a relevância dos resultados obtidos, seguimos os critérios de in
 \subsubsection{genBRDF: Discovering New Analytic BRDFs with Genetic Programming}
 
 
-Neste artigo é introduzido um \textit{framework} chamada genBRDF, a qual aplica técnicas de programação genética para explorar e descobrir novas BRDFs de maneira analítica \cite{genbrdf}. O processo inicia utilizando uma BRDF existente, e interativamente aplica mutações e recombinações de partes das expressões matemáticas que compõem essas BRDFs à medida que novas gerações surgem.
+Neste artigo é introduzido um \textit{framework} chamada genBRDF, a qual aplica técnicas de programação genética para explorar e descobrir novas BRDFs de maneira analítica \cite{genbrdf}. O processo inicia com a descrição analítica de uma BRDF existente\footnote{As BRDFs de entrada são escritas na linguagem definida pela gramática apresentada pelos autores, que permite operações matemáticas, como \verb"sin", \verb"cos", \verb"tan", \verb"exp", \verb"asin", \verb"acos", \verb"dot", \verb"+", \verb"sqrt". Como exemplo, os autores ilustram ${brdf}_{init} = \rho_s \cos(R \cdot V)^\alpha$, como uma BRDF válida.}, e interativamente aplica mutações e recombinações de partes das expressões matemáticas que compõem essas BRDFs à medida que novas gerações surgem.
+
 Essas mutações são guiadas por uma função \textit{fitness}.
 Esse tipo de função atua como o inverso de uma função de erro, sendo baseada em um \textit{dataset} de materiais previamente medidos. Ela direciona as mutações ao avaliar a qualidade das expressões geradas, permitindo que o \textit{framework} identifique as soluções viáveis após analisar milhares de variantes.
 
@@ -203,62 +204,60 @@ O autor enfatiza que cada extensão da \texttt{Slang} foi projetada para permiti
 
 Um exemplo do uso de interfaces e funções genéricas em \texttt{Slang} é apresentado no \autoref{cod-sland}. Ao declarar a conformidade com a interface \texttt{IFoo}, a definição da estrutura \texttt{MyType} deve incluir um método chamado \texttt{myMethod}, com a assinatura correspondente àquela definida na interface \texttt{IFoo}. Já na função \texttt{myGenericMethod}, o parâmetro \texttt{arg} é genérico, permitindo maior flexibilidade na implementação.
 
-
 \begin{codigo}[H]
   \caption{\small Código de interface em \texttt{Slang}. }
   \label{cod-sland}
 \begin{lstlisting}[language=C, frame=none, inputencoding=utf8]
-
-interface IFoo
-{
+interface IFoo {
     int myMethod(float arg);
 }
 
-struct MyType : IFoo
-{
-    int myMethod(float arg)
-    {
+struct MyType : IFoo {
+    int myMethod(float arg) {
         return (int)arg + 1;
     }
 }
 
-int myGenericMethod<T>(T arg) where T : IFoo
-{
+int myGenericMethod<T>(T arg) where T : IFoo {
     return arg.myMethod(1.0);
 }
 \end{lstlisting}
 \end{codigo}
 
-
-
-
 Enquanto o artigo tenta melhorar a flexibilidade e a extensibilidade dos sistemas de \textit{shading} em tempo real, o nosso trabalho se concentra na compilação de equações BRDF em linguagens de \textit{shading}. Embora ambos os projetos envolvam o uso de \textit{shaders} e a geração de código de \textit{shading}, as abordagens e os focos são distintos
 
-
-\subsubsection{Tree-Structured Shading Decomposition}
-
-
-Esse trabalho propõe uma abordagem para inferir uma representação de BRDF estruturada em árvore a partir de uma única imagem para o sombreamento de objetos \cite{tree_decomposition}. Em vez de usar representações paramétricas, como é comum, é proposta uma abordagem que utiliza uma representação em árvore de \textit{shading}, combinando nós básicos e métodos para decompor o \textit{shading} da superfície do objeto, representado na \autoref{fig_decomp}.
-
-
-\begin{figure}[H]
-        \caption{\label{fig_decomp} \small Exemplo de decomposição de BRDFs em nós de uma árvore.}
-        \begin{center}
-            \includegraphics[scale=0.5]{./Imagens/tree-shading.png}
-        \end{center}
-        \legend{Fonte: \citeonline[]{radiometry_introduction}.}
-\end{figure}
-
-
-
-
-Assim como o nosso trabalho, esse artigo se concentra em facilitar o processo para usuários inexperientes, pois ambos visam fornecer ferramentas acessíveis para manipular representações de \textit{shading} sem exigir conhecimento avançado em programação. Esse artigo também emprega uma representação em árvore, embora para um propósito diferente.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%% REMOVED FOR NOW %%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsubsection{Tree-Structured Shading Decomposition}
+%
+%
+% Esse trabalho propõe uma abordagem para inferir uma representação de BRDF estruturada em árvore a partir de uma única imagem para o sombreamento de objetos \cite{tree_decomposition}. Em vez de usar representações paramétricas, como é comum, é proposta uma abordagem que utiliza uma representação em árvore de \textit{shading}, combinando nós básicos e métodos para decompor o \textit{shading} da superfície do objeto, representado na \autoref{fig_decomp}.
+%
+%
+% \begin{figure}[H]
+%         \caption{\label{fig_decomp} \small Exemplo de decomposição de BRDFs em nós de uma árvore.}
+%         \begin{center}
+%             \includegraphics[scale=0.5]{./Imagens/tree-shading.png}
+%         \end{center}
+%         \legend{Fonte: \citeonline[]{radiometry_introduction}.}
+% \end{figure}
+%
+%
+%
+%
+% Assim como o nosso trabalho, esse artigo se concentra em facilitar o processo para usuários inexperientes, pois ambos visam fornecer ferramentas acessíveis para manipular representações de \textit{shading} sem exigir conhecimento avançado em programação. Esse artigo também emprega uma representação em árvore, embora para um propósito diferente.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%% REMOVED FOR NOW %%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \subsubsection{A Real-Time Configurable Shader Based on Lookup Tables}
 
 
-Esse trabalho propõe uma arquitetura de \textit{hardware} que permite cálculos de \textit{shading} por pixel em tempo real, utilizando \textit{lookup-tables} \cite{configurable}. Para isso, são projetados circuitos configuráveis baseados nessas tabelas, memórias de acesso aleatório (RAMs) e memórias somente leitura (ROMs). Vários circuitos base foram projetados para as operações mais comuns. Por exemplo, circuitos para calcular o produto interno entre dois vetores e circuitos de rotação de um vetor por um ângulo, um exemplo desses diagramas é representado na \autoref{fig_circuit}. Ademais, foi utilizada interpolação em um sistema de coordenadas polares em vez da interpolação vetorial convencional, com o objetivo de reduzir o tamanho dos circuitos e melhorar o desempenho.
+Esse trabalho propõe uma arquitetura de \textit{hardware} que permite cálculos de \textit{shading} por pixel em tempo real, utilizando \textit{lookup-tables} \cite{configurable}. Para isso, são projetados circuitos configuráveis baseados nessas tabelas, memórias de acesso aleatório (RAMs) e memórias somente leitura (ROMs). Vários circuitos base foram projetados para as operações mais comuns, como o cálculo do produto interno entre dois vetores e a rotação de um vetor por um ângulo. Um exemplo desses diagramas é representado na \autoref{fig_circuit}. Ademais, foi utilizada interpolação em um sistema de coordenadas polares em vez da interpolação vetorial convencional, com o objetivo de reduzir o tamanho dos circuitos e melhorar o desempenho.
+
+% Vários circuitos base foram projetados para as operações mais comuns, como o cálculo do produto interno entre dois vetores e a rotação de um vetor por um ângulo. Um exemplo desses diagramas é representado na \autoref{fig_circuit}. Além disso, foi utilizada interpolação em um sistema de coordenadas polares, em vez da interpolação vetorial convencional, com o objetivo de reduzir o tamanho dos circuitos e melhorar o desempenho
 
 
 
@@ -275,7 +274,7 @@ Esse trabalho propõe uma arquitetura de \textit{hardware} que permite cálculos
 
 Além disso, o circuito suporta diversas BRDFs, como Blinn-Phong, Cook-Torrance, Ward e modelos baseados em microfacetas, com tabelas específicas para cada modelo. O uso de tabelas de pesquisa permite a representação organizada da parametrização das BRDFs, tornando o processo de transformação de BRDF para \textit{shaders} mais acessível.
 
-Esse trabalho foi aceito por incluir o processo de tradução estruturada de BRDFs para uma sequência computável através dos circuitos. Assim, esse artigo mostra como modularizar o calcula das operações matematicas contidas em BRDFs. Similar a este trabalho, a abordagem facilita a geração de \textit{shaders} a partir da descrição de BRDFs, pois o processo de geração de shader a partir de uma arvore envolve linearizar as operações da brdf em um sequencia correta, apesar da metodologia ser diferente.
+Este trabalho foi aceito por incluir o processo de tradução estruturada de BRDFs para uma sequência computável através de circuitos. Assim, o artigo demonstra como modularizar o cálculo das operações matemáticas contidas em BRDFs. A abordagem é útil para o nosso projeto, pois o processo de geração de \textit{shaders} a partir de uma árvore envolve linearizar as operações da BRDF em uma sequência correta, embora o propósito dessa tarefa em nosso projeto seja diferente do apresentado neste trabalho
 
 
 \section{Pesquisa por Repositórios Online}
