@@ -1,6 +1,7 @@
+
 \section{Experimento BRDF Ashikhmin-Shirley}\label{sec:ashikhmin-shirley}
 
-Neste experimento, utilizamos uma BRDF anisotrópica desenvolvida por Ashikhmin-Shirley \cite{ashikhmin2000anisotropic}, que apresenta um modelo de reflexão não uniforme. A descrição matemática está presente na \autoref{fig-ashikhmin-shirley-close-to-original-eqlang-latex}, com o código-fonte em \texttt{EquationLang} disponível no \autoref{cod-ashikhmin-shirley-close-to-original-eqlang-pt-1} e no \autoref{cod-ashikhmin-shirley-close-to-original-eqlang-pt-2}. Destacamos que o compilador corretamente ignora texto fora do ambiente \texttt{equation}. Os códigos gerados em GLSL são apresentados nos \autoref{cod-ashikhmin-shirley-close-to-original-glsl-pt-1} e \autoref{cod-ashikhmin-shirley-close-to-original-glsl-pt-2}. A renderização dos objetos 3D pode ser observada na \autoref{fig-ashikhmin-shirley-close-to-original-eqlang}, e os \textit{plots} correspondentes estão na \autoref{fig-ashikhmin-shirley-close-to-original-plots}.
+Neste experimento, utilizamos uma BRDF anisotrópica desenvolvida por Ashikhmin-Shirley \cite{ashikhmin2000anisotropic}, que apresenta um modelo de reflexão não uniforme. A descrição matemática está presente na \autoref{fig-ashikhmin-shirley-close-to-original-eqlang-latex}, com o código-fonte em \texttt{EquationLang} disponível no \autoref{cod-ashikhmin-shirley-close-to-original-eqlang-pt-1} e no \autoref{cod-ashikhmin-shirley-close-to-original-eqlang-pt-2}. Destacamos que o compilador corretamente ignora texto fora do ambiente \texttt{equation}. O código gerado em GLSL é apresentado no \autoref{cod-ashikhmin-shirley-close-to-original-glsl-pt-1} e no \autoref{cod-ashikhmin-shirley-close-to-original-glsl-pt-2}. A renderização dos objetos 3D pode ser observada na \autoref{fig-ashikhmin-shirley-close-to-original-eqlang}, e os \textit{plots} correspondentes estão na \autoref{fig-ashikhmin-shirley-close-to-original-plots}.
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -19,7 +20,7 @@ Neste experimento, utilizamos uma BRDF anisotrópica desenvolvida por Ashikhmin-
 \subsection{Código Fonte em \texttt{EquationLang}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento (parte 1 de 2).}
+    \caption{\small Código fonte da BRDF do experimento Ashikhmin-Shirley (parte 1 de 2).}
     \label{cod-ashikhmin-shirley-close-to-original-eqlang-pt-1}
 \begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
 Ashikhmin Shirley 2000 - Anisotropic phong reflectance model
@@ -65,7 +66,7 @@ The specular component $\rho_s$ of the BRDF is:
 
 
 \begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento (parte 2 de 2).}
+    \caption{\small Código fonte da BRDF do experimento Ashikhmin-Shirley (parte 2 de 2).}
     \label{cod-ashikhmin-shirley-close-to-original-eqlang-pt-2}
 \begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
 \begin{equation}
@@ -110,7 +111,7 @@ Bitangent vector:
 \subsection{Código GLSL Gerado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 2).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento Ashikhmin-Shirley (parte 1 de 2).}
     \label{cod-ashikhmin-shirley-close-to-original-glsl-pt-1}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 analytic ::begin parameters
@@ -160,7 +161,7 @@ float var_25_rho_d(vec3 var_4_vec_omega_i, vec3 var_7_vec_omega_o) {
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento Ashikhmin-Shirley (parte 2 de 2).}
     \label{cod-ashikhmin-shirley-close-to-original-glsl-pt-2}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 float var_26_rho_s(vec3 var_4_vec_omega_i, vec3 var_7_vec_omega_o) {
@@ -214,7 +215,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure}[H]
-    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa do experimento Ashikhmin-Shirley.}}
     \label{fig-ashikhmin-shirley-close-to-original-plots}
 \minipage{0.48\textwidth}
     \vspace{42px}
@@ -229,7 +230,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \end{figure}
 
 \begin{figure}[H]
-    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-ashikhmin-shirley-close-to-original-eqlang}
+    \caption{\small{Objetos 3D renderizados pelo experimento Ashikhmin-Shirley.}}\label{fig-ashikhmin-shirley-close-to-original-eqlang}
 \minipage{0.32\textwidth}
   \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-close-to-original-teapot.png}
     \legend{ \small (a) \textit{Teapot}}

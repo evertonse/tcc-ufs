@@ -12,9 +12,9 @@ A emissão de código começa pelo lado esquerdo da equação. Existem três asp
 \begin{enumerate}
     \item Mapeamento de Tipos: o tipo associado ao identificador é a primeira informação a ser resolvida. Caso seja um número real, ele é mapeado para \verb"float" em GLSL. Para vetores ($\mathbb{R}^3$), o mapeamento é feito para \verb"vec3". Em definições de funções, a assinatura é construída com base nos tipos dos parâmetros e do retorno.
 
-    \item Identificador: o identificador associado ao símbolo é traduzido conforme regras específicas que garantem unicidade e conformidade com as restrições do GLSL. Este processo é detalhado em \autoref{sec-unicidade}.
+    \item Identificadores: o identificador associado ao símbolo é traduzido conforme regras específicas que garantem unicidade e conformidade com as restrições do GLSL. Este processo é detalhado em \autoref{sec-unicidade}.
 
-    \item Expressões: no lado direito da equação, tanto funções quanto variáveis são expressões. Para gerar isso, realiza-se uma travessia da AST, mapeando nós de expressões (como somas e chamadas de funções trigonométricas) para seu equivalente em GLSL. Detalhes adicionais sobre a emissão de código para expressões podem ser encontrados na \autoref{sec-RHS}.
+    \item Expressões: no lado direito da equação, tanto funções quanto variáveis são expressões. Para gerar uma expressão, realiza-se uma travessia da AST, mapeando nós de expressões (como somas e chamadas de funções trigonométricas) para seu equivalente em GLSL. Detalhes adicionais sobre a emissão de código para expressões podem ser encontrados na \autoref{sec-RHS}.
 \end{enumerate}
 
 
@@ -28,7 +28,7 @@ Para garantir unicidade e compatibilidade dos identificadores gerados no GLSL, �
 
     \item \textbf{Prevenção de Colisões}: Mesmo após a substituição de caracteres, ainda podem ocorrer colisões. Para resolver isso, mapeia-se cada símbolo de identificador para um número inteiro único de 64 bits (ID). Esse ID é então concatenado ao começo do identificador com o prefixo \verb"var", resultando em \verb"var1_f__1_"; uma cadeia de caracteres única para cada símbolo.
 
-    \item \textbf{Remoção de Sequências Reservadas}: O GLSL não aceita\footnote{Um erro comum ocorre ao utilizar caracteres consecutivos de \_ em identificadores, resultando no erro \texttt{C7528: OpenGL reserves names containing \_\_.}} identificadores que contêm duas ou mais ocorrências consecutivas de \verb`_`.
+    \item \textbf{Remoção de Sequências Reservadas}: O GLSL não aceita\footnote{Utilizar caracteres consecutivos de \_ em identificadores resulta no erro \texttt{C7528: OpenGL reserves names containing \_\_.}} identificadores que contêm duas ou mais ocorrências consecutivas de \verb`_`.
      Também é necessário remover sublinhados ao final, resultando em \verb`var1_f_1`. Após a geração inicial, identificadores que contenham essas sequências são corrigidos para atender às essas restrições.
 \end{enumerate}
 
@@ -50,7 +50,7 @@ Um trecho dessa função está no \autoref{cod-emit-expr}, que demonstra como os
     \item \textbf{Expressões Prefixas (\texttt{Expr\_Prefix})}:
     Essas expressões incluem operações unárias e funções matemáticas básicas. A implementação:
     \begin{itemize}
-        \item Emite funções trigonométricas utilizando as funções fornecidas pelo GLSL automaticamente, como \verb|sin|, \verb|cos| e \verb|tan|.
+        \item Emite funções trigonométricas utilizando as funções fornecidas automaticamente pelo GLSL, como \verb|sin|, \verb|cos| e \verb|tan|.
         \item Lida com operadores unários, como negação (\verb|-|) e raiz quadrada (\verb|sqrt|). Nesses casos é aplicar escrever o operador com parentesis ao redor. Por exemplo, \verb"\sqrt{-2}" ($\sqrt{-2}$) emite \verb"(sqrt(-(2)))".
         \item Constrói vetores usando o construtor provido por OpenGL \verb|vec3()|.
         \item Mantém a precedência de operadores adicionando parênteses apropriados.
@@ -98,20 +98,16 @@ Um trecho dessa função está no \autoref{cod-emit-expr}, que demonstra como os
 
  Esse sistema permite traduzir expressões matemáticas, como mostrada na \autoref{eq-emit-expr-example}, gerando o código correspondente apresentado no \autoref{cod-emit-expr-example}.
 
-\begin{subequations}
-    \label{eq-emit-expr-example}
+\begin{subequations} \label{eq-emit-expr-example}
 \begin{equation}
     \rho_{d} = \vec{0,1,1}
 \end{equation}
-
 \begin{equation}
     \rho_{s} = \vec{1,0,1}
 \end{equation}
-
 \begin{equation}
     n = +2^8
 \end{equation}
-
 \begin{equation}
 f = \frac{\rho_{d}}{\pi} + \rho_{s} * \frac{n+2}{2*\pi} *
 \cos{\theta_{h}}^{n}
@@ -121,17 +117,17 @@ f = \frac{\rho_{d}}{\pi} + \rho_{s} * \frac{n+2}{2*\pi} *
 \begin{codigo}[H]
    \caption{\small Exemplo de código de expressão gerado. }
    \label{cod-emit-expr-example}
-\begin{lstlisting}[language=C, frame=none, inputencoding=utf8]
+\begin{lstlisting}[language=C, basicstyle=\ttfamily\footnotesize, frame=none, inputencoding=utf8]
   var_12_rho_d = vec3(0.0, 1.0, 1.0);
   var_13_n     = pow(2.0, 8.0);
   var_14_rho_s = vec3(1.0, 0.0, 1.0);
-  var_15_f     = ((var_12_rho_d / var_1_pi) +
+  var_15_f = ((var_12_rho_d / var_1_pi) +
               ((var_14_rho_s * ((var_13_n + 2.0) / (2.0 * var_1_pi))) *
                pow(cos(var_10_theta_h), var_13_n)));
 \end{lstlisting}
 \end{codigo}
 
-\begin{codigo}[H]
+\begin{codigo}[h] % I've done se it now to 'h' from 'H'
    \caption{\small Emitir expressão. }
    \label{cod-emit-expr}
 \begin{lstlisting}[language=C, basicstyle=\ttfamily\footnotesize, frame=none, inputencoding=utf8]
@@ -142,9 +138,7 @@ f = \frac{\rho_{d}}{\pi} + \rho_{s} * \frac{n+2}{2*\pi} *
             emit_expr(sb, e.right)
             sbprint(sb, ")")
             return
-
         //... Outros casos omissos
-
         case .Tan:
             sbprint(sb, "tan(")
             emit_expr(sb, e.right)
@@ -158,7 +152,6 @@ f = \frac{\rho_{d}}{\pi} + \rho_{s} * \frac{n+2}{2*\pi} *
         case .Vec:
             ty_vec, ok := e.ty_inferred.derived.(^ast.Type_Vector)
             assert(ok && ty_vec.dimensions == 3)
-
             sbprint(sb, "vec3(")
             emit_expr(sb, e.right)
             sbprint(sb, ")")
@@ -181,15 +174,14 @@ f = \frac{\rho_{d}}{\pi} + \rho_{s} * \frac{n+2}{2*\pi} *
                 op = "*"
             }
         case .Frac, .Div:  op = "/"
-        // Especially handled because it's not infix in glsl
         case .Caret: op = ""
+            // Caso especial pois não é infixo em GLSL
             sbprint(sb, "pow(")
             emit_expr(sb, e.left)
             sbprint(sb, ",")
             emit_expr(sb, e.right)
             sbprint(sb, ")")
             return
-
         //... Outros casos omissos
         case .Cross: op = ""
             sbprint(sb, "cross(")
@@ -198,16 +190,12 @@ f = \frac{\rho_{d}}{\pi} + \rho_{s} * \frac{n+2}{2*\pi} *
             emit_expr(sb, e.right)
             sbprint(sb, ")")
             return
-
         sbprint(sb, '(')
         emit_expr(sb, e.left)
         sbprint(sb, op)
         emit_expr(sb, e.right)
         sbprint(sb, ')')
-
-
-   //... 
-
+   //...
 \end{lstlisting}
 \end{codigo}
 
@@ -220,7 +208,7 @@ A função \verb"emit" é o ponto de partida do processo de emissão de código,
     \item \textbf{Inicialização e Estruturação} \\
     Nesta etapa inicial, o foco está em estabelecer a base do shader GLSL. Isso inclui:
     \begin{itemize}
-        \item \textbf{Parâmetros}: emissão de uma seção parametrizável, \verb"::begin parameters ::end parameters", dos shaders, requerida pela ferramenta Disney BRDF Explorer.
+        \item \textbf{Parâmetros}: emissão de uma seção parametrizável, \verb"::begin parameters" e \verb"::end parameters", dos shaders, requerida pela ferramenta Disney BRDF Explorer.
         \item \textbf{Marcadores de Seção}: adição de delimitadores como \verb|::begin shader| e \verb|::end shader|, que iniciam o código GLSL na ferramenta da Disney.
         \item \textbf{Built-ins}: emissão das declarações e definições de variáveis e funções \textit{built-in} necessárias, para dar ao shader suporte às convenções da \autoref{tab-conventions-metodologia}.
     \end{itemize}
@@ -240,7 +228,7 @@ A função \verb"emit" é o ponto de partida do processo de emissão de código,
 \subsubsection{Variáveis Built-in}
 A emissão correta de um shader de BRDF necessita da geração de variáveis \textit{built-in} diretamente no \textit{shader}, conforme ilustrado na \autoref{cod-builtins-emitted}. Essas variáveis, presentes na tabela \autoref{tab-conventions}, seguem as convenções estabelecidas e são inicializadas automaticamente dentro da função de entrada do \textit{shader}, denominada \verb|BRDF|, conforme o padrão da ferramenta Disney.
 
-Essas variáveis fornecem a infraestrutura necessária para cálculos de reflectância bidirecional em shaders GLSL. A ferramenta Disney disponibiliza algumas delas como parâmetros da função de entrada \verb`BRDF`, mas com nomenclaturas diferentes das adotadas neste trabalho. Essas parametros são: \verb"N" que representa a normal da superfície; \verb"L" que indica a direção da luz incidente (L); \verb"V" que representa a direção de visualização. As demais variáveis são calculadas na emissão de código.
+Essas variáveis fornecem a infraestrutura necessária para cálculos de refletância bidirecional em shaders GLSL. A ferramenta Disney disponibiliza algumas delas como parâmetros da função de entrada \verb`BRDF`, mas com nomenclaturas diferentes das adotadas neste trabalho. Essas parametros são: \verb"N" que representa a normal da superfície; \verb"L" que indica a direção da luz incidente (L); \verb"V" que representa a direção de visualização. As demais variáveis são calculadas na emissão de código.
 
 Para calcular variáveis como \verb`omega_i`, \verb`theta_d` e \verb`phi_i`, foram desenvolvidas funções auxiliares que produzem \textit{strings} válidas em GLSL. A entrada dessas funções é uma \textit{string} representando o vetor (\verb`v`), substituída diretamente no corpo do GLSL gerado:
 \begin{itemize}
@@ -345,7 +333,8 @@ reflect(\vec I, \vec N) =  2*(\vec I \cdot \vec N)*\vec N - \vec I
 \begin{lstlisting}[language=C, inputencoding=utf8]
 //////////// START FUNCTIONS DECLARATIONS ////////////
 vec3 var_13_reflect(vec3 var_14_vec_I, vec3 var_15_vec_N) {
-    return (((2.0*(dot(var_14_vec_I,var_15_vec_N)))*var_15_vec_N)-var_14_vec_I);
+    return (((2.0*(dot(var_14_vec_I,var_15_vec_N)))
+            *var_15_vec_N)-var_14_vec_I);
 }
 
 vec3 var_17_text_normalize(vec3 var_18_vec_u) {

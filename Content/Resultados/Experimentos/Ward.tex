@@ -1,4 +1,5 @@
-\section{Experimento BRDF Ward}
+
+\section{Experimento BRDF Ward} \label{section-experiment-ward}
 
 Este experimento é baseado na BRDF revisada segundo as notas de Walter \cite{walter2005notes}, que detalham o modelo de Ward. Suas equações podem ser vistas na \autoref{fig-ward-eqlang-latex}, enquanto o código em \texttt{EquationLang} está disponível no \autoref{cod-ward-eqlang-pt-1} (parte 1) e no \autoref{cod-ward-eqlang-pt-2} (parte 2). O código gerado pelo compilador é formado pelo \autoref{cod-ward-glsl-pt-1} e pelo \autoref{cod-ward-glsl-pt-2}. A renderização de objetos usando este modelo é ilustrada na \autoref{fig-ward-objetcs}, e os \textit{plots} da sua refletância estão na \autoref{fig-ward-plots}.
 %%
@@ -18,7 +19,7 @@ Este experimento é baseado na BRDF revisada segundo as notas de Walter \cite{wa
 \subsection{Código Fonte em \texttt{EquationLang}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento (parte 1 de 2).}
+    \caption{\small Código fonte da BRDF do experimento Ward (parte 1 de 2).}
     \label{cod-ward-eqlang-pt-1}
 \begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
 Equations representing the Ward BRDF:
@@ -48,7 +49,7 @@ Equations representing the Ward BRDF:
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento (parte 2 de 2).}
+    \caption{\small Código fonte da BRDF do experimento Ward (parte 2 de 2).}
     \label{cod-ward-eqlang-pt-2}
 \begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
 5. Exponent calculation:
@@ -82,7 +83,7 @@ Equations representing the Ward BRDF:
 \subsection{Código GLSL Gerado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 2).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento Ward (parte 1 de 2).}
     \label{cod-ward-glsl-pt-1}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 analytic
@@ -125,7 +126,7 @@ vec3 var_12_text_normalize(vec3 var_13_vec_u) {
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento Ward (parte 2 de 2).}
 \label{cod-ward-glsl-pt-2}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
@@ -172,7 +173,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \subsection{Visualização do Resultado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[H]
-    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa do experimento Ward.}}
     \label{fig-ward-plots}
 
 \minipage{0.48\textwidth}
@@ -188,7 +189,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \end{figure}
 
 \begin{figure}[H]
-    \caption{\small{Objetos 3D renderizados por este experimento.}}\label{fig-ward-objetcs}
+    \caption{\small{Objetos 3D renderizados pelo experimento Ward.}}\label{fig-ward-objetcs}
 \minipage{0.32\textwidth}
   \includegraphics[width=\linewidth]{./Imagens/brdfs/ward-teapot.png}
     \legend{ \small (a) \textit{Teapot}}

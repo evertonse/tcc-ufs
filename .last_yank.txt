@@ -23,53 +23,1545 @@ void main() {
 }
 \end{lstlisting}
 \end{codigo}
-        % \caption{\small Assinatura da função que extrai nós filhos de maniera uniforme para qualquer tipo de nó. }
+\small Equações da BRDF do experimento blinn-phong-Kay em documento \LaTeX{}
+Equações da BRDF do experimento Blinn-Phong-Kay em documento \LaTeX{}
+    \small 
 
-    \caption{\small Validação de precendencia por parentização de expressões. }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Visualização do Resultado}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    \caption{\small Validação de precendencia por parentização de expressões. }
+\begin{figure}[H]
+    \caption{\small{\textit{Plots} da BRDF deste experimento.}}\label{fig-blinn-phong-plots}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-3D-plot}
+    % \caption{\small{(a)}}\label{fig:awesome_image1}
+    % \vspace{0.1px}
+    \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-polar-plot-log.png}
+    \legend{ \small (b) \textit{Polar plot}}
+    % \caption{\small{(b)}}\label{fig:awesome_image1}
+\endminipage\hfill
+\end{figure}
 
-\section{Análise Semantica (\texttt{checker})} \label{section-checker}
-
-\section{Análise Semantica (\texttt{checker})} \label{section-checker}
-
-
-
-        Outro papel fundamental do \texttt{checker} é garantir que todos os identificadores, abstraido em símbolos na \autoref{subsection-symbols-scopes}, utilizados no programa estejam devidamente definidos antes de serem usados. Essa etapa inclui:
-
-        Outro papel fundamental do \texttt{checker} é garantir que todos os identificadores, abstraido em símbolos na \autoref{subsection-symbols-scopes}, utilizados no programa estejam devidamente definidos antes de serem usados. Essa etapa inclui:
-
-        \item Identificar declarações ausentes.
-        \item Identificar dependencia circular.
-        \item Certificar-se de que funções obrigatórias, como a BRDF $f$, estejam presentes.
-
-dependencia
-Essas validações são realizadas utilizando as funções do pacote \textit{walker} e os erros encontrados são reportados usando as funções de erros introduzida na \autoref{section-lexer}.
-
-Essas validações são realizadas utilizando as funções do pacote \textit{walker} e os erros encontrados são reportados usando as funções de erros introduzida na \autoref{section-lexer}.
+\begin{figure}[H]
+    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-blinn-phong-eqlang}
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-teapot.png}
+    \legend{ \small (a) \textit{Teapot}}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-dragon.png}
+    \legend{ \small (b) Dragão de Stanford}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-goblin.png}
+    \legend{ \small (c) Goblin}
+\endminipage
+\end{figure}
 
 
 
-\subsection{Tipos, Simbolos e Escopos} \label{subsection-symbols-scopes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Código Fonte em \texttt{EquationLang}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento (parte 1).}
+    \label{cod-blinn-phong-eqlang}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+\begin{document}
 
-\subsection{Tipos, Simbolos e Escopos} \label{subsection-symbols-scopes}
+\begin{equation}
+    \rho_{d} = \vec{0,1,1}
+\end{equation}
 
-\subsubsection{Tipos}
-No \autoref{cod-types-structs}, temos a representação de tipos segue uma modelagem hierárquica o \textbf{Tipo Base} contém metadados comuns
-como referência ao nó na arvóre sintática, identificador de tipo concreto. Os \textbf{Tipos Derivados} são enumerados a seguir:
+\begin{equation}
+    \rho_{s} = \vec{1,0,1}
+\end{equation}
 
-\begin{enumerate}
-    \item \textit{Tipo Básico:} Categorização primitiva (número)
-    \item \textit{Tipo Vetorial:}
-    \begin{itemize}
-        \item Dimensionalidade
-        \item Tipo de elemento
-    \end{itemize}
-    \item \textit{Tipo Funcional:}
-    \begin{itemize}
-        \item Parâmetros
-        \item Resultados
-    \end{itemize}
-\end{enumerate}
+\begin{equation}
+    n = +2^8
+\end{equation}
+
+\begin{equation}
+f = \frac{\rho_{d}}{\pi} + \rho_{s} * \frac{n+2}{2*\pi} *
+\cos{\theta_{h}}^{n}
+\end{equation}
+\end{lstlisting}
+\end{codigo}
+
+    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento (parte 1 de 2). }
+
+    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento (parte 1 de 2). }
+
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 2).}
+
+1
+\textit{Plots}
+deste experimento
+\textit{Plots} Distribuição de reflexão especular e difusa deste experimento.
+e
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+
+    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-blinn-phong-eqlang}
+
+    \caption{\small{Objetos 3D renderizados por este experimento}}
+
+    \caption{\small{Objetos 3D renderizados por este experimento}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Visualização do Resultado}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[H]
+    \caption{\small{\textit{Plots} da BRDF deste experimentos.}}\label{fig-cook-torrance-plots}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-3D-plot}
+    % \vspace{0.1px}
+    \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-polar-plot-log.png}
+    \legend{ \small (b) \textit{Polar plot}}
+\endminipage\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-cook-torrance-eqlang}
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-teapot.png}
+    \legend{ \small (a) \textit{Teapot}}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-dragon.png}
+    \legend{ \small (b) Dragão de Stanford}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-goblin.png}
+    \legend{ \small (c) Goblin}
+\endminipage
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Código Fonte em \texttt{EquationLang}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento.}
+    \label{cod-cook-torrance-eqlang}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+\begin{equation}
+m = 0.13
+\end{equation}
+
+\begin{equation}
+    \rho_{d} = \vec{0.3,0.05,0.05}
+\end{equation}
+
+\begin{equation}
+    \rho_{s} = \vec{0.0,0.2,1.0}
+\end{equation}
+
+\begin{equation}
+f = \frac{\rho_{d}}{\pi} +
+\frac{\rho_{s}}{\pi} *
+\frac{D*G}{({\vec{n}}\cdot{\vec{\omega_{i}}}) *
+({\vec{n}}\cdot{\vec{\omega_{o}}})}
+\end{equation}
+
+\begin{equation}
+G = \min(1,\min(
+\frac{2 *
+({\vec{n}}\cdot{\vec{h}}) *
+({\vec{n}}\cdot{\vec{\omega_{o}}})
+}
+{({\vec{h}}\cdot{\vec{\omega_{o}}})},
+\frac{2 *
+({\vec{n}}\cdot{\vec{h}}) *
+({\vec{n}}\cdot{\vec{\omega_{i}}})
+}
+{({\vec{h}}\cdot{\vec{\omega_{o}}})}
+))
+\end{equation}
+
+\begin{equation}
+D = \frac{1}
+{(m^{2}) * (\cos{\theta_{h}})^{4}} *
+\exp{-((\tan{\theta_{h}})/m)^{2}}
+\end{equation}
+\end{lstlisting}
+\end{codigo}
+
+Este experimento é baseada no modelo microfacetado que descreve o comportamento de reflexão de superfícies metálicas descrito no trabalho de Cook-Torrance \cite{cook1982reflectance}. As equações e parametros escolhidos que descrevem esse modelo estão em \autoref{fig-cook-torrance-eqlang-latex}. O código fonte em \texttt{EquationLang} para o compilador está em \autoref{cod-cook-torrance-eqlang}. O código GLSL está dividido em duas partes, primeira parte está no \autoref{cod-cook-torrance-glsl-pt-1} e a segunda parte está em \autoref{cod-cook-torrance-glsl-pt-2}. A renderização dos objetos 3D usando essa BRDF se encontra em \autoref{fig-cook-torrance-eqlang}. Usamos plot logaritmo para gerar os plots 3D e polar presentes na \autoref{fig-cook-torrance-plots}.
+
+
+O texto está claro, mas há pequenas melhorias de coesão e correção que podem ser feitas para maior fluidez. Segue a versão revisada:
+
+
+    \caption{\label{fig-cook-torrance-eqlang-latex} \small Equações da BRDF do experimento cook-torrance em documento \LaTeX{}.}
+
+    \caption{\label{fig-cook-torrance-eqlang-latex} \small Equações da BRDF do experimento cook-torrance em documento \LaTeX{}.}
+
+    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento (parte 1 de 2). }
+
+    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento (parte 1 de 2). }
+
+    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento  (parte 2 de 2). }
+
+    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento  (parte 2 de 2). }
+
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+
+    \caption{\small{\textit{Plots} da BRDF deste experimentos.}}
+
+a
+a
+Este experimento é basedo nas BRDF após revisão usando as notas de Walter \cite{walter2005notes}. Nessas notas, são detalhados o modelo BRDF de Ward. Suas equações podem ser vistas na \autoref{fig-ward-eqlang-latex}, enquanto o código em \texttt{EquationLang} está disponível no \autoref{cod-ward-eqlang-pt-1} e \autoref{cod-ward-eqlang-pt-1}. O código gerado pelo compialdor são formados pelo \autoref{cod-ward-glsl-pt-1} e \autoref{cod-ward-glsl-pt-2}. A renderização de objetos usando este modelo é ilustrada na \autoref{fig-ward-objetcs} e os plots da sua reflectancia está na \autoref{fig-ward-plots}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Visualização do Resultado}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[H]
+    \caption{\small{\textit{Plots} da BRDF deste experimento.}}\label{fig-ward-plots}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ward-3D-plot}
+    % \vspace{0.1px}
+    \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ward-polar-plot.png}
+    \legend{ \small (b) \textit{Polar plot}}
+\endminipage\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-ward-objetcs}
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ward-teapot.png}
+    \legend{ \small (a) \textit{Teapot}}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ward-dragon.png}
+    \legend{ \small (b) Dragão de Stanford}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ward-goblin.png}
+    \legend{ \small (c) Goblin}
+\endminipage
+\end{figure}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Código Fonte em \texttt{EquationLang}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento (parte 1).}
+    \label{cod-ward-eqlang-pt-1}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+Equations representing the Ward BRDF:
+   \begin{equation}
+      \text{normalize}(\vec{u}) = \frac{\vec{u}}{\sqrt{\vec{u} \cdot \vec{u}}}
+   \end{equation}
+1. Half vector:
+   \begin{equation}
+   \vec{H} = \text{normalize}(\vec{\omega_i} + \vec{\omega_o})
+   \end{equation}
+2. Tangent vector:
+   \begin{equation}
+   \vec{X} = \text{normalize}(\vec{0,1,0} \times \vec{n})
+   \end{equation}
+3. Bitangent vector:
+   \begin{equation}
+   \vec{Y} = \text{normalize}(\vec{n} \times \vec{X})
+   \end{equation}
+4. Roughness parameters:
+   \begin{equation}
+   \alpha_x = 0.4
+   \end{equation}
+   \begin{equation}
+   \alpha_y = 0.2
+   \end{equation}
+\end{lstlisting}
+\end{codigo}
+
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento (parte 2).}
+    \label{cod-ward-eqlang-pt-2}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+5. Exponent calculation:
+   \begin{equation}
+   \text{exponent} = -\frac{
+       \frac{\vec{H} \cdot \vec{X}}{\alpha_x}^2 +
+       \frac{\vec{H} \cdot \vec{Y}}{\alpha_y}^2
+   }{(\vec{H} \cdot \vec{n})^2}
+   \end{equation}
+6. Specular term:
+7. And Exponent:
+   \begin{equation}
+   \text{spec} = \frac{1}{4*\pi * \alpha_x *\alpha_y *\sqrt{(\vec{\omega_i} \cdot \vec{n}) * (\vec{\omega_o} \cdot \vec{n})}}
+      \cdot \exp{( \text{exponent} )}
+   \end{equation}
+8. Color parameters
+   \begin{equation}
+   \vec{C_s} = \vec{1, 1, 1}
+   \end{equation}
+   \begin{equation}
+   \vec{C_d} = \vec{ 1, 1, 1 }
+   \end{equation}
+9. Final BRDF:
+   \begin{equation}
+   f = \frac{\vec{C_d}}{\pi} + \vec{C_s} \cdot \text{spec}
+   \end{equation}
+\end{lstlisting}
+\end{codigo}
+
+(parte 1)
+1
+(parte 2)
+refletância
+refletância
+Este experimento é basedo nas BRDF após revisão usando as notas de Walter \cite{walter2005notes}. Nessas notas, são detalhados o modelo BRDF de Ward. Suas equações podem ser vistas na \autoref{fig-ward-eqlang-latex}, enquanto o código em \texttt{EquationLang} está disponível no \autoref{cod-ward-eqlang-pt-1} e \autoref{cod-ward-eqlang-pt-1}. O código gerado pelo compialdor são formados pelo \autoref{cod-ward-glsl-pt-1} e \autoref{cod-ward-glsl-pt-2}. A renderização de objetos usando este modelo é ilustrada na \autoref{fig-ward-objetcs} e os plots da sua reflectancia está na \autoref{fig-ward-plots}.
+
+Este experimento é baseado na BRDF revisada pelas notas de Walter \cite{walter2005notes}. Nessas notas, são detalhados o modelo BRDF de Ward.
+é baseado
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
+
+2
+Neste experimento utilizamos uma BRDF anisotrópica desenvolvida por Ashikhmin-Shirley \cite{ashikhmin2000anisotropic}, que apresenta um modelo de reflexão não uniforme. A descrição matemática está presente na \autoref{fig-ashikhmin-shirley-close-to-original-eqlang-latex}, com o código fonte em \texttt{EquationLang} disponível no \autoref{cod-ashikhmin-shirley-close-to-original-eqlang-pt-1} e \autoref{cod-ashikhmin-shirley-close-to-original-eqlang-pt-2}. Destacamos que, o compilador corretamente ignora texto bora do ambiente equantion. Os códigos gerados em GLSL são apresentados nos \autoref{cod-ashikhmin-shirley-close-to-original-glsl-pt-1} e \autoref{cod-ashikhmin-shirley-close-to-original-glsl-pt-2}. A renderização dos objetos 3D pode ser observada na \autoref{fig-ashikhmin-shirley-close-to-original-eqlang} e os plots correspondentes estão na \autoref{fig-ashikhmin-shirley-close-to-original-plots}.
+
+Neste experimento utilizamos uma BRDF anisotrópica desenvolvida por Ashikhmin-Shirley \cite{ashikhmin2000anisotropic}, que apresenta um modelo de reflexão não uniforme. A descrição matemática está presente na \autoref{fig-ashikhmin-shirley-close-to-original-eqlang-latex}, com o código fonte em \texttt{EquationLang} disponível no \autoref{cod-ashikhmin-shirley-close-to-original-eqlang-pt-1} e \autoref{cod-ashikhmin-shirley-close-to-original-eqlang-pt-2}. Destacamos que, o compilador corretamente ignora texto bora do ambiente equantion. Os códigos gerados em GLSL são apresentados nos \autoref{cod-ashikhmin-shirley-close-to-original-glsl-pt-1} e \autoref{cod-ashikhmin-shirley-close-to-original-glsl-pt-2}. A renderização dos objetos 3D pode ser observada na \autoref{fig-ashikhmin-shirley-close-to-original-eqlang} e os plots correspondentes estão na \autoref{fig-ashikhmin-shirley-close-to-original-plots}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Visualização do Resultado}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[H]
+    \caption{\small{\textit{Plots} da BRDF deste experimento.}}\label{fig-ashikhmin-shirley-close-to-original-plots}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-close-to-original-3D-plot}
+    % \vspce{0.1px}
+    \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-close-to-original-polar-plot.png}
+    \legend{ \small (b) \textit{Polar plot}}
+\endminipage\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-ashikhmin-shirley-close-to-original-eqlang}
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-close-to-original-teapot.png}
+    \legend{ \small (a) \textit{Teapot}}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-close-to-original-dragon.png}
+    \legend{ \small (b) Dragão de Stanford}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-close-to-original-goblin.png}
+    \legend{ \small (c) Goblin}
+\endminipage
+\end{figure}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Código Fonte em \texttt{EquationLang}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento (parte 1).}
+    \label{cod-ashikhmin-shirley-close-to-original-eqlang-pt-1}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+Ashikhmin Shirley 2000 - Anisotropic phong reflectance model
+
+ $R_s$ : a color (RGB) that specifies th e specular reflectance
+at normal incidence.
+
+ $R_d$: a color (RGB) that specifies the diffuse reflectance
+
+ $n_u, n_v$: two phong-like exponents that control th e shape of the spec- ular lobe
+
+The model is a classical sum of a "specular" term and a "diffuse" term.
+
+\begin{equation}
+    R_s = 0.4
+\end{equation}
+
+\begin{equation}
+    R_d = 0.9
+\end{equation}
+
+\begin{equation}
+    n_v = 1.5
+\end{equation}
+
+\begin{equation}
+    n_u = 300
+\end{equation}
+
+The specular component $\rho_s$ of the BRDF is:
+
+\begin{equation}
+    n = \vec n
+\end{equation}
+
+\begin{equation}
+    h = \vec h
+\end{equation}
+\end{equation}
+\end{lstlisting}
+\end{codigo}
+
+
+
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento (parte 2).}
+    \label{cod-ashikhmin-shirley-close-to-original-eqlang-pt-2}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+\begin{equation}
+  \text{normalize}(\vec{u}) = \frac{\vec{u}}{\sqrt{\vec{u} \cdot \vec{u}}}
+\end{equation}
+Tangent vector:
+\begin{equation}
+   u = \text{normalize}(\vec{0,1,0} \times n)
+Bitangent vector:
+\begin{equation}
+   v = \text{normalize}(\vec{n} \times u)
+\end{equation}
+
+\begin{equation}
+    k = \vec{\omega_i}
+\end{equation}
+
+\begin{equation}
+    \rho_s(\vec{\omega_i}, \vec{\omega_o}) =
+        \frac{\sqrt{(n_u+1)*(n_v+1)}}{8*\pi}
+        * \frac{(n \cdot h)^{(\frac{n_u * (h \cdot u )^2 + n_v *(h \cdot v)^2}{1-(h \cdot n)^2})}
+        * F(k \cdot h)}{(h \cdot k) * \max((n \cdot \vec{\omega_i}), (n \cdot \vec{\omega_o}) )}
+\end{equation}
+
+\begin{equation}
+    \rho_d(\vec{\omega_i}, \vec{\omega_o}) = \frac{28*R_d}{23*\pi}
+        * (1-R_s)
+        * (1-(1-\frac{(n \cdot \vec{\omega_i})}{2})^5)
+        * (1-(1-\frac{(n \cdot \vec{\omega_o})}{2})^5)
+\end{equation}
+
+\begin{equation}
+    F(x) = R_s + (1-R_s)*(1-(k \cdot h))^5
+\end{equation}
+
+\begin{equation}
+    f = \rho_s(\vec{\omega_i}, \vec{\omega_o}) + \rho_d(\vec{\omega_i}, \vec{\omega_o})
+\end{equation}
+\end{lstlisting}
+\end{codigo}
+
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
+
+2
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
+
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+
+    \small Equações da BRDF do experimento Blinn-Phong em documento \LaTeX{}.}
+
+ashikhmin-shirley
+Phong 
+o
+Este experimento é basedo no trabalho de Oren e Nayar \cite{oren1994generalization}, no qual propuseram uma generalização do modelo de reflectância de Lambert, desenvolvendo uma abordagem matemática que modela com maior precisão a difusão de luz em superfícies rugosas naturais. As equações que descrevem esse experimento se encontram na \autoref{fig-oren-nayar-eqlang-latex}. O código fonte, em \texttt{EquationLang}, de entrada para o compilador está dividido em duas partes, a primeira está no \autoref{cod-oren-nayar-eqlang-pt-1} e a segunda está no \autoref{cod-oren-nayar-eqlang-pt-2}. A renderização dos objetos 3D usando essa BRDF se encontra em \autoref{fig-oren-nayar-eqlang} e seus plots no \autoref{fig-oren-nayar-plots}. A saída GLSL se encontram em: parte 1 (\autoref{cod-oren-nayar-glsl-pt-2}), parte 2 (\autoref{cod-oren-nayar-glsl-pt-2}) e parte 3 no \autoref{cod-oren-nayar-glsl-pt-3}.
+
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+
+    \caption{\small{\textit{Plots} da BRDF deste experimento.}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Visualização do Resultado}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[H]
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \label{fig-oren-nayar-plots}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/oren-nayar-3D-plot}
+    % \vspace{0.1px}
+    \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/oren-nayar-polar-plot.png}
+    \legend{ \small (b) \textit{Polar plot}}
+\endminipage\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-oren-nayar-eqlang}
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/oren-nayar-teapot.png}
+    \legend{ \small (a) \textit{Teapot}}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/oren-nayar-dragon.png}
+    \legend{ \small (b) Dragão de Stanford}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/oren-nayar-goblin.png}
+    \legend{ \small (c) Goblin}
+\endminipage
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Código Fonte em \texttt{EquationLang}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento (parte 1).}
+    \label{cod-oren-nayar-eqlang-pt-1}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+\begin{equation}
+    \rho = 0.9
+\end{equation}
+\begin{equation}
+    \sigma = 30*\pi/180
+\end{equation}
+\begin{equation}
+    \theta_r = \arccos((V \cdot N))
+\end{equation}
+\begin{equation}
+    \phi_{\text{diff}} = ( \text{normalize}(V-N*((V \cdot N))) \cdot \text{normalize}(L - N*((L \cdot N))) )
+\end{equation}
+\begin{equation}
+    N = \vec n
+\end{equation}
+
+\begin{equation}
+    L = \vec \omega_i
+\end{equation}
+
+\begin{equation}
+    V = \vec \omega_o
+\end{equation}
+
+\begin{equation}
+    \theta_i = \arccos ((L \cdot N))
+\end{equation}
+
+\begin{equation}
+    \alpha = \max (\theta_i, \theta_r)
+\end{equation}
+
+\begin{equation}
+    \beta = \min (\theta_i, \theta_r)
+\end{equation}
+
+\begin{equation}
+    C_1 = 1 - 0.5 * (\sigma^2) / ((\sigma^2) + 0.33)
+\end{equation}
+
+\end{lstlisting}
+\end{codigo}
+
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento (parte 2).}
+    \label{cod-oren-nayar-eqlang-pt-2}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+\begin{equation}
+    C_2 = \frac{0.45 * (\sigma^2)}{ ((\sigma^2) + 0.09)}
+        * (
+            \text{step}(\phi_{\text{diff}})       * (\sin(\alpha))
+            + (1 - \text{step}(\phi_{\text{diff}}))  * (\sin(\alpha) - \frac{2*\beta}{\pi}^3)
+        )
+\end{equation}
+\begin{equation}
+    C_3 = 0.125 * (\sigma^2) / ((\sigma^2)+0.09) * ((4*\alpha*\beta)/(\pi*\pi))^2
+\end{equation}
+
+\begin{equation}
+    L_1 = \rho/\pi * (C_1 + \phi_{\text{diff}} * C_2 * \tan(\beta) + (1 - \text{abs}(\phi_{\text{diff}})) * C_3 * \tan((\alpha+\beta)/2))
+\end{equation}
+
+\begin{equation}
+    L_2 = 0.17 * \rho*\rho / \pi * (\sigma^2)/((\sigma^2)+0.13) * (1 - \phi_{\text{diff}}*(4*\beta*\beta)/(\pi*\pi))
+\end{equation}
+
+\hspace{60px} The \emph{BRDF} output
+\begin{equation}
+    f = L_1 + L_2
+\end{equation}
+
+\hspace{60px} Utility Functions
+\begin{equation}
+  \text{normalize}(\vec{u}) = \frac{\vec{u}}{\sqrt{\vec{u} \cdot \vec{u}}}
+\end{equation}
+
+\begin{equation}
+  \text{abs}(v) = \max(v,-v)
+\end{equation}
+
+\hspace{60px} \small{Step function that returns 1 when x \verb">=" 0 and 0 when \verb"x < 0"}
+\begin{equation}
+  \text{step}(x) = \min(1, \max(0, x / (\text{abs}(x) + \epsilon)))
+\end{equation}
+\end{lstlisting}
+\end{codigo}
+
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 2).}
+
+1
+2
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 3 de 3).}
+
+3
+3
+o
+Este experimento é basedo no trabalho de Oren e Nayar \cite{oren1994generalization}, no qual propuseram uma generalização do modelo de reflectância de Lambert, desenvolvendo uma abordagem matemática que modela com maior precisão a difusão de luz em superfícies rugosas naturais. As equações que descrevem esse experimento se encontram na \autoref{fig-oren-nayar-eqlang-latex}. O código fonte, em \texttt{EquationLang}, de entrada para o compilador está dividido em duas partes, a primeira está no \autoref{cod-oren-nayar-eqlang-pt-1} e a segunda está no \autoref{cod-oren-nayar-eqlang-pt-2}. A renderização dos objetos 3D usando essa BRDF se encontra em \autoref{fig-oren-nayar-eqlang} e seus plots no \autoref{fig-oren-nayar-plots}. A saída GLSL se encontram em: parte 1 (\autoref{cod-oren-nayar-glsl-pt-2}), parte 2 (\autoref{cod-oren-nayar-glsl-pt-2}) e parte 3 no \autoref{cod-oren-nayar-glsl-pt-3}.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Visualização do Resultado}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[H]
+    \caption{\small{\textit{Plots} da BRDF deste experimento.}}\label{fig-ashikhmin-shirley-alternative-plots}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-alternative-3D-plot}
+    % \vspace{0.1px}
+    \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-alternative-polar-plot.png}
+    \legend{ \small (b) \textit{Polar plot}}
+\endminipage\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-ashikhmin-shirley-alternative-eqlang}
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-alternative-teapot.png}
+    \legend{ \small (a) \textit{Teapot}}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-alternative-dragon.png}
+    \legend{ \small (b) Dragão de Stanford}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-alternative-goblin.png}
+    \legend{ \small (c) Goblin}
+\endminipage
+\end{figure}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Código GLSL Gerado}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{codigo}[H]
+    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }
+    \label{cod-ashikhmin-shirley-alternative-glsl-pt-1}
+\begin{lstlisting}[language=C, inputencoding=utf8]
+analytic ::begin parameters
+#[type][name][min val][max val][default val]
+::end parameters
+::begin shader
+//////////// START OF BUILTINS DECLARTION ////////////
+vec3 var_0_vec_h;
+vec3 var_3_vec_n;
+float var_10_theta_h;
+float var_11_theta_d;
+float var_1_pi;
+float var_2_epsilon;
+vec3 var_4_vec_omega_i;
+float var_5_theta_i;
+float var_6_phi_i;
+vec3 var_7_vec_omega_o;
+float var_8_theta_o;
+float var_9_phi_o;
+//////////// END OF BUILTINS DECLARTION ////////////
+
+//////////// START OF USER DECLARED ////////////
+vec3 var_12_rho_d;
+vec3 var_13_rho_s;
+vec3 var_14_f;
+//////////// END OF USER DECLARED ////////////
+\end{lstlisting}
+\end{codigo}
+
+\begin{codigo}[H]
+    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento  (parte 2). }
+    \label{cod-ashikhmin-shirley-alternative-glsl-pt-2}
+\begin{lstlisting}[language=C, inputencoding=utf8]
+//////////// START FUNCTIONS DECLARATIONS ////////////
+//////////// END FUNCTIONS DECLARATIONS ////////////
+
+vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
+
+  //////////// START OF BUILTINS INITIALIZATION ////////////
+  var_0_vec_h = normalize(L + V);
+  var_3_vec_n = normalize(N);
+  var_1_pi = 3.141592653589793;
+  var_2_epsilon = 1.192092896e-07;
+  var_4_vec_omega_i = L;
+  var_5_theta_i = atan(var_4_vec_omega_i.y, var_4_vec_omega_i.x);
+  var_6_phi_i = atan(sqrt(var_4_vec_omega_i.y * var_4_vec_omega_i.y +
+                          var_4_vec_omega_i.x * var_4_vec_omega_i.x),
+                     var_4_vec_omega_i.z);
+  var_7_vec_omega_o = V;
+  var_8_theta_o = atan(var_7_vec_omega_o.y, var_7_vec_omega_o.x);
+  var_9_phi_o = atan(sqrt(var_7_vec_omega_o.y * var_7_vec_omega_o.y +
+                          var_7_vec_omega_o.x * var_7_vec_omega_o.x),
+                     var_7_vec_omega_o.z);
+  var_10_theta_h = acos(dot(var_0_vec_h, N));
+  var_11_theta_d = acos(dot(var_0_vec_h, var_4_vec_omega_i));
+  //////////// END OF BUILTINS INITIALIZATION ////////////
+
+  var_12_rho_d = vec3(0.3, 0.3, 0.3);
+  var_13_rho_s = (vec3(0.0, 0.2, 1.0) * 20.0);
+  var_14_f = ((var_12_rho_d / var_1_pi) +
+              ((var_13_rho_s / (8.0 * var_1_pi)) *
+               ((dot(var_3_vec_n, var_0_vec_h)) /
+                ((dot(var_7_vec_omega_o, var_0_vec_h)) *
+                 max((dot(var_3_vec_n, var_4_vec_omega_i)),
+                     (dot(var_3_vec_n, var_7_vec_omega_o)))))));
+
+  return vec3(var_14_f);
+}
+\end{lstlisting}
+\end{codigo}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Código Fonte em \texttt{EquationLang}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento.}
+    \label{cod-ashikhmin-shirley-alternative-eqlang}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+
+\begin{document}
+
+\begin{equation}
+    \rho_{d} = \vec{0.3,0.3,0.3}
+\end{equation}
+
+\begin{equation}
+    \rho_{s} = \vec{0.0,0.2,1.0}*20
+\end{equation}
+
+\begin{equation}
+f = \frac{\rho_{d}}{\pi} + \frac{\rho_{s}}{8*\pi} *
+\frac{({\vec{n}}\cdot{\vec{h}})}
+{({\vec{\omega_{o}}}\cdot{\vec{h}}) *
+\max(({\vec{n}}\cdot{\vec{\omega_{i}}}),
+({\vec{n}}\cdot{\vec{\omega_{o}}}))}
+\end{equation}
+
+\end{lstlisting}
+\end{codigo}
+
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 2).}
+
+1
+ 
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+
+Nesse caso, foi realizado uma versão alternativa do experimento da \autoref{sec:ashikhmin-shirley}. As equações na \autoref{fig-ashikhmin-shirley-alternative-eqlang-latex} estão simplicadas e algumas equações foram comprimidas em uma só. Além disso, nessa versão, foram escolhidas diferentes constantes, como cor difusa, fatores de multiplicação, entre outros. Código fonte em \texttt{EquationLang} disponível no \autoref{cod-ashikhmin-shirley-alternative-eqlang}. Os códigos gerados em GLSL estão no \autoref{cod-ashikhmin-shirley-alternative-glsl-pt-1} e \autoref{cod-ashikhmin-shirley-alternative-glsl-pt-2}. Objetos 3D renderizados pode ser vistos na \autoref{fig-ashikhmin-shirley-alternative-eqlang} e os plots estão na \autoref{fig-ashikhmin-shirley-alternative-plots}.
+
+Nesse caso, foi realizado uma versão alternativa do experimento da \autoref{sec:ashikhmin-shirley}. As equações na \autoref{fig-ashikhmin-shirley-alternative-eqlang-latex} estão simplicadas e algumas equações foram comprimidas em uma só. Além disso, nessa versão, foram escolhidas diferentes constantes, como cor difusa, fatores de multiplicação, entre outros. Código fonte em \texttt{EquationLang} disponível no \autoref{cod-ashikhmin-shirley-alternative-eqlang}. Os códigos gerados em GLSL estão no \autoref{cod-ashikhmin-shirley-alternative-glsl-pt-1} e \autoref{cod-ashikhmin-shirley-alternative-glsl-pt-2}. Objetos 3D renderizados pode ser vistos na \autoref{fig-ashikhmin-shirley-alternative-eqlang} e os plots estão na \autoref{fig-ashikhmin-shirley-alternative-plots}.
+
+Nesse caso, foi realizado uma versão alternativa do experimento da \autoref{sec:ashikhmin-shirley}. As equações na \autoref{fig-ashikhmin-shirley-alternative-eqlang-latex} estão simplicadas e algumas equações foram comprimidas em uma só. Além disso, nessa versão, foram escolhidas diferentes constantes, como cor difusa, fatores de multiplicação, entre outros. Código fonte em \texttt{EquationLang} disponível no \autoref{cod-ashikhmin-shirley-alternative-eqlang}. Os códigos gerados em GLSL estão no \autoref{cod-ashikhmin-shirley-alternative-glsl-pt-1} e \autoref{cod-ashikhmin-shirley-alternative-glsl-pt-2}. Objetos 3D renderizados pode ser vistos na \autoref{fig-ashikhmin-shirley-alternative-eqlang} e os plots estão na \autoref{fig-ashikhmin-shirley-alternative-plots}.
+
+%%
+
+Este experimento é uma versão alternativa da feita na \autoref{sec:cook-torrance}. As equações na \autoref{fig-cook-torrance-alternative-eqlang-latex} fazem uso da equação do Efeito Fresnel e foram escolhidas constantes diferentes. Código fonte em \texttt{EquationLang} pode ser visto no \autoref{cod-cook-torrance-alternative-eqlang}. Os códigos gerados em GLSL estão no \autoref{cod-cook-torrance-alternative-glsl-pt-1} e \autoref{cod-cook-torrance-alternative-glsl-pt-2}. Objetos 3D renderizados pode ser vistos na \autoref{fig-cook-torrance-alternative-eqlang} e os plots estão na \autoref{fig-cook-torrance-alternative-plots}.
+
+da feita na
+fazem uso 
+o
+gerados em GLSL estão no
+Objetos 3D renderizados pode ser vistos na \autoref{fig-cook-torrance-alternative-eqlang} e os plots estão na \autoref{fig-cook-torrance-alternative-plots}.
+
+Este experimento é uma versão alternativa da feita na \autoref{sec:cook-torrance}. As equações na \autoref{fig-cook-torrance-alternative-eqlang-latex} fazem uso da equação do Efeito Fresnel e foram escolhidas constantes diferentes. Código fonte em \texttt{EquationLang} pode ser visto no \autoref{cod-cook-torrance-alternative-eqlang}. Os códigos gerados em GLSL estão no \autoref{cod-cook-torrance-alternative-glsl-pt-1} e \autoref{cod-cook-torrance-alternative-glsl-pt-2}. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Código Fonte em \texttt{EquationLang}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento.}
+    \label{cod-cook-torrance-alternative-eqlang}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+\begin{equation}
+    m = 0.3
+\end{equation}
+\begin{equation}
+    f_0 = 0.4
+\end{equation}
+\begin{equation}
+Beckmann(m, t) = \exp((t*t-1)/(m*m*t*t)) / (m*m*t*t*t*t)
+\end{equation}
+\begin{equation}
+    Fresnel(f_0, u) = f_0 + (1 - f_0) * ((1-u)^ 5)
+\end{equation}
+\begin{equation}
+    H = \vec{h}
+\end{equation}
+\begin{equation}
+    V = \vec{\omega_o}
+\end{equation}
+\begin{equation}
+    L = \vec{\omega_{i}}
+\end{equation}
+\begin{equation}
+    N = \vec{n}
+\end{equation}
+\begin{equation}
+    D = Beckmann(m,  (N \cdot H) )
+\end{equation}
+\begin{equation}
+    F = Fresnel(f_0,  (V \cdot H) )
+\end{equation}
+\begin{equation}
+G = 1/(N \cdot V)
+\end{equation}
+\begin{equation}
+    val = \max(D * G, 0.0) \cdot F
+\end{equation}
+\begin{equation}
+    \text{color} = \vec{1,0.5,1}
+\end{equation}
+\begin{equation}
+    f = \text{color} * val / (N \cdot L)
+\end{equation}
+\end{lstlisting}
+\end{codigo}
+
+-
+e
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Visualização do Resultado}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[H]
+    \caption{\small{\textit{Plots} da BRDF deste experimento.}}\label{fig-cook-torrance-alternative-plots}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-alternative-3D-plot}
+    % \vspace{0.1px}
+    \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-alternative-polar-plot-log.png}
+    \legend{ \small (b) \textit{Polar plot}}
+\endminipage\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-cook-torrance-alternative-eqlang}
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-alternative-teapot.png}
+    \legend{ \small (a) \textit{Teapot}}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-alternative-dragon.png}
+    \legend{ \small (b) Dragão de Stanford}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-alternative-goblin.png}
+    \legend{ \small (c) Goblin}
+\endminipage
+\end{figure}
+
+
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
+
+2
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 2).}
+
+1
+No artigo de Geisler-Moroder e Dür \cite{duer2010bounding}, é discutido sobre as limitações do modelo de reflexão de Ward, onde é proposto uma abordagem para restringir o albedo e garantir a conservação de energia. Este experimento é baseado nessa BRDF com albedo restringido. As equações são apresentados \autoref{fig-duer-eqlang-latex}, com o código fonte em \texttt{EquationLang} disponível no \autoref{cod-duer-eqlang}. Os códigos gerados em GLSL pode ser vistos no \autoref{cod-duer-glsl-pt-1} e \autoref{cod-duer-glsl-pt-2}. A renderização dos objetos 3D pode ser observada na \autoref{fig-duer-eqlang} e a os \textit{plots} na \autoref{fig-duer-plots}.
+
+No artigo de Geisler-Moroder e Dür \cite{duer2010bounding}, é discutido sobre as limitações do modelo de reflexão de Ward, onde é proposto uma abordagem para restringir o albedo e garantir a conservação de energia. Este experimento é baseado nessa BRDF com albedo restringido. As equações são apresentados \autoref{fig-duer-eqlang-latex}, com o código fonte em \texttt{EquationLang} disponível no \autoref{cod-duer-eqlang}. Os códigos gerados em GLSL pode ser vistos no \autoref{cod-duer-glsl-pt-1} e \autoref{cod-duer-glsl-pt-2}. A renderização dos objetos 3D pode ser observada na \autoref{fig-duer-eqlang} e a os \textit{plots} na \autoref{fig-duer-plots}.
+
+%
+
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Visualização do Resultado}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[H]
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \label{fig-duer-plots}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/duer-3D-plot}
+    % \vspace{0.1px}
+    \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/duer-polar-plot.png}
+    \legend{ \small (b) \textit{Polar plot}}
+\endminipage\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \caption{\small{Objetos 3D renderizados por este experimento.}}
+    \label{fig-duer-eqlang}
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/duer-teapot.png}
+    \legend{ \small (a) \textit{Teapot}}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/duer-dragon.png}
+    \legend{ \small (b) Dragão de Stanford}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/duer-goblin.png}
+    \legend{ \small (c) Goblin}
+\endminipage
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Código Fonte em \texttt{EquationLang}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento.}
+    \label{cod-duer-eqlang}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+Duer 2010 Bounding the Albedo of the Ward Reflectance Model
+
+\begin{equation}
+G = ((\vec{\omega_i}+\vec{\omega_o}) \cdot(\vec{\omega_i}+\vec{\omega_o})) * ((\vec{\omega_i}+\vec{\omega_o}) \cdot \vec{n})^-4
+    * (\vec{n} \cdot \vec{\omega_i})*(\vec{n} \cdot \vec{\omega_o})
+\end{equation}
+
+\begin{equation}
+f =  G
+\end{equation}
+\end{lstlisting}
+\end{codigo}
+
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Visualização do Resultado}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[H]
+    \caption{\small{\textit{Plots} da BRDF deste experimento.}}\label{fig-edwards-2006-plots}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/edwards-2006-3D-plot}
+    % \vspace{0.1px}
+    \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/edwards-2006-polar-plot.png}
+    \legend{ \small (b) \textit{Polar plot}}
+\endminipage\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-edwards-2006-eqlang}
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/edwards-2006-teapot.png}
+    \legend{ \small (a) \textit{Teapot}}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/edwards-2006-dragon.png}
+    \legend{ \small (b) Dragão de Stanford}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/edwards-2006-goblin.png}
+    \legend{ \small (c) Goblin}
+\endminipage
+\end{figure}
+
+
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
+
+2
+Este experimento é baseado no modelo anisotrópico que descreve o comportamento de reflexão de superfícies rugosas simplificadas proposto no trabalho de Kajiya \cite{kajiya1985anisotropic}. As equações e parâmetros escolhidos que descrevem esse modelo estão em \autoref{fig-kajiya-eqlang-latex}. O código fonte em \texttt{EquationLang} para o compilador está em \autoref{cod-kajiya-eqlang}. A saída gerada pelo compilador está dividido em duas partes: a parte 1 está no \autoref{cod-kajiya-glsl-pt-1}, enquanto a parte 2 está em \autoref{cod-kajiya-glsl-pt-2}. A renderização dos objetos 3D usando essa BRDF se encontra em \autoref{fig-kajiya-objects}. Utilizamos interpolação linear para aproximar valores calculados previamente na tabela de refletância, com plots logarítmicos e polares presentes na \autoref{fig-kajiya-plots}.
+
+a
+a
+a
+Este experimento é baseado no modelo anisotrópico que descreve o comportamento de reflexão de superfícies rugosas simplificadas proposto no trabalho de Kajiya \cite{kajiya1985anisotropic}. As equações e parâmetros escolhidos que descrevem esse modelo estão em \autoref{fig-kajiya-eqlang-latex}. O código fonte em \texttt{EquationLang} para o compilador está em \autoref{cod-kajiya-eqlang}. A saída gerada pelo compilador está dividido em duas partes: a parte 1 está no \autoref{cod-kajiya-glsl-pt-1}, enquanto a parte 2 está em \autoref{cod-kajiya-glsl-pt-2}. A renderização dos objetos 3D usando essa BRDF se encontra em \autoref{fig-kajiya-objects}. Utilizamos interpolação linear para aproximar valores calculados previamente na tabela de refletância, com plots logarítmicos e polares presentes na \autoref{fig-kajiya-plots}.
+
+Este experimento é baseado no modelo anisotrópico que descreve o comportamento de reflexão de superfícies rugosas simplificadas proposto no trabalho de Kajiya \cite{kajiya1985anisotropic}. As equações e parâmetros escolhidos que descrevem esse modelo estão em \autoref{fig-kajiya-eqlang-latex}. O código fonte em \texttt{EquationLang} para o compilador está em \autoref{cod-kajiya-eqlang}. A saída gerada pelo compilador está dividido em duas partes: a parte 1 está no \autoref{cod-kajiya-glsl-pt-1}, enquanto a parte 2 está em \autoref{cod-kajiya-glsl-pt-2}. A renderização dos objetos 3D usando essa BRDF se encontra em \autoref{fig-kajiya-objects}. Utilizamos interpolação linear para aproximar valores calculados previamente na tabela de refletância, com plots logarítmicos e polares presentes na \autoref{fig-kajiya-plots}.
+
+%%
+
+ 
+ 
+código-fonte
+ 
+ 
+ 
+ 
+ 
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+
+    \caption{\small{Objetos 3D renderizados por este experimento.}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Visualização do Resultado}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[H]
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \label{fig-kajiya-plots}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/aniso-3D-plot}
+    % \caption{\small{(a)}}\label{fig:awesome_image1}
+    % \vspace{0.1px}
+    \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/aniso-polar-plot.png}
+    \legend{ \small (b) \textit{Polar plot}}
+    % \caption{\small{(b)}}\label{fig:awesome_image1}
+\endminipage\hfill
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Visualização do Resultado}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[H]
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \label{fig-kajiya-plots}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/aniso-3D-plot}
+    % \caption{\small{(a)}}\label{fig:awesome_image1}
+    % \vspace{0.1px}
+    \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/aniso-polar-plot.png}
+    \legend{ \small (b) \textit{Polar plot}}
+    % \caption{\small{(b)}}\label{fig:awesome_image1}
+\endminipage\hfill
+\end{figure}
+
+\begin{figure}[H]
+    % \caption{\small{Objetos 3D renderizado pelo código GLSL gerado o experimento BRDF Anisotrópica: Kajiya-Kay (1989)}}\label{fig-kajiya-eqlang}
+    \caption{\small{Objetos 3D renderizados por este experimento.}}
+    \label{fig-kajiya-objects}
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/aniso-teapot.png}
+    % \caption{\small{(a)}}\label{fig:awesome_image1}
+    \legend{ \small (a) \textit{Teapot}}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/aniso-dragon.png}
+    \legend{ \small (b) Dragão de Stanford}
+    % \caption{\small{(b)}}\label{fig:awesome_image1}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/aniso-goblin.png}
+    \legend{ \small (c) Goblin}
+    % \caption{\small{(c)}}\label{fig:awesome_image1}
+\endminipage
+\end{figure}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Código Fonte em \texttt{EquationLang}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF do experimento Kajiya-Kay.}
+    \label{cod-kajiya-eqlang}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+Based on Kajiya-Kay 1989
+
+\begin{equation}
+  \text{normalize}(\vec{u}) = \frac{\vec{u}}{\sqrt{\vec{u} \cdot \vec{u}}}
+\end{equation}
+
+Tangent vector:
+\begin{equation}
+   X = \text{normalize}(\vec{0,1,0} \times \vec{n})
+\end{equation}
+
+Bitangent vector:
+\begin{equation}
+   Y = \text{normalize}(\vec{n} \times X)
+\end{equation}
+
+\begin{equation}
+    T = Y
+\end{equation}
+
+\begin{equation}
+    L = \vec{\omega_i}
+\end{equation}
+
+\begin{equation}
+    \text{roughness} =  0.1
+\end{equation}
+
+\begin{equation}
+    \text{glossiness} = (1/\text{roughness})
+\end{equation}
+
+\begin{equation}
+    s_\alpha = \sqrt{(1 - ((\vec{\omega_i} \cdot T) * (\vec{\omega_i} \cdot T)))}
+\end{equation}
+
+\begin{equation}
+\text{spec} = ((s_\alpha  \cdot \sqrt(1 - ((\vec \omega_o \cdot T) \cdot (\vec \omega_o \cdot T))))
+                  - ((\vec{\omega_i} \cdot T) \cdot (\vec \omega_o \cdot T)))^ \text{glossiness}
+\end{equation}
+\begin{equation}
+f = \text{spec}
+\end{equation}
+\end{lstlisting}
+\end{codigo}
+
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
+
+2
+% não Lambertianos.
+% propõe uma parametrização que ajusta o albedo conforme os ângulos de iluminação e observação.
+
+Esse experimento foi realizado seguindo os principios do artigo de Minnaert \cite{minnaert1941reciprocity}. Nele é apresentado um modelo de reflexão que introduz uma abordagem para descrever superfícies que exibem comportamentos encontrado em superfícies porosas, como a lua.
+As equações desse experimento estão em \autoref{fig-minnaert-eqlang-latex}. O código fonte se encontra no \autoref{cod-minnaert-eqlang}. O GLSL gerado pode ser encontrada no \autoref{cod-minnaert-glsl-pt-1} e \autoref{cod-minnaert-glsl-pt-2}, enquanto os resultados de renderização podem ser observados na \autoref{fig-minnaert-eqlang} e os \textit{plots} na \autoref{fig-minnaert-plots}.
+
+ 
+a
+a
+% Esse experimento foi realizado seguindo os principios do artigo de Minnaert \cite{minnaert1941reciprocity}. Nele é apresentado um modelo de reflexão que introduz uma abordagem para descrever superfícies que exibem comportamentos encontrado em superfícies porosas, como a lua.
+As equações desse experimento estão em \autoref{fig-minnaert-eqlang-latex}. O código fonte se encontra no \autoref{cod-minnaert-eqlang}. O GLSL gerado pode ser encontrada no \autoref{cod-minnaert-glsl-pt-1} e \autoref{cod-minnaert-glsl-pt-2}, enquanto os resultados de renderização podem ser observados na \autoref{fig-minnaert-eqlang} e os \textit{plots} na \autoref{fig-minnaert-plots}.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Visualização do Resultado}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[H]
+    \caption{\small{\textit{Plots} da BRDF deste experimento.}}\label{fig-minnaert-plots}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/minnaert-3D-plot}
+    % \vspace{0.1px}
+    \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/minnaert-polar-plot.png}
+    \legend{ \small (b) \textit{Polar plot}}
+\endminipage\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-minnaert-eqlang}
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/minnaert-teapot.png}
+    \legend{ \small (a) \textit{Teapot}}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/minnaert-dragon.png}
+    \legend{ \small (b) Dragão de Stanford}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/minnaert-goblin.png}
+    \legend{ \small (c) Goblin}
+\endminipage
+\end{figure}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Código Fonte em \texttt{EquationLang}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento (parte 1).}
+    \label{cod-minnaert-eqlang}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+[Min41] MINNAERT M.: The reciprocity principle in lunar photometry. Astrophysical Journal, 3 (1941), 403- 410. 10
+
+$\omega_o$: This is the outgoing (view) direction vector (often normalized).
+$\cos\omega_i$ and $\cos\omega_o$: These are actually shorthand notations.
+
+They don't mean the cosine of the entire vector, but rather:
+$\cos\omega_i$ actually means $\cos(\theta_i) = \dot(\omega_i, n)$
+$\cos\omega_o$ actually means $\cos(\theta_o) = \dot(\omega_o, n)$
+
+Where:
+
+$\theta_i$ is the angle between $\omega_i$ and the surface normal $n$.
+
+$\theta_o$ is the angle between $\omega_o$ and the surface normal $n$.
+
+\begin{equation}
+    \rho_{d} = \vec{0.3,0.05,0.05}
+\end{equation}
+
+\begin{equation}
+k = 0.5
+\end{equation}
+
+\begin{equation}
+f = \frac{\rho_{d}}{\pi} * ((\vec{n} \cdot \vec \omega_i)*(\vec{n} \cdot \vec \omega_o))^{(k-1)}
+\end{equation}
+\end{lstlisting}
+\end{codigo}
+
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
+
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+
+A ferramenta reduz significativamente a barreira técnica que poderia restringir a exploração de efeitos visuais por profissionais fora da área de programação, pois fornece um sistema que transforma um documento \LaTeX{} contendo equações de BRDF diretamente em um arquivo GLSL, pronto para ser carregado utilizando o visualizador gratuito da Disney Explorer. Essa funcionalidade atende principalmente ao meio acadêmico, onde as BRDFs são frequentemente descritas por equações em \LaTeX{}, democratizando o acesso à criação de efeitos visuais complexos.
+
+O compilador mantém consistência em ordem de operadores, permite uso de convenções, como símbolos matemáticos comuns ($\pi, \epsilon$) e outros simbolos específicos da area, por exemplo, $\omega_i$ e $\omega_o$. Também suporta expressões matemáticas essenciais para simulações de iluminação realista em computação gráfica como produto interno, produto vetorial, funções trigonometricas, exponenciação, entre outras, permitindo cálculos com ângulos e vetores. Esses detalhes são cruciais para representar fielmente o comportamento da luz.
+
+,
+A ferramenta reduz significativamente a barreira técnica que poderia restringir a exploração de efeitos visuais por profissionais fora da área de programação, pois fornece um sistema que transforma um documento \LaTeX{} contendo equações de BRDF diretamente em um arquivo GLSL, pronto para ser carregado utilizando o visualizador gratuito da Disney Explorer. Essa funcionalidade atende principalmente ao meio acadêmico, onde as BRDFs são frequentemente descritas por equações em \LaTeX{}, democratizando o acesso à criação de efeitos visuais complexos.
+
+%
+
+O compilador mantém consistência em ordem de operadores, permite uso de convenções, como símbolos matemáticos comuns ($\pi, \epsilon$) e outros simbolos específicos da area, por exemplo, $\omega_i$ e $\omega_o$. Também suporta expressões matemáticas essenciais para simulações de iluminação realista em computação gráfica como produto interno, produto vetorial, funções trigonometricas, exponenciação, entre outras, permitindo cálculos com ângulos e vetores. Esses detalhes são cruciais para representar fielmente o comportamento da luz.
+
+O compilador mantém consistência em ordem de operadores, permite uso de convenções, como símbolos matemáticos comuns ($\pi, \epsilon$) e outros simbolos específicos da area, por exemplo, $\omega_i$ e $\omega_o$. Também suporta expressões matemáticas essenciais para simulações de iluminação realista em computação gráfica como produto interno, produto vetorial, funções trigonometricas, exponenciação, entre outras, permitindo cálculos com ângulos e vetores. Esses detalhes são cruciais para representar fielmente o comportamento da luz.
+
+
+
+a
+refletância
+% Adicionalmente, permitimos o uso da palavra-chave \verb|\text|, como em \verb|\text{id}|, para descrever identificadores. Essa palavra-chave é utilizada para incluir texto dentro do ambiente de equações em \LaTeX{}, oferecendo uma visualização mais clara de funções longas. Por exemplo, em vez de renderizar como \( normalize(x) \), pode-se usar \verb|\text{normalize}(x)|, que será renderizado como \( \text{normalize}(x) \), tornando a expressão mais legível. Outro caso que pode ser util é por exemplo len, len pode ser um numbero ou um multiplicação entre l, e e n, usando \text{len} fica mais claro que len é um token só, $\text{len}$ e não $len$  A extração desse \textit{token} segue um processo semelhante ao do suporte para \verb|\vec{id}|.
+
+% Adicionalmente, permitimos o uso da palavra-chave \verb|\text|, como em \verb|\text{id}|, para descrever identificadores. Essa palavra-chave é utilizada para incluir texto dentro do ambiente de equações em \LaTeX{}, proporcionando maior flexibilidade na representação de identificadores. A extração desse \textit{token} segue um processo semelhante ao do suporte para \verb|\vec{id}|.
+%
+% Adicionalmente, permitimos o uso da palavra-chave \verb|\text|, como em \verb|\text{id}|, para descrever identificadores. Essa palavra-chave é utilizada para incluir texto dentro do ambiente de equações em \LaTeX{}, permitindo uma visualização mais clara de funções longas ou identificadores compostos. Por exemplo, ao invés de \verb|normalize(x)|, rederizado fica $normalize(x)$ pode-se escrever \verb|\text{normalize}(x)|, renderizado gera $\text{normalize}(x)$, tornando a expressão mais legível. A extração desse \textit{token} segue um processo semelhante ao do suporte para \verb|\vec{id}|.
+
+\textit{
+\textit{string}\footnote{\textit{string} é uma cadeia de caracteres}
+,
+'
+'
+
+
+f
+,
+Optou-se por exibir os erros de forma uniforme para ilustrar como o compilador os reporta, em termos visuais, independentemente de serem léxicos, sintáticos ou semânticos. Agora, é dado uma visão panorâmica dos erros para não sobrecarregar as seções de análise sintática e semântica com detalhes adicionais sobre cada erro. Nessas analises subsequentes, discutimos esses erros,  como mostrar imagens de formato . Dessa forma, o entendimento das tarefas do compilador é facilitado nas etapas subsequentes. A seguir, são apresentados alguns tipos de erros possíveis:
+
+detalhes excessivos sobre cada erro
+ A seguir, são apresentados alguns tipos de erros possíveis:
+Optou-se por apresentar alguns erros possíveis nesta etapa para demonstrar como o compilador os reporta visualmente, independentemente de serem léxicos, sintáticos ou semânticos. Dessa maneira, agora é dado uma visão geral dos erros, evitando sobrecarregar as seções de análise sintática e semântica detalhes excessivos sobre cada erro. Nas análises seguintes, discutiremos esses possiveis erros mais detalhes.  A A seguir, são apresentados alguns tipos de erros possíveis:
+
+Optou-se por apresentar alguns erros possíveis nesta etapa para demonstrar como o compilador os reporta visualmente, independentemente de serem léxicos, sintáticos ou semânticos. Dessa maneira, agora é dado uma visão geral dos erros, evitando sobrecarregar as seções de análise sintática e semântica detalhes excessivos sobre cada erro. Nas análises seguintes, discutiremos esses possiveis erros mais detalhes.  A A seguir, são apresentados alguns tipos de erros possíveis:
+
+
+
+%
+% Optou-se por exibir os erros de forma uniforme para ilustrar como o compilador os reporta, em termos visuais, independentemente de serem léxicos, sintáticos ou semânticos. Agora, é dado uma visão panorâmica dos erros para não sobrecarregar as seções de análise sintática e semântica com detalhes adicionais sobre cada erro. Nessas analises subsequentes, discutimos esses erros,  como mostrar imagens de formato . Dessa forma, o entendimento das tarefas do compilador é facilitado nas etapas subsequentes. A seguir, são apresentados alguns tipos de erros possíveis:
+
+% Optou-se por exibir os erros de forma uniforme para ilustrar como o compilador os reporta, independentemente de serem léxicos, sintáticos ou semânticos. Isso facilita a compreensão do formato dos erros do compilador, evitando sobrecarregar as seções de análise com detalhes excessivos sobre cada erro. A seguir, são apresentados alguns tipos de erros possíveis:
+
+
+
+\begin{figure}[H]
+    \caption{\label{error-undefined-symbol} \small Erro ao usar símbolo não definido.}
+    \begin{center}
+        \includegraphics[scale=0.5]{./Imagens/error-undefined-symbol.png}
+    \end{center}
+\end{figure}
+
+
+
+\verb|\text{id}|
+o
+Adicionalmente, permitimos o uso da palavra-chave \verb|\text|, como em \verb|\text{id}|, para descrever identificadores. Essa palavra-chave é utilizada para incluir texto dentro do ambiente de equações em \LaTeX{}, oferecendo uma visualização mais clara de funções longas. Por exemplo, em vez de renderizar como \( normalize(x) \), pode-se usar \verb|\text{normalize}(x)|, que será renderizado como \( \text{normalize}(x) \), tornando a expressão mais legível. Outro caso útil pode ser o \textit{token} $len$, que pode ser visualmente confundido com a multiplicação entre as variáveis \(l\), \(e\) e \(n\); usando \verb|\text{len}|, fica mais claro que ``$\text{len}$'' é um único \textit{token}, e não como uma multiplicação entre 3 outros \textit{tokens}. A extração do \texit{token} \verb|\text{id}| segue um processo semelhante ao do suporte para \verb|\vec{id}|.
+
+
+Adicionalmente, permitimos o uso da palavra-chave \verb|\text|, como em \verb|\text{id}|, para descrever identificadores. Essa palavra-chave é utilizada para incluir texto dentro do ambiente de equações em \LaTeX{}, oferecendo uma visualização mais clara de funções longas. Por exemplo, em vez de renderizar como \( normalize(x) \), pode-se usar \verb|\text{normalize}(x)|, que será renderizado como \( \text{normalize}(x) \), tornando a expressão mais legível. Outro caso útil pode ser o \textit{token} $len$, que pode ser visualmente confundido com a multiplicação entre as variáveis \(l\), \(e\) e \(n\); usando \verb|\text{len}|, fica mais claro que ``$\text{len}$'' é um único \textit{token}, e não como uma multiplicação entre 3 outros \textit{tokens}. A extração do \texit{token} \verb|\text{id}| segue um processo semelhante ao do suporte para \verb|\vec{id}|.
+
+%%
+
+'
+`
+a
+grammar-ast
+grammar-
+1
+ primeira parte
+Isso pode ser observado, por exemplo, na função de análise do nó \texttt{Start} da AST (\autoref{cod-parsing-start}), que reflete diretamente as regras de produção \texttt{start}, \texttt{decl} e \verb"decl_equation_begin_end_block" especificadas na primeira parte da gramática apresentada no \autoref{grammar-ast-pt1}.
+\autoref{grammar-ast-pt1})
+1
+grammar-ast-pt1
+grammar-ast-pt1
+Precedência
+Albedo é a propriedade óptica que quantifica a fração da radiação incidente que é refletida por uma superfície. Essa propriedade pode variar para superfície totalmente absorvente e outra que reflete toda a luz incidente
+Albedo é a propriedade óptica que quantifica a fração da radiação incidente que é refletida por uma superfície. Essa propriedade pode variar para superfície totalmente absorvente e outra que reflete toda a luz incidente
+Neste exemplo, a posição de saída dos vértices (\texttt{gl\_Position}) é a posição dos vértices de entrada modificada pela aplicação da função \texttt{seno}, usando o identificador do vértice (\texttt{gl\_VertexID}) como argumento, adicionando uma oscilação à posição original. O \textit{shader} também repassa adiante as normais dos vértices (\texttt{fragNormal}) para o \textit{shader} de fragmentos. Além disso, a multiplicação pela matriz (\texttt{modelViewProjection}) é responsável por aplicar uma projeção de perspectiva.
+
+de saída
+Neste exemplo, a posição de saída dos vértices (\texttt{gl\_Position}) é a posição dos vértices de entrada modificada pela aplicação da função \texttt{seno}, usando o identificador do vértice (\texttt{gl\_VertexID}) como argumento, adicionando uma oscilação à posição original. O \textit{shader} também repassa adiante as normais dos vértices (\texttt{fragNormal}) para o \textit{shader} de fragmentos. Além disso, a multiplicação pela matriz (\texttt{modelViewProjection}) é responsável por aplicar uma projeção de perspectiva.
+
+%%
+
+
+
+Manter a semântica entre duas linguagens significa garantir que o programa traduzido de $L_1$ para $L_2$ preserve tanto os resultados produzidos, quando aplicáveis, quanto as intenções originais. No caso do \LaTeX{}, isso envolve traduzir expressões matemáticas para uma representação equivalente na linguagem de destino, respeitando propriedades algébricas, significado de funções e valor de constantes (como $\cos$ e $\pi$), entre outros elementos semânticos da matemática.
+
+Manter a semântica entre duas linguagens significa garantir que o programa traduzido de \( L_1 \) para \( L_2 \) preserve, tanto os resultados gerados, se aplicável, quanto a intenção original. No caso do \LaTeX{}, isso implica traduzir expressões matemáticas para uma forma equivalente na linguagem de destino, garantindo que propriedades algébricas, o significado das funções (como \(\cos\) e \(\sin\)) e o valor de constantes (como \(\pi\)) sejam mantidos corretamente. Ou seja, a tradução deve preservar a lógica e o comportamento matemático da expressão original.
+
+Manter a semântica entre duas linguagens significa garantir que o programa traduzido de $L_1$ para $L_2$ preserve tanto os resultados produzidos, quando aplicáveis, quanto as intenções originais. No caso do \LaTeX{}, isso envolve traduzir expressões matemáticas para uma representação equivalente na linguagem de destino, respeitando propriedades algébricas, significado de funções e valor de constantes (como $\cos$ e $\pi$), entre outros elementos semânticos da matemática.
+
+%%
+
+o
+o
+o
+Manter a semântica entre duas linguagens significa garantir que o programa traduzido de \( L_1 \) para \( L_2 \) preserve tanto os resultados gerados, quando aplicáveis, quanto as intenções originais. No caso das equações escritas em \LaTeX{}, isso envolve traduzir expressões matemáticas para uma forma equivalente na linguagem de destino, respeitando propriedades algébricas, o significado das funções e os valores das constantes (como \(\cos\) e \(\pi\)), entre outros elementos semânticos da matemática.
+
+
+
+Manter a semântica entre duas linguagens significa garantir que o programa traduzido de $L_1$ para $L_2$ preserve tanto os resultados produzidos, quando aplicáveis, quanto as intenções originais. No caso do \LaTeX{}, isso envolve traduzir expressões matemáticas para uma representação equivalente na linguagem de destino, respeitando propriedades algébricas, significado de funções e valor de constantes (como $\cos$ e $\pi$), entre outros elementos semânticos da matemática.
+
+% Manter a semântica entre duas linguagens significa garantir que o programa traduzido de $L_1$ para $L_2$ preserve tanto os resultados produzidos, quando aplicáveis, quanto as intenções originais. No caso do \LaTeX{}, isso envolve traduzir expressões matemáticas para uma representação equivalente na linguagem de destino, respeitando propriedades algébricas, significado de funções e valor de constantes (como $\cos$ e $\pi$), entre outros elementos semânticos da matemática.
+
+
+
+/
+1
+    % NOTE: Eram 2, mas removi 'Tree-Structured Shading Decomposition'.
+
+Eram 2, mas removi 'Tree-Structured Shading Decomposition'.
+ 
+Esse trabalho propõe uma abordagem para inferir uma representação de BRDF estruturada em árvore a partir de uma única imagem de entrada, usada para o sombreamento de objetos \cite{tree_decomposition}. Em vez de usar representações paramétricas, como é comum, é proposta uma abordagem que utiliza uma representação em árvore de \textit{shading}, combinando nós básicos e métodos para decompor o \textit{shading} da superfície do objeto, como partes albedo and reflectance,, representado na \autoref{fig_decomp}. Nessa imagem podemos observar o criação, que foi feita a partir de uma imagem de entrada e o trabalho dos atulres de compõe nessa arvore que criam nós que reprensentam parte do shading como a cor, representado pelo nó albedo, ou reflexão especular, chamado de Highlight na figura, ou a reflexão difusa chamada de Difuse na figura. Isso permite mairo facilidade na edição desso sahding. na imagem mostra uma troca no nó de albedo e todo o objeto pode ser renderizado com um nova cor (vista em azul), podemos também combinar com outras arvores geradas a partir da de composição de outra imagem. Essa edicação da arvore poderia ser feita com uma ferramenta visual de edição
+
+Em vez de usar representações paramétricas, como é comum,
+a
+a
+\textit{shading}
+flexibilidade
+
+A proposta oferece uma maneira poderosa de editar propriedades visuais de objetos, unindo precisão técnica com usabilidade prática.
+
+Isso ajuda as possibilidades de edição e flexibilidade, permitindo alterações mais intuitivas e rápidas na representação hierárquica do sombreamento.
+
+Nessa imagem, observa-se a árvore reconstruida a partir de uma imagem de entrada, onde os autores estruturam nós que representam diferentes propriedades do \textit{shading}. Por exemplo, o nó \texttt{Albedo} representa a cor da superfície, o nó \texttt{Highlight} descreve a reflexão especular, e o nó \texttt{Diffuse} corresponde à reflexão difusa. Essa estrutura facilita a manipulação e a edição dos elementos de \textit{shading}.
+
+A figura também demonstra uma aplicação prática dessa abordagem: a substituição do nó de albedo por uma nova cor (de vermelho para azul), que resulta na renderização do objeto com a cor modificada. Além disso, é possível combinar árvores reconstruidas de outras imagens, atrávés da subsitituiçaõ de uma subárvore ou pelo nó \texttt{Multiply}.
+
+Isso ajuda as possibilidades de edição e flexibilidade, permitindo alterações mais intuitivas e rápidas na representação hierárquica do sombreamento.
+
+%%
+
+Nessa imagem, observa-se a árvore reconstruida a partir de uma imagem de entrada, onde os autores estruturam nós que representam diferentes propriedades do \textit{shading}. Por exemplo, o nó \texttt{Albedo} representa a cor da superfície, o nó \texttt{Highlight} descreve a reflexão especular, e o nó \texttt{Diffuse} corresponde à reflexão difusa. Essa estrutura facilita a manipulação e a edição dos elementos de \textit{shading}.
+
+A figura também demonstra uma aplicação prática dessa abordagem: a substituição do nó de albedo por uma nova cor (de vermelho para azul), que resulta na renderização do objeto com a cor modificada. Além disso, é possível combinar árvores reconstruidas de outras imagens, atrávés da subsitituiçaõ de uma subárvore ou pelo nó \texttt{Multiply}.
+
+Isso ajuda as possibilidades de edição e flexibilidade, permitindo alterações mais intuitivas e rápidas na representação hierárquica do sombreamento.
+
+Essa abordagem ajuda com a flexibilidade de edição, permitindo alterações mais intuitivas e rápidas na redenrização de objetos que usam modelo BRDFs.
+
+
+Essa abordagem ajuda com a flexibilidade de edição, permitindo alterações mais intuitivas e rápidas na redenrização de objetos que usam modelo BRDFs.
+
+Nessa imagem, observa-se a árvore reconstruida a partir de uma imagem de entrada, onde os autores estruturam nós que representam diferentes propriedades do \textit{shading}. Por exemplo, o nó \texttt{Albedo} representa a cor da superfície, o nó \texttt{Highlight} descreve a reflexão especular, e o nó \texttt{Diffuse} corresponde à reflexão difusa. Essa estrutura facilita a manipulação e a edição dos elementos de \textit{shading}.
+
+A figura também demonstra uma aplicação prática dessa abordagem: a substituição do nó de albedo por uma nova cor (de vermelho para azul), que resulta na renderização do objeto com a cor modificada. Além disso, é possível combinar árvores reconstruidas de outras imagens, atrávés da subsitituiçaõ de uma subárvore ou pelo nó \texttt{Multiply}.
+
+Isso ajuda as possibilidades de edição e flexibilidade, permitindo alterações mais intuitivas e rápidas na representação hierárquica do sombreamento.
+
+%
+
+  
+Em vez de usar representações paramétricas, como é comum, é proposta uma abordagem que utiliza uma representação em árvore de \textit{shading}
+árvore de \textit{shading}
+Em vez de usar representações paramétricas
+Em vez de usar representações paramétricas, como é comum,
+Diferentemente das representações paramétricas tradicionais
+a
+tab-conventions-metodologia
+tab-conventions
+é
+  \item Foram incluídos artigos que utilizam representações hierárquicas para BRDFs, pois contribuem para a compreensão de como decompor BRDFs em estruturas adequadas para o nosso compilador, que utiliza árvores para analises.
+
+  \item Foram incluídos artigos que utilizam representações hierárquicas para BRDFs, pois contribuem para a compreensão de como decompor BRDFs em estruturas adequadas para o nosso compilador, que utiliza árvores para analises e geração de código.
+
+  \item Foram incluídos artigos que utilizam representações hierárquicas para BRDFs, pois contribuem para a compreensão de como decompor BRDFs em estruturas adequadas para o nosso compilador, que utiliza árvores para analises e geração de código.
+
+  \item Foram incluídos artigos que utilizam representações hierárquicas para BRDFs, pois contribuem para a compreensão de como decompor BRDFs em estruturas adequadas para o nosso compilador, que utiliza árvores para analises e geração de código.
+
+  \item Foram incluídos artigos que utilizam representações hierárquicas para BRDFs, pois contribuem para a compreensão do processo de decomposição dessas funções em estruturas adequadas ao nosso compilador, que utiliza árvores em suas análises e na geração de código.
+
+  \item Foram incluídos artigos que utilizam representações hierárquicas para BRDFs, pois contribuem para a compreensão do processo de decomposição dessas funções em estruturas adequadas ao nosso compilador, que utiliza árvores em suas análises e na geração de código.
+
+Além disso, variáveis como a normal \( \vec{n} \) são frequentemente fornecidas como entrada para o \textit{shader} de fragmentos ou declaradas como variáveis uniformes. Por isso, elas não estão explicitamente definidas na função \texttt{cook\_torrance} do \autoref{cod-glsl-esperado}, sendo tratadas como variáveis implícitas. Uma lista completa dessas variáveis pode ser encontrada no mapeamento de convenções para código GLSL na \autoref{tab-conventions}.
+
+Vale destacar que o compilador desenvolvido produz código GLSL com a definição completa da função BRDF, incluindo todas as variáveis de convenções necessárias. Esse código permite que a BRDF calculada seja utilizada para determinar a cor final e encaminhada às etapas subsequentes do \textit{pipeline} gráfico, possibilitando sua renderização.
+
+Vale destacar que o compilador desenvolvido produz código GLSL com a definição completa da função BRDF, incluindo todas as variáveis de convenções necessárias. Esse código permite que a BRDF calculada seja utilizada para determinar a cor final e encaminhada às etapas subsequentes do \textit{pipeline} gráfico, possibilitando sua renderização.
+
+
+
+lexer-structs
+e
+Optou-se por apresentar alguns erros possíveis nesta seção para demonstrar como o compilador os reporta visualmente, independentemente de serem léxicos, sintáticos ou semânticos. Dessa maneira, é fornecida uma visão geral dos erros, evitando sobrecarregar as seções de análise sintática e semântica com imagens ous descri em execesso. Nas análises seguintes, discutiremos esses possíveis erros em mais detalhes. A seguir, são apresentados alguns tipos de erros possíveis:
+
+seguintes
+a
+
+Optou-se por apresentar nesta seção apenas uma visão geral de alguns erros possíveis para demonstrar como o compilador os reporta visualmente, independentemente de serem léxicos, sintáticos ou semânticos. Essa abordagem evita sobrecarregar as seções de análise sintática e semântica com descrições ou imagens excessivas. Nas análises seguintes, cada tipos de erro será discutido na sua etapa correspondente. A seguir, são apresentados exemplos dos tipos de erros possíveis:
+
+Nas análises seguintes, cada tipos de erro será discutido na sua etapa correspondente
+seguintes
+á
+Optou-se por apresentar nesta seção apenas uma visão geral de alguns erros possíveis para demonstrar como o compilador os reporta visualmente, independentemente de serem léxicos, sintáticos ou semânticos. Essa abordagem evita sobrecarregar as seções de análise sintática e semântica com descrições ou imagens excessivas. Nas análises seguintes, os tipo de erro serão discutidos em sua etapa correspondente. A seguir, são apresentados exemplos dos tipos de erros possíveis:
+
+% Optou-se por apresentar alguns erros possíveis nesta seção para demonstrar como o compilador os reporta visualmente, independentemente de serem léxicos, sintáticos ou semânticos. Dessa maneira, é fornecida uma visão geral dos erros, evitando sobrecarregar as seções de análise sintática e semântica com imagens ous descri em execesso. Nas análises seguintes, discutiremos possíveis erros em mais detalhes. A seguir, são apresentados alguns tipos de erros possíveis:
+
+
+
+os tipo de erro serão discutidos em sua etapa correspondente.
+ç
+ 
+apenas 
+A enumeração que representa os tipos de \textit{tokens} pode ser consultada no \autoref{enum-token-kind}. Cada entrada dessa enumeração corresponde diretamente aos tipos de \textit{tokens} gerados pela lista de expressões regulares apresentada no \autoref{grammar-tokens}. Para facilitar a leitura, incluímos, à direita de cada entrada o símbolo correspondente, indicado em comentários
+
+Para facilitar a leitura, incluímos, à direita de cada entrada o símbolo correspondente, indicado em comentários
+
+map-special-identifiers
+\begin{codigo}[H]
+        \caption{\small Mapa de identificadores especiais. }
+        \label{map-special-identifiers}
+  \begin{lstlisting}[language=C++]
+
+SPECIAL_WORDS := map[string]Token{
+    "text"  = Token{text = "\\text",     kind =.Text},
+
+    // Special
+    "frac"   = Token{text = "\\frac",    kind =.Frac},
+    "vec"    = Token{text = "\\vec",     kind =.Vec},
+    "cdot"   = Token{text = "\\cdot",    kind =.Mul},
+    "begin"  = Token{text = "\\begin",   kind =.Begin},
+    "end"    = Token{text = "\\end",     kind =.End},
+    "rho"    = Token{text = "\\rho",     kind =.Rho},
+    "sqrt"   = Token{text = "\\sqrt",    kind =.Sqrt},
+    "omega"  = Token{text = "\\omega",   kind =.Omega},
+
+    // Cross product
+    "times"  = Token{text = "\\times",   kind =.Cross},
+
+    "max"    = Token{text = "\\max",     kind =.Max},
+    "min"    = Token{text = "\\min",     kind =.Min},
+    "exp"    = Token{text = "\\exp",     kind =.Exp},
+
+    "cos"    = Token{text = "\\cos",     kind =.Cos},
+    "sin"    = Token{text = "\\sin",     kind =.Sin},
+    "tan"    = Token{text = "\\tan",     kind =.Tan},
+
+    "arccos" = Token{text = "\\arccos",  kind =.ArcCos},
+    "arcsin" = Token{text = "\\arcsin",  kind =.ArcSin},
+    "arctan" = Token{text = "\\arctan",  kind =.ArcTan},
+
+    "theta"  = Token{text = "\\theta",   kind =.Theta},
+    "phi"    = Token{text = "\\phi",     kind =.Phi},
+
+    "alpha"   = Token{text = "\\alpha",  kind =.Alpha},
+    "beta"    = Token{text = "\\beta",   kind =.Beta},
+    "sigma"   = Token{text = "\\sigma",  kind =.Sigma},
+    "pi"      = Token{text = "\\pi",     kind =.Pi},
+    "epsilon" = Token{text = "\\epsilon",kind =.Epsilon},
+}
+
+    
+  \end{lstlisting}
+\end{codigo}
+
+
+
+basicstyle=\ttfamily\footnotesize
+Para \textbf{identificadores} (\verb"Expr_Identifier"), verifica se o identificador corresponde a um vetor especial, como $\omega_i$ ou $\vec{n}$. Nesse caso, o tipo é inferido como $\mathbb{R}^3$ (vetor tridimensional). Identificadores específicos, como \verb"\pi" ou \verb"\epsilon", são atribuídos ao tipo numérico real ($\mathbb{R}$). Para outros identificadores, a função consulta o escopo atual para determinar o tipo, usando as estruturas detalhado na \autoref{section-escope-table}.
+
+Para \textbf{identificadores} (\verb"Expr_Identifier"), verifica se o identificador corresponde a um vetor especial, como $\omega_i$ ou $\vec{n}$. Nesse caso, o tipo é inferido como $\mathbb{R}^3$ (vetor tridimensional). Identificadores específicos, como \verb"\pi" ou \verb"\epsilon", são atribuídos ao tipo numérico real ($\mathbb{R}$). Para outros identificadores, a função consulta o escopo atual para determinar o tipo, usando as estruturas detalhado na \autoref{section-escope-table}.
+
+%
+
+no lado direito da equação, tanto funções quanto variáveis são expressões
+    \item Expressões: no lado direito da equação, tanto funções quanto variáveis são expressões. Para gerar isso, realiza-se uma travessia da AST, mapeando nós de expressões (como somas e chamadas de funções trigonométricas) para seu equivalente em GLSL. Detalhes adicionais sobre a emissão de código para expressões podem ser encontrados na \autoref{sec-RHS}.
+
+Detalhes adicionais sobre a emissão de código para expressões podem ser encontrados na \autoref{sec-RHS}.
+
+\footnote{Um erro comum ocorre ao utilizar caracteres consecutivos de \_ em identificadores, resultando no erro \texttt{C7528: OpenGL reserves names containing \_\_.}}
+\footnote{Um erro comum ocorre ao utilizar caracteres consecutivos de \_ em identificadores, resultando no erro \texttt{C7528: OpenGL reserves names containing \_\_.}}
+\texttt{C7528: OpenGL reserves names containing \_\_.}
+,
+automaticamente
+
+
+
+
+
+
+\begin{subequations} \label{eq-emit-expr-example}
+\begin{equation}
+    \rho_{d} = \vec{0,1,1}
+\end{equation}
+\begin{equation}
+    \rho_{s} = \vec{1,0,1}
+\end{equation}
+\begin{equation}
+    n = +2^8
+\end{equation}
+\begin{equation}
+f = \frac{\rho_{d}}{\pi} + \rho_{s} * \frac{n+2}{2*\pi} *
+\cos{\theta_{h}}^{n}
+\end{equation}
+\end{subequations}
+
+
+
+
+
+H
+
+
+
+
+
+
+        sbprint(sb, '(')
+        emit_expr(sb, e.left)
+        sbprint(sb, op)
+        emit_expr(sb, e.right)
+        sbprint(sb, ')')
+
+
+
+
+
+
+basicstyle=\ttfamily\footnotesize
+    
+
+
+
+
 
 

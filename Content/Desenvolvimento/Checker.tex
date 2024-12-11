@@ -264,7 +264,7 @@ A função \verb`infer_type` determina o tipo de uma expressão (\verb`expr`) na
 
 Projetada para processar todas as expressões de \texttt{EquationLang} — como identificadores, operadores, chamadas de função e literais —, a função verifica inicialmente se o tipo já foi inferido (\verb"expr.ty_inferred") para evitar processamento redundante. Caso contrário, realiza a inferência com base em um \verb"switch" que é capaz de avaliar todos tipos de expressões. Um trecho relevante desse processo está no \autoref{cod-type-inference}, que ilustra a discriminação e validação dos tipos.
 
-Para \textbf{identificadores} (\verb"Expr_Identifier"), verifica se o identificador corresponde a um vetor especial, como $\omega_i$ ou $\vec{n}$. Nesse caso, o tipo é inferido como $\mathbb{R}^3$ (vetor tridimensional). Identificadores específicos, como \verb"\pi" ou \verb"\epsilon", são atribuídos ao tipo numérico real ($\mathbb{R}$). Para outros identificadores, a função consulta o escopo atual para determinar o tipo, usando as estruturas detalhado na \autoref{section-escope-table}.
+Para \textbf{identificadores} (\verb"Expr_Identifier"), verifica-se se o identificador corresponde a um vetor especial, como $\omega_i$ ou $\vec{n}$. Nesse caso, o tipo é inferido como $\mathbb{R}^3$ (vetor tridimensional). Identificadores específicos, como \verb"\pi" ou \verb"\epsilon", são atribuídos ao tipo numérico real ($\mathbb{R}$). Para outros identificadores, a função consulta o escopo atual para determinar o tipo, com base nas estruturas detalhadas na \autoref{section-escope-table}.
 
 \input{Content/Desenvolvimento/code/Infer}
 
@@ -349,7 +349,7 @@ O processo começa com o processamento dos parâmetros e o gerenciamento do esco
 
 Esse escopo é essencial para validar chamadas de função e expressões no corpo. Cada função tem seu próprio escopo, com o escopo pai sendo o global, evitando conflitos de identificadores.
 
-O controle de visibilidade funciona como esperado; se um parâmetro $x$ existe, ele é preferido ao $x$ global, resultando no fenômeno de \textit{shadowing} ou sombreamento, como exemplificado na \autoref{eq-shadowing}, onde o valor de $f$ é 3, não 2.
+O controle de visibilidade funciona como esperado; se um parâmetro $x$ existe, ele é preferido ao $x$ global, resultando no fenômeno de \textit{shadowing}, como exemplificado na \autoref{eq-shadowing}, onde o valor de $f$ é 3, não 2.
 
 \begin{align} \label{eq-shadowing}
     &x = 2 \\

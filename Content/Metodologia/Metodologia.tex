@@ -2,7 +2,7 @@
 
 A metodologia para o desenvolvimento do compilador proposto adota uma abordagem prática, estruturada em etapas principais: a análise de informações relevantes sobre BRDFs e a compilação de \textit{shaders}; a exploração de técnicas existentes no domínio; a especificação da linguagem de entrada, um subconjunto de \LaTeX{}; a implementação do compilador; e a avaliação de seu desempenho por meio de experimentos de renderização.
 
-O método para realizar a análise e a exploração de técnicas é descrito na \autoref{analise}. Em seguida, a especificação da linguagem de entrada é apresentada na \autoref{especificacao-linguagem}. É importante destacar que a definição precisa da gramática está consolidada no capítulo de desenvolvimento, na \autoref{section-parser}.
+O método para realizar a análise e a exploração de técnicas é descrito na \autoref{analise}. Em seguida, a especificação da linguagem de entrada é apresentada na \autoref{especificacao-linguagem}. É importante destacar que a definição formal da gramática está consolidada no capítulo de desenvolvimento, na \autoref{section-parser}.
 
 Posteriormente, é discutida a elaboração dos casos de teste para validar a correção e a precisão do compilador, conforme detalhado na \autoref{testes}. Embora a validação escolhida se baseie nesses testes iniciais, os resultados obtidos no \autoref{chapter.resultados} expandem a validação para um conjunto maior de BRDFs.
 
@@ -77,7 +77,7 @@ O ambiente de equações do \LaTeX{} oferece uma ampla gama de construções mat
 \small Definições de equações & $f = x$ & \verb|f = x| \\ \hline
 \small Definições de funções & $f(x, y) = x^y$ & \verb|f(x, y) = x^y| \\ \hline
 \small Constantes comuns & $\pi$, $\epsilon$ & \verb|\pi, \epsilon| \\ \hline
-\small Constantes de radiometria & $\theta_i$ {\small e outras detalhadas na \autoref{tab-conventions}} & \verb|\theta_i| \\ \hline
+\small Constantes de radiometria & $\theta_i$ {\small e outras presentes na \autoref{tab-conventions-metodologia}} & \verb|\theta_i| \\ \hline
 \small Indicadores de vetor & $\vec{n}$ & \verb|\vec{}| \\ \hline
 \small Identificadores aninhados & $f_{n_{i}}$ & \verb|f_{n_{i}}| \\ \hline
 \small Chamadas de funções & $f(x + y)$ & \verb|f(x + y)| \\ \hline
@@ -132,7 +132,7 @@ Embora as funções \(D\), \(G\) e \(F\) não tenham sido definidas explicitamen
 
 Além disso, variáveis como a normal \( \vec{n} \) são frequentemente fornecidas como entrada para o \textit{shader} de fragmentos ou declaradas como variáveis uniformes. Por isso, elas não estão explicitamente definidas na função \texttt{cook\_torrance} do \autoref{cod-glsl-esperado}, sendo tratadas como variáveis implícitas. Uma lista completa dessas variáveis pode ser encontrada no mapeamento de convenções para código GLSL na \autoref{tab-conventions}.
 
-Inicialmente, os casos de teste priorizam a avaliação da geração de operações e precedências. Contudo, vale destacar que o compilador desenvolvido produz código GLSL com a definição completa da função BRDF, incluindo todas as variáveis de convenções necessárias. Esse código permite que a BRDF calculada seja utilizada para determinar a cor final e encaminhada às etapas subsequentes do \textit{pipeline} gráfico, possibilitando sua renderização na ferramenta Disney BRDF Explorer
+Nesse contexto, vale destacar que o compilador desenvolvido produz código GLSL com a definição completa da função BRDF, incluindo todas as variáveis de convenções necessárias. Esse código permite que a BRDF calculada seja utilizada para determinar a cor final e encaminhada às etapas subsequentes do \textit{pipeline} gráfico, possibilitando sua renderização.
 
 
 \begin{equation} \label{eq-cook-torrance}
@@ -173,14 +173,14 @@ Este trabalho envolve várias tarefas-chave destinadas a completar o desenvolvim
 A implementação do compilador é realizada utilizando a linguagem de programação Odin\footnote{Mais informações sobre a linguagem Odin estão disponíveis no site oficial \url {https://odin-lang.org}, e o código-fonte do seu compilador pode ser acessado no GitHub em \url{https://github.com/odin-lang/Odin}.}, conhecida por ser uma linguagem de propósito geral com foco em programação orientada a dados. Sua escolha se deve à sua capacidade de oferecer controle de baixo nível e a sua adequação para o desenvolvimento de sistemas complexos. Além disso, não foi utilizada nenhuma biblioteca externa, apenas as bibliotecas padrão básicas incluídas na instalação da linguagem.
 
 
-Para a análise e construção da estrutura do compilador, foram adotadas técnicas de análise recursiva, com destaque para o método Pratt Parsing. Inicialmente, o lexer e o parser foram implementados para suportar o subconjunto da linguagem \LaTeX{} descrito em \autoref{especificacao-linguagem}. O objetivo inicial foi garantir que os fundamentos do compilador estivessem funcionais, com precedências devidamente testadas na geração da árvore sintática abstrata (AST).
+Para a análise e construção da estrutura do compilador, foram adotadas técnicas de análise recursiva, com destaque para o método Pratt Parsing. Inicialmente, o \textit{lexer} e o \textit{parser} foram implementados para suportar o subconjunto da linguagem \LaTeX{} descrito em \autoref{especificacao-linguagem}. O objetivo inicial foi garantir que os fundamentos do compilador estivessem funcionais, com precedências devidamente testadas na geração da árvore sintática abstrata (AST).
 
 A travessia e manipulação da AST é possível pelo pacote \texttt{walker}, que abstrai operações sobre a árvore. Este pacote é utilizado em três etapas principais: adicionar parênteses para explicitar a ordem das operações, facilitando a validação; inferir recursivamente os tipos de cada expressão (nós que representam valores); e realizar a travessia da árvore com discriminação dos tipos de nós para a geração de código.
 
 
 Além disso, foi implementada uma etapa de análise semântica por meio do pacote chamado \texttt{checker}. Essa etapa consiste em validar todas as expressões, criar os escopos e a tabela de símbolos, além de anotar a AST com informações como os tipos inferidos de cada nó, incluindo funções com seus domínios e contradomínios, vetores e suas dimensões, e números reais.
 
-Por fim, com a AST devidamente anotada, foi desenvolvido o pacote \texttt{emitter}, o qual realiza a geração do código GLSL que atenda aos requisitos do pipeline gráfico. Esse código é formatado para ser carregado diretamente e renderizado na ferramenta Disney descrita na (\autoref{disney-brdf-tool}).
+Por fim, com a AST devidamente anotada, foi desenvolvido o pacote \texttt{emitter}, o qual realiza a geração do código GLSL que atenda aos requisitos do pipeline gráfico. Esse código é formatado para ser carregado diretamente e renderizado na ferramenta Disney descrita na \autoref{disney-brdf-tool}.
 
 \section{Experimentos de Renderização} \label{experimentos-renderizacao}
 

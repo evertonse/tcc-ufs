@@ -43,10 +43,10 @@ O controle de parada em \texttt{walk} é feito por duas verificações principai
     \item Interrupção de travessia: após cada chamada à função \texttt{visit}, se o retorno for nulo, a travessia é interrompida, permitindo ao \textit{visitor} decidir dinamicamente se deseja continuar ou parar; adaptando-se ao cenário de uso.
 \end{enumerate}
 
-\begin{codigo}[ht]
+\begin{codigo}[H]
 \caption{\small Função de percurso \texttt{walk}. }
         \label{cod-visitor-walk}
-\begin{lstlisting}[language = C]
+\begin{lstlisting}[language = C, basicstyle=\ttfamily\footnotesize]
 // Por brevidade vamos omitir varios casos do `switch` que seguem a mesma lógica
 walk :: proc(v: ^Visitor($T), node: ^ast.Node) {
     if v == nil || node == nil {
@@ -62,7 +62,6 @@ walk :: proc(v: ^Visitor($T), node: ^ast.Node) {
             for d in n.decls {
                 walk(v, d)
             }
-
         // ...
         // casos OMITIDOS aqui Também
         // ...
@@ -155,7 +154,7 @@ Os nós da AST possuem diferentes formas de acesso aos seus filhos, pois os camp
         \caption{\small Assinatura da função que extrai nós filhos de maneira uniforme para qualquer tipo de nó.}
         \label{cod-childre-signature}
   \begin{lstlisting}[language = C]
-    // Aceita um ponteiro de nós abstrato e return uma lista de nós filhos
+    // Aceita um ponteiro de nós abstrato e retorna uma lista de nós filhos.
     children :: proc(node: ^Node) -> (array :[dynamic]^Node);
   \end{lstlisting}
 \end{codigo}

@@ -1,4 +1,5 @@
 \section{Experimento BRDF Minnaert}
+\label{section-experiment-minnaert}
 
 Este experimento foi realizado seguindo os princípios do artigo de Minnaert \cite{minnaert1941reciprocity}. Nele, é apresentado um modelo de reflexão que introduz uma abordagem para descrever superfícies que exibem comportamentos encontrados em superfícies porosas, como a lua. As equações desse experimento estão na \autoref{fig-minnaert-eqlang-latex}. O código-fonte pode ser encontrado no \autoref{cod-minnaert-eqlang}. O GLSL gerado pode ser encontrado no \autoref{cod-minnaert-glsl-pt-1} e no \autoref{cod-minnaert-glsl-pt-2}, enquanto os resultados de renderização podem ser observados na \autoref{fig-minnaert-eqlang} e os \textit{plots} na \autoref{fig-minnaert-plots}.
 
@@ -7,7 +8,7 @@ Este experimento foi realizado seguindo os princípios do artigo de Minnaert \ci
 \subsection{Representação em documento \LaTeX{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[H]
-    \caption{\label{fig-minnaert-eqlang-latex} \small Equações da BRDF do experimento minnaert em documento \LaTeX{}.}
+    \caption{\label{fig-minnaert-eqlang-latex} \small Equações da BRDF do experimento Minnaert em documento \LaTeX{}.}
     \begin{center}
         \includegraphics[scale=0.92]{./Imagens/brdfs/minnaert.pdf}
     \end{center}
@@ -17,7 +18,7 @@ Este experimento foi realizado seguindo os princípios do artigo de Minnaert \ci
 \subsection{Código Fonte em \texttt{EquationLang}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento.}
+    \caption{\small Código fonte da BRDF do experimento Minnaert.}
     \label{cod-minnaert-eqlang}
 \begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
 [Min41] MINNAERT M.: The reciprocity principle in lunar photometry. Astrophysical Journal, 3 (1941), 403- 410. 10
@@ -53,7 +54,7 @@ f = \frac{\rho_{d}}{\pi} * ((\vec{n} \cdot \vec \omega_i)*(\vec{n} \cdot \vec \o
 \subsection{Código GLSL Gerado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 2).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento Minnaert (parte 1 de 2).}
     \label{cod-minnaert-glsl-pt-1}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 analytic ::begin parameters
@@ -87,7 +88,7 @@ vec3 var_14_f;
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento Minnaert (parte 2 de 2).}
     \label{cod-minnaert-glsl-pt-2}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
@@ -126,7 +127,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \subsection{Visualização do Resultado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[H]
-    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa do experimento Minnaert.}}
     \label{fig-minnaert-plots}
 \minipage{0.48\textwidth}
     \vspace{42px}
@@ -141,7 +142,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \end{figure}
 
 \begin{figure}[H]
-    \caption{\small{Objetos 3D renderizados por este experimento.}}\label{fig-minnaert-eqlang}
+    \caption{\small{Objetos 3D renderizados pelo experimento Minnaert.}}\label{fig-minnaert-eqlang}
 \minipage{0.32\textwidth}
   \includegraphics[width=\linewidth]{./Imagens/brdfs/minnaert-teapot.png}
     \legend{ \small (a) \textit{Teapot}}

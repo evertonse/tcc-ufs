@@ -1,4 +1,6 @@
+
 \section{Experimento BRDF Edwards 2006}
+\label{section-experiment-edwards-2006}
 
 No artigo de Edwards et al. \cite{edwards2006halfway}, é apresentado o conceito do \textit{Halfway Vector Disk} como uma extensão para modelagem de BRDFs. Este método, usado neste experimento, propõe uma abordagem geométrica que melhora a eficiência computacional. As equações principais são descritas na \autoref{fig-edwards-2006-eqlang-latex}, com o código fonte em \texttt{EquationLang} disponível no \autoref{cod-edwards-2006-eqlang}. Os códigos gerados em GLSL podem ser vistos no \autoref{cod-edwards-2006-glsl-pt-1} e no \autoref{cod-edwards-2006-glsl-pt-2}. A renderização de objetos 3D utilizando o método pode ser observada na \autoref{fig-edwards-2006-eqlang}, enquanto os \textit{plots} estão ilustrados na \autoref{fig-edwards-2006-plots}.
 
@@ -16,7 +18,7 @@ No artigo de Edwards et al. \cite{edwards2006halfway}, é apresentado o conceito
 \subsection{Código GLSL Gerado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 2).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento Edwards (parte 1 de 2).}
     \label{cod-edwards-2006-glsl-pt-1}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 analytic ::begin parameters
@@ -50,7 +52,7 @@ float var_19_f;
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento Edwards (parte 2 de 2).}
     \label{cod-edwards-2006-glsl-pt-2}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 //////////// END OF USER DECLARED ////////////
@@ -106,7 +108,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \subsection{Código Fonte em \texttt{EquationLang}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento.}
+    \caption{\small Código fonte da BRDF do experimento Edwards.}
     \label{cod-edwards-2006-eqlang}
 \begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
 \begin{equation}
@@ -152,7 +154,7 @@ Specular term (D and G)
 \subsection{Visualização do Resultado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[H]
-    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa do experimento Edwards.}}
     \label{fig-edwards-2006-plots}
 \minipage{0.48\textwidth}
     \vspace{42px}
@@ -167,7 +169,7 @@ Specular term (D and G)
 \end{figure}
 
 \begin{figure}[H]
-    \caption{\small{Objetos 3D renderizados por este experimento.}}\label{fig-edwards-2006-eqlang}
+    \caption{\small{Objetos 3D renderizados pelo experimento Edwards.}}\label{fig-edwards-2006-eqlang}
 \minipage{0.32\textwidth}
   \includegraphics[width=\linewidth]{./Imagens/brdfs/edwards-2006-teapot.png}
     \legend{ \small (a) \textit{Teapot}}

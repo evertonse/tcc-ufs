@@ -1,5 +1,7 @@
 
+
 \section{Experimento BRDF Anisotrópica baseado em Kajiya-Kay (1989)}
+\label{section-experiment-kajiya}
 
 Este experimento é baseado no modelo anisotrópico que descreve o comportamento de reflexão de superfícies rugosas simplificadas, proposto no trabalho de Kajiya \cite{kajiya1985anisotropic}. As equações e parâmetros para descrever esse modelo estão na \autoref{fig-kajiya-eqlang-latex}. O código-fonte em \texttt{EquationLang} para o compilador está no \autoref{cod-kajiya-eqlang}. A saída gerada pelo compilador está dividida em duas partes: a parte 1 está no \autoref{cod-kajiya-glsl-pt-1}, enquanto a parte 2 está no \autoref{cod-kajiya-glsl-pt-2}. A renderização dos objetos 3D usando essa BRDF pode ser observada na \autoref{fig-kajiya-objects}. Os \textit{plots} estão presentes na \autoref{fig-kajiya-plots}.
 
@@ -7,7 +9,7 @@ Este experimento é baseado no modelo anisotrópico que descreve o comportamento
 \subsection{Representação em documento \LaTeX{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[H]
-    \caption{\label{fig-kajiya-eqlang-latex} \small Equações da BRDF do experimento Kajiya-Kay em documento \LaTeX{}.}
+    \caption{\label{fig-kajiya-eqlang-latex} \small Equações da BRDF do experimento baseado em Kajiya-Kay em documento \LaTeX{}.}
     \begin{center}
         % \includegraphics[scale=1.1,width=\textwidth]{./Imagens/brdfs/aniso.pdf}
         \includegraphics[scale=0.92]{./Imagens/brdfs/aniso.pdf}
@@ -71,7 +73,7 @@ f = \text{spec}
 \subsection{Código GLSL Gerado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 2).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento baseado em Kajiya-Kay (parte 1 de 2).}
     \label{cod-kajiya-glsl-pt-1}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 analytic ::begin parameters
@@ -113,7 +115,7 @@ vec3 var_13_text_normalize(vec3 var_14_vec_u) {
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento baseado em Kajiya-Kay (parte 2 de 2).}
     \label{cod-kajiya-glsl-pt-2}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
@@ -164,7 +166,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure}[H]
-    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa do experimento baseado em Kajiya-Kay.}}
     \label{fig-kajiya-plots}
 \minipage{0.48\textwidth}
     \vspace{42px}
@@ -182,7 +184,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 
 \begin{figure}[H]
     % \caption{\small{Objetos 3D renderizado pelo código GLSL gerado o experimento BRDF Anisotrópica: Kajiya-Kay (1989)}}\label{fig-kajiya-eqlang}
-    \caption{\small{Objetos 3D renderizados por este experimento.}}
+    \caption{\small{Objetos 3D renderizados pelo experimento baseado em Kajiya-Kay.}}
     \label{fig-kajiya-objects}
 \minipage{0.32\textwidth}
   \includegraphics[width=\linewidth]{./Imagens/brdfs/aniso-teapot.png}

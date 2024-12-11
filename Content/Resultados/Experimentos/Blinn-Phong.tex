@@ -1,4 +1,5 @@
-\section{Experimento BRDF Blinn-Phong}
+
+\section{Experimento BRDF Blinn-Phong} \label{section-experiment-blinn-phong}
 
 Neste experimento usamos uma BRDF com um método simplificado de cálculo de reflexão especular, presente na \autoref{fig-blinn-phong-eqlang-latex}, introduzido por Blinn-Phong \cite{blinn1977models}. O \autoref{cod-blinn-phong-eqlang}, escrito \texttt{EquationLang}, é a entrada para o compilador. O \autoref{cod-blinn-phong-glsl-pt-1} e \autoref{cod-blinn-phong-glsl-pt-2} são a sáida em GLSL. A renderização dos objetos 3D estão em \autoref{fig-blinn-phong-eqlang}. Por fim, os \textit{plots} estão na \autoref{fig-blinn-phong-plots}.
 
@@ -19,11 +20,9 @@ Neste experimento usamos uma BRDF com um método simplificado de cálculo de ref
 \subsection{Código Fonte em \texttt{EquationLang}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento.}
+    \caption{\small Código fonte da BRDF do experimento Blinn-Phong.}
     \label{cod-blinn-phong-eqlang}
 \begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
-\begin{document}
-
 \begin{equation}
     \rho_{d} = \vec{0,1,1}
 \end{equation}
@@ -47,7 +46,7 @@ f = \frac{\rho_{d}}{\pi} + \rho_{s} * \frac{n+2}{2*\pi} *
 \subsection{Código GLSL Gerado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 2).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento Blinn-Phong (parte 1 de 2).}
     \label{cod-blinn-phong-glsl-pt-1}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 analytic ::begin parameters
@@ -68,7 +67,6 @@ vec3 var_7_vec_omega_o;
 float var_8_theta_o;
 float var_9_phi_o;
 //////////// END OF BUILTINS DECLARTION ////////////
-
 //////////// START OF USER DECLARED ////////////
 vec3 var_12_rho_s;
 float var_13_n;
@@ -79,11 +77,10 @@ vec3 var_15_f;
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento Blinn-Phong (parte 2 de 2).}
     \label{cod-blinn-phong-glsl-pt-2}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
-
   //////////// START OF BUILTINS INITIALIZATION ////////////
   var_0_vec_h = normalize(L + V);
   var_3_vec_n = normalize(N);
@@ -120,7 +117,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 
 \begin{figure}[H]
   
-    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa do experimento Blinn-Phong.}}
     \label{fig-blinn-phong-plots}
 \minipage{0.48\textwidth}
     \vspace{42px}
@@ -137,7 +134,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \end{figure}
 
 \begin{figure}[H]
-    \caption{\small{Objetos 3D renderizados por este experimento.}}
+    \caption{\small{Objetos 3D renderizados pelo experimento Blinn-Phong.}}
     \label{fig-blinn-phong-eqlang}
 \minipage{0.32\textwidth}
   \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-teapot.png}

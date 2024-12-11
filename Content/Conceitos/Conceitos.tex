@@ -156,7 +156,7 @@ A principal funcionalidade de um renderizador fotorrealista é estimar a radiân
 \end{equation}
 
 
-A Função de Distribuição Bidirecional de Reflectância (BRDF) descreve como a luz reflete de uma superfície em diferentes direções, afetando a radiância de saída \cite{overview_brdf}. Assim, BRDFs encapsulam as propriedades de reflexão de um material, considerando fatores como a rugosidade da superfície, o ângulo de incidência e o ângulo de reflexão. Formalmente uma BRDF pode ser definida por $f({\omega}_i, {\omega}_o)$, onde ${\omega}_i$ é a direção incidente de luz e ${\omega}_o$ é a direção de saída. Para BRDFs fisicamente realistas, algumas propriedades devem ser respeitadas \cite[5.6]{pbr}:
+A Função de Distribuição Bidirecional de Refletância (BRDF) descreve como a luz reflete de uma superfície em diferentes direções, afetando a radiância de saída \cite{overview_brdf}. Assim, BRDFs encapsulam as propriedades de reflexão de um material, considerando fatores como a rugosidade da superfície, o ângulo de incidência e o ângulo de reflexão. Formalmente uma BRDF pode ser definida por $f({\omega}_i, {\omega}_o)$, onde ${\omega}_i$ é a direção incidente de luz e ${\omega}_o$ é a direção de saída. Para BRDFs fisicamente realistas, algumas propriedades devem ser respeitadas \cite[5.6]{pbr}:
 
 
 \begin{itemize}
@@ -196,7 +196,7 @@ f(\omega_i, \omega_o) = k_s \cdot \delta(\omega_i - \omega_o)
 
 
 \subsection{BRDF Difusa Ideal}
-Uma BRDF difusa ideal reflete a luz incidente uniformemente em todas as direções, sem preferência por ângulos específicos. É representada pela função $f$ na \autoref{eq-diffuse}, onde $\rho_d$ é o albedo da superfície\footnote{Albedo é a propriedade óptica que quantifica a fração da radiação incidente que é refletida por uma superfície. Varia de $0$ (superfície totalmente absorvente) a $1$ (superfície que reflete toda a luz incidente)} e $\theta$ é o ângulo entre a direção da luz incidente e a normal da superfície. O termo cosseno garante que a radiância refletida seja proporcional ao cosseno do ângulo entre a direção da luz incidente e a normal da superfície, como ilustrado na \autoref{diffuse}. Esse modelo pode representar superfícies como tinta fosca ou papel.
+Uma BRDF difusa ideal reflete a luz incidente uniformemente em todas as direções, sem preferência por ângulos específicos. É representada pela função $f$ na \autoref{eq-diffuse}, onde $\rho_d$ é o albedo da superfície\footnote{Albedo é a propriedade óptica que quantifica a fração da radiação incidente refletida por uma superfície. Uma superfície com baixo albedo é altamente absorvente, refletindo pouca luz, enquanto uma superfície com alto albedo reflete a maior parte da luz incidente.} e $\theta$ é o ângulo entre a direção da luz incidente e a normal da superfície. O termo cosseno garante que a radiância refletida seja proporcional ao cosseno do ângulo entre a direção da luz incidente e a normal da superfície, como ilustrado na \autoref{diffuse}. Esse modelo pode representar superfícies como tinta fosca ou papel.
 
 
 \begin{equation} \label{eq-diffuse}
@@ -269,8 +269,7 @@ Essas etapas do \textit{pipeline} coordenam o fluxo de dados da CPU para a GPU e
 \subsection{Shader de Vértice}
 O \textit{shader} de vértice opera em vértices individuais de primitivas geométricas antes de serem rasterizados em fragmentos. Sua principal tarefa é transformar vértices e passar os dados necessários para o \textit{shader} de fragmentos. Esses \textit{shaders} geralmente realizam várias transformações nos dados dos vértices, permitindo que objetos sejam posicionados, orientados e projetados em uma tela bidimensional (2D). Para ilustrar como esse \textit{shader} pode ser implementado, apresentamos um exemplo no \autoref{vertex_code1}, onde uma matriz é utilizada para transformar a posição dos vértices de entrada (\texttt{inPosition}).
 
-Neste exemplo, a posição de saída dos vértices (\texttt{gl\_Position}) é a posição dos vértices de entrada manipulada por uma função seno baseada no identificador do vértice (\texttt{gl\_VertexID}), adicionando uma oscilação à posição original. O \textit{shader} também repassa adiante as normais dos vértices (\texttt{fragNormal}) para o \textit{shader} de fragmentos. Além disso, a multiplicação pela matriz (\texttt{modelViewProjection}) é responsável por aplicar uma projeção de perspectiva.
-
+Neste exemplo, a posição de saída dos vértices (\texttt{gl\_Position}) é obtida a partir da posição dos vértices de entrada, modificada pela aplicação da função \texttt{seno}, usando o identificador do vértice (\texttt{gl\_VertexID}) como argumento. Isso adiciona uma oscilação à posição original. O \textit{shader} também repassa as normais dos vértices (\texttt{fragNormal}) para o \textit{shader} de fragmentos. Além disso, a multiplicação pela matriz (\texttt{modelViewProjection}) é usada para aplicar uma projeção de perspectiva.
 
 
 \begin{codigo}[H]
@@ -335,9 +334,9 @@ Na ciência da computação, as linguagens são sistemas formais compostos por s
 
 % Um compilador pode ser visto como uma transformação entre linguagens $ L_1 $ e $ L_2 $ que preserva a estrutura interna dos conjuntos, isto é, deve manter o mesmo significado algorítmico. Assim, o compilador $ C: L_1 \rightarrow L_2 $ mapeia programas escritos na linguagem de origem $ L_1 $ para programas equivalentes na linguagem de destino $ L_2 $. Essa transformação garante a preservação semântica, mantendo o comportamento pretendido do programa original durante a tradução.
 
-Um compilador pode ser visto como uma transformação entre linguagens $L_1$ e $L_2$ que preserva a estrutura interna dos conjuntos, isto é, deve manter o mesmo significado algorítmico ou conceitual. A estrutura semântica de uma linguagem pode ser entendida como o conjunto de regras e convenções que determinam o significado de seus elementos. Para uma linguagen como o conjunto de equações escritas em \LaTeX{}, a semântica está nas convenções matemáticas, que definem como expressões devem ser interpretadas.
+Um compilador pode ser visto como uma transformação entre linguagens $L_1$ e $L_2$ que preserva a estrutura interna dos conjuntos, isto é, deve manter o mesmo significado algorítmico ou conceitual. A estrutura semântica de uma linguagem pode ser entendida como o conjunto de regras e convenções que determinam o significado de seus elementos. Para uma linguagen como o conjunto de equações escritas em \LaTeX{}, a semântica está nas convenções matemáticas, que definem como as expressões devem ser interpretadas.
 
-Manter a semântica entre duas linguagens significa garantir que o programa traduzido de $L_1$ para $L_2$ preserve tanto os resultados produzidos, quando aplicáveis, quanto as intenções originais. No caso do \LaTeX{}, isso envolve traduzir expressões matemáticas para uma representação equivalente na linguagem de destino, respeitando propriedades algébricas, significado de funções e valor de constantes (como $\cos$ e $\pi$), entre outros elementos semânticos da matemática.
+Manter a semântica entre duas linguagens significa garantir que o programa traduzido de \(L_1\) para \(L_2\) preserve tanto os resultados gerados, quando aplicáveis, quanto as intenções originais. No caso das equações em \LaTeX{}, isso envolve traduzir expressões matemáticas para uma representação equivalente na linguagem de destino, respeitando propriedades algébricas, o significado das funções e o valor de constantes (como \(\cos\) e \(\pi\)), entre outros elementos semânticos da matemática.
 
 Assim, o compilador $ C: L_1 \rightarrow L_2 $ mapeia programas escritos na linguagem de origem $ L_1 $ para programas equivalentes na linguagem de destino $ L_2 $, de modo que essa transformação assegure a preservação semântica, mantendo o comportamento pretendido do programa original durante a tradução.
 
@@ -401,7 +400,7 @@ A análise léxica, também conhecida como \textit{lexing} ou \textit{tokenizati
 
 
 \subsection{Análise Sintática ou \textit{Parsing}}
-A análise sintática, que é a segunda fase do processo de compilação, recebe os \textit{tokens} gerados pela análise léxica, formando o alfabeto da gramática da linguagem. Nessa etapa, o analisador sintático aplica regras de produção gramatical para validar a conformidade do código-fonte com a sintaxe da linguagem, identificando e relatando possíveis erros. Além disso, essas regras são utilizadas para construir uma árvore sintática, ou uma estrutura equivalente, que representa a organização hierárquica das expressões e instruções do programa. Essa árvore sintática atua como uma representação intermediária crucial para a análise semântica e a geração de código.
+A análise sintática, que é a segunda fase do processo de compilação, recebe os \textit{tokens} gerados pela análise léxica, formando o alfabeto da gramática da linguagem. Nessa etapa, o analisador sintático aplica regras de produção gramatical para validar a conformidade do código-fonte com a sintaxe da linguagem, identificando e relatando possíveis erros. Além disso, essas regras são utilizadas para construir uma árvore sintática, ou uma estrutura equivalente, que representa a organização hierárquica das expressões e instruções do programa. Essa árvore sintática atua como uma representação intermediária para a análise semântica e a geração de código.
 
 \subsubsection{Pratt Parsing}
 O Pratt \textit{Parsing}, introduzido por Vaughan Pratt, é uma técnica de análise sintática recursiva que permite analisar expressões com precedência de operadores de forma eficiente e sem ambiguidades \cite{pratt}. Uma das suas características distintivas é determinar a ordem de avaliação das expressões. Ao contrário da análise descendente recursiva tradicional, na qual cada não-terminal possui uma função de \textit{parsing}, a análise Pratt associa funções de manipulação (\textit{handlers}) com \textit{tokens}.
@@ -437,9 +436,9 @@ O pseudo-código \ref{alg1}
 demonstra o Pratt \textit{parsing} para a construção de árvores de expressão. Esse algoritmo também é robusto mesmo quando um operador é tanto infixo quanto prefixo, por exemplo ``$-$'' pode ser um \textit{token} de subtração ou de negação. Assim, cada \textit{token} tem uma função de prefixo e infixo associada.
 
 
-Nesse algoritmo, 
+Nesse algoritmo,
 \textbf{proximo\_token()} recupera o próximo elemento da lista de \textit{tokens},
-\textbf{token.precedencia}() retorna a procedência do token atual, \textbf{token.prefixo()} é a função associada ao \textit{token} que faz o \textit{parsing} de uma expressão quando o \textit{token} é o primeiro símbolo em uma subexpressão (e.g. o token ``$-$'' é o primeiro na expressão ``$-3$''). Enquanto o \textbf{token.infixo(esquerda)} é a função associada ao \textit{token} que utiliza outra subárvore já criada como entrada. Por exemplo a subárvore \textbf{esquerda} pode ser a expressão ``$-3$'', o \textit{token} atual ser ``$*$'' e o retorno gera a expressão completa ``$-3 * 1$''.
+\textbf{token.precedencia}() retorna a procedência do \textit{token} atual, \textbf{token.prefixo()} é a função associada ao \textit{token} que faz o \textit{parsing} de uma expressão quando o \textit{token} é o primeiro símbolo em uma subexpressão (e.g. o \textit{token} ``$-$'' é o primeiro na expressão ``$-3$''). Enquanto o \textbf{token.infixo(esquerda)} é a função associada ao \textit{token} que utiliza outra subárvore já criada como entrada. Por exemplo a subárvore \textbf{esquerda} pode ser a expressão ``$-3$'', o \textit{token} atual ser ``$*$'' e o retorno gera a expressão completa ``$-3 * 1$''.
 
 
 Tanto \textbf{token.infixo} quanto \textbf{token.prefixo} podem ser indiretamente recursivas, isto é, ambas podem chamar a função \textbf{expressão} no \autoref{alg1}.

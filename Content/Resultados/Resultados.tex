@@ -9,7 +9,7 @@ Os experimentos seguem uma metodologia padronizada. Inicialmente, apresenta-se a
 A análise inclui gráficos 3D e 2D da distribuição de reflexão especular e difusa da BRDF. Para demonstrar a eficácia do código GLSL gerado, são renderizados três objetos tridimensionais utilizando técnicas de \textit{ray tracing} fornecidas pela ferramenta Disney. Os objetos possuem ângulos em coordenadas polares fixas, com condições padronizadas de iluminação: ângulos de elevação ($\theta_i$) e azimutal ($\phi_i$) da luz incidente predefinidos em $33,8941$ e $145,826$ respectivamente; gamma fixado em $2,112$ e exposição em $-1,248$.
 % Adicionalmente, apresenta-se o efeito da BRDF em uma esfera com renderização projetiva padrão.
 
-O \textit{plot}\footnote{O termo plot é comumente usado em ferramentas de visualização e análise para se referir a gráficos ou representações visuais de dados. Aqui, refere-se a representações 2D (polar) ou 3D usadas para ilustrar os componenetes especular e difusos de cada canal de cor da BRDF.} 3D de BRDFs na ferramenta Disney Explorer oferece uma visualização que fixa uma direção de luz incidente ($\omega_i$) e coleta valores da direções de visualização ($\omega_o$) em um hemisfério como entrada para BRDF. Para cada direção de visualização, renderiza-se um primitivo proporcional ao valor da função BRDF.
+O \textit{plot}\footnote{O termo \textit{plot} é comumente usado em ferramentas de visualização e análise para se referir a gráficos ou representações visuais de dados. Aqui, refere-se a representações 2D (polar) ou 3D usadas para ilustrar os componenetes especular e difusos de cada canal de cor da BRDF.} 3D de BRDFs na ferramenta Disney Explorer oferece uma visualização que fixa uma direção de luz incidente ($\omega_i$) e coleta valores da direções de visualização ($\omega_o$) em um hemisfério como entrada para BRDF. Para cada direção de visualização, renderiza-se um primitivo proporcional ao valor da função BRDF.
 
 O \textit{plot} polar, por sua vez, representa um corte bidimensional, fixando a direção de luz incidente ($\omega_i$) e o ângulo azimutal de saída ($\phi_o$), variando apenas o ângulo polar de saída ($\theta_o$), similar ao mostrado nas figuras da \autoref{brdfmodels}. Cada ponto representa o valor médio das componentes da BRDF, visualizando o comportamento da refletância em diferentes ângulos de observação. Em alguns casos, fatores logarítmicos são utilizados para melhor visualização do gráfico.
 
@@ -26,20 +26,20 @@ Alguns experimentos exploram múltiplas formas de expressar a mesma BRDF, não a
 
 \begin{table}[H]
 \centering
-\begin{tabular}{|c|c|c|c|c|}
+\begin{tabular}{|l|c|c|c|c|c|}
 \hline
-    \textbf{Experimento} & \textbf{Equações}                                                & \textbf{Objetos 3D}                                       & \textbf{\textit{Plots}}                                  & \textbf{GLSL}  \\ \hline
-    Blinn-Phong          & \autoref{fig-blinn-phong-eqlang-latex}                           & \autoref{fig-blinn-phong-eqlang}                          & \autoref{fig-blinn-phong-plots}                          &                  \autoref{cod-blinn-phong-glsl-pt-1}              \\ \hline
-    Cook-Torrance        & \autoref{fig-cook-torrance-eqlang-latex}                         & \autoref{fig-cook-torrance-eqlang}                        & \autoref{fig-cook-torrance-plots}                        &             \autoref{cod-cook-torrance-glsl-pt-1}              \\ \hline
-    Ward                 & \autoref{fig-ward-eqlang-latex}                                  & \autoref{fig-ward-objetcs}                                & \autoref{fig-ward-plots}                                 &                     \autoref{cod-ward-glsl-pt-1}               \\ \hline
-    Ashikhmin-Shirley    & \autoref{fig-ashikhmin-shirley-close-to-original-eqlang-latex}   & \autoref{fig-ashikhmin-shirley-close-to-original-eqlang}  & \autoref{fig-ashikhmin-shirley-close-to-original-plots}  &                  \autoref{cod-ashikhmin-shirley-close-to-original-glsl-pt-1}              \\ \hline
-    Oren-Nayar           & \autoref{fig-oren-nayar-eqlang-latex}                            & \autoref{fig-oren-nayar-eqlang}                           & \autoref{fig-oren-nayar-plots}                           &                \autoref{cod-oren-nayar-glsl-pt-1}              \\ \hline
-    Ashikhmin-Shirley$_2$& \autoref{fig-ashikhmin-shirley-alternative-eqlang-latex}         & \autoref{fig-ashikhmin-shirley-alternative-eqlang}        & \autoref{fig-ashikhmin-shirley-alternative-plots}        &                  \autoref{cod-ashikhmin-shirley-alternative-glsl-pt-1}              \\ \hline
-    Cook-torrance$_2$    & \autoref{fig-cook-torrance-alternative-eqlang-latex}             & \autoref{fig-cook-torrance-alternative-eqlang}            & \autoref{fig-cook-torrance-alternative-plots}            & \autoref{cod-cook-torrance-alternative-glsl-pt-1}              \\ \hline
-    Dür                  & \autoref{fig-duer-eqlang-latex}                                  & \autoref{fig-duer-eqlang}                                 & \autoref{fig-duer-plots}                                 &                      \autoref{cod-duer-glsl-pt-1}              \\ \hline
-    Edwards-2006         & \autoref{fig-edwards-2006-eqlang-latex}                          & \autoref{fig-edwards-2006-eqlang}                         & \autoref{fig-edwards-2006-plots}                         &              \autoref{cod-edwards-2006-glsl-pt-1}              \\ \hline
-    Kajiya-Kay-1989$_*$  & \autoref{fig-kajiya-eqlang-latex}                                & \autoref{fig-kajiya-objects}                              & \autoref{fig-kajiya-plots}                               &                  \autoref{cod-kajiya-glsl-pt-1}              \\ \hline
-    Minnaert             & \autoref{fig-minnaert-eqlang-latex}                              & \autoref{fig-minnaert-eqlang}                             & \autoref{fig-minnaert-plots}                             &                  \autoref{cod-minnaert-glsl-pt-1}              \\ \hline
+    \textbf{Experimento} & \textbf{Seção}                                            & \textbf{Equações}                                                & \textbf{Objetos 3D}                                       & \textbf{\textit{Plots}}                                  & \textbf{GLSL}  \\ \hline
+    Blinn-Phong          &\autoref{section-experiment-blinn-phong}                   & \autoref{fig-blinn-phong-eqlang-latex}                           & \autoref{fig-blinn-phong-eqlang}                          & \autoref{fig-blinn-phong-plots}                          &                  \autoref{cod-blinn-phong-glsl-pt-1}              \\ \hline
+    Cook-Torrance        &\autoref{sec:cook-torrance}                 & \autoref{fig-cook-torrance-eqlang-latex}                         & \autoref{fig-cook-torrance-eqlang}                        & \autoref{fig-cook-torrance-plots}                        &             \autoref{cod-cook-torrance-glsl-pt-1}              \\ \hline
+    Ward                 &\autoref{section-experiment-ward}                          & \autoref{fig-ward-eqlang-latex}                                  & \autoref{fig-ward-objetcs}                                & \autoref{fig-ward-plots}                                 &                     \autoref{cod-ward-glsl-pt-1}               \\ \hline
+    Ashikhmin-Shirley    &\autoref{sec:ashikhmin-shirley}             & \autoref{fig-ashikhmin-shirley-close-to-original-eqlang-latex}   & \autoref{fig-ashikhmin-shirley-close-to-original-eqlang}  & \autoref{fig-ashikhmin-shirley-close-to-original-plots}  &                  \autoref{cod-ashikhmin-shirley-close-to-original-glsl-pt-1}              \\ \hline
+    Oren-Nayar           &\autoref{section-experiment-oren-nayar}                    & \autoref{fig-oren-nayar-eqlang-latex}                            & \autoref{fig-oren-nayar-eqlang}                           & \autoref{fig-oren-nayar-plots}                           &                \autoref{cod-oren-nayar-glsl-pt-1}              \\ \hline
+    Ashikhmin-Shirley$_2$&\autoref{section-experiment-ashikhmin-shirley-alternative} & \autoref{fig-ashikhmin-shirley-alternative-eqlang-latex}         & \autoref{fig-ashikhmin-shirley-alternative-eqlang}        & \autoref{fig-ashikhmin-shirley-alternative-plots}        &                  \autoref{cod-ashikhmin-shirley-alternative-glsl-pt-1}              \\ \hline
+    Cook-torrance$_2$    &\autoref{section-experiment-cook-torrance-alternative}     & \autoref{fig-cook-torrance-alternative-eqlang-latex}             & \autoref{fig-cook-torrance-alternative-eqlang}            & \autoref{fig-cook-torrance-alternative-plots}            & \autoref{cod-cook-torrance-alternative-glsl-pt-1}              \\ \hline
+    Dür                  &\autoref{section-experiment-duer}                          & \autoref{fig-duer-eqlang-latex}                                  & \autoref{fig-duer-eqlang}                                 & \autoref{fig-duer-plots}                                 &                      \autoref{cod-duer-glsl-pt-1}              \\ \hline
+    Edwards-2006         &\autoref{section-experiment-edwards-2006}                  & \autoref{fig-edwards-2006-eqlang-latex}                          & \autoref{fig-edwards-2006-eqlang}                         & \autoref{fig-edwards-2006-plots}                         &              \autoref{cod-edwards-2006-glsl-pt-1}              \\ \hline
+    Kajiya-Kay-1989$_*$  &\autoref{section-experiment-kajiya}                        & \autoref{fig-kajiya-eqlang-latex}                                & \autoref{fig-kajiya-objects}                              & \autoref{fig-kajiya-plots}                               &                  \autoref{cod-kajiya-glsl-pt-1}              \\ \hline
+    Minnaert             &\autoref{section-experiment-minnaert}                      & \autoref{fig-minnaert-eqlang-latex}                              & \autoref{fig-minnaert-eqlang}                             & \autoref{fig-minnaert-plots}                             &                  \autoref{cod-minnaert-glsl-pt-1}              \\ \hline
 \end{tabular}
 \caption{Tabela dos Experimentos}
 \label{table-experiments}
@@ -51,6 +51,15 @@ Concluímos que os experimentos realizados apresentaram resultados satisfatório
 
 Os resultados obtidos não apenas validam a abordagem metodológica adotada, mas também abrem perspectivas para futuras extensões e refinamentos da ferramenta. Após o último experimento, seguimos diretamente para o capítulo de conclusão (\autoref{chapter-conclusion}), onde são discutidas as possíveis direções para a continuidade deste trabalho.
 
-%%%%%%%%%%%ABOVE VALIDADED%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\input{Content/Resultados/Experimentos/Blinn-Phong}
+\input{Content/Resultados/Experimentos/Cook-Torrance}
+\input{Content/Resultados/Experimentos/Ward}
+\input{Content/Resultados/Experimentos/Ashikhmin-Shirley}
+\input{Content/Resultados/Experimentos/Oren-Nayar}
+\input{Content/Resultados/Experimentos/Ashikhmin-Shirley-Alternative}
+\input{Content/Resultados/Experimentos/Cook-Torrance-Alternative}
+\input{Content/Resultados/Experimentos/Duer}
+\input{Content/Resultados/Experimentos/Edwards-2006}
+\input{Content/Resultados/Experimentos/Aniso}
+\input{Content/Resultados/Experimentos/Minnaert}

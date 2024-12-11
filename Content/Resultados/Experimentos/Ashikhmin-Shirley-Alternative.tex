@@ -1,6 +1,6 @@
 
 \section{Experimento BRDF Ashikhmin-Shirley Alternativa}
-
+\label{section-experiment-ashikhmin-shirley-alternative}
 
 Nesse caso, foi realizada uma versão alternativa do experimento descrito na \autoref{sec:ashikhmin-shirley}. As equações apresentadas na \autoref{fig-ashikhmin-shirley-alternative-eqlang-latex} foram simplificadas, e algumas delas foram combinadas em uma única expressão. Além disso, nesta versão, foram utilizadas constantes diferentes, como cor difusa e fatores de multiplicação, entre outros. O código-fonte em \texttt{EquationLang} está disponível no \autoref{cod-ashikhmin-shirley-alternative-eqlang}. Os códigos gerados em GLSL estão no \autoref{cod-ashikhmin-shirley-alternative-glsl-pt-1} e no \autoref{cod-ashikhmin-shirley-alternative-glsl-pt-2}. A renderização dos objetos 3D pode ser observada na \autoref{fig-ashikhmin-shirley-alternative-eqlang}, e os \textit{plots} correspondentes estão na \autoref{fig-ashikhmin-shirley-alternative-plots}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -18,7 +18,7 @@ Nesse caso, foi realizada uma versão alternativa do experimento descrito na \au
 \subsection{Código GLSL Gerado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 2).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento Ashikhmin-Shirley$_2$ (parte 1 de 2).}
     \label{cod-ashikhmin-shirley-alternative-glsl-pt-1}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 analytic ::begin parameters
@@ -49,7 +49,7 @@ vec3 var_14_f;
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento Ashikhmin-Shirley$_2$ (parte 2 de 2).}
     \label{cod-ashikhmin-shirley-alternative-glsl-pt-2}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 //////////// START FUNCTIONS DECLARATIONS ////////////
@@ -94,7 +94,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \subsection{Código Fonte em \texttt{EquationLang}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Código-fonte da BRDF deste experimento.}
+    \caption{\small Código-fonte da BRDF do experimento Ashikhmin-Shirley$_2$.}
     \label{cod-ashikhmin-shirley-alternative-eqlang}
 \begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
 
@@ -123,7 +123,7 @@ f = \frac{\rho_{d}}{\pi} + \frac{\rho_{s}}{8*\pi} *
 \subsection{Visualização do Resultado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[H]
-    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa do experimento Ashikhmin-Shirley$_2$.}}
     \label{fig-ashikhmin-shirley-alternative-plots}
 \minipage{0.48\textwidth}
     \vspace{42px}
@@ -138,7 +138,7 @@ f = \frac{\rho_{d}}{\pi} + \frac{\rho_{s}}{8*\pi} *
 \end{figure}
 
 \begin{figure}[H]
-    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-ashikhmin-shirley-alternative-eqlang}
+    \caption{\small{Objetos 3D renderizados pelo experimento Ashikhmin-Shirley$_2$.}}\label{fig-ashikhmin-shirley-alternative-eqlang}
 \minipage{0.32\textwidth}
   \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-alternative-teapot.png}
     \legend{ \small (a) \textit{Teapot}}

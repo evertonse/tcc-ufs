@@ -1,8 +1,8 @@
+
 \section{Experimento BRDF Cook-Torrance}\label{sec:cook-torrance}
 
-% Este experimento é baseada no modelo microfacetado que descreve o comportamento de reflexão de superfícies metálicas descrito no trabalho de Cook-Torrance \cite{cook1982reflectance}. As equações e parametros escolhidos que descrevem esse modelo estão em \autoref{fig-cook-torrance-eqlang-latex}. O código fonte em \texttt{EquationLang} para o compilador está em \autoref{cod-cook-torrance-eqlang}. O código GLSL está dividido em duas partes, primeira parte está no \autoref{cod-cook-torrance-glsl-pt-1} e a segunda parte está em \autoref{cod-cook-torrance-glsl-pt-2}. A renderização dos objetos 3D usando essa BRDF se encontra em \autoref{fig-cook-torrance-eqlang}. Usamos plot logaritmo para gerar os plots 3D e polar presentes na \autoref{fig-cook-torrance-plots}.
 
-Este experimento é baseado no modelo microfacetado que descreve o comportamento de reflexão de superfícies metálicas, conforme apresentado no trabalho de Cook-Torrance \cite{cook1982reflectance}. As equações e os parâmetros utilizados para descrever esse modelo estão detalhados na \autoref{fig-cook-torrance-eqlang-latex}. O código-fonte, em \texttt{EquationLang}, de entrada para o compilador está disponível na \autoref{cod-cook-torrance-eqlang}. O código GLSL gerado está dividido em duas partes: a primeira encontra-se no \autoref{cod-cook-torrance-glsl-pt-1} e a segunda no \autoref{cod-cook-torrance-glsl-pt-2}. A renderização dos objetos 3D utilizando essa BRDF pode ser visualizada na \autoref{fig-cook-torrance-eqlang}. Para os \textit{plots} 3D e polares presentes na \autoref{fig-cook-torrance-plots}, utilizamos escala logarítmica para melhor a visualização dos gráficos.
+Este experimento é baseado no modelo microfacetado que descreve o comportamento de reflexão de superfícies metálicas, conforme apresentado no trabalho de Cook-Torrance \cite{cook1982reflectance}. As equações e os parâmetros utilizados para descrever esse modelo estão detalhados na \autoref{fig-cook-torrance-eqlang-latex}. O código-fonte, em \texttt{EquationLang}, de entrada para o compilador está disponível no \autoref{cod-cook-torrance-eqlang}. O código GLSL gerado está dividido em duas partes: a primeira encontra-se no \autoref{cod-cook-torrance-glsl-pt-1} e a segunda no \autoref{cod-cook-torrance-glsl-pt-2}. A renderização dos objetos 3D utilizando essa BRDF pode ser visualizada na \autoref{fig-cook-torrance-eqlang}. Para os \textit{plots} 3D e polares presentes na \autoref{fig-cook-torrance-plots}, utilizamos escala logarítmica para melhor a visualização dos gráficos.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Representação em documento \LaTeX{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -17,7 +17,7 @@ Este experimento é baseado no modelo microfacetado que descreve o comportamento
 \subsection{Código Fonte em \texttt{EquationLang}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento.}
+    \caption{\small Código fonte da BRDF do experimento Cook-Torrance.}
     \label{cod-cook-torrance-eqlang}
 \begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
 \begin{equation}
@@ -66,7 +66,7 @@ D = \frac{1}
 \subsection{Código GLSL Gerado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 2).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento Cook-Torrance (parte 1 de 2).}
     \label{cod-cook-torrance-glsl-pt-1}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 analytic ::begin parameters
@@ -101,7 +101,7 @@ vec3 var_17_f;
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento Cook-Torrance (parte 2 de 2).}
     \label{cod-cook-torrance-glsl-pt-2}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
@@ -152,7 +152,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \subsection{Visualização do Resultado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[H]
-    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa do experimento Cook-Torrance.}}
     \label{fig-cook-torrance-plots}
 \minipage{0.48\textwidth}
     \vspace{42px}
@@ -167,7 +167,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \end{figure}
 
 \begin{figure}[H]
-    \caption{\small{Objetos 3D renderizados por este experimento.}}
+    \caption{\small{Objetos 3D renderizados pelo experimento Cook-Torrance.}}
     \label{fig-cook-torrance-eqlang}
 \minipage{0.32\textwidth}
   \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-teapot.png}

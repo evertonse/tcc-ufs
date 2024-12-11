@@ -67,14 +67,14 @@ Isso torna a gramática mais longa, exigindo mais regras que derivam outras ante
 O \textit{parser} desenvolvido para \texttt{EquantionLang} consulta à tabela de precedência dinamicamente, conforme definida na \autoref{tab-token-precedence}, para decidir a ordem de avaliação com base no \textit{token} operador encontrado.
 
 
-Foi utilizada uma notação semelhante à original de Pratt \cite{pratt}, onde as funções \verb"parse_null_denotations" e \verb"parse_left_denotations" desempenham papéis equivalentes às funções \texttt{token.prefixo} e \texttt{token.infixo}, respectivamente, como demonstrado no \autoref{alg1}. 
+Foi utilizada uma notação semelhante à original de Pratt \cite{pratt}, onde as funções \verb"parse_null_denotations" e \verb"parse_left_denotations" desempenham papéis equivalentes às funções \texttt{token.prefixo} e \texttt{token.infixo}, respectivamente, como demonstrado no \autoref{alg1}.
 
-Além disso, a abordagem de descida recursiva (descendente) permite que cada regra de produção definida na gramática (\autoref{grammar-ast-pt1}) seja diretamente mapeada para um procedimento em código. Isso pode ser observado, por exemplo, na função de análise do nó \texttt{Start} da AST (\autoref{cod-parsing-start}), que reflete diretamente as regras de produção \texttt{start}, \texttt{decl} e \verb"decl_equation_begin_end_block" especificadas na gramática apresentada no \autoref{grammar-ast-pt1}.
+Além disso, a abordagem de descida recursiva (descendente) permite que cada regra de produção definida na gramática (\autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2})) seja diretamente mapeada para um procedimento em código. Isso pode ser observado, por exemplo, na função de análise do nó \texttt{Start} da AST (\autoref{cod-parsing-start}), que reflete diretamente as regras de produção \texttt{start}, \texttt{decl} e \verb"decl_equation_begin_end_block", conforme especificado na primeira parte da definição da gramática, apresentada no \autoref{grammar-ast-pt1}.
 
 Do ponto de vista da interface oferecida pelo pacote \texttt{parser}, todo o processo de análise sintática é abstraído em uma única chamada de função (\autoref{cod-func-and-structs}). A função principal, \texttt{parse}, trabalha em conjunto com a estrutura \texttt{Parser} para realizar a análise.
 
 \begin{codigo}[H]
-  \caption{\small Parsing de expressão em código Odin.}
+    \caption{\small \textit{Parsing} de expressão em código Odin.}
         \label{alg-pratt-parsing}
   \begin{lstlisting}[language=C]
 
@@ -140,7 +140,7 @@ parse_start :: proc(using p: ^Parser) -> ^ast.Start {
 
 
 
-Para formalizar a gramática da linguagem de entrada (\texttt{EquationLang}), suas regras estão detalhadas nos \autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2}. Todas as definições de equações ou funções que compõem a descrição de uma BRDF devem estar dentro do seu próprio bloco de ambiente \verb`equation` em um arquivo \LaTeX{}. Um exemplo de código-fonte contendo três equações válidas nessa linguagem se encontra no \autoref{code-gramatica}, e sua renderização correspondente em \LaTeX{} é ilustrada na \autoref{code-gramatica-rendered}.
+Para formalizar a gramática da linguagem de entrada (\texttt{EquationLang}), suas regras estão detalhadas nos \autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2}. Todas as definições de equações ou funções que compõem a descrição de uma BRDF devem estar dentro do seu próprio bloco de ambiente \verb`equation` em um arquivo \texttt{.tex}. Um exemplo de código-fonte contendo três equações válidas nessa linguagem se encontra no \autoref{code-gramatica}, e sua renderização correspondente em \LaTeX{} é ilustrada na \autoref{code-gramatica-rendered}.
 
 No exemplo, a primeira equação ($\rho_{d}$) é gerada pela regra \verb"expr_vector_literal". A segunda ($\rho_{s}$) é uma expressão binária derivada da regra \verb"expr_infix". Já a última equação utiliza múltiplas regras, como \verb"expr_grouped" e \verb"expr_prefix". 
 
@@ -159,7 +159,7 @@ f = \frac{\rho_{d}}{\pi} + \frac{\rho_{s}}{8*\pi} * \frac{({\vec{n}}\cdot{\vec{h
 \end{subequations}
 
 
-\begin{codigo}[htb]
+\begin{codigo}[H]
         \caption{\small Exemplo código escrito na linguagem \texttt{EquationLang}. }
         \label{code-gramatica}
 \begin{lstlisting}[language=tex, frame=none]
@@ -191,7 +191,7 @@ f = \frac{\rho_{d}}{\pi} + \frac{\rho_{s}}{8*\pi} *
 % \huge - Very large
 % \Huge - Largest size
 \begin{codigo}[H]
-        \caption{\small Gramática para \texttt{EquantionLang} parte 1.}
+        \caption{\small Gramática para \texttt{EquantionLang} parte 1 de 2.}
         \label{grammar-ast-pt1}
         
 % \begin{lstlisting}[language=haskell, basicstyle=\footnotesize, numbers=none, inputencoding=utf8]
@@ -236,7 +236,7 @@ f = \frac{\rho_{d}}{\pi} + \frac{\rho_{s}}{8*\pi} *
 \end{codigo}
 
 \begin{codigo}[H]
-        \caption{\small Gramática para \texttt{EquantionLang} parte 2.}
+        \caption{\small Gramática para \texttt{EquantionLang} parte 2 de 2.}
         \label{grammar-ast-pt2}
     % basicstyle=\fontsize{6}{7.2}\selectfont\ttfamily
 \begin{lstlisting}[language=haskell, basicstyle=\ttfamily\footnotesize,numbers=none, inputencoding=utf8]
@@ -285,7 +285,7 @@ A gramática apresentada inclui regras para expressões, atribuições, agrupame
 
 
 
-A tabela de operadores (\autoref{tab-token-precedence}), usada no Pratt Parsing, é implementada pela função \texttt{precedence\_from\_token}, que associa cada \textit{token} a um valor inteiro indicando sua precedência: valores maiores indicam maior prioridade. Alguns \textit{tokens} assumem diferentes funções conforme o contexto e podem alterar sua precedência. Por exemplo, \texttt{(} pode ser um prefixo em expressões agrupadas, \textbf{(}$2*3$\textbf{)}, ou um infixo em chamadas de função, $f$\textbf{(}$x$\textbf{)}. De forma análoga, \texttt{-} pode atuar como operador de negação (prefixo) ou como operador de subtração (infixo). 
+A tabela de precedência dos operadores (\autoref{tab-token-precedence}), usada no Pratt Parsing, é implementada pela função \texttt{precedence\_from\_token}, que associa cada \textit{token} a um valor inteiro indicando sua precedência: valores maiores indicam maior prioridade. Alguns \textit{tokens} assumem diferentes funções conforme o contexto e podem alterar sua precedência. Por exemplo, \texttt{(} pode ser um prefixo em expressões agrupadas, \textbf{(}$2*3$\textbf{)}, ou um infixo em chamadas de função, $f$\textbf{(}$x$\textbf{)}. De forma análoga, \texttt{-} pode atuar como operador de negação (prefixo) ou como operador de subtração (infixo). 
 
 
 \begin{table}[h!]

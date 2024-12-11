@@ -5,7 +5,7 @@
 \chapter{Revisão Bibliográfica} \label{revisao}
 
 
-Para esta seção, será conduzida uma revisão da literatura com o objetivo de explorar trabalhos relacionados ao desenvolvimento de compiladores para tradução de BRDFs expressas em \LaTeX{} para a linguagem de \textit{shading}, empregando técnicas de \textit{parsing}. O processo de busca será conduzido em duas etapas distintas. Inicialmente, será realizado um levantamento dos trabalhos existentes nas bases de dados  com relevantes periódicos, anais de eventos, artigos e trabalhos. Por fim, será realizada uma busca por produtos ou ferramentas similares no mercado, utilizando \textit{strings} de busca específicas em repositórios digitais, especificamente GitHub e SourceForge. Esses processos de busca permitirão identificar referências relevantes e estabelecer um panorama do estado da arte no campo dos compiladores de BRDFs  para \textit{shaders}, contribuindo para a compreensão do contexto acadêmico e prático no qual este trabalho se insere.
+Para esta seção, será conduzida uma revisão da literatura com o objetivo de explorar trabalhos relacionados ao desenvolvimento de compiladores para tradução de BRDFs expressas em \LaTeX{} para a linguagem de \textit{shading}, empregando técnicas de \textit{parsing}. O processo de busca será conduzido em duas etapas distintas. Inicialmente, será realizado um levantamento dos trabalhos existentes nas bases de dados  com relevantes periódicos, anais de eventos, artigos e trabalhos. Por fim, será realizada uma busca por produtos ou ferramentas similares no mercado, utilizando \textit{strings}\footnote{Durante todo este documento, uma \textit{string} é uma cadeia de caracteres.} de busca específicas em repositórios digitais, especificamente GitHub e SourceForge. Esses processos de busca permitirão identificar referências relevantes e estabelecer um panorama do estado da arte no campo dos compiladores de BRDFs  para \textit{shaders}, contribuindo para a compreensão do contexto acadêmico e prático no qual este trabalho se insere.
 
 
 \section{Mapeamento Sistemático}
@@ -35,7 +35,7 @@ As bases escolhidas foram: ACM Digital Library \footnote{\url{https://dl.acm.org
 \subsection{Questões de Pequisa}  \label{questoes-pesquisa}
 
 
-Foram elaboradas questões de pesquisa específicas que servem como guia para identificar e selecionar trabalhos científicos capazes de fornecer estratégias para o desenvolvimento do nosso projeto. Essas questões orientam a busca por artigos que apresentem soluções para desafios como: transformar descrições matemáticas de BRDFs em sequências computáveis adequadas para execução por renderizadores; representar modelos de \textit{shading} em estruturas hierárquicas; e desenvolver estratégias de compilação de BRDFs para linguagens de \textit{shading}. A partir desse processo, foram identificados e selecionados os trabalhos que melhor atendem às questões propostas, garantindo maior relevância para este estudo.
+Foram elaboradas questões de pesquisa específicas que servem como guia para identificar e selecionar trabalhos científicos capazes de fornecer estratégias para o desenvolvimento do nosso projeto. Essas questões orientam a busca por artigos que apresentem soluções para desafios como: transformar descrições matemáticas de BRDFs em sequências computáveis adequadas para execução por renderizadores; representar modelos de \textit{shading} em estruturas hierárquicas, como árvores; e desenvolver estratégias de compilação de BRDFs para linguagens de \textit{shading}. A partir desse processo, foram identificados e selecionados os trabalhos que melhor atendem às questões propostas, garantindo maior relevância para este estudo.
 
 
 \begin{enumerate}
@@ -123,7 +123,7 @@ Para garantir a relevância dos resultados obtidos, seguimos os critérios de in
 
   \item Foram incluídos artigos que de alguma forma citem a criação de um compilador ou um \textit{parser};
 
-  \item Foram incluídos artigos que utilizam representações hierárquicas para BRDFs, pois contribuem para a compreensão de como decompor BRDFs em estruturas adequadas para o nosso compilador, que é baseado em árvores.
+  \item Foram incluídos artigos que utilizam representações hierárquicas para BRDFs, pois contribuem para a compreensão do processo de decomposição dessas funções em estruturas adequadas ao nosso compilador, que utiliza árvores em suas análises e na geração de código.
 
   \item Foram incluídos artigos que apresentam linearização de BRDFs em sequências computáveis, relevantes para a geração de código a partir de árvores sintáticas.
 \end{enumerate}
@@ -155,7 +155,8 @@ Para garantir a relevância dos resultados obtidos, seguimos os critérios de in
    \hline
     IEEE Xplore Digital Library
     % NOTE: Eram 2, mas removi 'Tree-Structured Shading Decomposition'.
-   & 1 
+    % NOTE: Decidi voltar para 2 e incluir novamente o artigo removido
+   & 2
     \\ \hline
     BDTD
     & 0
@@ -229,24 +230,31 @@ Enquanto o artigo tenta melhorar a flexibilidade e a extensibilidade dos sistema
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%% REMOVED FOR NOW %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsubsection{Tree-Structured Shading Decomposition}
-%
-%
-% Esse trabalho propõe uma abordagem para inferir uma representação de BRDF estruturada em árvore a partir de uma única imagem para o sombreamento de objetos \cite{tree_decomposition}. Em vez de usar representações paramétricas, como é comum, é proposta uma abordagem que utiliza uma representação em árvore de \textit{shading}, combinando nós básicos e métodos para decompor o \textit{shading} da superfície do objeto, representado na \autoref{fig_decomp}.
-%
-%
-% \begin{figure}[H]
-%         \caption{\label{fig_decomp} \small Exemplo de decomposição de BRDFs em nós de uma árvore.}
-%         \begin{center}
-%             \includegraphics[scale=0.5]{./Imagens/tree-shading.png}
-%         \end{center}
-%         \legend{Fonte: \citeonline[]{radiometry_introduction}.}
-% \end{figure}
-%
-%
-%
-%
-% Assim como o nosso trabalho, esse artigo se concentra em facilitar o processo para usuários inexperientes, pois ambos visam fornecer ferramentas acessíveis para manipular representações de \textit{shading} sem exigir conhecimento avançado em programação. Esse artigo também emprega uma representação em árvore, embora para um propósito diferente.
+\subsubsection{Tree-Structured Shading Decomposition}
+
+
+% Esse trabalho propõe uma abordagem para inferir uma representação de BRDF estruturada em árvore a partir de uma única imagem de entrada, usada para o sombreamento de objetos \cite{tree_decomposition}. Em vez de usar representações paramétricas, como é comum, é proposta uma abordagem que utiliza uma representação em árvore de \textit{shading}, combinando nós básicos e métodos para decompor o \textit{shading} da superfície do objeto, como partes albedo and reflectance,, representado na \autoref{fig_decomp}. Nessa imagem podemos observar o criação, que foi feita a partir de uma imagem de entrada e o trabalho dos atulres de compõe nessa arvore que criam nós que reprensentam parte do shading como a cor, representado pelo nó albedo, ou reflexão especular, chamado de Highlight na figura, ou a reflexão difusa chamada de Difuse na figura. Isso permite mairo facilidade na edição desso sahding. na imagem mostra uma troca no nó de albedo e todo o objeto pode ser renderizado com um nova cor (vista em azul), podemos também combinar com outras arvores geradas a partir da de composição de outra imagem. Essa edicação da arvore poderia ser feita com uma ferramenta visual de edição
+
+Este trabalho propõe uma abordagem para inferir uma representação de BRDF  estruturada em forma de árvore, utilizando uma única imagem de entrada para sombreamento de objetos \cite{tree_decomposition}. Em vez de usar representações paramétricas, como é comum, a abordagem adota uma representação hierárquica, chamada de árvore de \textit{shading}, onde o sombreamento da superfície do objeto é decomposto em componentes, como albedo e refletância, conforme ilustrado na \autoref{fig_decomp}.
+
+Nessa imagem, observa-se a árvore reconstruída a partir de uma imagem de entrada, onde os autores estruturam nós que representam diferentes propriedades do \textit{shading}. Por exemplo, o nó \texttt{Albedo} representa a cor da superfície, o nó \texttt{Highlight} descreve a reflexão especular, e o nó \texttt{Diffuse} corresponde à reflexão difusa. Essa estrutura facilita a manipulação e edição dos elementos do \textit{shading}.
+
+A figura também demonstra uma aplicação prática dessa abordagem: a substituição do nó \texttt{Albedo} por uma nova cor (de vermelho para azul), resultando na renderização do objeto com a cor alterada. Além disso, é possível combinar árvores reconstruídas de outras imagens, substituindo uma subárvore ou utilizando o nó \texttt{Multiply}.
+
+Essa abordagem aumenta a flexibilidade de edição, permitindo alterações mais intuitivas e rápidas na renderização de objetos que utilizam modelos BRDF.
+
+\begin{figure}[H]
+        \caption{\label{fig_decomp} \small Exemplo de decomposição de BRDFs em nós de uma árvore.}
+        \begin{center}
+            \includegraphics[scale=0.5]{./Imagens/tree-shading.png}
+        \end{center}
+        \legend{Fonte: \citeonline[]{radiometry_introduction}.}
+\end{figure}
+
+
+
+
+Assim como o nosso trabalho, esse artigo se concentra em facilitar o processo para usuários inexperientes, pois ambos visam fornecer ferramentas acessíveis para manipular representações de \textit{shading} sem exigir conhecimento avançado em programação. Esse artigo também emprega uma representação de BRDF em árvore, embora para um propósito diferente.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%% REMOVED FOR NOW %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -274,7 +282,7 @@ Esse trabalho propõe uma arquitetura de \textit{hardware} que permite cálculos
 
 Além disso, o circuito suporta diversas BRDFs, como Blinn-Phong, Cook-Torrance, Ward e modelos baseados em microfacetas, com tabelas específicas para cada modelo. O uso de tabelas de pesquisa permite a representação organizada da parametrização das BRDFs, tornando o processo de transformação de BRDF para \textit{shaders} mais acessível.
 
-Este trabalho foi aceito por incluir o processo de tradução estruturada de BRDFs para uma sequência computável através de circuitos. Assim, o artigo demonstra como modularizar o cálculo das operações matemáticas contidas em BRDFs. A abordagem é útil para o nosso projeto, pois o processo de geração de \textit{shaders} a partir de uma árvore envolve linearizar as operações da BRDF em uma sequência correta, embora o propósito dessa tarefa em nosso projeto seja diferente do apresentado neste trabalho
+Este trabalho foi aceito por incluir o processo de tradução estruturada de BRDFs para uma sequência computável através de circuitos. Assim, o artigo demonstra como modularizar o cálculo das operações matemáticas contidas em BRDFs. A abordagem é útil para o nosso projeto, pois o processo de geração de \textit{shaders} a partir de uma árvore envolve linearizar as operações da BRDF em uma sequência correta, embora o propósito dessa tarefa em nosso projeto seja diferente do apresentado neste trabalho.
 
 
 \section{Pesquisa por Repositórios Online}

@@ -1,6 +1,7 @@
-\section{Experimento BRDF Oren-Nayar}
 
-Este experimento é baseado no trabalho de Oren e Nayar \cite{oren1994generalization}, no qual propuseram uma generalização do modelo de refletância de Lambert, desenvolvendo uma abordagem matemática para modelar com maior precisão a difusão de luz em superfícies rugosas. As equações que descrevem esse experimento estão na \autoref{fig-oren-nayar-eqlang-latex}. O código-fonte em \texttt{EquationLang}, usado como entrada para o compilador, está dividido em duas partes: a primeira no \autoref{cod-oren-nayar-eqlang-pt-1} e a segunda no \autoref{cod-oren-nayar-eqlang-pt-2}. A renderização dos objetos 3D utilizando essa BRDF está na \autoref{fig-oren-nayar-eqlang}, e os \textit{plots} correspondentes estão na \autoref{fig-oren-nayar-plots}. A saída em GLSL está dividida em três partes: a parte 1 no \autoref{cod-oren-nayar-glsl-pt-1}, a parte 2 no \autoref{cod-oren-nayar-glsl-pt-2}, e a parte 3 no \autoref{cod-oren-nayar-glsl-pt-3}.
+\section{Experimento BRDF Oren-Nayar} \label{section-experiment-oren-nayar}
+
+Este experimento é baseado no trabalho de Oren e Nayar \cite{oren1994generalization}, no qual propuseram uma generalização do modelo de refletância de Lambert, desenvolvendo uma abordagem matemática para modelar com maior precisão a difusão de luz em superfícies rugosas. As equações que descrevem esse experimento se encontram na \autoref{fig-oren-nayar-eqlang-latex}. O código-fonte em \texttt{EquationLang}, usado como entrada para o compilador, está dividido em duas partes: a primeira no \autoref{cod-oren-nayar-eqlang-pt-1} e a segunda no \autoref{cod-oren-nayar-eqlang-pt-2}. A renderização dos objetos 3D utilizando essa BRDF está na \autoref{fig-oren-nayar-eqlang}, e os \textit{plots} correspondentes estão na \autoref{fig-oren-nayar-plots}. A saída em GLSL está dividida em três partes: a parte 1 no \autoref{cod-oren-nayar-glsl-pt-1}, a parte 2 no \autoref{cod-oren-nayar-glsl-pt-2}, e a parte 3 no \autoref{cod-oren-nayar-glsl-pt-3}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -18,7 +19,7 @@ Este experimento é baseado no trabalho de Oren e Nayar \cite{oren1994generaliza
 \subsection{Código Fonte em \texttt{EquationLang}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento (parte 1 de 2).}
+    \caption{\small Código fonte da BRDF do experimento Oren-Nayar (parte 1 de 2).}
     \label{cod-oren-nayar-eqlang-pt-1}
 \begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
 \begin{equation}
@@ -65,7 +66,7 @@ Este experimento é baseado no trabalho de Oren e Nayar \cite{oren1994generaliza
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento (parte 2 de 2).}
+    \caption{\small Código fonte da BRDF do experimento Oren-Nayar (parte 2 de 2).}
     \label{cod-oren-nayar-eqlang-pt-2}
 \begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
 \begin{equation}
@@ -111,7 +112,7 @@ Este experimento é baseado no trabalho de Oren e Nayar \cite{oren1994generaliza
 \subsection{Código GLSL Gerado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 3).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento Oren-Nayar (parte 1 de 3).}
     \label{cod-oren-nayar-glsl-pt-1}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 analytic ::begin parameters
@@ -163,7 +164,7 @@ vec3 var_17_text_normalize(vec3 var_18_vec_u) {
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 3).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento Oren-Nayar (parte 2 de 3).}
     \label{cod-oren-nayar-glsl-pt-2}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
@@ -207,7 +208,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 3 de 3).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento Oren-Nayar (parte 3 de 3).}
     \label{cod-oren-nayar-glsl-pt-3}
 \begin{lstlisting}[language=C, inputencoding=utf8]
   var_30_C_2 = (((0.45 * (pow(var_14_sigma, 2.0))) / (((pow(var_14_sigma, 2.0)) + 0.09))) *
@@ -236,7 +237,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \subsection{Visualização do Resultado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[H]
-    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa do experimento Oren-Nayar.}}
     \label{fig-oren-nayar-plots}
 \minipage{0.48\textwidth}
     \vspace{42px}
@@ -251,7 +252,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \end{figure}
 
 \begin{figure}[H]
-    \caption{\small{Objetos 3D renderizados por este experimento.}}
+    \caption{\small{Objetos 3D renderizados pelo experimento Oren-Nayar.}}
     \label{fig-oren-nayar-eqlang}
 \minipage{0.32\textwidth}
   \includegraphics[width=\linewidth]{./Imagens/brdfs/oren-nayar-teapot.png}

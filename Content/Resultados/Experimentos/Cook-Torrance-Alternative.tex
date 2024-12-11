@@ -1,6 +1,8 @@
-\section{Experimento BRDF Cook-Torrance Alternativa}
 
-Este experimento é uma versão alternativa da realizada na \autoref{sec:cook-torrance}. As equações apresentadas na \autoref{fig-cook-torrance-alternative-eqlang-latex} incorporam a equação do efeito Fresnel e utilizam constantes distintas. O código-fonte em \texttt{EquationLang} pode ser consultado no \autoref{cod-cook-torrance-alternative-eqlang}. Os códigos gerados em GLSL estão no \autoref{cod-cook-torrance-alternative-glsl-pt-1} e no \autoref{cod-cook-torrance-alternative-glsl-pt-2}. Objetos 3D renderizados pode ser vistos na \autoref{fig-cook-torrance-alternative-eqlang} e os plots estão na \autoref{fig-cook-torrance-alternative-plots}.
+\section{Experimento BRDF Cook-Torrance Alternativa}
+\label{section-experiment-cook-torrance-alternative}
+
+Este experimento é uma versão alternativa da realizada na \autoref{sec:cook-torrance}. As equações apresentadas na \autoref{fig-cook-torrance-alternative-eqlang-latex} incorporam a equação do efeito Fresnel e utilizam constantes distintas. O código-fonte em \texttt{EquationLang} pode ser consultado no \autoref{cod-cook-torrance-alternative-eqlang}. Os códigos gerados em GLSL estão no \autoref{cod-cook-torrance-alternative-glsl-pt-1} e no \autoref{cod-cook-torrance-alternative-glsl-pt-2}. Objetos 3D renderizados pode ser vistos na \autoref{fig-cook-torrance-alternative-eqlang} e os \textit{plots} estão na \autoref{fig-cook-torrance-alternative-plots}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -18,7 +20,7 @@ Este experimento é uma versão alternativa da realizada na \autoref{sec:cook-to
 \subsection{Código Fonte em \texttt{EquationLang}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento.}
+    \caption{\small Código fonte da BRDF do experimento Cook-Torrance$_2$.}
     \label{cod-cook-torrance-alternative-eqlang}
 \begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
 \begin{equation}
@@ -70,7 +72,7 @@ G = 1/(N \cdot V)
 \subsection{Código GLSL Gerado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 2).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento Cook-Torrance$_2$ (parte 1 de 2).}
     \label{cod-cook-torrance-alternative-glsl-pt-1}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 analytic ::begin parameters
@@ -108,7 +110,7 @@ vec3 var_27_f;
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
+    \caption{\small Saída do compilador: código GLSL da BRDF do experimento Cook-Torrance$_2$ (parte 2 de 2).}
     \label{cod-cook-torrance-alternative-glsl-pt-2}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 //////////// END OF USER DECLARED ////////////
@@ -166,7 +168,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \subsection{Visualização do Resultado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[H]
-    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa do experimento Cook-Torrance$_2$.}}
     \label{fig-cook-torrance-alternative-plots}
 \minipage{0.48\textwidth}
     \vspace{42px}
@@ -181,7 +183,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \end{figure}
 
 \begin{figure}[H]
-    \caption{\small{Objetos 3D renderizados por este experimento.}}\label{fig-cook-torrance-alternative-eqlang}
+    \caption{\small{Objetos 3D renderizados pelo experimento Cook-Torrance$_2$.}}\label{fig-cook-torrance-alternative-eqlang}
 \minipage{0.32\textwidth}
   \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-alternative-teapot.png}
     \legend{ \small (a) \textit{Teapot}}
