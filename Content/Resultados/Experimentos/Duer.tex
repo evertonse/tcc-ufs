@@ -1,6 +1,6 @@
 \section{Experimento BRDF Dür}
 
-No artigo de Geisler-Moroder e Dür \cite{duer2010bounding}, é discutido sobre as limitações do modelo de reflexão de Ward, onde é proposto uma abordagem para restringir o albedo e garantir a conservação de energia. Este experimento é baseado nessa BRDF com albedo restringido. As equações são apresentados \autoref{fig-duer-eqlang-latex}, com o código fonte em \texttt{EquationLang} disponível no \autoref{cod-duer-eqlang}. Os códigos gerados em GLSL pode ser vistos no \autoref{cod-duer-glsl-pt-1} e \autoref{cod-duer-glsl-pt-2}. A renderização dos objetos 3D pode ser observada na \autoref{fig-duer-eqlang} e a os \textit{plots} na \autoref{fig-duer-plots}.
+No artigo de Geisler-Moroder e Dür \cite{duer2010bounding}, são discutidas as limitações do modelo de reflexão de Ward, propondo uma abordagem para restringir o albedo e garantir a conservação de energia. Este experimento é baseado nessa BRDF com albedo restringido. As equações são apresentadas na \autoref{fig-duer-eqlang-latex}, com o código fonte em \texttt{EquationLang} disponível no \autoref{cod-duer-eqlang}. Os códigos gerados em GLSL podem ser vistos no \autoref{cod-duer-glsl-pt-1} e no \autoref{cod-duer-glsl-pt-2}. A renderização dos objetos 3D pode ser observada na \autoref{fig-duer-eqlang} e os \textit{plots} na \autoref{fig-duer-plots}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Representação em documento \LaTeX{}}
@@ -13,43 +13,30 @@ No artigo de Geisler-Moroder e Dür \cite{duer2010bounding}, é discutido sobre 
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Visualização do Resultado}
+\subsection{Código Fonte em \texttt{EquationLang}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[H]
-    \caption{\small{\textit{Plots} da BRDF deste experimento.}}\label{fig-duer-plots}
-\minipage{0.48\textwidth}
-    \vspace{42px}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/duer-3D-plot}
-    % \vspace{0.1px}
-    \legend{ \small (a) 3D \textit{plot}}
-\endminipage\hfill
-\minipage{0.48\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/duer-polar-plot.png}
-    \legend{ \small (b) \textit{Polar plot}}
-\endminipage\hfill
-\end{figure}
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento.}
+    \label{cod-duer-eqlang}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+Duer 2010 Bounding the Albedo of the Ward Reflectance Model
 
-\begin{figure}[H]
-    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-duer-eqlang}
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/duer-teapot.png}
-    \legend{ \small (a) \textit{Teapot}}
-\endminipage\hfill
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/duer-dragon.png}
-    \legend{ \small (b) Dragão de Stanford}
-\endminipage\hfill
-\minipage{0.32\textwidth}%
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/duer-goblin.png}
-    \legend{ \small (c) Goblin}
-\endminipage
-\end{figure}
+\begin{equation}
+G = ((\vec{\omega_i}+\vec{\omega_o}) \cdot(\vec{\omega_i}+\vec{\omega_o})) * ((\vec{\omega_i}+\vec{\omega_o}) \cdot \vec{n})^-4
+    * (\vec{n} \cdot \vec{\omega_i})*(\vec{n} \cdot \vec{\omega_o})
+\end{equation}
+
+\begin{equation}
+f =  G
+\end{equation}
+\end{lstlisting}
+\end{codigo}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Código GLSL Gerado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 2).}
     \label{cod-duer-glsl-pt-1}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 analytic ::begin parameters
@@ -81,7 +68,7 @@ float var_13_f;
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento  (parte 2). }
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
     \label{cod-duer-glsl-pt-2}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
@@ -119,22 +106,39 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \end{lstlisting}
 \end{codigo}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Código Fonte em \texttt{EquationLang}}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento.}
-    \label{cod-duer-eqlang}
-\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
-Duer 2010 Bounding the Albedo of the Ward Reflectance Model
 
-\begin{equation}
-G = ((\vec{\omega_i}+\vec{\omega_o}) \cdot(\vec{\omega_i}+\vec{\omega_o})) * ((\vec{\omega_i}+\vec{\omega_o}) \cdot \vec{n})^-4
-    * (\vec{n} \cdot \vec{\omega_i})*(\vec{n} \cdot \vec{\omega_o})
-\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Visualização do Resultado}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[H]
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \label{fig-duer-plots}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/duer-3D-plot}
+    % \vspace{0.1px}
+    \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/duer-polar-plot.png}
+    \legend{ \small (b) \textit{Polar plot}}
+\endminipage\hfill
+\end{figure}
 
-\begin{equation}
-f =  G
-\end{equation}
-\end{lstlisting}
-\end{codigo}
+\begin{figure}[H]
+    \caption{\small{Objetos 3D renderizados por este experimento.}}
+    \label{fig-duer-eqlang}
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/duer-teapot.png}
+    \legend{ \small (a) \textit{Teapot}}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/duer-dragon.png}
+    \legend{ \small (b) Dragão de Stanford}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/duer-goblin.png}
+    \legend{ \small (c) Goblin}
+\endminipage
+\end{figure}
+

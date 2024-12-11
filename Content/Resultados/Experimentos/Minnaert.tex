@@ -1,9 +1,6 @@
 \section{Experimento BRDF Minnaert}
 
-Esse experimento foi realizado seguindo os principios do artigo de Minnaert \cite{minnaert1941reciprocity}. Nele é apresentado um modelo de reflexão que introduz uma abordagem para descrever superfícies que exibem comportamentos encontrado em superfícies porosas, como a lua.
-% não Lambertianos.
-% propõe uma parametrização que ajusta o albedo conforme os ângulos de iluminação e observação.
-As equações desse experimento estão em \autoref{fig-minnaert-eqlang-latex}. O código fonte se encontra no \autoref{cod-minnaert-eqlang}. O GLSL gerado pode ser encontrada no \autoref{cod-minnaert-glsl-pt-1} e \autoref{cod-minnaert-glsl-pt-2}, enquanto os resultados de renderização podem ser observados na \autoref{fig-minnaert-eqlang} e os \textit{plots} na \autoref{fig-minnaert-plots}.
+Este experimento foi realizado seguindo os princípios do artigo de Minnaert \cite{minnaert1941reciprocity}. Nele, é apresentado um modelo de reflexão que introduz uma abordagem para descrever superfícies que exibem comportamentos encontrados em superfícies porosas, como a lua. As equações desse experimento estão na \autoref{fig-minnaert-eqlang-latex}. O código-fonte pode ser encontrado no \autoref{cod-minnaert-eqlang}. O GLSL gerado pode ser encontrado no \autoref{cod-minnaert-glsl-pt-1} e no \autoref{cod-minnaert-glsl-pt-2}, enquanto os resultados de renderização podem ser observados na \autoref{fig-minnaert-eqlang} e os \textit{plots} na \autoref{fig-minnaert-plots}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -17,43 +14,46 @@ As equações desse experimento estão em \autoref{fig-minnaert-eqlang-latex}. O
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Visualização do Resultado}
+\subsection{Código Fonte em \texttt{EquationLang}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[H]
-    \caption{\small{\textit{Plots} da BRDF deste experimento.}}\label{fig-minnaert-plots}
-\minipage{0.48\textwidth}
-    \vspace{42px}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/minnaert-3D-plot}
-    % \vspace{0.1px}
-    \legend{ \small (a) 3D \textit{plot}}
-\endminipage\hfill
-\minipage{0.48\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/minnaert-polar-plot.png}
-    \legend{ \small (b) \textit{Polar plot}}
-\endminipage\hfill
-\end{figure}
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento.}
+    \label{cod-minnaert-eqlang}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+[Min41] MINNAERT M.: The reciprocity principle in lunar photometry. Astrophysical Journal, 3 (1941), 403- 410. 10
 
-\begin{figure}[H]
-    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-minnaert-eqlang}
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/minnaert-teapot.png}
-    \legend{ \small (a) \textit{Teapot}}
-\endminipage\hfill
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/minnaert-dragon.png}
-    \legend{ \small (b) Dragão de Stanford}
-\endminipage\hfill
-\minipage{0.32\textwidth}%
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/minnaert-goblin.png}
-    \legend{ \small (c) Goblin}
-\endminipage
-\end{figure}
+$\omega_o$: This is the outgoing (view) direction vector (often normalized).
+$\cos\omega_i$ and $\cos\omega_o$: These are actually shorthand notations.
+
+They don't mean the cosine of the entire vector, but rather:
+$\cos\omega_i$ actually means $\cos(\theta_i) = \dot(\omega_i, n)$
+$\cos\omega_o$ actually means $\cos(\theta_o) = \dot(\omega_o, n)$
+
+Where:
+
+$\theta_i$ is the angle between $\omega_i$ and the surface normal $n$.
+
+$\theta_o$ is the angle between $\omega_o$ and the surface normal $n$.
+
+\begin{equation}
+    \rho_{d} = \vec{0.3,0.05,0.05}
+\end{equation}
+
+\begin{equation}
+k = 0.5
+\end{equation}
+
+\begin{equation}
+f = \frac{\rho_{d}}{\pi} * ((\vec{n} \cdot \vec \omega_i)*(\vec{n} \cdot \vec \omega_o))^{(k-1)}
+\end{equation}
+\end{lstlisting}
+\end{codigo}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Código GLSL Gerado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 2).}
     \label{cod-minnaert-glsl-pt-1}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 analytic ::begin parameters
@@ -87,7 +87,7 @@ vec3 var_14_f;
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento  (parte 2). }
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
     \label{cod-minnaert-glsl-pt-2}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
@@ -122,39 +122,37 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 }
 \end{lstlisting}
 \end{codigo}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Código Fonte em \texttt{EquationLang}}
+\subsection{Visualização do Resultado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento (parte 1).}
-    \label{cod-minnaert-eqlang}
-\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
-[Min41] MINNAERT M.: The reciprocity principle in lunar photometry. Astrophysical Journal, 3 (1941), 403- 410. 10
+\begin{figure}[H]
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \label{fig-minnaert-plots}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/minnaert-3D-plot}
+    % \vspace{0.1px}
+    \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/minnaert-polar-plot.png}
+    \legend{ \small (b) \textit{Polar plot}}
+\endminipage\hfill
+\end{figure}
 
-$\omega_o$: This is the outgoing (view) direction vector (often normalized).
-$\cos\omega_i$ and $\cos\omega_o$: These are actually shorthand notations.
+\begin{figure}[H]
+    \caption{\small{Objetos 3D renderizados por este experimento.}}\label{fig-minnaert-eqlang}
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/minnaert-teapot.png}
+    \legend{ \small (a) \textit{Teapot}}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/minnaert-dragon.png}
+    \legend{ \small (b) Dragão de Stanford}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/minnaert-goblin.png}
+    \legend{ \small (c) Goblin}
+\endminipage
+\end{figure}
 
-They don't mean the cosine of the entire vector, but rather:
-$\cos\omega_i$ actually means $\cos(\theta_i) = \dot(\omega_i, n)$
-$\cos\omega_o$ actually means $\cos(\theta_o) = \dot(\omega_o, n)$
-
-Where:
-
-$\theta_i$ is the angle between $\omega_i$ and the surface normal $n$.
-
-$\theta_o$ is the angle between $\omega_o$ and the surface normal $n$.
-
-\begin{equation}
-    \rho_{d} = \vec{0.3,0.05,0.05}
-\end{equation}
-
-\begin{equation}
-k = 0.5
-\end{equation}
-
-\begin{equation}
-f = \frac{\rho_{d}}{\pi} * ((\vec{n} \cdot \vec \omega_i)*(\vec{n} \cdot \vec \omega_o))^{(k-1)}
-\end{equation}
-\end{lstlisting}
-\end{codigo}

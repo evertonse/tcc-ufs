@@ -1,56 +1,116 @@
 \section{Experimento BRDF Ashikhmin-Shirley}\label{sec:ashikhmin-shirley}
 
-Neste experimento utilizamos uma BRDF anisotrópica desenvolvida por Ashikhmin-Shirley \cite{ashikhmin2000anisotropic}, que apresenta um modelo de reflexão não uniforme. A descrição matemática está presente na \autoref{fig-ashikhmin-shirley-close-to-original-eqlang-latex}, com o código fonte em \texttt{EquationLang} disponível no \autoref{cod-ashikhmin-shirley-close-to-original-eqlang-pt-1} e \autoref{cod-ashikhmin-shirley-close-to-original-eqlang-pt-2}. Os códigos gerados em GLSL são apresentados nos \autoref{cod-ashikhmin-shirley-close-to-original-glsl-pt-1} e \autoref{cod-ashikhmin-shirley-close-to-original-glsl-pt-2}. A renderização dos objetos 3D pode ser observada na \autoref{fig-ashikhmin-shirley-close-to-original-eqlang} e os plots correspondentes estão na \autoref{fig-ashikhmin-shirley-close-to-original-plots}.
+Neste experimento, utilizamos uma BRDF anisotrópica desenvolvida por Ashikhmin-Shirley \cite{ashikhmin2000anisotropic}, que apresenta um modelo de reflexão não uniforme. A descrição matemática está presente na \autoref{fig-ashikhmin-shirley-close-to-original-eqlang-latex}, com o código-fonte em \texttt{EquationLang} disponível no \autoref{cod-ashikhmin-shirley-close-to-original-eqlang-pt-1} e no \autoref{cod-ashikhmin-shirley-close-to-original-eqlang-pt-2}. Destacamos que o compilador corretamente ignora texto fora do ambiente \texttt{equation}. Os códigos gerados em GLSL são apresentados nos \autoref{cod-ashikhmin-shirley-close-to-original-glsl-pt-1} e \autoref{cod-ashikhmin-shirley-close-to-original-glsl-pt-2}. A renderização dos objetos 3D pode ser observada na \autoref{fig-ashikhmin-shirley-close-to-original-eqlang}, e os \textit{plots} correspondentes estão na \autoref{fig-ashikhmin-shirley-close-to-original-plots}.
+%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Representação em documento \LaTeX{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[H]
-    \caption{\label{fig-ashikhmin-shirley-close-to-original-eqlang-latex} \small Equações da BRDF do experimento ashikhmin-shirley-close-to-original-Kay em documento \LaTeX{}.}
+    \caption{\label{fig-ashikhmin-shirley-close-to-original-eqlang-latex}
+    \small Equações da BRDF do experimento Ashikhmin-Shirley em documento \LaTeX{}.}
     \begin{center}
         \includegraphics[scale=0.92]{./Imagens/brdfs/ashikhmin-shirley-close-to-original.pdf}
     \end{center}
 \end{figure}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Visualização do Resultado}
+\subsection{Código Fonte em \texttt{EquationLang}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento (parte 1 de 2).}
+    \label{cod-ashikhmin-shirley-close-to-original-eqlang-pt-1}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+Ashikhmin Shirley 2000 - Anisotropic phong reflectance model
 
-\begin{figure}[H]
-    \caption{\small{\textit{Plots} da BRDF deste experimento.}}\label{fig-ashikhmin-shirley-close-to-original-plots}
-\minipage{0.48\textwidth}
-    \vspace{42px}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-close-to-original-3D-plot}
-    % \vspce{0.1px}
-    \legend{ \small (a) 3D \textit{plot}}
-\endminipage\hfill
-\minipage{0.48\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-close-to-original-polar-plot.png}
-    \legend{ \small (b) \textit{Polar plot}}
-\endminipage\hfill
-\end{figure}
+ $R_s$ : a color (RGB) that specifies th e specular reflectance
+at normal incidence.
 
-\begin{figure}[H]
-    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-ashikhmin-shirley-close-to-original-eqlang}
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-close-to-original-teapot.png}
-    \legend{ \small (a) \textit{Teapot}}
-\endminipage\hfill
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-close-to-original-dragon.png}
-    \legend{ \small (b) Dragão de Stanford}
-\endminipage\hfill
-\minipage{0.32\textwidth}%
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-close-to-original-goblin.png}
-    \legend{ \small (c) Goblin}
-\endminipage
-\end{figure}
+ $R_d$: a color (RGB) that specifies the diffuse reflectance
 
+ $n_u, n_v$: two phong-like exponents that control th e shape of the spec- ular lobe
+
+The model is a classical sum of a "specular" term and a "diffuse" term.
+
+\begin{equation}
+    R_s = 0.4
+\end{equation}
+
+\begin{equation}
+    R_d = 0.9
+\end{equation}
+
+\begin{equation}
+    n_v = 1.5
+\end{equation}
+
+\begin{equation}
+    n_u = 300
+\end{equation}
+
+The specular component $\rho_s$ of the BRDF is:
+
+\begin{equation}
+    n = \vec n
+\end{equation}
+
+\begin{equation}
+    h = \vec h
+\end{equation}
+\end{equation}
+\end{lstlisting}
+\end{codigo}
+
+
+
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento (parte 2 de 2).}
+    \label{cod-ashikhmin-shirley-close-to-original-eqlang-pt-2}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+\begin{equation}
+  \text{normalize}(\vec{u}) = \frac{\vec{u}}{\sqrt{\vec{u} \cdot \vec{u}}}
+\end{equation}
+Tangent vector:
+\begin{equation}
+   u = \text{normalize}(\vec{0,1,0} \times n)
+Bitangent vector:
+\begin{equation}
+   v = \text{normalize}(\vec{n} \times u)
+\end{equation}
+
+\begin{equation}
+    k = \vec{\omega_i}
+\end{equation}
+
+\begin{equation}
+    \rho_s(\vec{\omega_i}, \vec{\omega_o}) =
+        \frac{\sqrt{(n_u+1)*(n_v+1)}}{8*\pi}
+        * \frac{(n \cdot h)^{(\frac{n_u * (h \cdot u )^2 + n_v *(h \cdot v)^2}{1-(h \cdot n)^2})}
+        * F(k \cdot h)}{(h \cdot k) * \max((n \cdot \vec{\omega_i}), (n \cdot \vec{\omega_o}) )}
+\end{equation}
+
+\begin{equation}
+    \rho_d(\vec{\omega_i}, \vec{\omega_o}) = \frac{28*R_d}{23*\pi}
+        * (1-R_s)
+        * (1-(1-\frac{(n \cdot \vec{\omega_i})}{2})^5)
+        * (1-(1-\frac{(n \cdot \vec{\omega_o})}{2})^5)
+\end{equation}
+
+\begin{equation}
+    F(x) = R_s + (1-R_s)*(1-(k \cdot h))^5
+\end{equation}
+
+\begin{equation}
+    f = \rho_s(\vec{\omega_i}, \vec{\omega_o}) + \rho_d(\vec{\omega_i}, \vec{\omega_o})
+\end{equation}
+\end{lstlisting}
+\end{codigo}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Código GLSL Gerado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 2).}
     \label{cod-ashikhmin-shirley-close-to-original-glsl-pt-1}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 analytic ::begin parameters
@@ -100,7 +160,7 @@ float var_25_rho_d(vec3 var_4_vec_omega_i, vec3 var_7_vec_omega_o) {
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento  (parte 2). }
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
     \label{cod-ashikhmin-shirley-close-to-original-glsl-pt-2}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 float var_26_rho_s(vec3 var_4_vec_omega_i, vec3 var_7_vec_omega_o) {
@@ -150,93 +210,37 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \end{codigo}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Código Fonte em \texttt{EquationLang}}
+\subsection{Visualização do Resultado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento (parte 1).}
-    \label{cod-ashikhmin-shirley-close-to-original-eqlang-pt-1}
-\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
-Ashikhmin Shirley 2000 - Anisotropic phong reflectance model
 
- $R_s$ : a color (RGB) that specifies th e specular reflectance
-at normal incidence.
+\begin{figure}[H]
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \label{fig-ashikhmin-shirley-close-to-original-plots}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-close-to-original-3D-plot}
+    % \vspce{0.1px}
+    \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-close-to-original-polar-plot.png}
+    \legend{ \small (b) \textit{Polar plot}}
+\endminipage\hfill
+\end{figure}
 
- $R_d$: a color (RGB) that specifies the diffuse reflectance
+\begin{figure}[H]
+    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-ashikhmin-shirley-close-to-original-eqlang}
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-close-to-original-teapot.png}
+    \legend{ \small (a) \textit{Teapot}}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-close-to-original-dragon.png}
+    \legend{ \small (b) Dragão de Stanford}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-close-to-original-goblin.png}
+    \legend{ \small (c) Goblin}
+\endminipage
+\end{figure}
 
- $n_u, n_v$: two phong-like exponents that control th e shape of the spec- ular lobe
-
-The model is a classical sum of a "specular" term and a "diffuse" term.
-
-\begin{equation}
-    R_s = 0.4
-\end{equation}
-
-\begin{equation}
-    R_d = 0.9
-\end{equation}
-
-\begin{equation}
-    n_v = 1.5
-\end{equation}
-
-\begin{equation}
-    n_u = 300
-\end{equation}
-
-The specular component $\rho_s$ of the BRDF is:
-
-\begin{equation}
-    n = \vec n
-\end{equation}
-
-\begin{equation}
-    h = \vec h
-\end{equation}
-\end{equation}
-\end{lstlisting}
-\end{codigo}
-
-
-
-\begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento (parte 2).}
-    \label{cod-ashikhmin-shirley-close-to-original-eqlang-pt-2}
-\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
-\begin{equation}
-  \text{normalize}(\vec{u}) = \frac{\vec{u}}{\sqrt{\vec{u} \cdot \vec{u}}}
-\end{equation}
-Tangent vector:
-\begin{equation}
-   u = \text{normalize}(\vec{0,1,0} \times n)
-Bitangent vector:
-\begin{equation}
-   v = \text{normalize}(\vec{n} \times u)
-\end{equation}
-
-\begin{equation}
-    k = \vec{\omega_i}
-\end{equation}
-
-\begin{equation}
-    \rho_s(\vec{\omega_i}, \vec{\omega_o}) =
-        \frac{\sqrt{(n_u+1)*(n_v+1)}}{8*\pi}
-        * \frac{(n \cdot h)^{(\frac{n_u * (h \cdot u )^2 + n_v *(h \cdot v)^2}{1-(h \cdot n)^2})}
-        * F(k \cdot h)}{(h \cdot k) * \max((n \cdot \vec{\omega_i}), (n \cdot \vec{\omega_o}) )}
-\end{equation}
-
-\begin{equation}
-    \rho_d(\vec{\omega_i}, \vec{\omega_o}) = \frac{28*R_d}{23*\pi}
-        * (1-R_s)
-        * (1-(1-\frac{(n \cdot \vec{\omega_i})}{2})^5)
-        * (1-(1-\frac{(n \cdot \vec{\omega_o})}{2})^5)
-\end{equation}
-
-\begin{equation}
-    F(x) = R_s + (1-R_s)*(1-(k \cdot h))^5
-\end{equation}
-
-\begin{equation}
-    f = \rho_s(\vec{\omega_i}, \vec{\omega_o}) + \rho_d(\vec{\omega_i}, \vec{\omega_o})
-\end{equation}
-\end{lstlisting}
-\end{codigo}

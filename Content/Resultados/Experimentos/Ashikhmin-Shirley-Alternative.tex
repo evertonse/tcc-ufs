@@ -1,55 +1,24 @@
+
 \section{Experimento BRDF Ashikhmin-Shirley Alternativa}
 
 
-Nesse caso, foi realizado uma versão alternativa do experimento da \autoref{sec:ashikhmin-shirley}. As equações na \autoref{fig-ashikhmin-shirley-alternative-eqlang-latex} estão simplicadas e algumas equações foram comprimidas em uma só. Além disso, nessa versão, foram escolhidas diferentes constantes, como cor difusa, fatores de multiplicação, entre outros. Código fonte em \texttt{EquationLang} disponível no \autoref{cod-ashikhmin-shirley-alternative-eqlang}. Os códigos gerados em GLSL estão no \autoref{cod-ashikhmin-shirley-alternative-glsl-pt-1} e \autoref{cod-ashikhmin-shirley-alternative-glsl-pt-2}. Objetos 3D renderizados pode ser vistos na \autoref{fig-ashikhmin-shirley-alternative-eqlang} e os plots estão na \autoref{fig-ashikhmin-shirley-alternative-plots}.
+Nesse caso, foi realizada uma versão alternativa do experimento descrito na \autoref{sec:ashikhmin-shirley}. As equações apresentadas na \autoref{fig-ashikhmin-shirley-alternative-eqlang-latex} foram simplificadas, e algumas delas foram combinadas em uma única expressão. Além disso, nesta versão, foram utilizadas constantes diferentes, como cor difusa e fatores de multiplicação, entre outros. O código-fonte em \texttt{EquationLang} está disponível no \autoref{cod-ashikhmin-shirley-alternative-eqlang}. Os códigos gerados em GLSL estão no \autoref{cod-ashikhmin-shirley-alternative-glsl-pt-1} e no \autoref{cod-ashikhmin-shirley-alternative-glsl-pt-2}. A renderização dos objetos 3D pode ser observada na \autoref{fig-ashikhmin-shirley-alternative-eqlang}, e os \textit{plots} correspondentes estão na \autoref{fig-ashikhmin-shirley-alternative-plots}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Representação em documento \LaTeX{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[H]
-    \caption{\label{fig-ashikhmin-shirley-alternative-eqlang-latex} \small Equações da BRDF do experimento ashikhmin-shirley-alternative em documento \LaTeX{}.}
+  \caption{\label{fig-ashikhmin-shirley-alternative-eqlang-latex}
+  \small Equações da BRDF do experimento Ashikhmin-Shirley$_2$ (alternativa) em documento \LaTeX{}.}
     \begin{center}
         \includegraphics[scale=0.92]{./Imagens/brdfs/ashikhmin-shirley-alternative.pdf}
     \end{center}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Visualização do Resultado}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[H]
-    \caption{\small{\textit{Plots} da BRDF deste experimento.}}\label{fig-ashikhmin-shirley-alternative-plots}
-\minipage{0.48\textwidth}
-    \vspace{42px}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-alternative-3D-plot}
-    % \vspace{0.1px}
-    \legend{ \small (a) 3D \textit{plot}}
-\endminipage\hfill
-\minipage{0.48\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-alternative-polar-plot.png}
-    \legend{ \small (b) \textit{Polar plot}}
-\endminipage\hfill
-\end{figure}
-
-\begin{figure}[H]
-    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-ashikhmin-shirley-alternative-eqlang}
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-alternative-teapot.png}
-    \legend{ \small (a) \textit{Teapot}}
-\endminipage\hfill
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-alternative-dragon.png}
-    \legend{ \small (b) Dragão de Stanford}
-\endminipage\hfill
-\minipage{0.32\textwidth}%
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-alternative-goblin.png}
-    \legend{ \small (c) Goblin}
-\endminipage
-\end{figure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Código GLSL Gerado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 2).}
     \label{cod-ashikhmin-shirley-alternative-glsl-pt-1}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 analytic ::begin parameters
@@ -80,7 +49,7 @@ vec3 var_14_f;
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento  (parte 2). }
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
     \label{cod-ashikhmin-shirley-alternative-glsl-pt-2}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 //////////// START FUNCTIONS DECLARATIONS ////////////
@@ -125,7 +94,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \subsection{Código Fonte em \texttt{EquationLang}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento.}
+    \caption{\small Código-fonte da BRDF deste experimento.}
     \label{cod-ashikhmin-shirley-alternative-eqlang}
 \begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
 
@@ -149,3 +118,38 @@ f = \frac{\rho_{d}}{\pi} + \frac{\rho_{s}}{8*\pi} *
 
 \end{lstlisting}
 \end{codigo}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Visualização do Resultado}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[H]
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \label{fig-ashikhmin-shirley-alternative-plots}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-alternative-3D-plot}
+    % \vspace{0.1px}
+    \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-alternative-polar-plot.png}
+    \legend{ \small (b) \textit{Polar plot}}
+\endminipage\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-ashikhmin-shirley-alternative-eqlang}
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-alternative-teapot.png}
+    \legend{ \small (a) \textit{Teapot}}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-alternative-dragon.png}
+    \legend{ \small (b) Dragão de Stanford}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ashikhmin-shirley-alternative-goblin.png}
+    \legend{ \small (c) Goblin}
+\endminipage
+\end{figure}
+

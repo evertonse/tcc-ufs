@@ -1,56 +1,117 @@
 \section{Experimento BRDF Oren-Nayar}
 
-Este experimento é basedo no trabalho de Oren e Nayar \cite{oren1994generalization} o qual propuseram uma generalização do modelo de reflectância de Lambert, desenvolvendo uma abordagem matemática que modela com maior precisão a difusão de luz em superfícies rugosas naturais. As equações que descrevem esse experimento se encontram em \autoref{fig-oren-nayar-eqlang-latex}. O código fonte, em \texttt{EquationLang}, de entrada para o compilador está dividido em duas partes, a primeira está no \autoref{cod-oren-nayar-eqlang-pt-1} e a segunda está no \autoref{cod-oren-nayar-eqlang-pt-2}. A renderização dos objetos 3D usando essa BRDF se encontra em \autoref{fig-oren-nayar-eqlang} e seus plots no \autoref{fig-oren-nayar-plots}. A saída GLSL se encontram em: parte 1 (\autoref{cod-oren-nayar-glsl-pt-2}), parte 2 (\autoref{cod-oren-nayar-glsl-pt-2}) e parte 3 no \autoref{cod-oren-nayar-glsl-pt-3}.
+Este experimento é baseado no trabalho de Oren e Nayar \cite{oren1994generalization}, no qual propuseram uma generalização do modelo de refletância de Lambert, desenvolvendo uma abordagem matemática para modelar com maior precisão a difusão de luz em superfícies rugosas. As equações que descrevem esse experimento estão na \autoref{fig-oren-nayar-eqlang-latex}. O código-fonte em \texttt{EquationLang}, usado como entrada para o compilador, está dividido em duas partes: a primeira no \autoref{cod-oren-nayar-eqlang-pt-1} e a segunda no \autoref{cod-oren-nayar-eqlang-pt-2}. A renderização dos objetos 3D utilizando essa BRDF está na \autoref{fig-oren-nayar-eqlang}, e os \textit{plots} correspondentes estão na \autoref{fig-oren-nayar-plots}. A saída em GLSL está dividida em três partes: a parte 1 no \autoref{cod-oren-nayar-glsl-pt-1}, a parte 2 no \autoref{cod-oren-nayar-glsl-pt-2}, e a parte 3 no \autoref{cod-oren-nayar-glsl-pt-3}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Representação em documento \LaTeX{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[H]
-    \caption{\label{fig-oren-nayar-eqlang-latex} \small Equações da BRDF do experimento oren-nayar em documento \LaTeX{}.}
+    \caption{\label{fig-oren-nayar-eqlang-latex} 
+    \small Equações da BRDF do experimento Oren-Nayar em documento \LaTeX{}.}
     \begin{center}
         \includegraphics[scale=0.82]{./Imagens/brdfs/oren-nayar.pdf}
     \end{center}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Visualização do Resultado}
+\subsection{Código Fonte em \texttt{EquationLang}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[H]
-    \caption{\small{\textit{Plots} da BRDF deste experimento.}}\label{fig-oren-nayar-plots}
-\minipage{0.48\textwidth}
-    \vspace{42px}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/oren-nayar-3D-plot}
-    % \vspace{0.1px}
-    \legend{ \small (a) 3D \textit{plot}}
-\endminipage\hfill
-\minipage{0.48\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/oren-nayar-polar-plot.png}
-    \legend{ \small (b) \textit{Polar plot}}
-\endminipage\hfill
-\end{figure}
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento (parte 1 de 2).}
+    \label{cod-oren-nayar-eqlang-pt-1}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+\begin{equation}
+    \rho = 0.9
+\end{equation}
+\begin{equation}
+    \sigma = 30*\pi/180
+\end{equation}
+\begin{equation}
+    \theta_r = \arccos((V \cdot N))
+\end{equation}
+\begin{equation}
+    \phi_{\text{diff}} = ( \text{normalize}(V-N*((V \cdot N))) \cdot \text{normalize}(L - N*((L \cdot N))) )
+\end{equation}
+\begin{equation}
+    N = \vec n
+\end{equation}
 
-\begin{figure}[H]
-    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-oren-nayar-eqlang}
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/oren-nayar-teapot.png}
-    \legend{ \small (a) \textit{Teapot}}
-\endminipage\hfill
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/oren-nayar-dragon.png}
-    \legend{ \small (b) Dragão de Stanford}
-\endminipage\hfill
-\minipage{0.32\textwidth}%
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/oren-nayar-goblin.png}
-    \legend{ \small (c) Goblin}
-\endminipage
-\end{figure}
+\begin{equation}
+    L = \vec \omega_i
+\end{equation}
 
+\begin{equation}
+    V = \vec \omega_o
+\end{equation}
+
+\begin{equation}
+    \theta_i = \arccos ((L \cdot N))
+\end{equation}
+
+\begin{equation}
+    \alpha = \max (\theta_i, \theta_r)
+\end{equation}
+
+\begin{equation}
+    \beta = \min (\theta_i, \theta_r)
+\end{equation}
+
+\begin{equation}
+    C_1 = 1 - 0.5 * (\sigma^2) / ((\sigma^2) + 0.33)
+\end{equation}
+
+\end{lstlisting}
+\end{codigo}
+
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento (parte 2 de 2).}
+    \label{cod-oren-nayar-eqlang-pt-2}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+\begin{equation}
+    C_2 = \frac{0.45 * (\sigma^2)}{ ((\sigma^2) + 0.09)}
+        * (
+            \text{step}(\phi_{\text{diff}})       * (\sin(\alpha))
+            + (1 - \text{step}(\phi_{\text{diff}}))  * (\sin(\alpha) - \frac{2*\beta}{\pi}^3)
+        )
+\end{equation}
+\begin{equation}
+    C_3 = 0.125 * (\sigma^2) / ((\sigma^2)+0.09) * ((4*\alpha*\beta)/(\pi*\pi))^2
+\end{equation}
+
+\begin{equation}
+    L_1 = \rho/\pi * (C_1 + \phi_{\text{diff}} * C_2 * \tan(\beta) + (1 - \text{abs}(\phi_{\text{diff}})) * C_3 * \tan((\alpha+\beta)/2))
+\end{equation}
+
+\begin{equation}
+    L_2 = 0.17 * \rho*\rho / \pi * (\sigma^2)/((\sigma^2)+0.13) * (1 - \phi_{\text{diff}}*(4*\beta*\beta)/(\pi*\pi))
+\end{equation}
+
+\hspace{60px} The \emph{BRDF} output
+\begin{equation}
+    f = L_1 + L_2
+\end{equation}
+
+\hspace{60px} Utility Functions
+\begin{equation}
+  \text{normalize}(\vec{u}) = \frac{\vec{u}}{\sqrt{\vec{u} \cdot \vec{u}}}
+\end{equation}
+
+\begin{equation}
+  \text{abs}(v) = \max(v,-v)
+\end{equation}
+
+\hspace{60px} \small{Step function that returns 1 when x \verb">=" 0 and 0 when \verb"x < 0"}
+\begin{equation}
+  \text{step}(x) = \min(1, \max(0, x / (\text{abs}(x) + \epsilon)))
+\end{equation}
+\end{lstlisting}
+\end{codigo}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Código GLSL Gerado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 3).}
     \label{cod-oren-nayar-glsl-pt-1}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 analytic ::begin parameters
@@ -102,7 +163,7 @@ vec3 var_17_text_normalize(vec3 var_18_vec_u) {
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento  (parte 2). }
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 3).}
     \label{cod-oren-nayar-glsl-pt-2}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
@@ -146,7 +207,7 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento  (parte 3). }
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 3 de 3).}
     \label{cod-oren-nayar-glsl-pt-3}
 \begin{lstlisting}[language=C, inputencoding=utf8]
   var_30_C_2 = (((0.45 * (pow(var_14_sigma, 2.0))) / (((pow(var_14_sigma, 2.0)) + 0.09))) *
@@ -170,96 +231,39 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \end{lstlisting}
 \end{codigo}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Código Fonte em \texttt{EquationLang}}
+\subsection{Visualização do Resultado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento (parte 1).}
-    \label{cod-oren-nayar-eqlang-pt-1}
-\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
-\begin{equation}
-    \rho = 0.9
-\end{equation}
-\begin{equation}
-    \sigma = 30*\pi/180
-\end{equation}
-\begin{equation}
-    \theta_r = \arccos((V \cdot N))
-\end{equation}
-\begin{equation}
-    \phi_{\text{diff}} = ( \text{normalize}(V-N*((V \cdot N))) \cdot \text{normalize}(L - N*((L \cdot N))) )
-\end{equation}
-\begin{equation}
-    N = \vec n
-\end{equation}
+\begin{figure}[H]
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \label{fig-oren-nayar-plots}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/oren-nayar-3D-plot}
+    % \vspace{0.1px}
+    \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/oren-nayar-polar-plot.png}
+    \legend{ \small (b) \textit{Polar plot}}
+\endminipage\hfill
+\end{figure}
 
-\begin{equation}
-    L = \vec \omega_i
-\end{equation}
+\begin{figure}[H]
+    \caption{\small{Objetos 3D renderizados por este experimento.}}
+    \label{fig-oren-nayar-eqlang}
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/oren-nayar-teapot.png}
+    \legend{ \small (a) \textit{Teapot}}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/oren-nayar-dragon.png}
+    \legend{ \small (b) Dragão de Stanford}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/oren-nayar-goblin.png}
+    \legend{ \small (c) Goblin}
+\endminipage
+\end{figure}
 
-\begin{equation}
-    V = \vec \omega_o
-\end{equation}
-
-\begin{equation}
-    \theta_i = \arccos ((L \cdot N))
-\end{equation}
-
-\begin{equation}
-    \alpha = \max (\theta_i, \theta_r)
-\end{equation}
-
-\begin{equation}
-    \beta = \min (\theta_i, \theta_r)
-\end{equation}
-
-\begin{equation}
-    C_1 = 1 - 0.5 * (\sigma^2) / ((\sigma^2) + 0.33)
-\end{equation}
-
-\end{lstlisting}
-\end{codigo}
-
-\begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento (parte 2).}
-    \label{cod-oren-nayar-eqlang-pt-2}
-\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
-\begin{equation}
-    C_2 = \frac{0.45 * (\sigma^2)}{ ((\sigma^2) + 0.09)}
-        * (
-            \text{step}(\phi_{\text{diff}})       * (\sin(\alpha))
-            + (1 - \text{step}(\phi_{\text{diff}}))  * (\sin(\alpha) - \frac{2*\beta}{\pi}^3)
-        )
-\end{equation}
-\begin{equation}
-    C_3 = 0.125 * (\sigma^2) / ((\sigma^2)+0.09) * ((4*\alpha*\beta)/(\pi*\pi))^2
-\end{equation}
-
-\begin{equation}
-    L_1 = \rho/\pi * (C_1 + \phi_{\text{diff}} * C_2 * \tan(\beta) + (1 - \text{abs}(\phi_{\text{diff}})) * C_3 * \tan((\alpha+\beta)/2))
-\end{equation}
-
-\begin{equation}
-    L_2 = 0.17 * \rho*\rho / \pi * (\sigma^2)/((\sigma^2)+0.13) * (1 - \phi_{\text{diff}}*(4*\beta*\beta)/(\pi*\pi))
-\end{equation}
-
-\hspace{60px} The \emph{BRDF} output
-\begin{equation}
-    f = L_1 + L_2
-\end{equation}
-
-\hspace{60px} Utility Functions
-\begin{equation}
-  \text{normalize}(\vec{u}) = \frac{\vec{u}}{\sqrt{\vec{u} \cdot \vec{u}}}
-\end{equation}
-
-\begin{equation}
-  \text{abs}(v) = \max(v,-v)
-\end{equation}
-
-\hspace{60px} \small{Step function that returns 1 when x \verb">=" 0 and 0 when \verb"x < 0"}
-\begin{equation}
-  \text{step}(x) = \min(1, \max(0, x / (\text{abs}(x) + \epsilon)))
-\end{equation}
-\end{lstlisting}
-\end{codigo}

@@ -1,55 +1,88 @@
 \section{Experimento BRDF Ward}
 
-Este experimento é basedo nas BRDF após revisão usando as notas de Walter \cite{walter2005notes}. Nessas notas, são detalhados o modelo BRDF de Ward. Suas equações podem ser vistas na \autoref{fig-ward-eqlang-latex}, enquanto o código em \texttt{EquationLang} está disponível no \autoref{cod-ward-eqlang-pt-1} e \autoref{cod-ward-eqlang-pt-1}. O código gerado pelo compialdor são formados pelo \autoref{cod-ward-glsl-pt-1} e \autoref{cod-ward-glsl-pt-2}. A renderização de objetos usando este modelo é ilustrada na \autoref{fig-ward-objetcs} e os plots da sua reflectancia está na \autoref{fig-ward-plots}.
+Este experimento é baseado na BRDF revisada segundo as notas de Walter \cite{walter2005notes}, que detalham o modelo de Ward. Suas equações podem ser vistas na \autoref{fig-ward-eqlang-latex}, enquanto o código em \texttt{EquationLang} está disponível no \autoref{cod-ward-eqlang-pt-1} (parte 1) e no \autoref{cod-ward-eqlang-pt-2} (parte 2). O código gerado pelo compilador é formado pelo \autoref{cod-ward-glsl-pt-1} e pelo \autoref{cod-ward-glsl-pt-2}. A renderização de objetos usando este modelo é ilustrada na \autoref{fig-ward-objetcs}, e os \textit{plots} da sua refletância estão na \autoref{fig-ward-plots}.
+%%
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Representação em documento \LaTeX{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[H]
-    \caption{\label{fig-ward-eqlang-latex} \small Equações da BRDF do experimento ward em documento \LaTeX{}.}
+    \caption{\label{fig-ward-eqlang-latex} \small Equações da BRDF do experimento Ward em documento \LaTeX{}.}
     \begin{center}
         \includegraphics[scale=0.92]{./Imagens/brdfs/ward.pdf}
     \end{center}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Visualização do Resultado}
+\subsection{Código Fonte em \texttt{EquationLang}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[H]
-    \caption{\small{\textit{Plots} da BRDF deste experimento.}}\label{fig-ward-plots}
-\minipage{0.48\textwidth}
-    \vspace{42px}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/ward-3D-plot}
-    % \vspace{0.1px}
-    \legend{ \small (a) 3D \textit{plot}}
-\endminipage\hfill
-\minipage{0.48\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/ward-polar-plot.png}
-    \legend{ \small (b) \textit{Polar plot}}
-\endminipage\hfill
-\end{figure}
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento (parte 1 de 2).}
+    \label{cod-ward-eqlang-pt-1}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+Equations representing the Ward BRDF:
+   \begin{equation}
+      \text{normalize}(\vec{u}) = \frac{\vec{u}}{\sqrt{\vec{u} \cdot \vec{u}}}
+   \end{equation}
+1. Half vector:
+   \begin{equation}
+   \vec{H} = \text{normalize}(\vec{\omega_i} + \vec{\omega_o})
+   \end{equation}
+2. Tangent vector:
+   \begin{equation}
+   \vec{X} = \text{normalize}(\vec{0,1,0} \times \vec{n})
+   \end{equation}
+3. Bitangent vector:
+   \begin{equation}
+   \vec{Y} = \text{normalize}(\vec{n} \times \vec{X})
+   \end{equation}
+4. Roughness parameters:
+   \begin{equation}
+   \alpha_x = 0.4
+   \end{equation}
+   \begin{equation}
+   \alpha_y = 0.2
+   \end{equation}
+\end{lstlisting}
+\end{codigo}
 
-\begin{figure}[H]
-    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-ward-objetcs}
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/ward-teapot.png}
-    \legend{ \small (a) \textit{Teapot}}
-\endminipage\hfill
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/ward-dragon.png}
-    \legend{ \small (b) Dragão de Stanford}
-\endminipage\hfill
-\minipage{0.32\textwidth}%
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/ward-goblin.png}
-    \legend{ \small (c) Goblin}
-\endminipage
-\end{figure}
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento (parte 2 de 2).}
+    \label{cod-ward-eqlang-pt-2}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+5. Exponent calculation:
+   \begin{equation}
+   \text{exponent} = -\frac{
+       \frac{\vec{H} \cdot \vec{X}}{\alpha_x}^2 +
+       \frac{\vec{H} \cdot \vec{Y}}{\alpha_y}^2
+   }{(\vec{H} \cdot \vec{n})^2}
+   \end{equation}
+6. Specular term:
+7. And Exponent:
+   \begin{equation}
+   \text{spec} = \frac{1}{4*\pi * \alpha_x *\alpha_y *\sqrt{(\vec{\omega_i} \cdot \vec{n}) * (\vec{\omega_o} \cdot \vec{n})}}
+      \cdot \exp{( \text{exponent} )}
+   \end{equation}
+8. Color parameters
+   \begin{equation}
+   \vec{C_s} = \vec{1, 1, 1}
+   \end{equation}
+   \begin{equation}
+   \vec{C_d} = \vec{ 1, 1, 1 }
+   \end{equation}
+9. Final BRDF:
+   \begin{equation}
+   f = \frac{\vec{C_d}}{\pi} + \vec{C_s} \cdot \text{spec}
+   \end{equation}
+\end{lstlisting}
+\end{codigo}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Código GLSL Gerado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 2).}
     \label{cod-ward-glsl-pt-1}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 analytic
@@ -92,7 +125,7 @@ vec3 var_12_text_normalize(vec3 var_13_vec_u) {
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento  (parte 2). }
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
 \label{cod-ward-glsl-pt-2}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
@@ -136,65 +169,37 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \end{codigo}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Código Fonte em \texttt{EquationLang}}
+\subsection{Visualização do Resultado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento (parte 1).}
-    \label{cod-ward-eqlang-pt-1}
-\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
-Equations representing the Ward BRDF:
-   \begin{equation}
-      \text{normalize}(\vec{u}) = \frac{\vec{u}}{\sqrt{\vec{u} \cdot \vec{u}}}
-   \end{equation}
-1. Half vector:
-   \begin{equation}
-   \vec{H} = \text{normalize}(\vec{\omega_i} + \vec{\omega_o})
-   \end{equation}
-2. Tangent vector:
-   \begin{equation}
-   \vec{X} = \text{normalize}(\vec{0,1,0} \times \vec{n})
-   \end{equation}
-3. Bitangent vector:
-   \begin{equation}
-   \vec{Y} = \text{normalize}(\vec{n} \times \vec{X})
-   \end{equation}
-4. Roughness parameters:
-   \begin{equation}
-   \alpha_x = 0.4
-   \end{equation}
-   \begin{equation}
-   \alpha_y = 0.2
-   \end{equation}
-\end{lstlisting}
-\end{codigo}
+\begin{figure}[H]
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \label{fig-ward-plots}
 
-\begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento (parte 2).}
-    \label{cod-ward-eqlang-pt-2}
-\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
-5. Exponent calculation:
-   \begin{equation}
-   \text{exponent} = -\frac{
-       \frac{\vec{H} \cdot \vec{X}}{\alpha_x}^2 +
-       \frac{\vec{H} \cdot \vec{Y}}{\alpha_y}^2
-   }{(\vec{H} \cdot \vec{n})^2}
-   \end{equation}
-6. Specular term:
-7. And Exponent:
-   \begin{equation}
-   \text{spec} = \frac{1}{4*\pi * \alpha_x *\alpha_y *\sqrt{(\vec{\omega_i} \cdot \vec{n}) * (\vec{\omega_o} \cdot \vec{n})}}
-      \cdot \exp{( \text{exponent} )}
-   \end{equation}
-8. Color parameters
-   \begin{equation}
-   \vec{C_s} = \vec{1, 1, 1}
-   \end{equation}
-   \begin{equation}
-   \vec{C_d} = \vec{ 1, 1, 1 }
-   \end{equation}
-9. Final BRDF:
-   \begin{equation}
-   f = \frac{\vec{C_d}}{\pi} + \vec{C_s} \cdot \text{spec}
-   \end{equation}
-\end{lstlisting}
-\end{codigo}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ward-3D-plot}
+    % \vspace{0.1px}
+    \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ward-polar-plot.png}
+    \legend{ \small (b) \textit{Polar plot}}
+\endminipage\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \caption{\small{Objetos 3D renderizados por este experimento.}}\label{fig-ward-objetcs}
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ward-teapot.png}
+    \legend{ \small (a) \textit{Teapot}}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ward-dragon.png}
+    \legend{ \small (b) Dragão de Stanford}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/ward-goblin.png}
+    \legend{ \small (c) Goblin}
+\endminipage
+\end{figure}
+

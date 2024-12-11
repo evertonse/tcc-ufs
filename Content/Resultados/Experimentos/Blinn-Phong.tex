@@ -1,59 +1,53 @@
 \section{Experimento BRDF Blinn-Phong}
 
-Neste experimento usamos uma BRDF com um método simplificado de cálculo de reflexão especular, presente na \autoref{fig-blinn-phong-eqlang-latex}, introduzido por Blinn-Phong \cite{blinn1977models}. O \autoref{cod-blinn-phong-eqlang}, escrito \texttt{EquationLang}, é a entrada para o compilador. O \autoref{cod-blinn-phong-glsl-pt-1} e \autoref{cod-blinn-phong-glsl-pt-2} são a sáida em GLSL. A renderização dos objetos 3D estão em \autoref{fig-blinn-phong-eqlang}. Por fim, os plots estão na \autoref{fig-blinn-phong-plots}.
+Neste experimento usamos uma BRDF com um método simplificado de cálculo de reflexão especular, presente na \autoref{fig-blinn-phong-eqlang-latex}, introduzido por Blinn-Phong \cite{blinn1977models}. O \autoref{cod-blinn-phong-eqlang}, escrito \texttt{EquationLang}, é a entrada para o compilador. O \autoref{cod-blinn-phong-glsl-pt-1} e \autoref{cod-blinn-phong-glsl-pt-2} são a sáida em GLSL. A renderização dos objetos 3D estão em \autoref{fig-blinn-phong-eqlang}. Por fim, os \textit{plots} estão na \autoref{fig-blinn-phong-plots}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Representação em documento \LaTeX{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[H]
-    \caption{\label{fig-blinn-phong-eqlang-latex} \small Equações da BRDF do experimento blinn-phong-Kay em documento \LaTeX{}.}
+    \caption{\label{fig-blinn-phong-eqlang-latex} 
+    \small Equações da BRDF do experimento Blinn-Phong em documento \LaTeX{}.}
     \begin{center}
         % \includegraphics[scale=1.1,width=\textwidth]{./Imagens/brdfs/aniso.pdf}
         \includegraphics[scale=0.92]{./Imagens/brdfs/blinn-phong.pdf}
     \end{center}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Visualização do Resultado}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}[H]
-    \caption{\small{\textit{Plots} da BRDF deste experimento.}}\label{fig-blinn-phong-plots}
-\minipage{0.48\textwidth}
-    \vspace{42px}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-3D-plot}
-    % \caption{\small{(a)}}\label{fig:awesome_image1}
-    % \vspace{0.1px}
-    \legend{ \small (a) 3D \textit{plot}}
-\endminipage\hfill
-\minipage{0.48\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-polar-plot-log.png}
-    \legend{ \small (b) \textit{Polar plot}}
-    % \caption{\small{(b)}}\label{fig:awesome_image1}
-\endminipage\hfill
-\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Código Fonte em \texttt{EquationLang}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento.}
+    \label{cod-blinn-phong-eqlang}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+\begin{document}
 
-\begin{figure}[H]
-    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-blinn-phong-eqlang}
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-teapot.png}
-    \legend{ \small (a) \textit{Teapot}}
-\endminipage\hfill
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-dragon.png}
-    \legend{ \small (b) Dragão de Stanford}
-\endminipage\hfill
-\minipage{0.32\textwidth}%
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-goblin.png}
-    \legend{ \small (c) Goblin}
-\endminipage
-\end{figure}
+\begin{equation}
+    \rho_{d} = \vec{0,1,1}
+\end{equation}
+
+\begin{equation}
+    \rho_{s} = \vec{1,0,1}
+\end{equation}
+
+\begin{equation}
+    n = +2^8
+\end{equation}
+
+\begin{equation}
+f = \frac{\rho_{d}}{\pi} + \rho_{s} * \frac{n+2}{2*\pi} *
+\cos{\theta_{h}}^{n}
+\end{equation}
+\end{lstlisting}
+\end{codigo}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Código GLSL Gerado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 2).}
     \label{cod-blinn-phong-glsl-pt-1}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 analytic ::begin parameters
@@ -85,7 +79,7 @@ vec3 var_15_f;
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento  (parte 2). }
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
     \label{cod-blinn-phong-glsl-pt-2}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
@@ -121,29 +115,41 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \end{codigo}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Código Fonte em \texttt{EquationLang}}
+\subsection{Visualização do Resultado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento (parte 1).}
-    \label{cod-blinn-phong-eqlang}
-\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
-\begin{document}
 
-\begin{equation}
-    \rho_{d} = \vec{0,1,1}
-\end{equation}
+\begin{figure}[H]
+  
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \label{fig-blinn-phong-plots}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-3D-plot}
+    % \caption{\small{(a)}}\label{fig:awesome_image1}
+    % \vspace{0.1px}
+    \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-polar-plot-log.png}
+    \legend{ \small (b) \textit{Polar plot}}
+    % \caption{\small{(b)}}\label{fig:awesome_image1}
+\endminipage\hfill
+\end{figure}
 
-\begin{equation}
-    \rho_{s} = \vec{1,0,1}
-\end{equation}
+\begin{figure}[H]
+    \caption{\small{Objetos 3D renderizados por este experimento.}}
+    \label{fig-blinn-phong-eqlang}
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-teapot.png}
+    \legend{ \small (a) \textit{Teapot}}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-dragon.png}
+    \legend{ \small (b) Dragão de Stanford}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-goblin.png}
+    \legend{ \small (c) Goblin}
+\endminipage
+\end{figure}
 
-\begin{equation}
-    n = +2^8
-\end{equation}
-
-\begin{equation}
-f = \frac{\rho_{d}}{\pi} + \rho_{s} * \frac{n+2}{2*\pi} *
-\cos{\theta_{h}}^{n}
-\end{equation}
-\end{lstlisting}
-\end{codigo}

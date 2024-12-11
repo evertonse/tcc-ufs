@@ -1,55 +1,76 @@
 \section{Experimento BRDF Cook-Torrance Alternativa}
 
-Este experimento é uma versão alternativa da feita na \autoref{sec:cook-torrance}. As equações na \autoref{fig-cook-torrance-alternative-eqlang-latex} fazem uso da equação do Efeito Fresnel e foram escolhidas constantes diferentes. Código fonte em \texttt{EquationLang} pode ser visto no \autoref{cod-cook-torrance-alternative-eqlang}. Os códigos gerados em GLSL estão no \autoref{cod-cook-torrance-alternative-glsl-pt-1} e \autoref{cod-cook-torrance-alternative-glsl-pt-2}. Objetos 3D renderizados pode ser vistos na \autoref{fig-cook-torrance-alternative-eqlang} e os plots estão na \autoref{fig-cook-torrance-alternative-plots}.
+Este experimento é uma versão alternativa da realizada na \autoref{sec:cook-torrance}. As equações apresentadas na \autoref{fig-cook-torrance-alternative-eqlang-latex} incorporam a equação do efeito Fresnel e utilizam constantes distintas. O código-fonte em \texttt{EquationLang} pode ser consultado no \autoref{cod-cook-torrance-alternative-eqlang}. Os códigos gerados em GLSL estão no \autoref{cod-cook-torrance-alternative-glsl-pt-1} e no \autoref{cod-cook-torrance-alternative-glsl-pt-2}. Objetos 3D renderizados pode ser vistos na \autoref{fig-cook-torrance-alternative-eqlang} e os plots estão na \autoref{fig-cook-torrance-alternative-plots}.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Representação em documento \LaTeX{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[H]
-    \caption{\label{fig-cook-torrance-alternative-eqlang-latex} \small Equações da BRDF do experimento cook-torrance-alternative em documento \LaTeX{}.}
+    \caption{\label{fig-cook-torrance-alternative-eqlang-latex}
+    \small Equações da BRDF do experimento Cook-Torrance$_2$ (alternativa) em documento \LaTeX{}.}
     \begin{center}
         \includegraphics[scale=0.92]{./Imagens/brdfs/cook-torrance-alternative.pdf}
     \end{center}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Visualização do Resultado}
+\subsection{Código Fonte em \texttt{EquationLang}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[H]
-    \caption{\small{\textit{Plots} da BRDF deste experimento.}}\label{fig-cook-torrance-alternative-plots}
-\minipage{0.48\textwidth}
-    \vspace{42px}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-alternative-3D-plot}
-    % \vspace{0.1px}
-    \legend{ \small (a) 3D \textit{plot}}
-\endminipage\hfill
-\minipage{0.48\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-alternative-polar-plot-log.png}
-    \legend{ \small (b) \textit{Polar plot}}
-\endminipage\hfill
-\end{figure}
-
-\begin{figure}[H]
-    \caption{\small{Objetos 3D renderizados por este experimento}}\label{fig-cook-torrance-alternative-eqlang}
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-alternative-teapot.png}
-    \legend{ \small (a) \textit{Teapot}}
-\endminipage\hfill
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-alternative-dragon.png}
-    \legend{ \small (b) Dragão de Stanford}
-\endminipage\hfill
-\minipage{0.32\textwidth}%
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-alternative-goblin.png}
-    \legend{ \small (c) Goblin}
-\endminipage
-\end{figure}
+\begin{codigo}[H]
+    \caption{\small Código fonte da BRDF deste experimento.}
+    \label{cod-cook-torrance-alternative-eqlang}
+\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
+\begin{equation}
+    m = 0.3
+\end{equation}
+\begin{equation}
+    f_0 = 0.4
+\end{equation}
+\begin{equation}
+Beckmann(m, t) = \exp((t*t-1)/(m*m*t*t)) / (m*m*t*t*t*t)
+\end{equation}
+\begin{equation}
+    Fresnel(f_0, u) = f_0 + (1 - f_0) * ((1-u)^ 5)
+\end{equation}
+\begin{equation}
+    H = \vec{h}
+\end{equation}
+\begin{equation}
+    V = \vec{\omega_o}
+\end{equation}
+\begin{equation}
+    L = \vec{\omega_{i}}
+\end{equation}
+\begin{equation}
+    N = \vec{n}
+\end{equation}
+\begin{equation}
+    D = Beckmann(m,  (N \cdot H) )
+\end{equation}
+\begin{equation}
+    F = Fresnel(f_0,  (V \cdot H) )
+\end{equation}
+\begin{equation}
+G = 1/(N \cdot V)
+\end{equation}
+\begin{equation}
+    val = \max(D * G, 0.0) \cdot F
+\end{equation}
+\begin{equation}
+    \text{color} = \vec{1,0.5,1}
+\end{equation}
+\begin{equation}
+    f = \text{color} * val / (N \cdot L)
+\end{equation}
+\end{lstlisting}
+\end{codigo}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Código GLSL Gerado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento (parte 1). }
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 1 de 2).}
     \label{cod-cook-torrance-alternative-glsl-pt-1}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 analytic ::begin parameters
@@ -87,7 +108,7 @@ vec3 var_27_f;
 \end{codigo}
 
 \begin{codigo}[H]
-    \caption{\small Saida do compilador, código GLSL da BRDF deste experimento  (parte 2). }
+    \caption{\small Saída do compilador: código GLSL da BRDF deste experimento (parte 2 de 2).}
     \label{cod-cook-torrance-alternative-glsl-pt-2}
 \begin{lstlisting}[language=C, inputencoding=utf8]
 //////////// END OF USER DECLARED ////////////
@@ -142,53 +163,36 @@ vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
 \end{codigo}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Código Fonte em \texttt{EquationLang}}
+\subsection{Visualização do Resultado}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{codigo}[H]
-    \caption{\small Código fonte da BRDF deste experimento.}
-    \label{cod-cook-torrance-alternative-eqlang}
-\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
-\begin{equation}
-    m = 0.3
-\end{equation}
-\begin{equation}
-    f_0 = 0.4
-\end{equation}
-\begin{equation}
-Beckmann(m, t) = \exp((t*t-1)/(m*m*t*t)) / (m*m*t*t*t*t)
-\end{equation}
-\begin{equation}
-    Fresnel(f_0, u) = f_0 + (1 - f_0) * ((1-u)^ 5)
-\end{equation}
-\begin{equation}
-    H = \vec{h}
-\end{equation}
-\begin{equation}
-    V = \vec{\omega_o}
-\end{equation}
-\begin{equation}
-    L = \vec{\omega_{i}}
-\end{equation}
-\begin{equation}
-    N = \vec{n}
-\end{equation}
-\begin{equation}
-    D = Beckmann(m,  (N \cdot H) )
-\end{equation}
-\begin{equation}
-    F = Fresnel(f_0,  (V \cdot H) )
-\end{equation}
-\begin{equation}
-G = 1/(N \cdot V)
-\end{equation}
-\begin{equation}
-    val = \max(D * G, 0.0) \cdot F
-\end{equation}
-\begin{equation}
-    \text{color} = \vec{1,0.5,1}
-\end{equation}
-\begin{equation}
-    f = \text{color} * val / (N \cdot L)
-\end{equation}
-\end{lstlisting}
-\end{codigo}
+\begin{figure}[H]
+    \caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa deste experimento.}}
+    \label{fig-cook-torrance-alternative-plots}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-alternative-3D-plot}
+    % \vspace{0.1px}
+    \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-alternative-polar-plot-log.png}
+    \legend{ \small (b) \textit{Polar plot}}
+\endminipage\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \caption{\small{Objetos 3D renderizados por este experimento.}}\label{fig-cook-torrance-alternative-eqlang}
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-alternative-teapot.png}
+    \legend{ \small (a) \textit{Teapot}}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-alternative-dragon.png}
+    \legend{ \small (b) Dragão de Stanford}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-alternative-goblin.png}
+    \legend{ \small (c) Goblin}
+\endminipage
+\end{figure}
+
