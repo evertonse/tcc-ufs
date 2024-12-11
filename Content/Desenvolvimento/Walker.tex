@@ -43,7 +43,7 @@ O controle de parada em \texttt{walk} é feito por duas verificações principai
     \item Interrupção de travessia: após cada chamada à função \texttt{visit}, se o retorno for nulo, a travessia é interrompida, permitindo ao \textit{visitor} decidir dinamicamente se deseja continuar ou parar; adaptando-se ao cenário de uso.
 \end{enumerate}
 
-\begin{codigo}[H]
+\begin{codigo}[htb]
 \caption{\small Função de percurso \texttt{walk}. }
         \label{cod-visitor-walk}
 \begin{lstlisting}[language = C, basicstyle=\ttfamily\footnotesize]
@@ -68,9 +68,7 @@ walk :: proc(v: ^Visitor($T), node: ^ast.Node) {
         case ^Field:
             walk(v, n.name)
             walk(v, n.value)
-
         case ^Expr_Number:     // Caso base
-
         case ^Expr_Vector_Literal:
             for number in n.numbers {
                 walk(v, number)
@@ -79,7 +77,6 @@ walk :: proc(v: ^Visitor($T), node: ^ast.Node) {
                 walk(v, n.sub_expression)
 
         // casos OMITIDOS aqui Também
-
         case ^Expr_Infix:
             walk(v, n.left)
             walk(v, n.right)
@@ -140,7 +137,7 @@ Os testes de precedência comparam o texto original de uma expressão com sua ve
 
 \subsection{Visualização da AST por Imagem} \label{subsection-svg}
 
-Para validação visual, foi implementada uma função que gera uma imagem da AST no formato SVG. Cada nó da AST é representado por um retângulo com textos que fornecem informações como o tipo de operador, o tipo do nó e o identificador, quando aplicável. Anteriormente, era usada a função \texttt{print\_ast}, que imprimia os nós e seus atributos com indentação correspondente à profundidade. No entanto, essa abordagem se tornou limitada conforme a complexidade da AST aumentou, exigindo uma solução mais robusta para depuração.
+Para validação visual, foi implementada uma função que gera uma imagem da AST no formato SVG. Cada nó da AST é representado por um retângulo com textos que fornecem informações como o tipo de operador, o tipo do nó e o identificador, quando aplicável. Anteriormente, era usada a função \texttt{print\_ast}, que imprimia os nós e seus atributos com indentação correspondente à profundidade. No entanto, essa função se tornou limitada conforme a complexidade da AST aumentou, exigindo uma solução mais robusta para depuração.
 
 Na \autoref{fig-svg}, é ilustrada a imagem gerada para a equação \autoref{eq-svg}. Observa-se que o nó da operação binária \texttt{+} (\verb"Expr_Infix Plus"), localizado mais próximo da raiz, é avaliado por último, enquanto o nós mais próximos das folhas, como \texttt{*} e \texttt{\^} (\verb"Expr_Infix Caret"), têm maior precedência e são resolvidos primeiro. Além disso, o SVG inclui informações adicionais, como o tipo das expressões. Por exemplo, o identificador \( f \) é anotado como \( \mathbb{R} \), determinado na validação semântica (\texttt{checker}).
 

@@ -1,14 +1,14 @@
 
 \section{Experimento BRDF Oren-Nayar} \label{section-experiment-oren-nayar}
 
-Este experimento é baseado no trabalho de Oren e Nayar \cite{oren1994generalization}, no qual propuseram uma generalização do modelo de refletância de Lambert, desenvolvendo uma abordagem matemática para modelar com maior precisão a difusão de luz em superfícies rugosas. As equações que descrevem esse experimento se encontram na \autoref{fig-oren-nayar-eqlang-latex}. O código-fonte em \texttt{EquationLang}, usado como entrada para o compilador, está dividido em duas partes: a primeira no \autoref{cod-oren-nayar-eqlang-pt-1} e a segunda no \autoref{cod-oren-nayar-eqlang-pt-2}. A renderização dos objetos 3D utilizando essa BRDF está na \autoref{fig-oren-nayar-eqlang}, e os \textit{plots} correspondentes estão na \autoref{fig-oren-nayar-plots}. A saída em GLSL está dividida em três partes: a parte 1 no \autoref{cod-oren-nayar-glsl-pt-1}, a parte 2 no \autoref{cod-oren-nayar-glsl-pt-2}, e a parte 3 no \autoref{cod-oren-nayar-glsl-pt-3}.
+Este experimento é baseado no trabalho de Oren e Nayar \cite{oren1994generalization}, no qual propuseram uma generalização do modelo de refletância de Lambert, desenvolvendo uma modelagem matemática que oferece maior precisão na difusão de luz em superfícies rugosas. As equações que descrevem esse experimento se encontram na \autoref{fig-oren-nayar-eqlang-latex}. O código-fonte em \texttt{EquationLang}, usado como entrada para o compilador, está dividido em duas partes: a primeira no \autoref{cod-oren-nayar-eqlang-pt-1} e a segunda no \autoref{cod-oren-nayar-eqlang-pt-2}. A renderização dos objetos 3D utilizando essa BRDF está na \autoref{fig-oren-nayar-eqlang}, e os \textit{plots} correspondentes estão na \autoref{fig-oren-nayar-plots}. A saída em GLSL está dividida em três partes: a parte 1 no \autoref{cod-oren-nayar-glsl-pt-1}, a parte 2 no \autoref{cod-oren-nayar-glsl-pt-2}, e a parte 3 no \autoref{cod-oren-nayar-glsl-pt-3}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Representação em documento \LaTeX{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[H]
-    \caption{\label{fig-oren-nayar-eqlang-latex} 
+    \caption{\label{fig-oren-nayar-eqlang-latex}
     \small Equações da BRDF do experimento Oren-Nayar em documento \LaTeX{}.}
     \begin{center}
         \includegraphics[scale=0.82]{./Imagens/brdfs/oren-nayar.pdf}

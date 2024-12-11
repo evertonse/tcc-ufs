@@ -55,10 +55,11 @@ The specular component $\rho_s$ of the BRDF is:
 \begin{equation}
     n = \vec n
 \end{equation}
-
 \begin{equation}
     h = \vec h
 \end{equation}
+\begin{equation}
+  \text{normalize}(\vec{u}) = \frac{\vec{u}}{\sqrt{\vec{u} \cdot \vec{u}}}
 \end{equation}
 \end{lstlisting}
 \end{codigo}
@@ -69,9 +70,6 @@ The specular component $\rho_s$ of the BRDF is:
     \caption{\small Código fonte da BRDF do experimento Ashikhmin-Shirley (parte 2 de 2).}
     \label{cod-ashikhmin-shirley-close-to-original-eqlang-pt-2}
 \begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
-\begin{equation}
-  \text{normalize}(\vec{u}) = \frac{\vec{u}}{\sqrt{\vec{u} \cdot \vec{u}}}
-\end{equation}
 Tangent vector:
 \begin{equation}
    u = \text{normalize}(\vec{0,1,0} \times n)
@@ -116,8 +114,7 @@ Bitangent vector:
 \begin{lstlisting}[language=C, inputencoding=utf8]
 analytic ::begin parameters
 #[type][name][min val][max val][default val]
-::end parameters
-::begin shader
+::end parameters ::begin shader
 //////////// START OF BUILTINS DECLARTION ////////////
 vec3 var_0_vec_h;
 vec3 var_3_vec_n;
@@ -149,8 +146,7 @@ vec3 var_15_text_normalize(vec3 var_16_vec_u) {
   return (var_16_vec_u / sqrt(dot(var_16_vec_u, var_16_vec_u)));
 }
 float var_22_F(float var_23_x) {
-  return (var_20_R_s + (((1.0 - var_20_R_s)) *
-                        pow(((1.0 - (dot(var_12_k, var_21_h)))), 5.0)));
+  return (var_20_R_s + (((1.0 - var_20_R_s)) * pow(((1.0 - (dot(var_12_k, var_21_h)))), 5.0)));
 }
 float var_25_rho_d(vec3 var_4_vec_omega_i, vec3 var_7_vec_omega_o) {
   return (((((28.0 * var_24_R_d) / (23.0 * var_1_pi)) * ((1.0 - var_20_R_s))) *

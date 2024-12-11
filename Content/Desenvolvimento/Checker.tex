@@ -1,7 +1,7 @@
 \section{Análise Semântica (\texttt{checker})} \label{section-checker}
 O processo de validação semântica no compilador é crucial para garantir a corretude das equações, a consistência de tipos em operações e a resolução adequada de símbolos. Ele é estruturado em dois mecanismos principais: validação de definições de funções e validação de declarações. Esses mecanismos trabalham de forma integrada para garantir que a estrutura do programa esteja em conformidade com as regras semânticas da \texttt{EquationLang}.
 
-Nesta seção, abordamos essas regras e discutimos como são validadas expressões envolvendo vetores, redefinições de equações e possíveis erros nas definições de BRDFs que inviabilizem a geração de código. A conclusão bem-sucedida dessa etapa de inferência e validação indica que o programa está apto a prosseguir para a fase de geração de código GLSL, conduzida pelo pacote \texttt{emitter}.
+Nesta seção, apresentamos essas regras e discutimos como são validadas expressões envolvendo vetores, redefinições de equações e possíveis erros nas definições de BRDFs que inviabilizem a geração de código. A conclusão bem-sucedida dessa etapa de inferência e validação indica que o programa está apto a prosseguir para a fase de geração de código GLSL, conduzida pelo pacote \texttt{emitter}.
 
 
 \subsection{Funções do Pacote \texttt{checker}}
@@ -281,7 +281,7 @@ Outros casos incluem \textbf{literais}, como números (\verb"Expr_Number") e vet
 
 
 Para chamadas de função (\verb"Expr_Function_Call"), o tipo da expressão é determinado pelo tipo do primeiro valor retornado pela função. A validação dos argumentos é realizada em outra função, detalhada na \autoref{subsubsection-eq-func-defn}. % ; Essa parte já foi dita
-% Além disso, a função realiza validações específicas para evitar inconsistências, como garantir que operações entre vetores sejam semanticamente válidas (e.g., divisão entre vetores não é permitida). 
+% Além disso, a função realiza validações específicas para evitar inconsistências, como garantir que operações entre vetores sejam semanticamente válidas (e.g., divisão entre vetores não é permitida).
 
 % Em resumo, \verb`infer_type` é uma implementação robusta e flexível de inferência de tipos, essencial para a análise semântica de um compilador. A função assegura que cada expressão receba um tipo coerente com a semântica da linguagem, lidando com uma ampla gama de construções sintáticas e oferecendo suporte extensível para futuras adições à linguagem.
 
@@ -291,7 +291,7 @@ As declarações de equações são validadas após a coleta e ordenação descr
 
 Qualquer violação semântica, como incompatibilidades de tipos ou uso de escalares onde vetores são esperados, é reportada ao usuário, com detalhes sobre o contexto e a localização do erro, conforme descrito em \autoref{subsection-erros}.
 
-A função \verb"check_expr" realiza uma travessia semelhante à inferência de tipos e chama \texttt{infer\_type}. Nela, a análise de expressões que não foram abordadas por \texttt{infer\_type} é realizada para todos os tipos de expressões. Algumas dessas validações estão listadas após este parágrafo, e um trecho dessa travessia pode ser visto no \autoref{eq-function-check-expr}.
+A função \verb"check_expr" realiza uma travessia semelhante à inferência de tipos e chama \texttt{infer\_type}. Nela, a análise de expressões que não foram feitas por \texttt{infer\_type} é realizada para todos os tipos de expressões. Algumas dessas validações estão listadas após este parágrafo, e um trecho dessa travessia pode ser visto no \autoref{eq-function-check-expr}.
 
 \begin{itemize}
     \item \verb`Expr_Function_Call`: Verifica se estamos fazendo a chamada corretamente com um identificador, evitando casos como tentar chamar uma função com um número, por exemplo, $123(x,y)$, o que é incorreto. Também checa se o número de argumentos corresponde ao número de parâmetros esperados.

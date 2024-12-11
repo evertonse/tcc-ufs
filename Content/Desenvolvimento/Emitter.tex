@@ -225,7 +225,7 @@ A função \verb"emit" é o ponto de partida do processo de emissão de código,
 \end{enumerate}
 
 
-\subsubsection{Variáveis Built-in}
+\subsection{Variáveis Built-in}
 A emissão correta de um shader de BRDF necessita da geração de variáveis \textit{built-in} diretamente no \textit{shader}, conforme ilustrado na \autoref{cod-builtins-emitted}. Essas variáveis, presentes na tabela \autoref{tab-conventions}, seguem as convenções estabelecidas e são inicializadas automaticamente dentro da função de entrada do \textit{shader}, denominada \verb|BRDF|, conforme o padrão da ferramenta Disney.
 
 Essas variáveis fornecem a infraestrutura necessária para cálculos de refletância bidirecional em shaders GLSL. A ferramenta Disney disponibiliza algumas delas como parâmetros da função de entrada \verb`BRDF`, mas com nomenclaturas diferentes das adotadas neste trabalho. Essas parametros são: \verb"N" que representa a normal da superfície; \verb"L" que indica a direção da luz incidente (L); \verb"V" que representa a direção de visualização. As demais variáveis são calculadas na emissão de código.

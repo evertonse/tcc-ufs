@@ -1,0 +1,384 @@
+diff --git a/Content/Conceitos/Conceitos.tex b/Content/Conceitos/Conceitos.tex
+index 48f204c..6617490 100644
+--- a/Content/Conceitos/Conceitos.tex
++++ b/Content/Conceitos/Conceitos.tex
+@@ -9,7 +9,7 @@ Especificamente na \autoref{radiometria}, são apresentados os conceitos fundame
+ 
+ 
+ % A \autoref{shading} aborda o processo de \textit{shading} e o funcionamento do etapas ordenadas de renderização na GPU, conhecida nesse contexto como \textit{pipeline}, onde cada estágio transforma dados de entrada e os passa para o próximo estágio. Nela, são introduzidos os processos de transformação de vértices e de determinação da cor dos fragmentos, mostrando exemplos de código.
+-A \autoref{shading} aborda o processo de \textit{shading} e o funcionamento das etapas ordenadas de renderização na GPU, conhecidas nesse contexto como \textit{pipeline}\footnote{Do inglês, \textit{pipeline} representa uma sequencia de estágios de processamento, onde a saída de cada etapa serve como entrada para a próxima.}. Nela, são introduzidos os processos de transformação de vértices e de determinação da cor dos fragmentos, mostrando exemplos de código.
++A \autoref{shading} discute o processo de \textit{shading} e o funcionamento das etapas ordenadas de renderização na GPU, conhecidas nesse contexto como \textit{pipeline}\footnote{Do inglês, \textit{pipeline} representa uma sequencia de estágios de processamento, onde a saída de cada etapa serve como entrada para a próxima.}. Nela, são introduzidos os processos de transformação de vértices e de determinação da cor dos fragmentos, mostrando exemplos de código.
+ 
+ % \footnote{Pipeline de renderização: sequência ordenada de etapas de processamento gráfico, onde cada estágio transforma dados de entrada e os passa para o próximo estágio, permitindo processamento paralelo e eficiente na unidade de processamento gráfico.}.
+ 
+@@ -190,7 +190,7 @@ f(\omega_i, \omega_o) = k_s \cdot \delta(\omega_i - \omega_o)
+         \begin{center}
+             \includegraphics[scale=0.5]{./Imagens/specular-2d.png}
+         \end{center}
+-        \legend{ \footnotesize 
++        \legend{ \footnotesize
+   Fonte: Autor.}
+ \end{figure}
+ 
+@@ -406,7 +406,10 @@ A análise sintática, que é a segunda fase do processo de compilação, recebe
+ O Pratt \textit{Parsing}, introduzido por Vaughan Pratt, é uma técnica de análise sintática recursiva que permite analisar expressões com precedência de operadores de forma eficiente e sem ambiguidades \cite{pratt}. Uma das suas características distintivas é determinar a ordem de avaliação das expressões. Ao contrário da análise descendente recursiva tradicional, na qual cada não-terminal possui uma função de \textit{parsing}, a análise Pratt associa funções de manipulação (\textit{handlers}) com \textit{tokens}.
+ 
+ 
+-A precedência das expressões é definida por meio de uma tabela, na qual cada operador é associado a um valor que permita o \textit{parser} decidir dinamicamente a ordem de avaliação das expressões com base nos operadores encontrados durante a análise. Essa abordagem simplifica significativamente a implementação do \textit{parser} e elimina a necessidade de criar uma gramática que encapsula a precedência em sua definição. Ela também evita a recursão profunda para lidar com diferentes níveis de precedência.
++% A precedência das expressões é definida por meio de uma tabela, na qual cada operador é associado a um valor que permita o \textit{parser} decidir dinamicamente a ordem de avaliação das expressões com base nos operadores encontrados durante a análise. Dessa forma, a implementação do \textit{parser} é simplificada significativamente, por conta da facilidade de implementação, fl   e elimina a necessidade de criar uma gramática que encapsula a precedência em sua definição. Ela também evita a recursão profunda para lidar com diferentes níveis de precedência.
++
++A precedência das expressões é definida por meio de uma tabela, na qual cada operador é associado a um valor que permite ao \textit{parser} decidir dinamicamente a ordem de avaliação das expressões com base nos operadores encontrados durante a análise.
++Dessa forma, a implementação do \textit{parser} é significativamente simplificada, já que o código para gerar cada nó é semelhante às regras de produção, aproveitando a natureza do analisador sintático recursivo. Além disso, elimina-se a necessidade de criar uma gramática mais extensa para encapsular a precedência em sua definição, ao mesmo tempo que se evita a recursão profunda ao tratar diferentes níveis de precedência.
+ 
+ 
+ % \subsubsection{Árvores Inclinadas}
+@@ -442,7 +445,7 @@ Nesse algoritmo,
+ 
+ 
+ Tanto \textbf{token.infixo} quanto \textbf{token.prefixo} podem ser indiretamente recursivas, isto é, ambas podem chamar a função \textbf{expressão} no \autoref{alg1}.
+-Por fim, \textbf{precedencia\_anterior} representa a precedência do \textit{token} anterior. Uma demonstração em código desse algoritmo pode ser vista na \autoref{section-parser-pratt}, onde casos práticos demonstram como o Pratt \textit{parsing} pode ajudar a reduzir o número de regras de produção de uma gramática e simplificar a análise sintática.
++Por fim, \textbf{precedencia\_anterior} representa a precedência do \textit{token} anterior. Uma demonstração em código desse algoritmo pode ser vista na \autoref{section-parser-pratt}, onde casos práticos elucidam como o Pratt \textit{parsing} pode ajudar a reduzir o número de regras de produção de uma gramática e simplificar a análise sintática.
+ 
+ 
+ \begin{algoritmo}[H]
+diff --git a/Content/Desenvolvimento/Checker.tex b/Content/Desenvolvimento/Checker.tex
+index 485d8f8..1fe1e56 100644
+--- a/Content/Desenvolvimento/Checker.tex
++++ b/Content/Desenvolvimento/Checker.tex
+@@ -1,7 +1,7 @@
+ \section{Análise Semântica (\texttt{checker})} \label{section-checker}
+ O processo de validação semântica no compilador é crucial para garantir a corretude das equações, a consistência de tipos em operações e a resolução adequada de símbolos. Ele é estruturado em dois mecanismos principais: validação de definições de funções e validação de declarações. Esses mecanismos trabalham de forma integrada para garantir que a estrutura do programa esteja em conformidade com as regras semânticas da \texttt{EquationLang}.
+ 
+-Nesta seção, abordamos essas regras e discutimos como são validadas expressões envolvendo vetores, redefinições de equações e possíveis erros nas definições de BRDFs que inviabilizem a geração de código. A conclusão bem-sucedida dessa etapa de inferência e validação indica que o programa está apto a prosseguir para a fase de geração de código GLSL, conduzida pelo pacote \texttt{emitter}.
++Nesta seção, apresentamos essas regras e discutimos como são validadas expressões envolvendo vetores, redefinições de equações e possíveis erros nas definições de BRDFs que inviabilizem a geração de código. A conclusão bem-sucedida dessa etapa de inferência e validação indica que o programa está apto a prosseguir para a fase de geração de código GLSL, conduzida pelo pacote \texttt{emitter}.
+ 
+ 
+ \subsection{Funções do Pacote \texttt{checker}}
+@@ -281,7 +281,7 @@ Outros casos incluem \textbf{literais}, como números (\verb"Expr_Number") e vet
+ 
+ 
+ Para chamadas de função (\verb"Expr_Function_Call"), o tipo da expressão é determinado pelo tipo do primeiro valor retornado pela função. A validação dos argumentos é realizada em outra função, detalhada na \autoref{subsubsection-eq-func-defn}. % ; Essa parte já foi dita
+-% Além disso, a função realiza validações específicas para evitar inconsistências, como garantir que operações entre vetores sejam semanticamente válidas (e.g., divisão entre vetores não é permitida). 
++% Além disso, a função realiza validações específicas para evitar inconsistências, como garantir que operações entre vetores sejam semanticamente válidas (e.g., divisão entre vetores não é permitida).
+ 
+ % Em resumo, \verb`infer_type` é uma implementação robusta e flexível de inferência de tipos, essencial para a análise semântica de um compilador. A função assegura que cada expressão receba um tipo coerente com a semântica da linguagem, lidando com uma ampla gama de construções sintáticas e oferecendo suporte extensível para futuras adições à linguagem.
+ 
+@@ -291,7 +291,7 @@ As declarações de equações são validadas após a coleta e ordenação descr
+ 
+ Qualquer violação semântica, como incompatibilidades de tipos ou uso de escalares onde vetores são esperados, é reportada ao usuário, com detalhes sobre o contexto e a localização do erro, conforme descrito em \autoref{subsection-erros}.
+ 
+-A função \verb"check_expr" realiza uma travessia semelhante à inferência de tipos e chama \texttt{infer\_type}. Nela, a análise de expressões que não foram abordadas por \texttt{infer\_type} é realizada para todos os tipos de expressões. Algumas dessas validações estão listadas após este parágrafo, e um trecho dessa travessia pode ser visto no \autoref{eq-function-check-expr}.
++A função \verb"check_expr" realiza uma travessia semelhante à inferência de tipos e chama \texttt{infer\_type}. Nela, a análise de expressões que não foram feitas por \texttt{infer\_type} é realizada para todos os tipos de expressões. Algumas dessas validações estão listadas após este parágrafo, e um trecho dessa travessia pode ser visto no \autoref{eq-function-check-expr}.
+ 
+ \begin{itemize}
+     \item \verb`Expr_Function_Call`: Verifica se estamos fazendo a chamada corretamente com um identificador, evitando casos como tentar chamar uma função com um número, por exemplo, $123(x,y)$, o que é incorreto. Também checa se o número de argumentos corresponde ao número de parâmetros esperados.
+diff --git a/Content/Desenvolvimento/Lexer.tex b/Content/Desenvolvimento/Lexer.tex
+index c09c2a5..aaf56f2 100644
+--- a/Content/Desenvolvimento/Lexer.tex
++++ b/Content/Desenvolvimento/Lexer.tex
+@@ -57,7 +57,7 @@ error_from_token :: proc(token: Token, msg: string, args: ..any);
+ 
+ Dada uma posição ou um \texttt{token}, é exibida uma mensagem (\texttt{msg}) diretamente no terminal, formatada para destacar visualmente o erro em vermelho. A formatação utiliza as informações do \texttt{token}, como o nome do arquivo, a linha, a coluna e o comprimento do \texttt{token} problemático, permitindo sublinhar precisamente onde o erro ocorreu. Isso proporciona maior clareza às mensagens de erro, como exemplificado no caso de erro semântico devido ao uso de identificadores não definidos (\autoref{error-undefined-symbol}).
+ 
+-Optou-se por apresentar nesta seção uma visão geral de alguns erros possíveis para demonstrar como o compilador os reporta visualmente, independentemente de serem léxicos, sintáticos ou semânticos. Essa abordagem evita sobrecarregar as seções de análise sintática e semântica com descrições ou imagens excessivas. Nas análises seguintes, os tipos de erro serão discutidos em suas etapas correspondentes. A seguir, são apresentados exemplos de erros possíveis:
++Optou-se por apresentar nesta seção uma visão geral de alguns erros possíveis para demonstrar como o compilador os reporta visualmente, independentemente de serem léxicos, sintáticos ou semânticos. Essa maneira evita sobrecarregar as seções de análise sintática e semântica com descrições ou imagens excessivas. Nas análises seguintes, os tipos de erro serão discutidos em suas etapas correspondentes. A seguir, são apresentados exemplos de erros possíveis:
+ 
+ \begin{enumerate}
+    \item \textbf{Erros léxicos}: uso de palavras reservadas (\autoref{error-reserved-word}).
+diff --git a/Content/Desenvolvimento/Parser.tex b/Content/Desenvolvimento/Parser.tex
+index a17e79e..bffdfd9 100644
+--- a/Content/Desenvolvimento/Parser.tex
++++ b/Content/Desenvolvimento/Parser.tex
+@@ -35,9 +35,9 @@ No caso da gramática da \texttt{EquationLang}, apresentada na \autoref{subsecti
+ 
+ 
+ \subsection{Parser} \label{section-parser-pratt}
+-Diferentemente dos \textit{parsers} tradicionais de descida recursiva, que frequentemente utilizam múltiplas chamadas de função indiretamente recursivas para tratar diferentes níveis de precedência, o \textit{parser} aqui implementado organiza as funções de análise com base na tabela de precedência dos operadores. Essa abordagem é detalhada no \autoref{alg-pratt-parsing}, que descreve a lógica central para o \textit{parsing} de expressões.
++Diferentemente dos \textit{parsers} tradicionais de descida recursiva, que frequentemente utilizam múltiplas chamadas de função indiretamente recursivas para tratar diferentes níveis de precedência, o \textit{parser} aqui implementado organiza as funções de análise com base na tabela de precedência dos operadores. No \autoref{alg-pratt-parsing}, é implementada a lógica central para o \textit{parsing} de expressões.
+ 
+-O Pratt Parsing simplifica a análise sintática de expressões ao tratar precedência e associatividade de forma dinâmica, sem inflar a gramática. Na abordagem tradicional, as precedências são fixadas por meio de várias regras de produção, como demonstrado neste exemplo de expressões binárias no \autoref{cod-regras-tradicionais}. Regras intermediárias são adicionadas à gramática com o principal propósito de embutir a precedência na estrutura gramatical.
++O Pratt Parsing simplifica a análise sintática de expressões ao tratar precedência e associatividade de forma dinâmica, sem inflar a gramática. No método tradicional, as precedências são fixadas por meio de várias regras de produção, como demonstrado neste exemplo de expressões binárias no \autoref{cod-regras-tradicionais}. Regras intermediárias são adicionadas à gramática com o principal propósito de embutir a precedência na estrutura gramatical.
+ 
+ \begin{codigo}[htb]
+     \caption{\small Regras tradicionais de precedência por gramática. }
+@@ -69,7 +69,7 @@ O \textit{parser} desenvolvido para \texttt{EquantionLang} consulta à tabela de
+ 
+ Foi utilizada uma notação semelhante à original de Pratt \cite{pratt}, onde as funções \verb"parse_null_denotations" e \verb"parse_left_denotations" desempenham papéis equivalentes às funções \texttt{token.prefixo} e \texttt{token.infixo}, respectivamente, como demonstrado no \autoref{alg1}.
+ 
+-Além disso, a abordagem de descida recursiva (descendente) permite que cada regra de produção definida na gramática (\autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2})) seja diretamente mapeada para um procedimento em código. Isso pode ser observado, por exemplo, na função de análise do nó \texttt{Start} da AST (\autoref{cod-parsing-start}), que reflete diretamente as regras de produção \texttt{start}, \texttt{decl} e \verb"decl_equation_begin_end_block", conforme especificado na primeira parte da definição da gramática, apresentada no \autoref{grammar-ast-pt1}.
++A descida recursiva (descendente) permite que cada regra de produção definida na gramática (\autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2}) seja diretamente mapeada para um procedimento em código. Isso pode ser observado, por exemplo, na função de análise do nó \texttt{Start} da AST (\autoref{cod-parsing-start}), que reflete diretamente as regras de produção \texttt{start}, \texttt{decl} e \verb"decl_equation_begin_end_block", conforme especificado na primeira parte da definição da gramática, apresentada no \autoref{grammar-ast-pt1}.
+ 
+ Do ponto de vista da interface oferecida pelo pacote \texttt{parser}, todo o processo de análise sintática é abstraído em uma única chamada de função (\autoref{cod-func-and-structs}). A função principal, \texttt{parse}, trabalha em conjunto com a estrutura \texttt{Parser} para realizar a análise.
+ 
+diff --git a/Content/Desenvolvimento/Walker.tex b/Content/Desenvolvimento/Walker.tex
+index b281d02..7e8a5af 100644
+--- a/Content/Desenvolvimento/Walker.tex
++++ b/Content/Desenvolvimento/Walker.tex
+@@ -140,7 +140,7 @@ Os testes de precedência comparam o texto original de uma expressão com sua ve
+ 
+ \subsection{Visualização da AST por Imagem} \label{subsection-svg}
+ 
+-Para validação visual, foi implementada uma função que gera uma imagem da AST no formato SVG. Cada nó da AST é representado por um retângulo com textos que fornecem informações como o tipo de operador, o tipo do nó e o identificador, quando aplicável. Anteriormente, era usada a função \texttt{print\_ast}, que imprimia os nós e seus atributos com indentação correspondente à profundidade. No entanto, essa abordagem se tornou limitada conforme a complexidade da AST aumentou, exigindo uma solução mais robusta para depuração.
++Para validação visual, foi implementada uma função que gera uma imagem da AST no formato SVG. Cada nó da AST é representado por um retângulo com textos que fornecem informações como o tipo de operador, o tipo do nó e o identificador, quando aplicável. Anteriormente, era usada a função \texttt{print\_ast}, que imprimia os nós e seus atributos com indentação correspondente à profundidade. No entanto, essa função se tornou limitada conforme a complexidade da AST aumentou, exigindo uma solução mais robusta para depuração.
+ 
+ Na \autoref{fig-svg}, é ilustrada a imagem gerada para a equação \autoref{eq-svg}. Observa-se que o nó da operação binária \texttt{+} (\verb"Expr_Infix Plus"), localizado mais próximo da raiz, é avaliado por último, enquanto o nós mais próximos das folhas, como \texttt{*} e \texttt{\^} (\verb"Expr_Infix Caret"), têm maior precedência e são resolvidos primeiro. Além disso, o SVG inclui informações adicionais, como o tipo das expressões. Por exemplo, o identificador \( f \) é anotado como \( \mathbb{R} \), determinado na validação semântica (\texttt{checker}).
+ 
+diff --git a/Content/Metodologia/Metodologia.tex b/Content/Metodologia/Metodologia.tex
+index fa6a748..17fd021 100644
+--- a/Content/Metodologia/Metodologia.tex
++++ b/Content/Metodologia/Metodologia.tex
+@@ -6,7 +6,7 @@ O método para realizar a análise e a exploração de técnicas é descrito na
+ 
+ Posteriormente, é discutida a elaboração dos casos de teste para validar a correção e a precisão do compilador, conforme detalhado na \autoref{testes}. Embora a validação escolhida se baseie nesses testes iniciais, os resultados obtidos no \autoref{chapter.resultados} expandem a validação para um conjunto maior de BRDFs.
+ 
+-O método de implementação do compilador é detalhado na \autoref{compiladorimplementacao}, enquanto a avaliação dos experimentos de renderização, focada na qualidade visual dos \textit{shaders} compilados, é abordada na \autoref{experimentos-renderizacao}.
++O método de implementação do compilador é detalhado na \autoref{compiladorimplementacao}, enquanto a avaliação dos experimentos de renderização, focada na qualidade visual dos \textit{shaders} compilados, é exposta na \autoref{experimentos-renderizacao}.
+ 
+ % A \autoref{experimentos-renderizacao} planeja o método de avaliação dos experimentos de renderização quanto a qualidade visual dos \textit{shaders} compilados.
+ 
+diff --git a/Content/Resultados/Experimentos/Duer.tex b/Content/Resultados/Experimentos/Duer.tex
+index 24a00dc..d0c4c4a 100644
+--- a/Content/Resultados/Experimentos/Duer.tex
++++ b/Content/Resultados/Experimentos/Duer.tex
+@@ -1,7 +1,7 @@
+ \section{Experimento BRDF Dür}
+ \label{section-experiment-duer}
+ 
+-No artigo de Geisler-Moroder e Dür \cite{duer2010bounding}, são discutidas as limitações do modelo de reflexão de Ward, propondo uma abordagem para restringir o albedo e garantir a conservação de energia. Este experimento é baseado nessa BRDF com albedo restringido. As equações são apresentadas na \autoref{fig-duer-eqlang-latex}, com o código fonte em \texttt{EquationLang} disponível no \autoref{cod-duer-eqlang}. Os códigos gerados em GLSL podem ser vistos no \autoref{cod-duer-glsl-pt-1} e no \autoref{cod-duer-glsl-pt-2}. A renderização dos objetos 3D pode ser observada na \autoref{fig-duer-eqlang} e os \textit{plots} na \autoref{fig-duer-plots}.
++No artigo de Geisler-Moroder e Dür \cite{duer2010bounding}, são discutidas as limitações do modelo de reflexão de Ward, propondo uma forma de restringir o albedo e garantir a conservação de energia. Este experimento é baseado nessa BRDF com albedo restringido. As equações são apresentadas na \autoref{fig-duer-eqlang-latex}, com o código fonte em \texttt{EquationLang} disponível no \autoref{cod-duer-eqlang}. Os códigos gerados em GLSL podem ser vistos no \autoref{cod-duer-glsl-pt-1} e no \autoref{cod-duer-glsl-pt-2}. A renderização dos objetos 3D pode ser observada na \autoref{fig-duer-eqlang} e os \textit{plots} na \autoref{fig-duer-plots}.
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \subsection{Representação em documento \LaTeX{}}
+diff --git a/Content/Resultados/Experimentos/Edwards-2006.tex b/Content/Resultados/Experimentos/Edwards-2006.tex
+index 4d3622e..3bb9889 100644
+--- a/Content/Resultados/Experimentos/Edwards-2006.tex
++++ b/Content/Resultados/Experimentos/Edwards-2006.tex
+@@ -2,7 +2,7 @@
+ \section{Experimento BRDF Edwards 2006}
+ \label{section-experiment-edwards-2006}
+ 
+-No artigo de Edwards et al. \cite{edwards2006halfway}, é apresentado o conceito do \textit{Halfway Vector Disk} como uma extensão para modelagem de BRDFs. Este método, usado neste experimento, propõe uma abordagem geométrica que melhora a eficiência computacional. As equações principais são descritas na \autoref{fig-edwards-2006-eqlang-latex}, com o código fonte em \texttt{EquationLang} disponível no \autoref{cod-edwards-2006-eqlang}. Os códigos gerados em GLSL podem ser vistos no \autoref{cod-edwards-2006-glsl-pt-1} e no \autoref{cod-edwards-2006-glsl-pt-2}. A renderização de objetos 3D utilizando o método pode ser observada na \autoref{fig-edwards-2006-eqlang}, enquanto os \textit{plots} estão ilustrados na \autoref{fig-edwards-2006-plots}.
++No artigo de Edwards et al. \cite{edwards2006halfway}, é apresentado o conceito do \textit{Halfway Vector Disk} como uma extensão para modelagem de BRDFs. Este método, usado neste experimento, propõe uma idéia geométrica que melhora a eficiência computacional. As equações principais são descritas na \autoref{fig-edwards-2006-eqlang-latex}, com o código fonte em \texttt{EquationLang} disponível no \autoref{cod-edwards-2006-eqlang}. Os códigos gerados em GLSL podem ser vistos no \autoref{cod-edwards-2006-glsl-pt-1} e no \autoref{cod-edwards-2006-glsl-pt-2}. A renderização de objetos 3D utilizando o método pode ser observada na \autoref{fig-edwards-2006-eqlang}, enquanto os \textit{plots} estão ilustrados na \autoref{fig-edwards-2006-plots}.
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \subsection{Representação em documento \LaTeX{}}
+diff --git a/Content/Resultados/Experimentos/Minnaert.tex b/Content/Resultados/Experimentos/Minnaert.tex
+index 2b389e4..bbfe042 100644
+--- a/Content/Resultados/Experimentos/Minnaert.tex
++++ b/Content/Resultados/Experimentos/Minnaert.tex
+@@ -1,7 +1,7 @@
+ \section{Experimento BRDF Minnaert}
+ \label{section-experiment-minnaert}
+ 
+-Este experimento foi realizado seguindo os princípios do artigo de Minnaert \cite{minnaert1941reciprocity}. Nele, é apresentado um modelo de reflexão que introduz uma abordagem para descrever superfícies que exibem comportamentos encontrados em superfícies porosas, como a lua. As equações desse experimento estão na \autoref{fig-minnaert-eqlang-latex}. O código-fonte pode ser encontrado no \autoref{cod-minnaert-eqlang}. O GLSL gerado pode ser encontrado no \autoref{cod-minnaert-glsl-pt-1} e no \autoref{cod-minnaert-glsl-pt-2}, enquanto os resultados de renderização podem ser observados na \autoref{fig-minnaert-eqlang} e os \textit{plots} na \autoref{fig-minnaert-plots}.
++Este experimento foi realizado seguindo os princípios do artigo de Minnaert \cite{minnaert1941reciprocity}. Nele, é apresentado um modelo de reflexão que introduz um método para descrever superfícies que exibem comportamentos encontrados em superfícies porosas, como a lua. As equações desse experimento estão na \autoref{fig-minnaert-eqlang-latex}. O código-fonte pode ser encontrado no \autoref{cod-minnaert-eqlang}. O GLSL gerado pode ser encontrado no \autoref{cod-minnaert-glsl-pt-1} e no \autoref{cod-minnaert-glsl-pt-2}, enquanto os resultados de renderização podem ser observados na \autoref{fig-minnaert-eqlang} e os \textit{plots} na \autoref{fig-minnaert-plots}.
+ 
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+diff --git a/Content/Resultados/Experimentos/Oren-Nayar.tex b/Content/Resultados/Experimentos/Oren-Nayar.tex
+index 50bebd7..e151b08 100644
+--- a/Content/Resultados/Experimentos/Oren-Nayar.tex
++++ b/Content/Resultados/Experimentos/Oren-Nayar.tex
+@@ -1,14 +1,14 @@
+ 
+ \section{Experimento BRDF Oren-Nayar} \label{section-experiment-oren-nayar}
+ 
+-Este experimento é baseado no trabalho de Oren e Nayar \cite{oren1994generalization}, no qual propuseram uma generalização do modelo de refletância de Lambert, desenvolvendo uma abordagem matemática para modelar com maior precisão a difusão de luz em superfícies rugosas. As equações que descrevem esse experimento se encontram na \autoref{fig-oren-nayar-eqlang-latex}. O código-fonte em \texttt{EquationLang}, usado como entrada para o compilador, está dividido em duas partes: a primeira no \autoref{cod-oren-nayar-eqlang-pt-1} e a segunda no \autoref{cod-oren-nayar-eqlang-pt-2}. A renderização dos objetos 3D utilizando essa BRDF está na \autoref{fig-oren-nayar-eqlang}, e os \textit{plots} correspondentes estão na \autoref{fig-oren-nayar-plots}. A saída em GLSL está dividida em três partes: a parte 1 no \autoref{cod-oren-nayar-glsl-pt-1}, a parte 2 no \autoref{cod-oren-nayar-glsl-pt-2}, e a parte 3 no \autoref{cod-oren-nayar-glsl-pt-3}.
++Este experimento é baseado no trabalho de Oren e Nayar \cite{oren1994generalization}, no qual propuseram uma generalização do modelo de refletância de Lambert, desenvolvendo uma modelagem matemática que oferece maior precisão na difusão de luz em superfícies rugosas. As equações que descrevem esse experimento se encontram na \autoref{fig-oren-nayar-eqlang-latex}. O código-fonte em \texttt{EquationLang}, usado como entrada para o compilador, está dividido em duas partes: a primeira no \autoref{cod-oren-nayar-eqlang-pt-1} e a segunda no \autoref{cod-oren-nayar-eqlang-pt-2}. A renderização dos objetos 3D utilizando essa BRDF está na \autoref{fig-oren-nayar-eqlang}, e os \textit{plots} correspondentes estão na \autoref{fig-oren-nayar-plots}. A saída em GLSL está dividida em três partes: a parte 1 no \autoref{cod-oren-nayar-glsl-pt-1}, a parte 2 no \autoref{cod-oren-nayar-glsl-pt-2}, e a parte 3 no \autoref{cod-oren-nayar-glsl-pt-3}.
+ 
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \subsection{Representação em documento \LaTeX{}}
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \begin{figure}[H]
+-    \caption{\label{fig-oren-nayar-eqlang-latex} 
++    \caption{\label{fig-oren-nayar-eqlang-latex}
+     \small Equações da BRDF do experimento Oren-Nayar em documento \LaTeX{}.}
+     \begin{center}
+         \includegraphics[scale=0.82]{./Imagens/brdfs/oren-nayar.pdf}
+diff --git a/Content/Resultados/Resultados.tex b/Content/Resultados/Resultados.tex
+index 07cae16..3878ec6 100644
+--- a/Content/Resultados/Resultados.tex
++++ b/Content/Resultados/Resultados.tex
+@@ -49,7 +49,7 @@ Alguns experimentos exploram múltiplas formas de expressar a mesma BRDF, não a
+ %%%
+ Concluímos que os experimentos realizados apresentaram resultados satisfatórios. O compilador desenvolvido demonstra flexibilidade ao capturar as nuances das diferentes BRDFs, inclusive em materiais com estruturas complexas. O sistema permite diversas parametrizações e equações alternativas para representar os comportamentos da superfície.
+ 
+-Os resultados obtidos não apenas validam a abordagem metodológica adotada, mas também abrem perspectivas para futuras extensões e refinamentos da ferramenta. Após o último experimento, seguimos diretamente para o capítulo de conclusão (\autoref{chapter-conclusion}), onde são discutidas as possíveis direções para a continuidade deste trabalho.
++Os resultados obtidos não apenas validam a metodologia adotada, mas também abrem perspectivas para futuras extensões e refinamentos da ferramenta. Após o último experimento, seguimos diretamente para o capítulo de conclusão (\autoref{chapter-conclusion}), onde são discutidas as possíveis direções para a continuidade deste trabalho.
+ 
+ 
+ \input{Content/Resultados/Experimentos/Blinn-Phong}
+diff --git "a/Content/Revis\303\243o/Revis\303\243o.tex" "b/Content/Revis\303\243o/Revis\303\243o.tex"
+index 3a39112..1a58472 100644
+--- "a/Content/Revis\303\243o/Revis\303\243o.tex"
++++ "b/Content/Revis\303\243o/Revis\303\243o.tex"
+@@ -39,7 +39,7 @@ Foram elaboradas questões de pesquisa específicas que servem como guia para id
+ 
+ 
+ \begin{enumerate}
+-  \item Quais são as abordagens mais comuns utilizadas na criação de compiladores para tradução de BRDFs expressas em alguma linguagem de texto, como \LaTeX{}, para \textit{shaders}?
++  \item Quais são as estratégias mais comuns utilizadas na criação de compiladores para tradução de BRDFs expressas em alguma linguagem de texto, como \LaTeX{}, para \textit{shaders}?
+ 
+   \item Quais as técnicas de \textit{parsing} têm sido aplicadas no desenvolvimento de compiladores para linguagens matemáticas?
+ 
+@@ -136,7 +136,7 @@ Para garantir a relevância dos resultados obtidos, seguimos os critérios de in
+   \item Foram excluídos artigos que dispunham de \textit{links} incorretos e ou quebrados;
+   \item Foram excluídos artigos que não estão relacionados com as questões de pesquisa da \autoref{questoes-pesquisa};
+   % \item Foram excluídos artigos que não têm como entrada uma BRDF no formato de equação, ou seja, utilizam a representação diretamente como código;
+-  \item Foram excluídos artigos que não abordam nenhum dos seguintes aspectos: a geração de \textit{shaders} como saída, a estruturação hierárquica de BRDFs ou a decomposição das operações matemáticas associadas a BRDFs;
++  \item Foram excluídos artigos que não tratam nenhum dos seguintes aspectos: a geração de \textit{shaders} como saída, a estruturação hierárquica de BRDFs ou a decomposição das operações matemáticas associadas a BRDFs;
+ 
+   \item Foram excluídos artigos que não citam BRDFs e compilador ou árvores em seu resumo;
+   \item Se, após a leitura completa, o artigo não concerne os interesses deste trabalho, esse foi excluído.
+@@ -198,7 +198,7 @@ Esse artigo se concentra em automaticamente encontrar novos modelos analíticos
+ \subsubsection{Slang: language mechanisms for extensible real-time shading systems}
+ 
+ 
+-O artigo descreve a linguagem \texttt{Slang}, uma extensão da amplamente utilizada linguagem de \textit{shading} HLSL, projetada para aprimorar a modularidade e a extensibilidade \cite{slang}. A abordagem de \textit{design} da \texttt{Slang} é baseada em dois princípios fundamentais: garantir compatibilidade com o HLSL existente sempre que possível e introduzir recursos inspirados em linguagens de programação \textit{mainstream}, visando facilitar a familiaridade e a intuição dos desenvolvedores. O compilador desenvolvido neste estudo é capaz de gerar código de \textit{shading} em HLSL, que pode ser compilado por um compilador de HLSL existente.
++O artigo descreve a linguagem \texttt{Slang}, uma extensão da amplamente utilizada linguagem de \textit{shading} HLSL, projetada para aprimorar a modularidade e a extensibilidade \cite{slang}. O \textit{design} da \texttt{Slang} é baseada em dois princípios fundamentais: garantir compatibilidade com o HLSL existente sempre que possível e introduzir recursos inspirados em linguagens de programação \textit{mainstream}, visando facilitar a familiaridade e a intuição dos desenvolvedores. O compilador desenvolvido neste estudo é capaz de gerar código de \textit{shading} em HLSL, que pode ser compilado por um compilador de HLSL existente.
+ 
+ %%
+ O autor enfatiza que cada extensão da \texttt{Slang} foi projetada para permitir uma transição gradual a partir do código HLSL já desenvolvido, garantindo a compatibilidade com a maioria das construções sintáticas e semânticas da linguagem HLSL. Isso elimina a necessidade de uma migração completa. Algumas dessas extensões incluem: funções genéricas, estruturas genéricas e tipos que implementam interfaces específicas, semelhantes às interfaces em \texttt{Java}.
+@@ -225,8 +225,7 @@ int myGenericMethod<T>(T arg) where T : IFoo {
+ \end{lstlisting}
+ \end{codigo}
+ 
+-Enquanto o artigo tenta melhorar a flexibilidade e a extensibilidade dos sistemas de \textit{shading} em tempo real, o nosso trabalho se concentra na compilação de equações BRDF em linguagens de \textit{shading}. Embora ambos os projetos envolvam o uso de \textit{shaders} e a geração de código de \textit{shading}, as abordagens e os focos são distintos
+-
++Enquanto o artigo tenta melhorar a flexibilidade e a extensibilidade dos sistemas de \textit{shading} em tempo real, o nosso trabalho se concentra na compilação de equações BRDF em linguagens de \textit{shading}. Embora ambos os projetos envolvam o uso de \textit{shaders} e a geração de código de \textit{shading}, a linguagem de entrada e o foco são distintos.
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%%%%%% REMOVED FOR NOW %%%%%%%%%%%%%%%
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@@ -235,13 +234,13 @@ Enquanto o artigo tenta melhorar a flexibilidade e a extensibilidade dos sistema
+ 
+ % Esse trabalho propõe uma abordagem para inferir uma representação de BRDF estruturada em árvore a partir de uma única imagem de entrada, usada para o sombreamento de objetos \cite{tree_decomposition}. Em vez de usar representações paramétricas, como é comum, é proposta uma abordagem que utiliza uma representação em árvore de \textit{shading}, combinando nós básicos e métodos para decompor o \textit{shading} da superfície do objeto, como partes albedo and reflectance,, representado na \autoref{fig_decomp}. Nessa imagem podemos observar o criação, que foi feita a partir de uma imagem de entrada e o trabalho dos atulres de compõe nessa arvore que criam nós que reprensentam parte do shading como a cor, representado pelo nó albedo, ou reflexão especular, chamado de Highlight na figura, ou a reflexão difusa chamada de Difuse na figura. Isso permite mairo facilidade na edição desso sahding. na imagem mostra uma troca no nó de albedo e todo o objeto pode ser renderizado com um nova cor (vista em azul), podemos também combinar com outras arvores geradas a partir da de composição de outra imagem. Essa edicação da arvore poderia ser feita com uma ferramenta visual de edição
+ 
+-Este trabalho propõe uma abordagem para inferir uma representação de BRDF  estruturada em forma de árvore, utilizando uma única imagem de entrada para sombreamento de objetos \cite{tree_decomposition}. Em vez de usar representações paramétricas, como é comum, a abordagem adota uma representação hierárquica, chamada de árvore de \textit{shading}, onde o sombreamento da superfície do objeto é decomposto em componentes, como albedo e refletância, conforme ilustrado na \autoref{fig_decomp}.
++Este trabalho propõe uma maneira de inferir uma representação de BRDF  estruturada em forma de árvore, utilizando uma única imagem de entrada para sombreamento de objetos \cite{tree_decomposition}. Em vez de usar representações paramétricas, como é comum, o artigo adota uma representação hierárquica, chamada de árvore de \textit{shading}, onde o sombreamento da superfície do objeto é decomposto em componentes, como albedo e refletância, conforme ilustrado na \autoref{fig_decomp}.
+ 
+ Nessa imagem, observa-se a árvore reconstruída a partir de uma imagem de entrada, onde os autores estruturam nós que representam diferentes propriedades do \textit{shading}. Por exemplo, o nó \texttt{Albedo} representa a cor da superfície, o nó \texttt{Highlight} descreve a reflexão especular, e o nó \texttt{Diffuse} corresponde à reflexão difusa. Essa estrutura facilita a manipulação e edição dos elementos do \textit{shading}.
+ 
+-A figura também demonstra uma aplicação prática dessa abordagem: a substituição do nó \texttt{Albedo} por uma nova cor (de vermelho para azul), resultando na renderização do objeto com a cor alterada. Além disso, é possível combinar árvores reconstruídas de outras imagens, substituindo uma subárvore ou utilizando o nó \texttt{Multiply}.
++A figura também demonstra uma aplicação prática desse procedimento: a substituição do nó \texttt{Albedo} por uma nova cor (de vermelho para azul), resultando na renderização do objeto com a cor alterada. Além disso, é possível combinar árvores reconstruídas de outras imagens, substituindo uma subárvore ou utilizando o nó \texttt{Multiply}.
+ 
+-Essa abordagem aumenta a flexibilidade de edição, permitindo alterações mais intuitivas e rápidas na renderização de objetos que utilizam modelos BRDF.
++Essa estratégia aumenta a flexibilidade de edição, permitindo alterações mais intuitivas e rápidas na renderização de objetos que utilizam modelos BRDF.
+ 
+ \begin{figure}[H]
+         \caption{\label{fig_decomp} \small Exemplo de decomposição de BRDFs em nós de uma árvore.}
+@@ -282,7 +281,7 @@ Esse trabalho propõe uma arquitetura de \textit{hardware} que permite cálculos
+ 
+ Além disso, o circuito suporta diversas BRDFs, como Blinn-Phong, Cook-Torrance, Ward e modelos baseados em microfacetas, com tabelas específicas para cada modelo. O uso de tabelas de pesquisa permite a representação organizada da parametrização das BRDFs, tornando o processo de transformação de BRDF para \textit{shaders} mais acessível.
+ 
+-Este trabalho foi aceito por incluir o processo de tradução estruturada de BRDFs para uma sequência computável através de circuitos. Assim, o artigo demonstra como modularizar o cálculo das operações matemáticas contidas em BRDFs. A abordagem é útil para o nosso projeto, pois o processo de geração de \textit{shaders} a partir de uma árvore envolve linearizar as operações da BRDF em uma sequência correta, embora o propósito dessa tarefa em nosso projeto seja diferente do apresentado neste trabalho.
++Este trabalho foi aceito por incluir o processo de tradução estruturada de BRDFs para uma sequência computável através de circuitos. Assim, o artigo demonstra como modularizar o cálculo das operações matemáticas contidas em BRDFs. A idéia é útil para o nosso projeto, pois o processo de geração de \textit{shaders} a partir de uma árvore envolve linearizar as operações da BRDF em uma sequência correta, embora o propósito dessa tarefa em nosso projeto seja diferente do apresentado neste trabalho.
+ 
+ 
+ \section{Pesquisa por Repositórios Online}
+diff --git a/TCC2 - EvertonSantosDeAndradeJunior.pdf b/TCC2 - EvertonSantosDeAndradeJunior.pdf
+index 6f714da..e07fc13 100644
+Binary files a/TCC2 - EvertonSantosDeAndradeJunior.pdf and b/TCC2 - EvertonSantosDeAndradeJunior.pdf differ
+diff --git a/main.loc b/main.loc
+deleted file mode 100644
+index 98bedbe..0000000
+--- a/main.loc
++++ /dev/null
+@@ -1,80 +0,0 @@
+-\contentsline {codigo}{\numberline {1}{\ignorespaces \small Exemplo GLSL de \textit {shader} de vértice.}}{26}{codigo.2.1}%
+-\contentsline {codigo}{\numberline {2}{\ignorespaces \small Exemplo de código escrito em C.}}{31}{codigo.2.2}%
+-\contentsline {codigo}{\numberline {3}{\ignorespaces \small Cálculo vetorial em código-fonte \LaTeX {}.}}{32}{codigo.2.3}%
+-\contentsline {codigo}{\numberline {4}{\ignorespaces \small Cálculo vetorial em código GLSL.}}{32}{codigo.2.4}%
+-\contentsline {codigo}{\numberline {5}{\ignorespaces \small Código de interface em \texttt {Slang}. }}{37}{codigo.3.5}%
+-\contentsline {codigo}{\numberline {6}{\ignorespaces \small Código-fonte de função quadrática.}}{42}{codigo.4.6}%
+-\contentsline {codigo}{\numberline {7}{\ignorespaces \small Código GLSL da função quadrática g.}}{42}{codigo.4.7}%
+-\contentsline {codigo}{\numberline {8}{\ignorespaces \small Entrada em \LaTeX \ (Cook-Torrance BRDF).}}{44}{codigo.4.8}%
+-\contentsline {codigo}{\numberline {9}{\ignorespaces \small Saída em GLSL esperada (Cook-Torrance BRDF).}}{45}{codigo.4.9}%
+-\contentsline {codigo}{\numberline {10}{\ignorespaces \small \small O código GLSL com sintaxe extra para definir parâmetros. }}{48}{codigo.4.10}%
+-\contentsline {codigo}{\numberline {11}{\ignorespaces \small Função principal do Lexer. }}{52}{codigo.5.11}%
+-\contentsline {codigo}{\numberline {12}{\ignorespaces \small Função de erro exposto pelo pacote \texttt {lexer}. }}{52}{codigo.5.12}%
+-\contentsline {codigo}{\numberline {13}{\ignorespaces \small Estruturas do Lexer. }}{56}{codigo.5.13}%
+-\contentsline {codigo}{\numberline {14}{\ignorespaces \small Gramática ilustrativa para \texttt {tokens}. }}{57}{codigo.5.14}%
+-\contentsline {codigo}{\numberline {15}{\ignorespaces \small Enumeração dos tipos de \texttt {tokens}. }}{58}{codigo.5.15}%
+-\contentsline {codigo}{\numberline {16}{\ignorespaces \small Mapa de identificadores especiais. }}{59}{codigo.5.16}%
+-\contentsline {codigo}{\numberline {17}{\ignorespaces \small Regras tradicionais de precedência por gramática. }}{61}{codigo.5.17}%
+-\contentsline {codigo}{\numberline {18}{\ignorespaces \small \textit {Parsing} de expressão em código Odin.}}{62}{codigo.5.18}%
+-\contentsline {codigo}{\numberline {19}{\ignorespaces \small Estrutura e função principal do pacote \texttt {parser}. }}{62}{codigo.5.19}%
+-\contentsline {codigo}{\numberline {20}{\ignorespaces \small \textit {Parsing} do nó \texttt {Start}. }}{62}{codigo.5.20}%
+-\contentsline {codigo}{\numberline {21}{\ignorespaces \small Exemplo código escrito na linguagem \texttt {EquationLang}. }}{63}{codigo.5.21}%
+-\contentsline {codigo}{\numberline {22}{\ignorespaces \small Gramática para \texttt {EquantionLang} parte 1 de 2.}}{64}{codigo.5.22}%
+-\contentsline {codigo}{\numberline {23}{\ignorespaces \small Gramática para \texttt {EquantionLang} parte 2 de 2.}}{65}{codigo.5.23}%
+-\contentsline {codigo}{\numberline {24}{\ignorespaces \small Parte do código de \textit {parsing} de expressão para identificadores. }}{68}{codigo.5.24}%
+-\contentsline {codigo}{\numberline {25}{\ignorespaces \small Estrutura polimórfica \texttt {Visitor}. O \texttt {DataType} é o parâmetro concreto dessa estrutura.}}{69}{codigo.5.25}%
+-\contentsline {codigo}{\numberline {26}{\ignorespaces \small Função de percurso \texttt {walk}. }}{71}{codigo.5.26}%
+-\contentsline {codigo}{\numberline {27}{\ignorespaces \small Validação de precedência por parentização de expressões.}}{72}{codigo.5.27}%
+-\contentsline {codigo}{\numberline {28}{\ignorespaces \small Assinatura da função que extrai nós filhos de maneira uniforme para qualquer tipo de nó.}}{73}{codigo.5.28}%
+-\contentsline {codigo}{\numberline {29}{\ignorespaces \small Estruturas que representam os tipos de expressões da AST.}}{77}{codigo.5.29}%
+-\contentsline {codigo}{\numberline {30}{\ignorespaces \small Estrutura do Símbolo.}}{78}{codigo.5.30}%
+-\contentsline {codigo}{\numberline {31}{\ignorespaces \small Código da estrutura de símbolos escrito em Odin.}}{78}{codigo.5.31}%
+-\contentsline {codigo}{\numberline {32}{\ignorespaces \small Estrutura de grafo de dependências.}}{80}{codigo.5.32}%
+-\contentsline {codigo}{\numberline {33}{\ignorespaces \small Entrada para o compilador que gera dependência circular.}}{80}{codigo.5.33}%
+-\contentsline {codigo}{\numberline {34}{\ignorespaces \small Parte do switch da inferencia de tipos. }}{82}{codigo.5.34}%
+-\contentsline {codigo}{\numberline {35}{\ignorespaces \small Identificadores embutidos pela convenção deste trabalho.}}{83}{codigo.5.35}%
+-\contentsline {codigo}{\numberline {36}{\ignorespaces \small Recorte da função \texttt {check\_expr}. }}{84}{codigo.5.36}%
+-\contentsline {codigo}{\numberline {37}{\ignorespaces \small Equação com uso incorreto de tipos na chamada de função.}}{86}{codigo.5.37}%
+-\contentsline {codigo}{\numberline {38}{\ignorespaces \small Validação de parâmetros de uma função.}}{86}{codigo.5.38}%
+-\contentsline {codigo}{\numberline {39}{\ignorespaces \small Emissão de chamada de funções. }}{89}{codigo.5.39}%
+-\contentsline {codigo}{\numberline {40}{\ignorespaces \small Exemplo de código de expressão gerado. }}{90}{codigo.5.40}%
+-\contentsline {codigo}{\numberline {42}{\ignorespaces \small Recorte da função BRDF onde as variáveis built-in são inicializadas.}}{92}{codigo.5.42}%
+-\contentsline {codigo}{\numberline {43}{\ignorespaces \small Código GLSL gerado pelo compilador para as funções de normalização e reflexão de vetores. }}{93}{codigo.5.43}%
+-\contentsline {codigo}{\numberline {41}{\ignorespaces \small Emitir expressão. }}{94}{codigo.5.41}%
+-\contentsline {codigo}{\numberline {44}{\ignorespaces \small Código fonte da BRDF do experimento Blinn-Phong.}}{97}{codigo.6.44}%
+-\contentsline {codigo}{\numberline {45}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Blinn-Phong (parte 1 de 2).}}{98}{codigo.6.45}%
+-\contentsline {codigo}{\numberline {46}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Blinn-Phong (parte 2 de 2).}}{99}{codigo.6.46}%
+-\contentsline {codigo}{\numberline {47}{\ignorespaces \small Código fonte da BRDF do experimento Cook-Torrance.}}{101}{codigo.6.47}%
+-\contentsline {codigo}{\numberline {48}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Cook-Torrance (parte 1 de 2).}}{102}{codigo.6.48}%
+-\contentsline {codigo}{\numberline {49}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Cook-Torrance (parte 2 de 2).}}{103}{codigo.6.49}%
+-\contentsline {codigo}{\numberline {50}{\ignorespaces \small Código fonte da BRDF do experimento Ward (parte 1 de 2).}}{106}{codigo.6.50}%
+-\contentsline {codigo}{\numberline {51}{\ignorespaces \small Código fonte da BRDF do experimento Ward (parte 2 de 2).}}{107}{codigo.6.51}%
+-\contentsline {codigo}{\numberline {52}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Ward (parte 1 de 2).}}{108}{codigo.6.52}%
+-\contentsline {codigo}{\numberline {53}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Ward (parte 2 de 2).}}{109}{codigo.6.53}%
+-\contentsline {codigo}{\numberline {54}{\ignorespaces \small Código fonte da BRDF do experimento Ashikhmin-Shirley (parte 1 de 2).}}{112}{codigo.6.54}%
+-\contentsline {codigo}{\numberline {55}{\ignorespaces \small Código fonte da BRDF do experimento Ashikhmin-Shirley (parte 2 de 2).}}{113}{codigo.6.55}%
+-\contentsline {codigo}{\numberline {56}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Ashikhmin-Shirley (parte 1 de 2).}}{115}{codigo.6.56}%
+-\contentsline {codigo}{\numberline {57}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Ashikhmin-Shirley (parte 2 de 2).}}{116}{codigo.6.57}%
+-\contentsline {codigo}{\numberline {58}{\ignorespaces \small Código fonte da BRDF do experimento Oren-Nayar (parte 1 de 2).}}{119}{codigo.6.58}%
+-\contentsline {codigo}{\numberline {59}{\ignorespaces \small Código fonte da BRDF do experimento Oren-Nayar (parte 2 de 2).}}{120}{codigo.6.59}%
+-\contentsline {codigo}{\numberline {60}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Oren-Nayar (parte 1 de 3).}}{121}{codigo.6.60}%
+-\contentsline {codigo}{\numberline {61}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Oren-Nayar (parte 2 de 3).}}{122}{codigo.6.61}%
+-\contentsline {codigo}{\numberline {62}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Oren-Nayar (parte 3 de 3).}}{123}{codigo.6.62}%
+-\contentsline {codigo}{\numberline {63}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Ashikhmin-Shirley$_2$ (parte 1 de 2).}}{125}{codigo.6.63}%
+-\contentsline {codigo}{\numberline {64}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Ashikhmin-Shirley$_2$ (parte 2 de 2).}}{126}{codigo.6.64}%
+-\contentsline {codigo}{\numberline {65}{\ignorespaces \small Código-fonte da BRDF do experimento Ashikhmin-Shirley$_2$.}}{127}{codigo.6.65}%
+-\contentsline {codigo}{\numberline {66}{\ignorespaces \small Código fonte da BRDF do experimento Cook-Torrance$_2$.}}{130}{codigo.6.66}%
+-\contentsline {codigo}{\numberline {67}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Cook-Torrance$_2$ (parte 1 de 2).}}{131}{codigo.6.67}%
+-\contentsline {codigo}{\numberline {68}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Cook-Torrance$_2$ (parte 2 de 2).}}{132}{codigo.6.68}%
+-\contentsline {codigo}{\numberline {69}{\ignorespaces \small Código fonte da BRDF do experimento Dür.}}{134}{codigo.6.69}%
+-\contentsline {codigo}{\numberline {70}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Dür (parte 1 de 2).}}{135}{codigo.6.70}%
+-\contentsline {codigo}{\numberline {71}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Dür (parte 2 de 2).}}{136}{codigo.6.71}%
+-\contentsline {codigo}{\numberline {72}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Edwards (parte 1 de 2).}}{139}{codigo.6.72}%
+-\contentsline {codigo}{\numberline {73}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Edwards (parte 2 de 2).}}{140}{codigo.6.73}%
+-\contentsline {codigo}{\numberline {74}{\ignorespaces \small Código fonte da BRDF do experimento Edwards.}}{141}{codigo.6.74}%
+-\contentsline {codigo}{\numberline {75}{\ignorespaces \small Código fonte da BRDF do experimento Kajiya-Kay.}}{144}{codigo.6.75}%
+-\contentsline {codigo}{\numberline {76}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento baseado em Kajiya-Kay (parte 1 de 2).}}{145}{codigo.6.76}%
+-\contentsline {codigo}{\numberline {77}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento baseado em Kajiya-Kay (parte 2 de 2).}}{146}{codigo.6.77}%
+-\contentsline {codigo}{\numberline {78}{\ignorespaces \small Código fonte da BRDF do experimento Minnaert.}}{149}{codigo.6.78}%
+-\contentsline {codigo}{\numberline {79}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Minnaert (parte 1 de 2).}}{150}{codigo.6.79}%
+-\contentsline {codigo}{\numberline {80}{\ignorespaces \small Saída do compilador: código GLSL da BRDF do experimento Minnaert (parte 2 de 2).}}{151}{codigo.6.80}%
+diff --git a/main.pdf b/main.pdf
+index 6f714da..ff3e43d 100644
+Binary files a/main.pdf and b/main.pdf differ
+diff --git a/main.tex b/main.tex
+index aaead59..4a69aef 100644
+--- a/main.tex
++++ b/main.tex
+@@ -204,8 +204,7 @@
+ \label{introduction}
+ 
+ 
+-Na computação gráfica, a representação realista de cenas tridimensionais depende fortemente da modelagem da luz e dos materiais que compõem os objetos na cena. A interação da luminosidade incidente com esses materiais é crucial para a geração de imagens fiéis à realidade. Uma abordagem fundamental para modelar essa interação é por meio das funções de distribuição de refletância bidirecional, conhecidas como BRDFs (do inglês, \textit{Bidirectional Reflectance Distribution Functions}).
+-
++Na computação gráfica, a representação realista de cenas tridimensionais depende fortemente da modelagem da luz e dos materiais que compõem os objetos na cena. A interação da luminosidade incidente com esses materiais é crucial para a geração de imagens fiéis à realidade. Uma forma fundamental para modelar essa interação é por meio das funções de distribuição de refletância bidirecional, conhecidas como BRDFs (do inglês, \textit{Bidirectional Reflectance Distribution Functions}).
+ 
+ 
+ 

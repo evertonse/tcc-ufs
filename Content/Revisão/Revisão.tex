@@ -39,7 +39,7 @@ Foram elaboradas questões de pesquisa específicas que servem como guia para id
 
 
 \begin{enumerate}
-  \item Quais são as abordagens mais comuns utilizadas na criação de compiladores para tradução de BRDFs expressas em alguma linguagem de texto, como \LaTeX{}, para \textit{shaders}?
+  \item Quais são as estratégias mais comuns utilizadas na criação de compiladores para tradução de BRDFs expressas em alguma linguagem de texto, como \LaTeX{}, para \textit{shaders}?
 
   \item Quais as técnicas de \textit{parsing} têm sido aplicadas no desenvolvimento de compiladores para linguagens matemáticas?
 
@@ -125,7 +125,7 @@ Para garantir a relevância dos resultados obtidos, seguimos os critérios de in
 
   \item Foram incluídos artigos que utilizam representações hierárquicas para BRDFs, pois contribuem para a compreensão do processo de decomposição dessas funções em estruturas adequadas ao nosso compilador, que utiliza árvores em suas análises e na geração de código.
 
-  \item Foram incluídos artigos que apresentam linearização de BRDFs em sequências computáveis, relevantes para a geração de código a partir de árvores sintáticas.
+  \item Foram incluídos artigos que apresentam linearização de BRDFs em sequências computáveis\footnote{Isso significa que foram buscadas nos artigos ideias para transformar uma estrutura não linear, como uma árvore, em uma sequência de computações.}, relevantes para a geração de código a partir de árvores sintáticas.
 \end{enumerate}
 
 
@@ -136,12 +136,11 @@ Para garantir a relevância dos resultados obtidos, seguimos os critérios de in
   \item Foram excluídos artigos que dispunham de \textit{links} incorretos e ou quebrados;
   \item Foram excluídos artigos que não estão relacionados com as questões de pesquisa da \autoref{questoes-pesquisa};
   % \item Foram excluídos artigos que não têm como entrada uma BRDF no formato de equação, ou seja, utilizam a representação diretamente como código;
-  \item Foram excluídos artigos que não abordam nenhum dos seguintes aspectos: a geração de \textit{shaders} como saída, a estruturação hierárquica de BRDFs ou a decomposição das operações matemáticas associadas a BRDFs;
+  \item Foram excluídos artigos que não tratam nenhum dos seguintes aspectos: a geração de \textit{shaders} como saída, a estruturação hierárquica de BRDFs ou a decomposição das operações matemáticas associadas a BRDFs;
 
   \item Foram excluídos artigos que não citam BRDFs e compilador ou árvores em seu resumo;
   \item Se, após a leitura completa, o artigo não concerne os interesses deste trabalho, esse foi excluído.
 \end{enumerate}
-
 
 
 
@@ -185,7 +184,7 @@ Para garantir a relevância dos resultados obtidos, seguimos os critérios de in
 \subsubsection{genBRDF: Discovering New Analytic BRDFs with Genetic Programming}
 
 
-Neste artigo é introduzido um \textit{framework} chamada genBRDF, a qual aplica técnicas de programação genética para explorar e descobrir novas BRDFs de maneira analítica \cite{genbrdf}. O processo inicia com a descrição analítica de uma BRDF existente\footnote{As BRDFs de entrada são escritas na linguagem definida pela gramática apresentada pelos autores, que permite operações matemáticas, como \verb"sin", \verb"cos", \verb"tan", \verb"exp", \verb"asin", \verb"acos", \verb"dot", \verb"+", \verb"sqrt". Como exemplo, os autores ilustram ${brdf}_{init} = \rho_s \cos(R \cdot V)^\alpha$, como uma BRDF válida.}, e interativamente aplica mutações e recombinações de partes das expressões matemáticas que compõem essas BRDFs à medida que novas gerações surgem.
+Neste artigo é introduzido um \textit{framework} chamado genBRDF, o qual aplica técnicas de programação genética para explorar e descobrir novas BRDFs de maneira analítica \cite{genbrdf}. O processo inicia com a descrição analítica de uma BRDF existente\footnote{As BRDFs de entrada são escritas na linguagem definida pela gramática apresentada pelos autores, que permite operações matemáticas, como \verb"sin", \verb"cos", \verb"tan", \verb"exp", \verb"asin", \verb"acos", \verb"dot", \verb"+", \verb"sqrt". Como exemplo, os autores ilustram ${brdf}_{init} = \rho_s \cos(R \cdot V)^\alpha$, como uma BRDF válida.}, e interativamente aplica mutações e recombinações de partes das expressões matemáticas que compõem essas BRDFs à medida que novas gerações surgem.
 
 Essas mutações são guiadas por uma função \textit{fitness}.
 Esse tipo de função atua como o inverso de uma função de erro, sendo baseada em um \textit{dataset} de materiais previamente medidos. Ela direciona as mutações ao avaliar a qualidade das expressões geradas, permitindo que o \textit{framework} identifique as soluções viáveis após analisar milhares de variantes.
@@ -198,7 +197,7 @@ Esse artigo se concentra em automaticamente encontrar novos modelos analíticos 
 \subsubsection{Slang: language mechanisms for extensible real-time shading systems}
 
 
-O artigo descreve a linguagem \texttt{Slang}, uma extensão da amplamente utilizada linguagem de \textit{shading} HLSL, projetada para aprimorar a modularidade e a extensibilidade \cite{slang}. A abordagem de \textit{design} da \texttt{Slang} é baseada em dois princípios fundamentais: garantir compatibilidade com o HLSL existente sempre que possível e introduzir recursos inspirados em linguagens de programação \textit{mainstream}, visando facilitar a familiaridade e a intuição dos desenvolvedores. O compilador desenvolvido neste estudo é capaz de gerar código de \textit{shading} em HLSL, que pode ser compilado por um compilador de HLSL existente.
+O artigo descreve a linguagem \texttt{Slang}, uma extensão da amplamente utilizada linguagem de \textit{shading} HLSL, projetada para aprimorar a modularidade e a extensibilidade \cite{slang} de HLSL. O \textit{design} da \texttt{Slang} é baseada em dois princípios fundamentais: garantir compatibilidade com o HLSL existente sempre que possível e introduzir recursos inspirados em linguagens de programação \textit{mainstream}, visando facilitar a familiaridade e a intuição dos desenvolvedores. O compilador desenvolvido neste estudo é capaz de gerar código de \textit{shading} em HLSL, que pode ser compilado por um compilador de HLSL existente.
 
 %%
 O autor enfatiza que cada extensão da \texttt{Slang} foi projetada para permitir uma transição gradual a partir do código HLSL já desenvolvido, garantindo a compatibilidade com a maioria das construções sintáticas e semânticas da linguagem HLSL. Isso elimina a necessidade de uma migração completa. Algumas dessas extensões incluem: funções genéricas, estruturas genéricas e tipos que implementam interfaces específicas, semelhantes às interfaces em \texttt{Java}.
@@ -225,8 +224,7 @@ int myGenericMethod<T>(T arg) where T : IFoo {
 \end{lstlisting}
 \end{codigo}
 
-Enquanto o artigo tenta melhorar a flexibilidade e a extensibilidade dos sistemas de \textit{shading} em tempo real, o nosso trabalho se concentra na compilação de equações BRDF em linguagens de \textit{shading}. Embora ambos os projetos envolvam o uso de \textit{shaders} e a geração de código de \textit{shading}, as abordagens e os focos são distintos
-
+Enquanto o artigo tenta melhorar a flexibilidade e a extensibilidade dos sistemas de \textit{shading} em tempo real, o nosso trabalho se concentra na compilação de equações BRDF em linguagens de \textit{shading}. Embora ambos os projetos envolvam o uso de \textit{shaders} e a geração de código de \textit{shading}, a linguagem de entrada e o foco são distintos.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%% REMOVED FOR NOW %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -235,13 +233,11 @@ Enquanto o artigo tenta melhorar a flexibilidade e a extensibilidade dos sistema
 
 % Esse trabalho propõe uma abordagem para inferir uma representação de BRDF estruturada em árvore a partir de uma única imagem de entrada, usada para o sombreamento de objetos \cite{tree_decomposition}. Em vez de usar representações paramétricas, como é comum, é proposta uma abordagem que utiliza uma representação em árvore de \textit{shading}, combinando nós básicos e métodos para decompor o \textit{shading} da superfície do objeto, como partes albedo and reflectance,, representado na \autoref{fig_decomp}. Nessa imagem podemos observar o criação, que foi feita a partir de uma imagem de entrada e o trabalho dos atulres de compõe nessa arvore que criam nós que reprensentam parte do shading como a cor, representado pelo nó albedo, ou reflexão especular, chamado de Highlight na figura, ou a reflexão difusa chamada de Difuse na figura. Isso permite mairo facilidade na edição desso sahding. na imagem mostra uma troca no nó de albedo e todo o objeto pode ser renderizado com um nova cor (vista em azul), podemos também combinar com outras arvores geradas a partir da de composição de outra imagem. Essa edicação da arvore poderia ser feita com uma ferramenta visual de edição
 
-Este trabalho propõe uma abordagem para inferir uma representação de BRDF  estruturada em forma de árvore, utilizando uma única imagem de entrada para sombreamento de objetos \cite{tree_decomposition}. Em vez de usar representações paramétricas, como é comum, a abordagem adota uma representação hierárquica, chamada de árvore de \textit{shading}, onde o sombreamento da superfície do objeto é decomposto em componentes, como albedo e refletância, conforme ilustrado na \autoref{fig_decomp}.
+Este trabalho propõe uma maneira de inferir uma representação de BRDF  estruturada em forma de árvore, utilizando uma única imagem de entrada para sombreamento de objetos \cite{tree_decomposition}. Em vez de usar representações paramétricas, como é comum, o artigo adota uma representação hierárquica, chamada de árvore de \textit{shading}, onde o sombreamento da superfície do objeto é decomposto em componentes, como albedo e refletância, conforme ilustrado na \autoref{fig_decomp}.
 
 Nessa imagem, observa-se a árvore reconstruída a partir de uma imagem de entrada, onde os autores estruturam nós que representam diferentes propriedades do \textit{shading}. Por exemplo, o nó \texttt{Albedo} representa a cor da superfície, o nó \texttt{Highlight} descreve a reflexão especular, e o nó \texttt{Diffuse} corresponde à reflexão difusa. Essa estrutura facilita a manipulação e edição dos elementos do \textit{shading}.
 
-A figura também demonstra uma aplicação prática dessa abordagem: a substituição do nó \texttt{Albedo} por uma nova cor (de vermelho para azul), resultando na renderização do objeto com a cor alterada. Além disso, é possível combinar árvores reconstruídas de outras imagens, substituindo uma subárvore ou utilizando o nó \texttt{Multiply}.
-
-Essa abordagem aumenta a flexibilidade de edição, permitindo alterações mais intuitivas e rápidas na renderização de objetos que utilizam modelos BRDF.
+A figura também demonstra uma aplicação prática desse procedimento: a substituição do nó \texttt{Albedo} por uma nova cor (de vermelho para azul), resultando na renderização do objeto com a cor alterada. Além disso, é possível combinar árvores reconstruídas de outras imagens, substituindo uma subárvore ou utilizando o nó \texttt{Multiply}. Essa estratégia aumenta a flexibilidade de edição, permitindo alterações mais intuitivas na renderização de objetos que utilizam modelos BRDF.
 
 \begin{figure}[H]
         \caption{\label{fig_decomp} \small Exemplo de decomposição de BRDFs em nós de uma árvore.}
@@ -254,7 +250,7 @@ Essa abordagem aumenta a flexibilidade de edição, permitindo alterações mais
 
 
 
-Assim como o nosso trabalho, esse artigo se concentra em facilitar o processo para usuários inexperientes, pois ambos visam fornecer ferramentas acessíveis para manipular representações de \textit{shading} sem exigir conhecimento avançado em programação. Esse artigo também emprega uma representação de BRDF em árvore, embora para um propósito diferente.
+Assim como o nosso trabalho, esse artigo se concentra em facilitar edição, criação e visualização de modelos de refletância para usuários inexperientes, pois ambos visam fornecer ferramentas acessíveis para manipular representações de \textit{shading} sem exigir conhecimento avançado em programação. Esse artigo também emprega uma representação de BRDF em árvore, embora para um propósito diferente.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%% REMOVED FOR NOW %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -282,7 +278,7 @@ Esse trabalho propõe uma arquitetura de \textit{hardware} que permite cálculos
 
 Além disso, o circuito suporta diversas BRDFs, como Blinn-Phong, Cook-Torrance, Ward e modelos baseados em microfacetas, com tabelas específicas para cada modelo. O uso de tabelas de pesquisa permite a representação organizada da parametrização das BRDFs, tornando o processo de transformação de BRDF para \textit{shaders} mais acessível.
 
-Este trabalho foi aceito por incluir o processo de tradução estruturada de BRDFs para uma sequência computável através de circuitos. Assim, o artigo demonstra como modularizar o cálculo das operações matemáticas contidas em BRDFs. A abordagem é útil para o nosso projeto, pois o processo de geração de \textit{shaders} a partir de uma árvore envolve linearizar as operações da BRDF em uma sequência correta, embora o propósito dessa tarefa em nosso projeto seja diferente do apresentado neste trabalho.
+Este trabalho foi aceito por incluir o processo de tradução estruturada de BRDFs para uma sequência computável através de circuitos. Assim, o artigo demonstra como modularizar o cálculo das operações matemáticas contidas em BRDFs. A idéia é útil para o nosso projeto, pois o processo de geração de \textit{shaders} a partir de uma árvore envolve linearizar as operações da BRDF em uma sequência correta, embora o propósito dessa tarefa em nosso projeto seja diferente do apresentado pelos autores.
 
 
 \section{Pesquisa por Repositórios Online}

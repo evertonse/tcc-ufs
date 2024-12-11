@@ -9,7 +9,7 @@ Especificamente na \autoref{radiometria}, são apresentados os conceitos fundame
 
 
 % A \autoref{shading} aborda o processo de \textit{shading} e o funcionamento do etapas ordenadas de renderização na GPU, conhecida nesse contexto como \textit{pipeline}, onde cada estágio transforma dados de entrada e os passa para o próximo estágio. Nela, são introduzidos os processos de transformação de vértices e de determinação da cor dos fragmentos, mostrando exemplos de código.
-A \autoref{shading} aborda o processo de \textit{shading} e o funcionamento das etapas ordenadas de renderização na GPU, conhecidas nesse contexto como \textit{pipeline}\footnote{Do inglês, \textit{pipeline} representa uma sequencia de estágios de processamento, onde a saída de cada etapa serve como entrada para a próxima.}. Nela, são introduzidos os processos de transformação de vértices e de determinação da cor dos fragmentos, mostrando exemplos de código.
+A \autoref{shading} discute o processo de \textit{shading} e o funcionamento das etapas ordenadas de renderização na GPU, conhecidas nesse contexto como \textit{pipeline}\footnote{Do inglês, \textit{pipeline} representa uma sequencia de estágios de processamento, onde a saída de cada etapa serve como entrada para a próxima.}. Nela, são introduzidos os processos de transformação de vértices e de determinação da cor dos fragmentos, mostrando exemplos de código.
 
 % \footnote{Pipeline de renderização: sequência ordenada de etapas de processamento gráfico, onde cada estágio transforma dados de entrada e os passa para o próximo estágio, permitindo processamento paralelo e eficiente na unidade de processamento gráfico.}.
 
@@ -190,7 +190,7 @@ f(\omega_i, \omega_o) = k_s \cdot \delta(\omega_i - \omega_o)
         \begin{center}
             \includegraphics[scale=0.5]{./Imagens/specular-2d.png}
         \end{center}
-        \legend{ \footnotesize 
+        \legend{ \footnotesize
   Fonte: Autor.}
 \end{figure}
 
@@ -406,7 +406,10 @@ A análise sintática, que é a segunda fase do processo de compilação, recebe
 O Pratt \textit{Parsing}, introduzido por Vaughan Pratt, é uma técnica de análise sintática recursiva que permite analisar expressões com precedência de operadores de forma eficiente e sem ambiguidades \cite{pratt}. Uma das suas características distintivas é determinar a ordem de avaliação das expressões. Ao contrário da análise descendente recursiva tradicional, na qual cada não-terminal possui uma função de \textit{parsing}, a análise Pratt associa funções de manipulação (\textit{handlers}) com \textit{tokens}.
 
 
-A precedência das expressões é definida por meio de uma tabela, na qual cada operador é associado a um valor que permita o \textit{parser} decidir dinamicamente a ordem de avaliação das expressões com base nos operadores encontrados durante a análise. Essa abordagem simplifica significativamente a implementação do \textit{parser} e elimina a necessidade de criar uma gramática que encapsula a precedência em sua definição. Ela também evita a recursão profunda para lidar com diferentes níveis de precedência.
+% A precedência das expressões é definida por meio de uma tabela, na qual cada operador é associado a um valor que permita o \textit{parser} decidir dinamicamente a ordem de avaliação das expressões com base nos operadores encontrados durante a análise. Dessa forma, a implementação do \textit{parser} é simplificada significativamente, por conta da facilidade de implementação, fl   e elimina a necessidade de criar uma gramática que encapsula a precedência em sua definição. Ela também evita a recursão profunda para lidar com diferentes níveis de precedência.
+
+A precedência das expressões é definida por meio de uma tabela, na qual cada operador é associado a um valor que permite ao \textit{parser} decidir dinamicamente a ordem de avaliação das expressões com base nos operadores encontrados durante a análise.
+Dessa forma, a implementação do \textit{parser} é significativamente simplificada, já que o código para gerar cada nó é semelhante às regras de produção, aproveitando a natureza do analisador sintático recursivo. Além disso, elimina-se a necessidade de criar uma gramática mais extensa para encapsular a precedência em sua definição, ao mesmo tempo que se evita a recursão profunda ao tratar diferentes níveis de precedência.
 
 
 % \subsubsection{Árvores Inclinadas}
@@ -442,7 +445,7 @@ Nesse algoritmo,
 
 
 Tanto \textbf{token.infixo} quanto \textbf{token.prefixo} podem ser indiretamente recursivas, isto é, ambas podem chamar a função \textbf{expressão} no \autoref{alg1}.
-Por fim, \textbf{precedencia\_anterior} representa a precedência do \textit{token} anterior. Uma demonstração em código desse algoritmo pode ser vista na \autoref{section-parser-pratt}, onde casos práticos demonstram como o Pratt \textit{parsing} pode ajudar a reduzir o número de regras de produção de uma gramática e simplificar a análise sintática.
+Por fim, \textbf{precedencia\_anterior} representa a precedência do \textit{token} anterior. Uma demonstração em código desse algoritmo pode ser vista na \autoref{section-parser-pratt}, onde casos práticos elucidam como o Pratt \textit{parsing} pode ajudar a reduzir o número de regras de produção de uma gramática e simplificar a análise sintática.
 
 
 \begin{algoritmo}[H]
