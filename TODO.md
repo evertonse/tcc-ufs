@@ -23,4 +23,5 @@
 - Resultados: mover código para Apendice?
 - Procurar e explicar código que estão sem explicação
 - Take a look at revision again
+- Picture/Code/Figrue poistion and titles
 

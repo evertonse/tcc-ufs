@@ -14,7 +14,7 @@ A estrutura também permite que o visitante mantenha um estado interno (\texttt{
 
 
 \begin{codigo}[!ht]
-    \caption{\small Estrutura polimórfica \texttt{Visitor}. \texttt{DataType} é o parametro concreto dessa estrutura. }
+    \caption{\small Estrutura polimórfica \texttt{Visitor}. O \texttt{DataType} é o parâmetro concreto dessa estrutura.}
         \label{cod-visitor-struct}
 \begin{lstlisting}[language = C]
 
@@ -27,20 +27,20 @@ Visitor :: struct (DataType: typeid) {
 \end{codigo}
 
 \subsection{Função \texttt{walk}}
-A função \texttt{walk} (\autoref{cod-visitor-walk}) realiza a travessia profunda (\textit{depth-first}) da AST usando a estrutura genérica de visita. Ela percorre todos os nós, como declarações, expressões, equações e definições de funções, aplicando a função \texttt{visit} antes e depois de explorar cada subárvore. Isso permite criar \textit{visitors} personalizados para tarefas como:
+A função \texttt{walk} (\autoref{cod-visitor-walk}) realiza a travessia em profundidade (\textit{depth-first}) da AST usando a estrutura genérica de visita. Ela percorre todos os nós, como declarações, expressões, equações e definições de funções, aplicando a função \texttt{visit} antes e depois de explorar cada subárvore. Isso permite criar \textit{visitors} personalizados para tarefas como:
 
 \begin{itemize}
-    \item Checagem de tipos: Verifica a consistência dos tipos nos nós.
-    \item Parentização de expressões: Usa os nós para testar a precedência correta de operadores.
-    \item Geração de gráficos: Cria uma representação visual da AST em formato SVG.
-    \item Geração de código: Converte a AST para a linguagem GLSL.
+    \item Checagem de tipos: verifica a consistência dos tipos nos nós.
+    \item Parentização de expressões: usa os nós para testar a precedência correta de operadores.
+    \item Geração de gráficos: cria uma representação visual da AST em formato SVG.
+    \item Geração de código: converte a AST para a linguagem GLSL.
 \end{itemize}
 
 O controle de parada em \texttt{walk} é feito por duas verificações principais:
 
 \begin{enumerate}
-    \item Verificação de nulidade: A função checa se o visitante (\texttt{v}) ou o nó (\texttt{node}) são nulos antes de prosseguir, evitando operações em dados inexistentes.
-    \item Interrupção de travessia: Após cada chamada à função \texttt{visit}, se o retorno for nulo, a travessia é interrompida, permitindo ao \textit{visitor} decidir dinamicamente se deseja continuar ou parar; adaptando-se ao cenário de uso.
+    \item Verificação de nulidade: a função checa se o visitante (\texttt{v}) ou o nó (\texttt{node}) são nulos antes de prosseguir, evitando operações em dados inexistentes.
+    \item Interrupção de travessia: após cada chamada à função \texttt{visit}, se o retorno for nulo, a travessia é interrompida, permitindo ao \textit{visitor} decidir dinamicamente se deseja continuar ou parar; adaptando-se ao cenário de uso.
 \end{enumerate}
 
 \begin{codigo}[ht]
@@ -103,14 +103,14 @@ walk :: proc(v: ^Visitor($T), node: ^ast.Node) {
 \end{codigo}
 
 
-\subsection{Validação de Precedencia}
+\subsection{Validação de Precedência}
 As funções e a estrutura de travessia foram utilizadas para validar a precedência dos operadores na AST gerada pelo \texttt{parser}. Uma função de parentização foi implementada para percorrer a AST e inserir parênteses, preservando a precedência original implícita. Assim, é possivel testar se a representação textual reflete corretamente a ordem de avaliação das operações matemáticas e assegurar que a hierarquia das operações foram corretamente representadas na árvore gerada.
 
 Os testes de precedência comparam o texto original de uma expressão com sua versão esperada, onde os parênteses indicam a ordem correta de avaliação (\autoref{cod-test-paren}). Casos complexos, como operadores associativos à direita (por exemplo, exponenciação) combinados com operadores de diferentes precedências, bem como expressões aninhadas e funções, também são testados para abranger variados cenários possíveis.
 
 
-\begin{codigo}[!ht]
-    \caption{\small Validação de precendencia por parentização de expressões. }
+\begin{codigo}[H]
+    \caption{\small Validação de precedência por parentização de expressões.}
         \label{cod-test-paren}
   \begin{lstlisting}[language = C]
     test_paren(
@@ -134,7 +134,7 @@ Os testes de precedência comparam o texto original de uma expressão com sua ve
   \end{lstlisting}
 \end{codigo}
 
-À medida que o compilador foi sendo desenvolvido, esses testes foram úteis para evitar regressões. Sempre que uma nova funcionalidade for adicionada, os testes garantem que as funcionalidades já existentes não fossem quebradas.
+À medida que o compilador foi desenvolvido, esses testes foram úteis para evitar regressões. Sempre que uma nova funcionalidade era adicionada, os testes garantiam que as funcionalidades existentes não fossem comprometidas.
 
 
 
@@ -152,7 +152,7 @@ Na \autoref{fig-svg}, é ilustrada a imagem gerada para a equação \autoref{eq-
 Os nós da AST possuem diferentes formas de acesso aos seus filhos, pois os campos podem ter nomes ou posições variadas conforme o tipo do nó. Para lidar com essa heterogeneidade, o pacote \texttt{walker} oferece a função \texttt{children} (\autoref{cod-childre-signature}), que abstrai essas diferenças e retorna uma lista uniforme de filhos para qualquer nó.
 
 \begin{codigo}[H]
-        \caption{\small Assinatura da função que extrai nós filhos de maniera uniforme para qualquer tipo de nó. }
+        \caption{\small Assinatura da função que extrai nós filhos de maneira uniforme para qualquer tipo de nó.}
         \label{cod-childre-signature}
   \begin{lstlisting}[language = C]
     // Aceita um ponteiro de nós abstrato e return uma lista de nós filhos

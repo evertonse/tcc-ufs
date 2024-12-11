@@ -2,7 +2,7 @@
 \section{Geração de Código (\texttt{emitter})} \label{section-emitter}
 
 
-A etapa de geração de código é realizada pelo pacote \texttt{emitter}, que cria um \textit{shader} compatível com a ferramenta Disney BRDF Explorer. Essa etapa é separada em três fases, descrita na \autoref{sub-start-emitting}. O processo começa com o escopo global, que contém informações essenciais, como símbolos, assinaturas de funções, tipos e nós da AST completamente anotada. A travessia recursiva dos símbolos e nós ocorre sem validações adicionais, uma vez que a etapa semântica já foi realizada.
+A etapa de geração de código é realizada pelo pacote \texttt{emitter}, que cria um \textit{shader} compatível com a ferramenta Disney BRDF Explorer. Essa etapa é separada em três fases, descritas na \autoref{sub-start-emitting}. O processo começa com o escopo global, que contém informações essenciais, como símbolos, assinaturas de funções, tipos e nós da AST completamente anotada. A travessia recursiva dos símbolos e nós ocorre sem validações adicionais, uma vez que a etapa semântica já foi realizada.
 
 A geração de código abrange o lado esquerdo da equação, que inclui identificadores e parâmetros de funções, e o lado direito, que é sempre uma expressão, cuja emissão é explorada em \autoref{sec-RHS}. Além disso, é fundamental garantir que cada variável tenha um nome único no código GLSL, conforme descrito em \autoref{sec-unicidade}.
 
@@ -10,11 +10,11 @@ A geração de código abrange o lado esquerdo da equação, que inclui identifi
 
 A emissão de código começa pelo lado esquerdo da equação. Existem três aspectos principais nesse processo:
 \begin{enumerate}
-    \item Mapeamento de Tipos: O tipo associado ao identificador é a primeira informação a ser resolvida. Caso seja um número real, ele é mapeado para \verb"float" em GLSL. Para vetores ($\mathbb{R}^3$), o mapeamento é feito para \verb"vec3". Em definições de funções, a assinatura é construída com base nos tipos dos parâmetros e do retorno.
+    \item Mapeamento de Tipos: o tipo associado ao identificador é a primeira informação a ser resolvida. Caso seja um número real, ele é mapeado para \verb"float" em GLSL. Para vetores ($\mathbb{R}^3$), o mapeamento é feito para \verb"vec3". Em definições de funções, a assinatura é construída com base nos tipos dos parâmetros e do retorno.
 
-    \item Identificado: O identificador associado ao símbolo é traduzido conforme regras específicas que garantem unicidade e conformidade com as restrições do GLSL. Este processo é detalhado em \autoref{sec-unicidade}.
+    \item Identificador: o identificador associado ao símbolo é traduzido conforme regras específicas que garantem unicidade e conformidade com as restrições do GLSL. Este processo é detalhado em \autoref{sec-unicidade}.
 
-    \item Expressões: No caso do lado direito da equação, tanto funções quanto de variaveis, são expressões. Para gerar isso, realiza-se uma travessia da AST, mapeando nós de expressões (como somas e chamadas de funções trigonométricas) para seu equivalente em GLSL. Detalhes adicionais sobre a emissão de código para expressões estão na \autoref{sec-RHS}.
+    \item Expressões: no lado direito da equação, tanto funções quanto variáveis são expressões. Para gerar isso, realiza-se uma travessia da AST, mapeando nós de expressões (como somas e chamadas de funções trigonométricas) para seu equivalente em GLSL. Detalhes adicionais sobre a emissão de código para expressões podem ser encontrados na \autoref{sec-RHS}.
 \end{enumerate}
 
 
@@ -26,13 +26,14 @@ Para garantir unicidade e compatibilidade dos identificadores gerados no GLSL, �
 \begin{enumerate}
     \item \textbf{Restrição de Caracteres}: O GLSL não permite caracteres especiais, como \verb"{" e \verb"}", em seus identificadores. Por exemplo, uma equação em \texttt{EquationLang} \verb "f_{1} = 2" não pode ser diretamente transformada no identificador \verb`f_{1}`. Para resolver isso, todos os caracteres inválidos são substituídos por sublinhados (\verb`_`), considerando subexpressões, resultando em identificadores como \verb`f__1_`.
 
-    \item \textbf{Prevenção de Colisões}: Mesmo após a substituição de caracteres, podem ocorrer colisões. Para resolver isso, mapeia-se cada a simbolo de identificador cada para um inteiro único de 64 bits (ID). Esse ID é então concatenado ao começo desse identificador com o prefixo \verb`var`, resultando em \verb`var1_f__1_`; uma cadeia de carateres unica para simbolo.
+    \item \textbf{Prevenção de Colisões}: Mesmo após a substituição de caracteres, ainda podem ocorrer colisões. Para resolver isso, mapeia-se cada símbolo de identificador para um número inteiro único de 64 bits (ID). Esse ID é então concatenado ao começo do identificador com o prefixo \verb"var", resultando em \verb"var1_f__1_"; uma cadeia de caracteres única para cada símbolo.
 
-    \item \textbf{Remoção de Sequências Reservadas}: O GLSL reserva identificadores que contêm duas ou mais ocorrências consecutivas de \verb`_`, Também é necessário remover sublinhados ao final, resultando em \verb`var1_f_1`. Após a geração inicial, identificadores que contenham essas sequências são corrigidos para atender às restrições do GLSL, resultado.
+    \item \textbf{Remoção de Sequências Reservadas}: O GLSL não aceita\footnote{Um erro comum ocorre ao utilizar caracteres consecutivos de \_ em identificadores, resultando no erro \texttt{C7528: OpenGL reserves names containing \_\_.}} identificadores que contêm duas ou mais ocorrências consecutivas de \verb`_`.
+     Também é necessário remover sublinhados ao final, resultando em \verb`var1_f_1`. Após a geração inicial, identificadores que contenham essas sequências são corrigidos para atender às essas restrições.
 \end{enumerate}
 
 
-Essas etapas garantem que cada variável no código GLSL seja única e válida. Apesar da limitação de $2^{64} - 1$ identificadores distintos imposta pelo uso de inteiros de 64 bits, esse valor é mais do que suficiente para o propósito de criação de BRDFs. Caso necessário, a utilização de inteiros de tamanho arbitrário implementado por \textit{software} para ampliar esse limite.
+Essas etapas garantem que cada variável no código GLSL seja única e válida. Apesar da limitação de $2^{64} - 1$ identificadores distintos imposta pelo uso de inteiros de 64 bits, esse valor é mais do que suficiente para o propósito de criação de BRDFs. Caso necessário, a utilização de inteiros de tamanho arbitrário implementado por \textit{software} pode ser aplicada para ampliar esse limite.
 
 %%%%%%%
 
@@ -49,7 +50,7 @@ Um trecho dessa função está no \autoref{cod-emit-expr}, que demonstra como os
     \item \textbf{Expressões Prefixas (\texttt{Expr\_Prefix})}:
     Essas expressões incluem operações unárias e funções matemáticas básicas. A implementação:
     \begin{itemize}
-        \item Emite funções trigonométricas através dão funlão providas por GLSL autometicamente, como \verb|sin|, \verb|cos| e \verb|tan|.
+        \item Emite funções trigonométricas utilizando as funções fornecidas pelo GLSL automaticamente, como \verb|sin|, \verb|cos| e \verb|tan|.
         \item Lida com operadores unários, como negação (\verb|-|) e raiz quadrada (\verb|sqrt|). Nesses casos é aplicar escrever o operador com parentesis ao redor. Por exemplo, \verb"\sqrt{-2}" ($\sqrt{-2}$) emite \verb"(sqrt(-(2)))".
         \item Constrói vetores usando o construtor provido por OpenGL \verb|vec3()|.
         \item Mantém a precedência de operadores adicionando parênteses apropriados.
@@ -58,25 +59,25 @@ Um trecho dessa função está no \autoref{cod-emit-expr}, que demonstra como os
     \item \textbf{Expressões Binárias (\texttt{Expr\_Infix})}:
     Operações binárias representam a maior parte das expressões matemáticas.
     \begin{itemize}
-        \item Operações aritméticas básicas (\verb|+|, \verb|-|, \verb|*|, \verb|/|), basta adionar parenteses com o operador no meio, e emitir a esquerda e direita recursivamente.
-        \item Produto interno, usa-se função \verb|dot| provida por GLSL.
-        \item Multiplicação escalar-vetor é suportado por GLSL, então fica similair ao original \verb"\vec{n} \cdot 2" equivalente à \verb"(vec3(n)*2)".
-        \item Suporta o produto vetorial (\verb|cross|). Nesse caso o operador vem primeiro, no lugar de infixo, \verb"\vec{n_1} \\ \cross $\vec{n_2}$" equivalente à  \\ \verb"cross(vec3(var_1_n_1),vec3(var_2_n_2))".
-        \item Processa exponenciação (\verb|x^y|) chamando a função \verb|pow()| do GLSL.
+    \item Operações aritméticas básicas (\verb|+|, \verb|-|, \verb|*|, \verb|/|): basta adicionar parênteses com o operador no meio e emitir recursivamente à esquerda e à direita.
+    \item Produto interno: usa-se a função \verb|dot| fornecida pelo GLSL.
+    \item Multiplicação escalar-vetor é suportada pelo GLSL, portanto, fica semelhante ao original: \verb|\vec{n} \cdot 2| é equivalente a \verb|(vec3(n) * 2)|.
+    \item Suporta o produto vetorial (\verb|cross|). Nesse caso, o operador vem primeiro, no lugar de infixo: \verb|\vec{n_1} \cross \vec{n_2}| é equivalente a \verb|cross(vec3(var_1_n_1), vec3(var_2_n_2))|.
+    \item Processa exponenciação (\verb|x^y|) chamando a função \verb|pow()| do GLSL.
     \end{itemize}
 
     \item \textbf{Expressões Literais e Agrupamentos}:
     \begin{itemize}
         \item Constrói vetores literais utilizando \verb|vec3|.
-        \item Adicionar parênteses em expressões agrupadas.
+        \item Adiciona parênteses em expressões agrupadas.
     \end{itemize}
 
     \item \textbf{Expressões de Chamadas de Função}:
-       Na geração de uma chamada de função, ocorre a chamada recursiva para emitir a expressão do identificador dessa função. Em seguida, abre-se um parêntese \verb"(", emite-se uma expressão para cada argumento, separados por vírgula, e, por fim, fecha-se o parêntese. Isso é demonstrado pelo trecho no \autoref{cod-emission-func}.
+       Na geração de uma chamada de função, ocorre a chamada recursiva para emitir a expressão do identificador dessa função. Em seguida, abre-se um parêntese, emite-se uma expressão para cada argumento, separados por vírgula, e, por fim, fecha-se o parêntese. Isso é demonstrado pelo trecho no \autoref{cod-emission-func}.
 
 \end{enumerate}
 
-\begin{codigo}[htb]
+\begin{codigo}[H]
     \caption{\small Emissão de chamada de funções. }
     \label{cod-emission-func}
 \begin{lstlisting}[language=C, frame=none, inputencoding=utf8]
@@ -95,7 +96,7 @@ Um trecho dessa função está no \autoref{cod-emit-expr}, que demonstra como os
 \end{codigo}
 
 
- Esse sistema permite traduzir expressões matemáticas como mostrada na \autoref{eq-emit-expr-example}, gerando o código correspondente apresentado no \autoref{cod-emit-expr-example}.
+ Esse sistema permite traduzir expressões matemáticas, como mostrada na \autoref{eq-emit-expr-example}, gerando o código correspondente apresentado no \autoref{cod-emit-expr-example}.
 
 \begin{subequations}
     \label{eq-emit-expr-example}
@@ -117,7 +118,7 @@ f = \frac{\rho_{d}}{\pi} + \rho_{s} * \frac{n+2}{2*\pi} *
 \end{equation}
 \end{subequations}
 
-\begin{codigo}[htb]
+\begin{codigo}[H]
    \caption{\small Exemplo de código de expressão gerado. }
    \label{cod-emit-expr-example}
 \begin{lstlisting}[language=C, frame=none, inputencoding=utf8]
@@ -130,7 +131,7 @@ f = \frac{\rho_{d}}{\pi} + \rho_{s} * \frac{n+2}{2*\pi} *
 \end{lstlisting}
 \end{codigo}
 
-\begin{codigo}[htb]
+\begin{codigo}[H]
    \caption{\small Emitir expressão. }
    \label{cod-emit-expr}
 \begin{lstlisting}[language=C, basicstyle=\ttfamily\footnotesize, frame=none, inputencoding=utf8]
@@ -219,16 +220,16 @@ A função \verb"emit" é o ponto de partida do processo de emissão de código,
     \item \textbf{Inicialização e Estruturação} \\
     Nesta etapa inicial, o foco está em estabelecer a base do shader GLSL. Isso inclui:
     \begin{itemize}
-        \item \textbf{Parâmetros}: Emissão de uma seção parametrizável, \verb"::begin parameters ::end parameters", dos shaders, requerida pela ferramenta Disney BRDF Explorer.
-        \item \textbf{Marcadores de Seção}: Adição de delimitadores como \verb|::begin shader| e \verb|::end shader|, que iniciam o código GLSL na ferramenta da Disney.
-        \item \textbf{Built-in}s: Emissão das declarações e definições de variáveis e funções \textit{built-in} necessárias, para dar ao shader suporte às convenções da \autoref{tab-conventions-metodologia}.
+        \item \textbf{Parâmetros}: emissão de uma seção parametrizável, \verb"::begin parameters ::end parameters", dos shaders, requerida pela ferramenta Disney BRDF Explorer.
+        \item \textbf{Marcadores de Seção}: adição de delimitadores como \verb|::begin shader| e \verb|::end shader|, que iniciam o código GLSL na ferramenta da Disney.
+        \item \textbf{Built-ins}: emissão das declarações e definições de variáveis e funções \textit{built-in} necessárias, para dar ao shader suporte às convenções da \autoref{tab-conventions-metodologia}.
     \end{itemize}
 
     \item \textbf{Processamento de Símbolos} \\
     Após a estruturação inicial, a função processa uma tabela de símbolos (\verb|Scope|) para organizar as declarações e definições necessárias. As operações nesta fase incluem:
     \begin{itemize}
-        \item \textbf{Iteração sobre Símbolos}: Processamento de variáveis escalares (\verb|Type_Basic|), definições de funções (\verb|Type_Function|) e variáveis vetoriais (\verb|Type_Vector|).
-        \item \textbf{Separação de Declarações e Definições}: Uso de duas instâncias distintas de \texttt{StringBuilder}, uma para declarações, que devem vir antes para que as variáveis possam ser usadas globalmente, e outra para definições que podem fazer uso dessas declarações sejam built-ins ou definidos pelos usuários.
+        \item \textbf{Iteração sobre Símbolos}: processamento de variáveis escalares (\verb|Type_Basic|), definições de funções (\verb|Type_Function|) e variáveis vetoriais (\verb|Type_Vector|).
+        \item \textbf{Separação de Declarações e Definições}: uso de duas instâncias distintas de \texttt{StringBuilder}, uma para declarações, que devem vir antes para que as variáveis possam ser usadas globalmente, e outra para definições que podem fazer uso dessas declarações sejam built-ins ou definidos pelos usuários.
     \end{itemize}
 
     \item \textbf{Emissão Final} \\
@@ -287,8 +288,8 @@ A declaração dessas variáveis embutidas é realizada pela função \\ \verb`e
 
 % Este sistema fornece uma base suficiente para implementação de BRDFs complexas.
 
-\begin{codigo}[htb]
-    \caption{\small Recorte da função BRDF one as variaveis built-ins são inicializadas }
+\begin{codigo}[H]
+    \caption{\small Recorte da função BRDF onde as variáveis built-in são inicializadas.}
     \label{cod-builtins-emitted}
 \begin{lstlisting}[language=C, frame=none, inputencoding=utf8]
   //////////// START OF BUILTINS INITIALIZATION ////////////
@@ -338,7 +339,7 @@ reflect(\vec I, \vec N) =  2*(\vec I \cdot \vec N)*\vec N - \vec I
 \end{equation}
 \end{subequations}
 
-\begin{codigo}[htb]
+\begin{codigo}[H]
    \caption{\small Código GLSL gerado pelo compilador para as funções de normalização e reflexão de vetores. }
    \label{cod-normalize-reflect}
 \begin{lstlisting}[language=C, inputencoding=utf8]

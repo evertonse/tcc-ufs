@@ -58,13 +58,14 @@ error_from_token :: proc(token: Token, msg: string, args: ..any);
 
 Dada uma posição ou um \texttt{token}, é exibida uma mensagem (\texttt{msg}) diretamente no terminal, formatada para destacar visualmente o erro em vermelho. A formatação utiliza as informações do \texttt{token}, como o nome do arquivo, a linha, a coluna e o comprimento do \texttt{token} problemático, permitindo sublinhar precisamente onde o erro ocorreu. Isso proporciona maior clareza às mensagens de erro, como exemplificado no caso de erro semântico devido ao uso de identificadores não definidos (\autoref{error-undefined-symbol}).
 
-Optou-se por exibir, nesta seção, erros de forma uniforme para ilustrar como o compilador os reporta, independentemente de serem léxicos, sintáticos ou semânticos. Isso facilita o entendimento do diagnóstico sem sobrecarregar as seções de análise sintática e semântica com detalhes adicionais de erros. A seguir, são apresentados algums tipos de erros possíveis:
+Optou-se por exibir os erros de forma uniforme para ilustrar como o compilador os reporta, independentemente de serem léxicos, sintáticos ou semânticos. Isso oferece uma visão panorâmica dos erros, sem sobrecarregar as seções de análise sintática e semântica com detalhes adicionais de erros. Dessa forma, o entendimento das tarefas do compilador é facilitado nas etapas subsequentes. A seguir, são apresentados alguns tipos de erros possíveis:
+
 \begin{enumerate}
    \item \textbf{Erros léxicos}: uso de palavras reservadas (\autoref{error-reserved-word}).
    
-   \item \textbf{Erros sintáticos}: relacionados a problemas de estrutura, como balanceamento incorreto de parênteses (\autoref{error-balanceamento}) e \textit{tokens} que não formam uma expressão matemática válida (\autoref{error-cant-make-expression});
+   \item \textbf{Erros sintáticos}: problemas de estrutura, como balanceamento incorreto de parênteses (\autoref{error-balanceamento}) e \textit{tokens} que não formam uma expressão matemática válida (\autoref{error-cant-make-expression}).
    
-   \item \textbf{Erros semânticos}: envolvendo tipos incompatíveis (\autoref{error-incompatible-types}), símbolos não definidos (\autoref{error-undefined-symbol}); redefinição de símbolos (\autoref{error-redefinition}).
+   \item \textbf{Erros semânticos}: envolvendo tipos incompatíveis (\autoref{error-incompatible-types}), símbolos não definidos (\autoref{error-undefined-symbol}) e redefinição de símbolos (\autoref{error-redefinition}).
 \end{enumerate}
 
 
@@ -85,7 +86,7 @@ Optou-se por exibir, nesta seção, erros de forma uniforme para ilustrar como o
 \end{figure}
 
 \begin{figure}[H]
-    \caption{\label{error-incompatible-types} \small Erro de de tipos incompatíveis.}
+    \caption{\label{error-incompatible-types} \small Erro de tipos incompatíveis.}
     \begin{center}
         \includegraphics[scale=0.5]{./Imagens/error-incompatible-types.png}
     \end{center}
@@ -112,6 +113,7 @@ Optou-se por exibir, nesta seção, erros de forma uniforme para ilustrar como o
     \begin{center}
         \includegraphics[scale=0.5]{./Imagens/error-cant-make-expression.png}
     \end{center}
+\end{figure}
 
 \begin{figure}[H]
     \caption{\label{error-redefinition} \small Erro de redefinição de símbolo.}
@@ -128,15 +130,21 @@ Tokens simples, como aqueles compostos por um ou dois caracteres, são extraído
 
 Tokens mais complexos, como números, identificadores ou \textit{tokens} especiais, são extraídos com base em suas características. Números podem opcionalmente conter um ponto decimal, como em $1.0$. Já identificadores consistem em uma ou mais letras, opcionalmente prefixadas pelo símbolo \verb|\|.
 
-A gramática de \textit{tokens} provida é intrinsecamente ambígua. Por exemplo, uma sequência como \verb|\frac| pode ser interpretada como um identificador comum ou como \verb"token_frac". Para resolver essa ambiguidade, criamos um dicionário que mapeia identificadores específicos para \textit{tokens} especiais (\autoref{map-special-identifiers}). Assim, se um identificador começar com o caractere \verb|\|, ele será verificado no dicionário e classificado como um \textit{token} especial, se apropriado.
+A lista de expressões regulares de \textit{tokens} fornecida é intrinsecamente ambígua. Por exemplo, uma sequência como \verb|\frac| pode ser interpretada como um identificador comum ou como \verb"token_frac". Para resolver essa ambiguidade, criamos um dicionário que mapeia identificadores específicos para \textit{tokens} especiais (\autoref{map-special-identifiers}). Assim, se um identificador começar com o caractere \verb|\|, ele será verificado no dicionário e classificado como um \textit{token} especial, se apropriado.
 
 
 \label{lexer-subexpression}
 Identificadores não permitem números nem mesmo o caractere de sublinhado (\verb|_|). Isso ocorre porque, no analisador sintático, um nó do tipo identificador é modelado como um tipo recursivo, permitindo que identificadores sejam aninhados ao conter outros nós. Dessa forma, não é necessário permitir sublinhados diretamente no nível de token, o que possibilita a escrita de identificadores mais complexos, como \verb|\pi{n_1}| (renderizado em \LaTeX{} como $\pi_{n_1}$). Nesse caso, \verb|\pi| seria o primeiro \textit{token} do nó identificador, e sua subexpressão seria \verb|n_1| (renderizado como $n_1$), que, por sua vez, é o identificador \verb|n| com a subexpressão \verb|1|.
 
-Adicionalmente, permitimos o uso da palavra-chave \verb|\text|, como em \verb|\text{id}|, para descrever identificadores. Essa palavra-chave é utilizada para incluir texto dentro do ambiente de equações em \LaTeX{}, proporcionando maior flexibilidade na representação de identificadores. A extração desse \textit{token} segue um processo semelhante ao do suporte para \verb|\vec{id}|.
+% Adicionalmente, permitimos o uso da palavra-chave \verb|\text|, como em \verb|\text{id}|, para descrever identificadores. Essa palavra-chave é utilizada para incluir texto dentro do ambiente de equações em \LaTeX{}, proporcionando maior flexibilidade na representação de identificadores. A extração desse \textit{token} segue um processo semelhante ao do suporte para \verb|\vec{id}|.
+%
+% Adicionalmente, permitimos o uso da palavra-chave \verb|\text|, como em \verb|\text{id}|, para descrever identificadores. Essa palavra-chave é utilizada para incluir texto dentro do ambiente de equações em \LaTeX{}, permitindo uma visualização mais clara de funções longas ou identificadores compostos. Por exemplo, ao invés de \verb|normalize(x)|, rederizado fica $normalize(x)$ pode-se escrever \verb|\text{normalize}(x)|, renderizado gera $\text{normalize}(x)$, tornando a expressão mais legível. A extração desse \textit{token} segue um processo semelhante ao do suporte para \verb|\vec{id}|.
 
-A enumeração que representa os tipos de \textit{tokens} pode ser consultada na \autoref{enum-token-kind}. Cada entrada dessa enumeração corresponde diretamente às regras de produção definidas na gramática apresentada na \autoref{grammar-tokens}. Para facilitar a leitura, adicionamos, à direita de cada entrada, o símbolo que a representa, indicado em comentários.
+% Adicionalmente, permitimos o uso da palavra-chave \verb|\text|, como em \verb|\text{id}|, para descrever identificadores. Essa palavra-chave é utilizada para incluir texto dentro do ambiente de equações em \LaTeX{}, oferecendo uma visualização mais clara de funções longas. Por exemplo, em vez de renderizar como \( normalize(x) \), pode-se usar \verb|\text{normalize}(x)|, que será renderizado como \( \text{normalize}(x) \), tornando a expressão mais legível. Outro caso que pode ser util é por exemplo len, len pode ser um numbero ou um multiplicação entre l, e e n, usando \text{len} fica mais claro que len é um token só, $\text{len}$ e não $len$  A extração desse \textit{token} segue um processo semelhante ao do suporte para \verb|\vec{id}|.
+
+Adicionalmente, permitimos o uso da palavra-chave \verb|\text|, como em \verb|\text{id}|, para descrever identificadores. Essa palavra-chave é utilizada para incluir texto dentro do ambiente de equações em \LaTeX{}, oferecendo uma visualização mais clara de funções longas. Por exemplo, em vez de renderizar como \( normalize(x) \), pode-se usar \verb|\text{normalize}(x)|, que será renderizado como \( \text{normalize}(x) \), tornando a expressão mais legível. Outro caso útil é o \textit{token} $len$, que pode ser visualmente confundido com a multiplicação entre as variáveis \(l\), \(e\) e \(n\); usando \verb|\text{len}|, fica mais claro que ``$\text{len}$'' é um único token, e não como uma multiplicação entre 3 outros \textit{tokens}. A extração desse \textit{token} segue um processo semelhante ao do suporte para \verb|\vec{id}|.
+
+A enumeração que representa os tipos de \textit{tokens} pode ser consultada no \autoref{enum-token-kind}. Cada entrada dessa enumeração corresponde diretamente aos tipos de \textit{tokens} gerados pela lista de expressões regulares apresentada no \autoref{grammar-tokens}. Para facilitar a leitura, incluímos, à direita de cada entrada, o símbolo correspondente, indicado em comentários
 
 Com a etapa de tokenização concluída, é possível avançar para a análise sintática, onde é explorada a forma como os \textit{tokens} gerados são organizados em estruturas hierárquicas que formam a árvore sintática.
 

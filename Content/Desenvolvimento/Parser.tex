@@ -69,7 +69,7 @@ O \textit{parser} desenvolvido para \texttt{EquantionLang} consulta à tabela de
 
 Foi utilizada uma notação semelhante à original de Pratt \cite{pratt}, onde as funções \verb"parse_null_denotations" e \verb"parse_left_denotations" desempenham papéis equivalentes às funções \texttt{token.prefixo} e \texttt{token.infixo}, respectivamente, como demonstrado no \autoref{alg1}. 
 
-Além disso, a abordagem de descida recursiva (top-down) permite que cada regra de produção definida na gramática (\autoref{grammar-ast-pt1}) seja diretamente mapeada para um procedimento em código. Isso pode ser observado, por exemplo, na função de análise do nó \texttt{Start} da AST (\autoref{cod-parsing-start}), que reflete diretamente as regras de produção \texttt{start}, \texttt{decl} e \verb"decl_equation_begin_end_block" especificadas na gramática apresentada no \autoref{grammar-ast-pt1}.
+Além disso, a abordagem de descida recursiva (descendente) permite que cada regra de produção definida na gramática (\autoref{grammar-ast-pt1}) seja diretamente mapeada para um procedimento em código. Isso pode ser observado, por exemplo, na função de análise do nó \texttt{Start} da AST (\autoref{cod-parsing-start}), que reflete diretamente as regras de produção \texttt{start}, \texttt{decl} e \verb"decl_equation_begin_end_block" especificadas na gramática apresentada no \autoref{grammar-ast-pt1}.
 
 Do ponto de vista da interface oferecida pelo pacote \texttt{parser}, todo o processo de análise sintática é abstraído em uma única chamada de função (\autoref{cod-func-and-structs}). A função principal, \texttt{parse}, trabalha em conjunto com a estrutura \texttt{Parser} para realizar a análise.
 
@@ -98,7 +98,7 @@ parse_expr :: proc(prec_prev: i64) -> ^Expr {
   \end{lstlisting}
 \end{codigo}
 
-\begin{codigo}[htb]
+\begin{codigo}[H]
     \caption{\small Estrutura e função principal do pacote \texttt{parser}. }
         \label{cod-func-and-structs}
   \begin{lstlisting}[language = C]
@@ -114,7 +114,7 @@ parse :: proc(using p: ^Parser) -> ^ast.Start {
   \end{lstlisting}
 \end{codigo}
 
-\begin{codigo}[htb]
+\begin{codigo}[H]
     \caption{\small \textit{Parsing} do nó \texttt{Start}. }
         \label{cod-parsing-start}
   \begin{lstlisting}[language=C++]
@@ -139,9 +139,10 @@ parse_start :: proc(using p: ^Parser) -> ^ast.Start {
 \subsection{Gramática} \label{subsection-grammar}
 
 
-Para formalizar a gramática da linguagem de entrada (\texttt{EquationLang}), suas regras estão detalhadas nos \autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2}. Um exemplo de código-fonte contendo três equações válidas nessa linguagem se encontra no \autoref{code-gramatica}. Sua renderização correspondente em \LaTeX{} é ilustrada na \autoref{code-gramatica-rendered}.
 
-Nesse exemplo, a primeira equação ($\rho_{d}$) é gerado pela regra \verb"expr_vector_literal". A segunda ($\rho_{s}$), é uma expressão binária derivada da regra \verb"expr_infix". Já a última equação utiliza múltiplas regras, como \verb"expr_grouped" e \verb"expr_prefix".
+Para formalizar a gramática da linguagem de entrada (\texttt{EquationLang}), suas regras estão detalhadas nos \autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2}. Todas as definições de equações ou funções que compõem a descrição de uma BRDF devem estar dentro do seu próprio bloco de ambiente \verb`equation` em um arquivo \LaTeX{}. Um exemplo de código-fonte contendo três equações válidas nessa linguagem se encontra no \autoref{code-gramatica}, e sua renderização correspondente em \LaTeX{} é ilustrada na \autoref{code-gramatica-rendered}.
+
+No exemplo, a primeira equação ($\rho_{d}$) é gerada pela regra \verb"expr_vector_literal". A segunda ($\rho_{s}$) é uma expressão binária derivada da regra \verb"expr_infix". Já a última equação utiliza múltiplas regras, como \verb"expr_grouped" e \verb"expr_prefix". 
 
 
 \begin{subequations}
@@ -279,7 +280,7 @@ f = \frac{\rho_{d}}{\pi} + \frac{\rho_{s}}{8*\pi} *
 \end{lstlisting}
 \end{codigo}
 
-Na definição da gramática (\autoref{grammar-ast-pt1}), adotamos a notação sintática previamente estabelecida na \autoref{section-sintatic-grammar-notation}. 
+Na definição da gramática (\autoref{grammar-ast-pt1} e \autoref{grammar-ast-pt2}), adotamos a notação sintática previamente estabelecida na \autoref{section-sintatic-grammar-notation}.
 A gramática apresentada inclui regras para expressões, atribuições, agrupamento, literais numéricos e vetoriais, chamadas e definições de funções, além de operadores, como \verb"expr_prefix" e \verb"expr_infix". Ela é projetada para suportar a sintaxe necessária à definição de BRDFs em \LaTeX{}.
 
 
@@ -320,33 +321,33 @@ $\times$              & Não              & 20                   \\ \hline
 Esta seção apresenta os tipos de nós que compõem a AST do compilador da linguagem \texttt{EquationLang}. Cada estrutura de nó captura diferentes regras de produção da sintaxe em nível de código. O nó \texttt{Expr}, o mais genérico, inclui o campo \verb"ty_inferred", que armazena o tipo inferido da expressão, preenchido durante a análise semântica e utilizado na geração de código.
 
 \begin{itemize}
-\item \textbf{Node}: Estrutura base para todos os nós da AST. Representa um tipo genérico e é estendido por outros tipos mais específicos.
+\item \textbf{Node}: estrutura base para todos os nós da AST. Representa um tipo genérico e é estendido por outros tipos mais específicos.
 
-\item \textbf{Expr}: Representa expressões de forma geral, como literais, operadores, ou agrupamentos.
+\item \textbf{Expr}: representa expressões de forma geral, como literais, operadores, ou agrupamentos.
 
-\item \textbf{Decl}: Representa declarações genéricas na linguagem, como definições de funções ou equações.
+\item \textbf{Decl}: representa declarações genéricas na linguagem, como definições de funções ou equações.
 
-\item \textbf{Start}: O nó raiz da AST, contendo todas as declarações e marcando o fim do arquivo.
+\item \textbf{Start}: o nó raiz da AST, contendo todas as declarações e marcando o fim do arquivo.
 
-\item \textbf{Decl\_Equation}: Representa uma equação, conectando uma expressão ou valor a um identificador.
+\item \textbf{Decl\_Equation}: representa uma equação, conectando uma expressão ou valor a um identificador.
 
-\item \textbf{Field}: Representa uma atribuição, associando um nome a um valor através do operador \texttt{=}.
+\item \textbf{Field}: representa uma atribuição, associando um nome a um valor através do operador \texttt{=}.
 
-\item \textbf{Expr\_Identifier}: Representa identificadores, como variáveis ou constantes, podendo incluir subexpressões e anotações adicionais.
+\item \textbf{Expr\_Identifier}: representa identificadores, como variáveis ou constantes, podendo incluir subexpressões e anotações adicionais.
 
-\item \textbf{Expr\_Number}: Representa literais numéricos, como inteiros ou números de ponto flutuante.
+\item \textbf{Expr\_Number}: representa literais numéricos, como inteiros ou números de ponto flutuante.
 
-\item \textbf{Expr\_Vector\_Literal}: Representa vetores literais, contendo uma sequência de valores numéricos.
+\item \textbf{Expr\_Vector\_Literal}: representa vetores literais, contendo uma sequência de valores numéricos.
 
-\item \textbf{Expr\_Grouped}: Representa expressões agrupadas por delimitadores, como parênteses ou chaves.
+\item \textbf{Expr\_Grouped}: representa expressões agrupadas por delimitadores, como parênteses ou chaves.
 
-\item \textbf{Expr\_Prefix}: Representa expressões prefixas, onde o operador precede o valor, como \texttt{-3}.
+\item \textbf{Expr\_Prefix}: representa expressões prefixas, onde o operador precede o valor, como \texttt{-3}.
 
-\item \textbf{Expr\_Infix}: Representa expressões infixas, onde o operador está entre dois valores, como \texttt{3 + 3}.
+\item \textbf{Expr\_Infix}: representa expressões infixas, onde o operador está entre dois valores, como \texttt{3 + 3}.
 
-\item \textbf{Expr\_Function\_Call}: Representa chamadas de função, contendo o nome da função e seus argumentos.
+\item \textbf{Expr\_Function\_Call}: representa chamadas de função, contendo o nome da função e seus argumentos.
 
-\item \textbf{Expr\_Function\_Definition}: Representa definições de funções, incluindo o nome, parâmetros e o corpo da função.
+\item \textbf{Expr\_Function\_Definition}: representa definições de funções, incluindo o nome, parâmetros e o corpo da função.
 \end{itemize}
 
 Anteriormente, na \autoref{lexer-subexpression}, foi discutido que o \textit{parser} suporta identificadores aninhados, como \( x_{i_1} \) (\verb"x_{i_1}"). Esse suporte é demonstrado no \autoref{cod-expression-ident-recursive}, que processa identificadores de forma recursiva. O trecho faz parte de uma função maior onde um \texttt{switch}\footnote{Os comandos \texttt{switch} e \texttt{case} na linguagem Odin são semelhantes aos da linguagem C.} é aplicado sobre a enumeração descrita na \autoref{enum-token-kind}. Dentro desse \texttt{switch}, há um \texttt{case} específico que reconhece \textit{tokens} de identificadores ou símbolos especiais, como \( \omega, \theta, \phi, \rho, \alpha, \beta, \sigma, \pi, \epsilon \).
