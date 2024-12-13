@@ -27,7 +27,7 @@ O pacote \texttt{checker} é responsável por realizar diversas tarefas fundamen
     \item \textbf{Compatibilidade de Tipos}:
     O \texttt{checker} também verifica a compatibilidade entre tipos em diferentes contextos do programa. Essa validação assegura que:
     \begin{itemize}
-        \item Não sejam realizadas operações não definidas por \texttt{EquationLang}, como a divisão entre dois vetores.
+        \item Não sejam realizadas operações indefinidas em \texttt{EquationLang}, como a divisão entre dois vetores.
         \item Não sejam aplicados operadores em tipos incompatíveis, como elevar um número a um vetor ($2^{\vec{n}}$).
         \item Os argumentos de uma função devem pertencer ao domínio esperado pela função. Por exemplo, se a função $\texttt{normalize}(\vec{u})$ retorna um vetor tridimensional ($\mathbb{R}^3$), utilizá-lo como argumento para a função seno, que espera um número escalar ($\mathbb{R}$), seria inválido. Assim, $\sin(\texttt{normalize}(\vec{u}))$ não é permitido.
         \item O tipo do valor de retorno de uma função deve ser compatível com o contexto em que é utilizado.
@@ -208,6 +208,9 @@ Para implementar essas funcionalidades, o \texttt{checker} realiza múltiplas pa
     \item \textbf{Análise de Dependências}:
     \begin{itemize}
         \item Construir o grafo de dependências. Estruturas podem ser vistas no \autoref{cod-symbol-graph}, um simples grafo que associa um símbolo a outros símbolos dos quais depende
+
+        \item Verificar que não há dependência circular. O \autoref{cod-grafo-simbol-deps} é um exemplo de dependência circular; seu erro é exibido na \autoref{fig-deps-circular}.
+
         \item Validar referências de símbolos, incluindo detectar uso de símbolos que nunca foram definidos
         \item Estabelecer a ordem de avaliação por meio de ordenação topológica
         \item Verificação do ponto de entrada
@@ -232,8 +235,6 @@ Symbol_Graph :: map[^Symbol]Symbol_Dependency
 \end{lstlisting}
 \end{codigo}
 
-% Cosegue lidar com escopo, parametros de funções e simbolos embutidos, aqueles padrões dinifidos na tabela de convenções de simbolos matematiccos \autoref{@va trabahlhar vagabundo@}. Para isso exist multiplas passadas. A primeira coleta todos os simbolos. A segunda, analisa as dependencias e estabelece a ordem de avaliação. Por ultimo, o \texttt{checker} toma contra do restante das inferencias de tipos e outras validações
-
 \begin{codigo}[H]
     \caption{\small Entrada para o compilador que gera dependência circular.}
     \label{cod-grafo-simbol-deps}
@@ -250,7 +251,7 @@ Symbol_Graph :: map[^Symbol]Symbol_Dependency
 \end{codigo}
 
 \begin{figure}[H]
-    \caption{\label{label} \small Erro reportado sobre dependencia circular.}
+        \caption{\label{fig-deps-circular} \small Erro reportado sobre dependência circular.}
     \begin{center}
         \includegraphics[scale=0.5]{./Imagens/error-circular-deps.png}
     \end{center}
@@ -260,7 +261,7 @@ Symbol_Graph :: map[^Symbol]Symbol_Dependency
 \subsection{Inferência de Tipos} \label{subsection-type-inference}
 
 
-A função \verb`infer_type` determina o tipo de uma expressão (\verb`expr`) na AST durante a análise semântica, aplicando regras baseadas em operações matemáticas, como multiplicação entre número real e vetor, produto vetorial entre vetores e assinaturas de funções. 
+A função \verb`infer_type` determina o tipo de uma expressão (\verb`expr`) na AST durante a análise semântica, aplicando regras baseadas em operações matemáticas, como multiplicação entre número real e vetor, produto vetorial entre vetores e assinaturas de funções.
 
 Projetada para processar todas as expressões de \texttt{EquationLang} — como identificadores, operadores, chamadas de função e literais —, a função verifica inicialmente se o tipo já foi inferido (\verb"expr.ty_inferred") para evitar processamento redundante. Caso contrário, realiza a inferência com base em um \verb"switch" que é capaz de avaliar todos tipos de expressões. Um trecho relevante desse processo está no \autoref{cod-type-inference}, que ilustra a discriminação e validação dos tipos.
 
@@ -294,9 +295,9 @@ Qualquer violação semântica, como incompatibilidades de tipos ou uso de escal
 A função \verb"check_expr" realiza uma travessia semelhante à inferência de tipos e chama \texttt{infer\_type}. Nela, a análise de expressões que não foram feitas por \texttt{infer\_type} é realizada para todos os tipos de expressões. Algumas dessas validações estão listadas após este parágrafo, e um trecho dessa travessia pode ser visto no \autoref{eq-function-check-expr}.
 
 \begin{itemize}
-    \item \verb`Expr_Function_Call`: Verifica se estamos fazendo a chamada corretamente com um identificador, evitando casos como tentar chamar uma função com um número, por exemplo, $123(x,y)$, o que é incorreto. Também checa se o número de argumentos corresponde ao número de parâmetros esperados.
-    \item \verb`Expr_Prefix`: Verifica operadores (\verb`-`, \verb`+`) e funções como \verb`sqrt(x)` e \verb`sin(x)`. Certifica-se de que os tipos sejam compatíveis, gerando erro em caso contrário, como quando um vetor é passado para a função seno.
-    \item Literais de Vetor \verb`Expr_Vector_Literal`: Garante que os vetores tenham exatamente 3 dimensões\footnote{Exigir vetores de apenas 3 dimensões pode ser considerado uma limitação semântica imposta pelo compilador}.
+    \item \verb`Expr_Function_Call`: verifica se estamos fazendo a chamada corretamente com um identificador, evitando casos como tentar chamar uma função com um número, por exemplo, $123(x,y)$, o que é incorreto. Também checa se o número de argumentos corresponde ao número de parâmetros esperados.
+    \item \verb`Expr_Prefix`: verifica operadores (\verb`-`, \verb`+`) e funções como \verb`sqrt(x)` e \verb`sin(x)`. Certifica-se de que os tipos sejam compatíveis, gerando erro em caso contrário, como quando um vetor é passado para a função seno.
+    \item Literais de Vetor \verb`Expr_Vector_Literal`: garante que os vetores tenham exatamente 3 dimensões\footnote{Exigir vetores de apenas 3 dimensões pode ser considerado uma limitação semântica imposta pelo compilador}.
 \end{itemize}
 
 

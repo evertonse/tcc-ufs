@@ -57,7 +57,7 @@ error_from_token :: proc(token: Token, msg: string, args: ..any);
 
 Dada uma posição ou um \texttt{token}, é exibida uma mensagem (\texttt{msg}) diretamente no terminal, formatada para destacar visualmente o erro em vermelho. A formatação utiliza as informações do \texttt{token}, como o nome do arquivo, a linha, a coluna e o comprimento do \texttt{token} problemático, permitindo sublinhar precisamente onde o erro ocorreu. Isso proporciona maior clareza às mensagens de erro, como exemplificado no caso de erro semântico devido ao uso de identificadores não definidos (\autoref{error-undefined-symbol}).
 
-Optou-se por apresentar nesta seção uma visão geral de alguns erros possíveis para demonstrar como o compilador os reporta visualmente, independentemente de serem léxicos, sintáticos ou semânticos. Essa maneira evita sobrecarregar as seções de análise sintática e semântica com descrições ou imagens excessivas. Nas análises seguintes, os tipos de erro serão discutidos em suas etapas correspondentes. A seguir, são apresentados exemplos de erros possíveis:
+Optou-se por apresentar nesta seção uma visão geral de alguns erros possíveis para demonstrar como o compilador os reporta visualmente, independentemente de serem léxicos, sintáticos ou semânticos. Essa organização evita sobrecarregar as seções de análise sintática e semântica com descrições ou imagens excessivas. Nas análises seguintes, os tipos de erro serão discutidos em suas etapas correspondentes. A seguir, são apresentados exemplos de erros possíveis:
 
 \begin{enumerate}
    \item \textbf{Erros léxicos}: uso de palavras reservadas (\autoref{error-reserved-word}).

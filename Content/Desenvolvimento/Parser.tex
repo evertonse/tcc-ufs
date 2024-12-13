@@ -9,12 +9,12 @@ A implementação deste \textit{parser} adota o método de descida recursiva, no
 \subsection{Sintaxe de Gramáticas} \label{section-sintatic-grammar-notation}
 Na definição de gramáticas deste capítulo, utilizamos uma notação simplificada de sintaxe para representar as regras. Palavras compostas por letras minúsculas representam \textit{não-terminais}, enquanto palavras entre aspas simples correspondem a \textit{terminais}.
 
-Além disso, os seguintes operadores são utilizados na notação:
+Além disso, os seguintes símbolos são utilizados na notação:
 \begin{itemize}
-    \item ``$*$'' indica zero ou mais ocorrências de um elemento, que pode ser tanto um \textit{terminal} quanto um \textit{não-terminal};
-    \item ``$()$'' define agrupamentos para aplicar um operador sobre os elementos agrupados;
-    \item ``$|$''  introduz uma regra alternativa para o mesmo \textit{não-terminal}. Caso esteja dentro de um agrupamento, como em ``$(a|b)$'', significa que aceita $a$ ou $b$;
-    \item ``$=$''  representa uma produção.
+    \item $*$ \ \ indica zero ou mais ocorrências de um elemento, que pode ser tanto um \textit{terminal} quanto um \textit{não-terminal};
+    \item $()$ \  define agrupamentos para aplicar um operador sobre os elementos agrupados;
+    \item $|$  \ \  introduz uma regra alternativa para o mesmo \textit{não-terminal}. Caso esteja dentro de um agrupamento, como em ``$(a|b)$'', significa que aceita $a$ ou $b$;
+    \item $=$ \  \  representa uma produção.
 \end{itemize}
 
 Adicionalmente, sequências de três hífens (``\verb|---|'') são usadas para comentários destinados ao leitor, sem impacto na definição gramatical.

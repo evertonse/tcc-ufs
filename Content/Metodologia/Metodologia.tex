@@ -23,14 +23,14 @@ O primeiro passo envolve a realização de uma análise detalhada das áreas rel
 
 Durante essa análise, foram estudados conceitos de radiometria para compreender tecnicamente as BRDFs. A principal fonte de informação sobre radiância e BRDFs foi o livro ``Physically Based Rendering: From Theory To Implementation'' \cite{pbr}. Esse livro foi importante para compreensão da equação de renderização (\autoref{eq-rendering-equation}).
 
-A leitura de exemplos práticos e a análise do código-fonte da ferramenta Disney Explorer (\autoref{fig-disney-tool}) permitiram a familiarização com o desenvolvimento de BRDFs, fornecendo uma base sólida para compreender o mapeamento de equações para código, aspecto essencial para o desenvolvimento do compilador proposto neste trabalho.
+A leitura de exemplos práticos, presentes no código-fonte e nos \textit{shaders} da ferramenta discutida na \autoref{experimentos-renderizacao}, permitiu a familiarização com o desenvolvimento de BRDFs, fornecendo uma base sólida para compreender o mapeamento de equações para código, aspecto essencial para o desenvolvimento do compilador proposto neste trabalho.
 
 Além disso, foram exploradas algumas técnicas de compilação, o que levou à escolha do método de Pratt \textit{Parsing} para a construção do compilador. Também foram estudados conceitos de recursividade e caminhada em árvores, que foram aplicados na análise semântica e na geração de código.
 
 
 \section{Especificação da Linguagem}\label{especificacao-linguagem}
 
-As especificações da linguagem de entrada e saída para o compilador são definidas. A linguagem de entrada é uma versão simplificada do \LaTeX{}, na qual as expressões matemáticas em ambientes \texttt{equation} são suficientes para descrever BRDFs. O \LaTeX{}  é um sistema de composição amplamente utilizado para documentos matemáticos e científicos. O ambiente \texttt{equation} é especificamente projetado para exibir equações individuais. O \autoref{equation-latex} é um exemplo de código-fonte \LaTeX{}  usando o ambiente \texttt{equation}.
+As especificações da linguagem de entrada para o compilador é definida. A linguagem de entrada é uma versão simplificada do \LaTeX{}, na qual as expressões matemáticas em ambientes \texttt{equation} são suficientes para descrever BRDFs. O \LaTeX{}  é um sistema de composição amplamente utilizado para documentos matemáticos e científicos. O ambiente \texttt{equation} é especificamente projetado para exibir equações individuais. O \autoref{equation-latex} é um exemplo de código-fonte \LaTeX{}  usando o ambiente \texttt{equation}.
 
 
 \begin{codigo}[H]
@@ -180,7 +180,7 @@ A travessia e manipulação da AST é possível pelo pacote \texttt{walker}, que
 
 Além disso, foi implementada uma etapa de análise semântica por meio do pacote chamado \texttt{checker}. Essa etapa consiste em validar todas as expressões, criar os escopos e a tabela de símbolos, além de anotar a AST com informações como os tipos inferidos de cada nó, incluindo funções com seus domínios e contradomínios, vetores e suas dimensões, e números reais.
 
-Por fim, com a AST devidamente anotada, foi desenvolvido o pacote \texttt{emitter}, o qual realiza a geração do código GLSL que atenda aos requisitos do pipeline gráfico. Esse código é formatado para ser carregado diretamente e renderizado na ferramenta Disney descrita na \autoref{disney-brdf-tool}.
+Por fim, com a AST devidamente anotada, foi desenvolvido o pacote \texttt{emitter}, o qual realiza a geração do código GLSL que atenda aos requisitos do pipeline gráfico. Esse código é formatado para ser carregado e renderizado diretamente na ferramenta Disney descrita na \autoref{disney-brdf-tool}.
 
 \section{Experimentos de Renderização} \label{experimentos-renderizacao}
 
@@ -190,7 +190,7 @@ Experimentos de renderização são realizados usando os \textit{shaders} gerado
 
 Essa ferramenta é composta por um renderizador e uma interface que permite ajustar parâmetros de BRDFs através de controles deslizantes em tempo real, fornecendo uma visualização interativa do efeito das mudanças nos parâmetros que afetam a aparência do objeto renderizado, como ilustrado na \autoref{fig-disney-tool}.
 
-O código que informa à ferramenta qual a BRDF a ser renderizada e seus possíveis parâmetros pode ser visto na \autoref{cod-disney-code}. Esse código possui um formato específico, onde se encontram algumas seções.
+O código que informa à ferramenta qual a BRDF a ser renderizada e seus possíveis parâmetros pode ser visto no \autoref{cod-disney-code}. Esse código possui um formato específico, onde se encontram algumas seções.
 Existe a seção para código GLSL e outra seção delimitada por \texttt{::begin parameters} e \texttt{::end parameters}, na qual podemos definir os parâmetros que se tornam constantes dessa BRDF. Esses parâmetros se tornam elementos de interface, permitindo o ajuste dinâmico das constantes. O nosso compilador gera \textit{shaders} nesse formato.
 
 

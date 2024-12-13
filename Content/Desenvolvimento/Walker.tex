@@ -100,9 +100,9 @@ walk :: proc(v: ^Visitor($T), node: ^ast.Node) {
 
 
 \subsection{Validação de Precedência}
-As funções e a estrutura de travessia foram utilizadas para validar a precedência dos operadores na AST gerada pelo \texttt{parser}. Uma função de parentização foi implementada para percorrer a AST e inserir parênteses, preservando a precedência original implícita. Assim, é possivel testar se a representação textual reflete corretamente a ordem de avaliação das operações matemáticas e assegurar que a hierarquia das operações foram corretamente representadas na árvore gerada.
+As funções e a estrutura de travessia foram utilizadas para validar a precedência dos operadores na AST gerada pelo \texttt{parser}. Uma função de parentização foi implementada para percorrer a AST e inserir parênteses, preservando a precedência original implícita. Assim, é possível testar se a representação textual reflete corretamente a ordem de avaliação dos operadores matemáticos e assegurar que a hierarquia das operações foram corretamente representadas na árvore gerada.
 
-Os testes de precedência comparam o texto original de uma expressão com sua versão esperada, onde os parênteses indicam a ordem correta de avaliação (\autoref{cod-test-paren}). Casos complexos, como operadores associativos à direita (por exemplo, exponenciação) combinados com operadores de diferentes precedências, bem como expressões aninhadas e funções, também são testados para abranger variados cenários possíveis.
+Os testes de precedência comparam o texto original de uma expressão com sua versão esperada, onde os parênteses indicam a ordem correta de avaliação (\autoref{cod-test-paren}). Casos complexos, como operadores associativos à direita (por exemplo, exponenciação) combinados com operadores de diferentes precedências, bem como expressões aninhadas e funções, também são testados para incluir cenários variados.
 
 
 \begin{codigo}[H]

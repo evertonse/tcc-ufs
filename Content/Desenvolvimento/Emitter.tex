@@ -4,7 +4,7 @@
 
 A etapa de geração de código é realizada pelo pacote \texttt{emitter}, que cria um \textit{shader} compatível com a ferramenta Disney BRDF Explorer. Essa etapa é separada em três fases, descritas na \autoref{sub-start-emitting}. O processo começa com o escopo global, que contém informações essenciais, como símbolos, assinaturas de funções, tipos e nós da AST completamente anotada. A travessia recursiva dos símbolos e nós ocorre sem validações adicionais, uma vez que a etapa semântica já foi realizada.
 
-A geração de código abrange o lado esquerdo da equação, que inclui identificadores e parâmetros de funções, e o lado direito, que é sempre uma expressão, cuja emissão é explorada em \autoref{sec-RHS}. Além disso, é fundamental garantir que cada variável tenha um nome único no código GLSL, conforme descrito em \autoref{sec-unicidade}.
+A geração de código considera o lado esquerdo da equação, que inclui identificadores e parâmetros de funções, e o lado direito, que é sempre uma expressão, cuja emissão é explorada em \autoref{sec-RHS}. Além disso, é fundamental garantir que cada variável tenha um nome único no código GLSL, conforme descrito em \autoref{sec-unicidade}.
 
 \subsection{Emissão de Equações} \label{subsection-emission}
 
@@ -40,11 +40,11 @@ Essas etapas garantem que cada variável no código GLSL seja única e válida. 
 
 \subsection{Geração de Expressões} \label{sec-RHS}
 
-A geração de expressões no pacote \texttt{emitter} converte as expressões do lado direito das equações em código GLSL válido, usando a AST anotada com tipos inferidos.
+A geração de expressões no pacote \texttt{emitter} converte as expressões do lado direito das equações para código GLSL válido, usando a AST anotada com tipos inferidos.
 
-A função principal, \verb"emit_expr", processa cada nó de expressão e constrói a cadeira de caracteres correspondente em GLSL usando um \verb"StringBuilder" da biblioteca padrão de Odin, evitando concatenações excessivas. Na travessia recursiva da AST, realizada pelo pacote \texttt{walker}, converte operações binárias, prefixas, vetoriais e chamadas de função em código \textit{shading}.
+A função principal, \verb"emit_expr", processa cada nó de expressão e constrói a \textit{string} correspondente em GLSL usando um \verb"StringBuilder" da biblioteca padrão de Odin, evitando concatenações excessivas. Na travessia recursiva da AST, realizada pelo pacote \texttt{walker}, converte-se operações binárias, prefixas, vetoriais e chamadas de função para código \textit{shading}.
 
-Um trecho dessa função está no \autoref{cod-emit-expr}, que demonstra como os tipos são discriminados (\texttt{case}) e \textit{strings} para funções trigonométricas são geradas usando \verb|sbprint|. A seguir, são enumeradas as principais categorias de expressões tratadas:
+Um trecho dessa função está no \autoref{cod-emit-expr}, que demonstra como os tipos são discriminados (\texttt{case}) e \textit{strings} para funções trigonométricas são geradas usando \verb|sbprint|\footnote{\texttt{sbprint} é a função da biblioteca padrão de Odin, a qual escreve \textit{strings} em um \texttt{StringBuilder}.}. A seguir, são enumeradas as principais categorias de expressões tratadas:
 
 \begin{enumerate}
     \item \textbf{Expressões Prefixas (\texttt{Expr\_Prefix})}:
@@ -62,7 +62,7 @@ Um trecho dessa função está no \autoref{cod-emit-expr}, que demonstra como os
     \item Operações aritméticas básicas (\verb|+|, \verb|-|, \verb|*|, \verb|/|): basta adicionar parênteses com o operador no meio e emitir recursivamente à esquerda e à direita.
     \item Produto interno: usa-se a função \verb|dot| fornecida pelo GLSL.
     \item Multiplicação escalar-vetor é suportada pelo GLSL, portanto, fica semelhante ao original: \verb|\vec{n} \cdot 2| é equivalente a \verb|(vec3(n) * 2)|.
-    \item Suporta o produto vetorial (\verb|cross|). Nesse caso, o operador vem primeiro, no lugar de infixo: \verb|\vec{n_1} \cross \vec{n_2}| é equivalente a \verb|cross(vec3(var_1_n_1), vec3(var_2_n_2))|.
+    \item Suporta o produto vetorial (\verb|cross|). Nesse caso, o operador vem primeiro, no lugar de infixo: \verb|\vec{n_1}| \verb"\cross" \verb"\vec{n_2}" é \\ equivalente a \verb|cross(vec3(var_1_n_1), vec3(var_2_n_2))|.
     \item Processa exponenciação (\verb|x^y|) chamando a função \verb|pow()| do GLSL.
     \end{itemize}
 
@@ -221,7 +221,7 @@ A função \verb"emit" é o ponto de partida do processo de emissão de código,
     \end{itemize}
 
     \item \textbf{Emissão Final} \\
-    A fase final concatena os elementos gerados anteriormente, garantindo que o código esteja na ordem correta para compilação. Essa fase gera a função principal \verb|BRDF|, que contém todas as declarações concatenadas, somadas às declarações e preâmbulos. Por fim, é realizada a gravação em disco do shader completo.
+        A fase final concatena os elementos gerados anteriormente, garantindo que o código esteja na ordem correta para compilação. Essa fase gera a função principal \verb|BRDF|, que contém todas as declarações concatenadas, somadas às declarações e preâmbulos. Por fim, é realizada a gravação em disco do shader completo.
 \end{enumerate}
 
 
@@ -314,7 +314,7 @@ A declaração dessas variáveis embutidas é realizada pela função \\ \verb`e
 
 A emissão de definições de função ocorre antes da inicialização das variáveis. A assinatura da função, que inclui o nome (baseado na estratégia da \autoref{sec-unicidade}), é gerada, juntamente com o tipo de retorno e os parâmetros, mapeados conforme a \autoref{subsection-emission}. Os nomes dos parâmetros são determinados pelos símbolos presentes no escopo da função, enquanto o corpo da função é emitido chamando \verb|emit_expr|, da mesma forma que a emissão de expressões.
 
-O mapeamento entre tipos em \texttt{EquationLang} e GLSL é bijetivo, garantindo que qualquer função definida em \texttt{EquationLang} possa ser representada em GLSL. Um exemplo de definição gerada é mostrado na \autoref{cod-normalize-reflect}, que se refere às funções de reflexão e normalização da equação \autoref{eq-normalize-reflect}. Os nomes gerados seguem a numeração discutida na \autoref{sec-unicidade}, e o retorno é sempre avaliado como uma única expressão.
+O mapeamento entre tipos em \texttt{EquationLang} e GLSL é injetivo\footnote{Não é bijetivo pois exitem funções em GLSL que não são representáveis em \texttt{EquationLang}} , garantindo que qualquer função definida em \texttt{EquationLang} possa ser representada em GLSL. Um exemplo de definição gerada é mostrado na \autoref{cod-normalize-reflect}, que se refere às funções de reflexão e normalização da equação \autoref{eq-normalize-reflect}. Os nomes gerados seguem a numeração discutida na \autoref{sec-unicidade}, e o retorno é sempre avaliado como uma única expressão.
 
 
 \label{eq-normalize-reflect} \begin{subequations}
