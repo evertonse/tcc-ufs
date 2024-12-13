@@ -62,7 +62,7 @@ Um trecho dessa função está no \autoref{cod-emit-expr}, que demonstra como os
     \item Operações aritméticas básicas (\verb|+|, \verb|-|, \verb|*|, \verb|/|): basta adicionar parênteses com o operador no meio e emitir recursivamente à esquerda e à direita.
     \item Produto interno: usa-se a função \verb|dot| fornecida pelo GLSL.
     \item Multiplicação escalar-vetor é suportada pelo GLSL, portanto, fica semelhante ao original: \verb|\vec{n} \cdot 2| é equivalente a \verb|(vec3(n) * 2)|.
-    \item Suporta o produto vetorial (\verb|cross|). Nesse caso, o operador vem primeiro, no lugar de infixo: \verb|\vec{n_1}| \verb"\cross" \verb"\vec{n_2}" é \\ equivalente a \verb|cross(vec3(var_1_n_1), vec3(var_2_n_2))|.
+    \item Suporta o produto vetorial (\verb|cross|). Nesse caso, o operador vem primeiro, no lugar de infixo: \verb|\vec{n_1}| \verb"\cross" \verb"\vec{n_2}" é  equivalente a  \verb|cross(vec3(var_1_n_1),| \verb|vec3(var_2_n_2))|.
     \item Processa exponenciação (\verb|x^y|) chamando a função \verb|pow()| do GLSL.
     \end{itemize}
 
