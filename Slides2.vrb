@@ -1,0 +1,13 @@
+\frametitle{More with bullet points}
+\framesubtitle{Alerts and repeats}
+Sections 12.1 through 12.3 of the \hrefcol{https://www.ctan.org/tex-archive/macros/latex/contrib/beamer/doc/beameruserguide.pdf}{Beamer user
+manual} demonstrate many more features, like alerts and repeats.
+\begin{itemize}
+\item The \verb|\alert{}| feature can be particularly useful.
+\item Like \alert<2>{this}.
+\item The highlighting may span multiple slides in a frame.
+    \begin{itemize}
+    \item Previous one did not, but \alert<3->{this one} will.
+    \end{itemize}
+\item This is accomplished by the \alert<4>{hyphen} (i.e. \texttt{-}) in the \verb|\alert<3->| command.
+\end{itemize}

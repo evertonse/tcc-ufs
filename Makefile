@@ -59,7 +59,18 @@ $(FILENAME).dvi: clean $(FILENAME).tex
 	      latex_count=`expr $$latex_count - 1` ;\
 	    done
 
+
+slide: FINAL_SLIDE_FILENAME = "Slides-TCC2-EvertonSantosDeAndradeJunior"
+slide: FILENAME = Slides
+slide: #$(FILENAME).pdf
+	pdflatex --shell-escape $(FILENAME).tex
+	bibtex $(FILENAME)
+	pdflatex --shell-escape $(FILENAME).tex
+	pdflatex --shell-escape $(FILENAME).tex
+	cp $(FILENAME).pdf $(FINAL_SLIDE_FILENAME).pdf
+	wsl-open $(FINAL_SLIDE_FILENAME).pdf
+
 clean:
 	rm -f *.bbl *.loc .*loa .*loq *.ps *.dvi *.aux *.toc *.idx *.ind *.ilg *.log *.out *.brf *.blg *.bbl **/**.bbl **/**.loc .**/**loa .**/**loq **/**.ps **/**.dvi **/**.aux **/**.toc **/**.idx **/**.ind **/**.ilg **/**.log **/**.out **/**.brf **/**.blg **/**.bbl $(FILENAME).pdf
 
-.PHONY: all show $(FILENAME).pdf push run clean
+.PHONY: all show $(FILENAME).pdf push run clean slide

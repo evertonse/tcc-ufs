@@ -1,0 +1,133 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation - LaTeX Template
+% Version 2.0 (March 8, 2022)
+% Original Template: https://www.LaTeXTemplates.com
+% Author: Vel (vel@latextemplates.com)
+% License: CC BY-NC-SA 4.0
+
+% Este modelo de apresentação foi
+% criado a partir do modelo de Giovanni Spadaro.
+% Disponível em: https://github.com/Giovo17/presentation-template-unict-lm-data
+%
+% Adaptado por Lucas Amaral Taylor para criar uma versão especial 
+% para os alunos de Matemática e Estatística da USP (IME-USP).
+% Disponível em: https://github.com/lucasamtaylor01/IME-template
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+% CLASSE DO DOCUMENTO E CONFIGURAÇÕES BÁSICAS
+%----------------------------------------------------------------------------------------
+\documentclass[
+    9pt,               % Tamanho padrão da fonte
+    % t,                % Alinhar verticalmente ao topo
+    %aspectratio=169,   % Definir proporção 16:9
+]{beamer}
+\graphicspath{{img/}}         % Define o diretório das imagens
+
+%----------------------------------------------------------------------------------------
+% PACOTES NECESSÁRIOS
+%----------------------------------------------------------------------------------------
+\usepackage{
+    booktabs,     % Melhora a aparência das linhas em tabelas
+    palatino,     % Define Palatino como fonte principal
+    subcaption    % Suporte para subfiguras
+}
+\usepackage[default]{opensans}  % Define Open Sans como fonte secundária
+% \usepackage[backend=biber]{biblatex}
+\input{Content/Slides/config/code.tex}% Importa configurações para highlight de código
+
+%----------------------------------------------------------------------------------------
+% CONFIGURAÇÃO DO TEMA
+%----------------------------------------------------------------------------------------
+% Tema Base
+\usetheme{Boadilla}                          % Define o tema principal
+% \usetheme{CambridgeUS}
+\useinnertheme{circles}                      % Tema interno com círculos
+\useoutertheme{miniframes}                   % Tema externo com miniframes
+\setbeamertemplate{navigation symbols}{}     % Remove símbolos de navegação
+
+% Cores Personalizadas
+\definecolor{primaryColor}{RGB}{20,45,105}   % Cor primária - azul escuro
+\definecolor{secondaryColor}{RGB}{0,100,160} % Cor secundária - azul médio
+
+% Configurações de Cores
+\setbeamercolor{structure}{fg=primaryColor}
+\setbeamercolor{palette primary}{bg=primaryColor, fg=white}
+\setbeamercolor{palette secondary}{bg=secondaryColor, fg=white}
+\setbeamercolor{title}{bg=primaryColor, fg=white}
+
+% Cores do Cabeçalho e Rodapé
+\setbeamercolor{headline}{bg=secondaryColor, fg=white}
+\setbeamercolor{section in head/foot}{bg=primaryColor, fg=white}
+\setbeamercolor{subsection in head/foot}{bg=secondaryColor, fg=white}
+\setbeamercolor{author in head/foot}{bg=primaryColor, fg=white}
+\setbeamercolor{title in head/foot}{bg=secondaryColor, fg=white}
+\setbeamercolor{date in head/foot}{bg=primaryColor, fg=white}
+\setbeamercolor{page number in head/foot}{bg=primaryColor, fg=white}
+
+%----------------------------------------------------------------------------------------
+% BIBLIOGRAFIA
+%----------------------------------------------------------------------------------------
+% \usepackage[style=alphabetic,backend=biber]{biblatex}
+\usepackage[style=alphabetic,backend=bibtex]{biblatex}
+% \usepackage[backend=biber,style=alphabetic]{biblatex} % Use biber as the backend
+% \addbibresource{bibliografia.bib}
+\addbibresource{Bibliografia.bib}
+
+
+%----------------------------------------------------------------------------------------
+% INFORMAÇÕES DA APRESENTAÇÃO
+%----------------------------------------------------------------------------------------
+\title[Compilador de BRDFs]{Compilador de Funções de Distribuição de Refletância Bidirecional descritas em \LaTeX{} para Linguagem de Shading}
+\author[]{Everton Santos de Andrade Júnior}
+\author[Everton Santos de Andrade Júnior]{Everton Santos de Andrade Júnior \\ \scriptsize{Orientador(a): Dra. Beatriz Trinchão Andrade}}
+
+% \scriptsize - Smaller than small
+% \footnotesize - Slightly smaller than small
+\institute[UFS]{Universidade Federal de Sergipe}
+\date[2024]{Dez / 2024}
+
+%----------------------------------------------------------------------------------------
+% INÍCIO DO DOCUMENTO
+%----------------------------------------------------------------------------------------
+\begin{document}
+
+% Slide de título com logo
+\begin{frame}
+    \begin{figure}
+        \includegraphics[width=0.14\linewidth]{Imagens/logo_ufs.pdf}
+    \end{figure}
+    \titlepage
+\end{frame}
+
+% Sumário
+\begin{frame}
+    \frametitle{Sumário}
+    \tableofcontents
+    \nocite{pbr}
+\end{frame}
+
+\include{Content/Slides/sections/Intro.tex}
+\include{Content/Slides/sections/Conceitos.tex}
+\include{Content/Slides/sections/Metodologia.tex}
+\include{Content/Slides/sections/Desenvolvimento.tex}
+\include{Content/Slides/sections/Resultados.tex}
+\include{Content/Slides/sections/Conclusões.tex}
+
+
+
+
+\begin{frame}{Referências}
+    % \cite{*}
+    \printbibliography[heading=none]
+    % \printbibliography
+    % \bibliography{Bibliografia}
+\end{frame}
+
+\include{Content/Slides/sections/Cut.tex}
+
+
+\end{document}
+
+
+

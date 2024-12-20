@@ -1,0 +1,124 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usefonttheme[onlymath]{serif}
+
+
+% Tema Beamer
+% \usetheme{CambridgeUS}
+\usetheme{Boadilla}
+
+\usecolortheme{beaver}
+
+% Com slides. A apresentação pode durar entre 18 e 22 minutos. 
+%
+% A apresentação do tema será relativamente rasa por conta do tempo. Mas lembre-se do seguinte: o objetivo aqui é explicar seu trabalho para que uma pessoa da computação entenda "o que" você fez. O "como" ela pode aprofundar, se quiser saber mais, lendo o seu TCC. Seja bem didático, para que as pessoas possam entender o contexto do seu trabalho e os elementos envolvidos. 
+%
+% Sugiro um esquema no estilo que proponho a seguir. O tempo que coloquei entre parênteses é uma estimativa, para você ter uma noção do aprofundamento necessário. 
+% Introdução: contexto, motivação e objetivos do seu trabalho (4 minutos)
+% Conceitos: explicação breve do que são BRDFs e shaders (3 minutos)
+% Metodologia: uma explicação do que você fez para alcançar os objetivos (os passos que você seguiu para fazer seu TCC - estudo de conceitos, de trabalhos, desenvolvimento...). Inclua aqui que você fez uma busca por trabalhos relacionados; que eles estão listados no TCC, mas não fale sobre eles. Você pode complementar esse ponto com a informação de que não foram encontrados trabalhos que façam o que propomos. (3 minutos)
+% Desenvolvimento: o que você implementou. Não precisa descrever tudo, apenas falar das ferramentas usadas, e das etapas implementadas. Você pode colocar prints do código em execução como ilustração, mas não terá tempo de explicar. (4 minutos)
+% Resultados: como você testou seu código (fale daqueles passos padronizados que você fez com várias BRDFs, e mencione quantas você avaliou). Mostre um ou dois exemplos. (4 minutos)
+% Conclusões: pontos importantes do capítulo correspondente, no seu TCC. Não esquecer de mencionar possíveis direções futuras, caso tenha. (2 minutos)
+% Bibliografia: apenas do que você citar na apresentação.
+%
+% Outras dicas: numere os slides, e coloque os itens nem muito longos nem muito curtos. O ideal é que os itens tenham no máximo duas linhas e não sejam muito lacônicos.
+%
+% Podemos nos reunir na próxima semana para você me mostrar os slides. Eu poderia na quarta às 15:30, remotamente. 
+%
+% Até mais!
+
+
+% Informações do documento
+\title{Compilador de Funções de Distribuição de Refletância Bidirecional descritas em \LaTeX{} para Linguagem de Shading}
+\subtitle{}
+\author{Everton Santos de Andrade Júnior}
+\institute{Universidade Federal de Sergipe}
+\date{20/12/2024}
+
+\begin{document}
+
+% Slide de título
+\begin{frame}
+    \titlepage
+\end{frame}
+
+% Slide de Introdução
+\begin{frame}{Introdução (4 minutos)}
+    \begin{itemize}
+        \item Contexto: breve explicação do problema abordado (\cite{blinn_phong}).
+        \item Motivação: por que esse tema é relevante?
+        \item Objetivos: o que seu trabalho busca alcançar.
+    \end{itemize}
+
+\end{frame}
+
+% Slide de Conceitos
+\begin{frame}{Conceitos (3 minutos)}
+    \begin{itemize}
+        \item Definição de BRDFs: o que são e sua importância.
+        \item Explicação breve sobre shaders e seu papel em gráficos computacionais.
+        \item Relação entre BRDFs e shaders no contexto do seu trabalho.
+    \end{itemize}
+\end{frame}
+
+% Slide de Metodologia
+\begin{frame}{Metodologia (3 minutos)}
+    \begin{itemize}
+        \item Estudo de conceitos e trabalhos relacionados.
+        \item Desenvolvimento da solução proposta.
+        \item Observação: trabalhos relacionados estão listados no TCC, mas nenhum realiza o que propomos.
+    \end{itemize}
+\end{frame}
+
+% Slide de Desenvolvimento
+\begin{frame}{Desenvolvimento (4 minutos)}
+    \begin{itemize}
+        \item Ferramentas utilizadas no projeto (ex.: linguagens, bibliotecas).
+        \item Etapas implementadas no desenvolvimento.
+        \item Exemplos ilustrativos: prints do código em execução.
+    \end{itemize}
+\end{frame}
+
+% Slide de Resultados
+\begin{frame}{Resultados (4 minutos)}
+    \begin{itemize}
+        \item Testes realizados: descrição do processo de avaliação das BRDFs.
+        \item Quantidade de BRDFs avaliadas.
+        \item Exemplos práticos dos resultados obtidos (gráficos, imagens, etc.).
+    \end{itemize}
+\end{frame}
+
+% Slide de Conclusões
+\begin{frame}{Conclusões (2 minutos)}
+    \begin{itemize}
+        \item Principais resultados alcançados.
+        \item Possíveis aplicações e impactos do trabalho.
+        \item Direções futuras: ideias para estudos ou melhorias futuras.
+    \end{itemize}
+\end{frame}
+
+% Slide de Bibliografia
+\begin{frame}{Bibliografia}
+    \begin{itemize}
+        \item \textbf{Exemplo de citação}: Nome do autor, "Título do livro/artigo", Ano.
+        \item Inclua apenas as referências citadas nos slides.
+    \end{itemize}
+\end{frame}
+
+% Slide de Agradecimentos
+\begin{frame}{Agradecimentos}
+    \begin{center}
+        \large Obrigado pela atenção!
+        \newline
+        Dúvidas?
+    \end{center}
+\end{frame}
+
+\end{document}
+
