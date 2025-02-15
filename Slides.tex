@@ -32,6 +32,7 @@
     palatino,     % Define Palatino como fonte principal
     subcaption    % Suporte para subfiguras
 }
+\usepackage{tikz} % Add this line to include the TikZ package
 \usepackage[default]{opensans}  % Define Open Sans como fonte secundária
 % \usepackage[backend=biber]{biblatex}
 \input{Content/Slides/config/code.tex}% Importa configurações para highlight de código
@@ -104,7 +105,7 @@
 \begin{frame}
     \frametitle{Sumário}
     \tableofcontents
-    \nocite{pbr}
+    % \nocite{pbr}
 \end{frame}
 
 \include{Content/Slides/sections/Intro.tex}

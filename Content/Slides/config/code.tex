@@ -18,9 +18,11 @@
 \definecolor{vscLineNr}{RGB}{128,128,128}        % Cinza para números de linha
 
 % Configuração geral do listings para UTF-8
+% https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
 \lstset{
     inputencoding=utf8,
     extendedchars=true,
+    morekeywords={begin,\begin},
     literate=%
         {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
         {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
@@ -37,6 +39,7 @@
 
 % Configurações base comum para todas as linguagens
 \lstdefinestyle{baseStyle}{
+    morekeywords={begin,\begin},
     backgroundcolor=\color{vscBackground},
     basicstyle=\ttfamily\small\color{vscText},
     breakatwhitespace=false,
@@ -60,8 +63,22 @@
     columns=flexible,
     basewidth={0.5em,0.45em},
     inputencoding=utf8,
-    extendedchars=true
+    extendedchars=true,
+    % morekeywords={begin,\\begin},
+    % morekeywords=[2]{begin, \begin,\\begin},
 }
+
+
+% https://tex.stackexchange.com/questions/28229/extend-a-language-with-additional-keywords
+% \lstdefinestyle{tex}{
+%     language=TeX,
+%     style=baseStyle,
+%     morekeywords={begin,end, \begin},
+% }
+%
+% \lstnewenvironment{tex}[1][]{\lstset{style=tex, #1}}{}
+
+% \lstnewenvironment{tex}[1][]{\lstset{style=pythonStyle, #1}}{}
 
 %----------------------------------------------------------------------------------------
 % Python
@@ -92,7 +109,7 @@
     morekeywords={include,define,void,int,char,float,double,long,unsigned,
                   struct,union,enum,typedef,const,static,extern,register,
                   auto,volatile,sizeof,return,if,else,for,while,do,switch,
-                  case,break,continue,default,goto},
+                  case,break,continue,default,goto, vec3},
     morekeywords=[2]{printf,scanf,malloc,free,calloc,realloc,fopen,fclose,
                      fprintf,fscanf,strcpy,strlen,strcat},
     keywordstyle=[2]\color{vscFunction},

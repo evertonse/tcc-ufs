@@ -84,30 +84,43 @@
 \end{frame}
 
 
-\begin{frame}{Contexto - \textit{shaders}}
+\begin{frame}[fragile]{Contexto - \textit{shaders}}
 \begin{itemize}
-\item \textit{Shaders} concedem a capacidade de cada objeto renderizado ter sua \textbf{aparência configurada por meio de um código} que implementa uma BRDF.
+\item \textit{Shaders} são esses programas que concedem a capacidade de cada objeto renderizado ter sua \textbf{aparência configurada por meio de um código} que implementa uma BRDF.
 \end{itemize}
+
+\begin{clang}
+vec3 BRDF( vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y )
+{
+    vec3 H = normalize(L+V);
+
+    double val = pow(max(0,dot(N,H)),n);
+    if (divide_by_NdotL)
+        val = val / dot(N,L);
+    return vec3(val);
+}
+\end{clang}
 
 \end{frame}
 
-\begin{frame}{Motivação}
+\begin{frame}[fragile]{Motivação}
 
     Na renderização, as BRDFs são implementadas por meio de programas chamados de \textit{\textbf{shaders}}. Mas, as BRDFs são comumente descritas por equações em \LaTeX \footnote{\tiny{ \LaTeX{} é um sistema de preparação de documentos para alta qualidade tipográfica. Assim como visto no início.}}. Dois problemas surgem com essa modelagem:
 
     \begin{enumerate}
-        \item Barreira técnica\footnote{\tiny{Físicos ou matemático podem trabalhar com BRDFs e não, necessárimente saber programação baixo nível }}: visualizar essa modelagem de BRDFs requer conhecimento especializado em programação em linguagem de \textit{shading}.
-    \item Baixo nível de iteração: toda mudança nas equações exige baixar o nível e reescrever o \textit{shader} novamente.
+        \item Barreira técnica\footnote{\tiny{Físicos ou matemáticos podem trabalhar com BRDFs sem necessariamente dominar programação de baixo nível.}}: a visualização da modelagem de BRDFs exige um conhecimento especializado em programação na linguagem de \textit{shading}.
+
+        \item Baixo nível de iteração: qualquer alteração nas equações requer uma reescrita do \textit{shader}, o que implica um trabalho adicional e a necessidade de baixar o nível de abstração.
     \end{enumerate}
 
 \end{frame}
 
 
 \begin{frame}{Motivação}
-        Surge a necessidade de \textbf{simplificar} a \textbf{criação de shaders para BRDFs}. \\\hspace{2cm}
+    Surge a necessidade de \textbf{simplificar} a \textbf{criação} de shaders para BRDFs. \\\hspace{2cm}
 
 
-    Um \textbf{compilador} capaz de traduzir BRDFs escritas em \LaTeX{} para \textit{shaders} permitiria uma maior acessibilidade e agilidade na criação de efeitos visuais complexos.
+    Um \textbf{compilador} capaz de traduzir BRDFs escritas em \LaTeX{} para \textit{shaders} permitiria uma maior \textbf{acessibilidade} e \textbf{agilidade} na criação de efeitos visuais complexos.
     \begin{figure}[H]
         \begin{center}
             \includegraphics[width=0.65\textwidth]{./Imagens/diretamente.png}
@@ -123,7 +136,7 @@
     \begin{enumerate}
         \item Processar \textbf{BRDFs} descritas em equações \LaTeX{}.
         \item Gerar \textbf{código de \textit{shading}} na linguagem-alvo da API \textbf{OpenGL}.
-        \item Visualizar o efeito dessas BRDFs usando o \textbf{código GLSL} gerado.
+        \item Visualizar o efeito dessas BRDFs usando o \textbf{código GLSL}\footnote{\tiny{GLSL é a linguagem de \textit{shading} compatível com OpenGL.}} gerado.
     \end{enumerate}
 
     Resultado esperado é um \textbf{shader} que reproduza as características de refletância da BRDF original.

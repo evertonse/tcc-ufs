@@ -20,12 +20,14 @@ As BRDFs calculam a proporção entre a energia luminosa que atinge um ponto na 
 \begin{frame}{Equação de Renderização}
 Um renderizador estima a ``quantidade'' luz $L_o$ que sai de um ponto em uma direção ${\omega}_o$ usando a equação de renderização (\cite{rendering_equation}). Nela, a BRDF é encontrada:
 
+    \begin{columns}
+        \column{0.6\textwidth}
 \begin{equation}\label{eq-rendering-equation}
 \begin{aligned}
   &L_o(p, {\omega}_o) = L_e(p, {\omega}_o) +
 \int_{H^2}f(p, {\omega}_i, {\omega}_o){L_i(p,{\omega}_i)\cos(\theta_i)d{\omega}_i}\\
-    &L_o \text{ é radiância de saída (\textit{outgoing})}\\
-    &L_e \text{ é radiância emitida pela superfície (i.e. fonte de luz)}\\
+    &L_o \text{ é radiância de saída}\\
+    &L_e \text{ é radiância emitida pela superfície \tiny{(i.e. fonte de luz)}}\\
     &L_i \text{ é radiância incidente na superfície}\\
     &{\omega}_i \text{ é a direção do raio incidente}\\
     &{\omega}_o \text{ é a direção do raio refletido}\\
@@ -34,6 +36,16 @@ Um renderizador estima a ``quantidade'' luz $L_o$ que sai de um ponto em uma dir
     &f \text{ função de refletância}\\
 \end{aligned}
 \end{equation}
+\column{0.4\textwidth}
+    \begin{figure}[H]
+        \caption{\cite{MicrofacetBRDF}}
+        \vspace{2cm}
+        \hspace{2cm}
+        \begin{center}
+            \includegraphics[width=0.65\textwidth]{./Imagens/Li-Lo.png}
+        \end{center}
+    \end{figure}
+    \end{columns}
 \end{frame}
 
 
@@ -98,7 +110,7 @@ void main() {
 % \end{frame}
 
 \begin{frame}{Compilação: Visão Geral}
-    Comilador $C: L_1 \rightarrow L_2$ mapeia programa de $L_1$ para $L_2$ preservando semântica; mantém mesmo significado algorítmico.
+    Compilador $C: L_1 \rightarrow L_2$ mapeia programa de $L_1$ para $L_2$ preservando semântica\footnote{\tiny{Mantém mesmo significado algorítmico}}.
 
     \begin{enumerate}
 
@@ -109,13 +121,12 @@ void main() {
               \end{itemize}
         \item \textbf{Análise Sintática (Parsing):}
               \begin{itemize}
-                  \item Valida tokens segundo gramática
-                  \item Constrói árvore sintática hierárquica
+                  \item Constrói árvore sintática baseado nas regras de produção
               \end{itemize}
-        \item \textbf{Verificação de Tipos:}
+        \item \textbf{Verificação Semântica:}
               \begin{itemize}
-                  \item Garante consistência de tipos
-                  \item Previne erros em tempo de execução
+                  \item Garante consistência de tipos, assinatura de funções, significado dos símbolos, etc.
+                  \item No nosso caso, previne erros na modelagem da BRDF
               \end{itemize}
         \item \textbf{Emissão de Código:}
               \begin{itemize}

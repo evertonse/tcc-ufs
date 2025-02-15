@@ -1,0 +1,161 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Experimento Cook-Torrance}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\begin{figure}
+    \frametitle{Experimento Cook-Torrance: Equações da BRDF em documento \LaTeX{}}
+    \begin{center}
+        \includegraphics[scale=0.62]{./Imagens/brdfs/cook-torrance.pdf}
+    \end{center}
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+    \frametitle{Experimento Cook-Torrance: Código fonte \LaTeX{} da BRDF}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \hspace{1cm}
+\begin{lstlisting}[basicstyle=\ttfamily\scriptsize,language=tex, frame=none, inputencoding=utf8]
+\begin{equation}
+m = 0.13
+\end{equation}
+
+\begin{equation}
+    \rho_{d} = \vec{0.3,0.05,0.05}
+\end{equation}
+
+\begin{equation}
+    \rho_{s} = \vec{0.0,0.2,1.0}
+\end{equation}
+
+\begin{equation}
+f = \frac{\rho_{d}}{\pi} + \frac{\rho_{s}}{\pi} *
+\frac{D*G}{({\vec{n}}\cdot{\vec{\omega_{i}}}) *
+({\vec{n}}\cdot{\vec{\omega_{o}}})}
+\end{equation}
+
+\begin{equation}
+G = \min(1,\min( \frac{2 * ({\vec{n}}\cdot{\vec{h}}) * ({\vec{n}}\cdot{\vec{\omega_{o}}}) }
+    {({\vec{h}}\cdot{\vec{\omega_{o}}})}, \frac{2 * ({\vec{n}}\cdot{\vec{h}}) *
+({\vec{n}}\cdot{\vec{\omega_{i}}}) } {({\vec{h}}\cdot{\vec{\omega_{o}}})}))
+\end{equation}
+
+\begin{equation}
+D = \frac{1} {(m^{2}) * (\cos{\theta_{h}})^{4}} * \exp{-((\tan{\theta_{h}})/m)^{2}}
+\end{equation}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Experimento Cook-Torrance: Código GLSL da BRDF deste experimento (1 de 2)}
+\begin{clang}
+analytic ::begin parameters
+#[type][name][min val][max val][default val]
+::end parameters
+::begin shader
+//////////// START OF BUILTINS DECLARTION ////////////
+vec3 var_0_vec_h;
+vec3 var_3_vec_n;
+float var_10_theta_h;
+float var_11_theta_d;
+float var_1_pi;
+float var_2_epsilon;
+vec3 var_4_vec_omega_i;
+float var_5_theta_i;
+float var_6_phi_i;
+vec3 var_7_vec_omega_o;
+float var_8_theta_o;
+float var_9_phi_o;
+//////////// END OF BUILTINS DECLARTION ////////////
+//////////// START OF USER DECLARED ////////////
+float var_12_G;
+vec3 var_13_rho_s;
+float var_14_m;
+float var_15_D;
+vec3 var_16_rho_d;
+vec3 var_17_f;
+//////////// END OF USER DECLARED ////////////
+//////////// START FUNCTIONS DECLARATIONS ////////////
+//////////// END FUNCTIONS DECLARATIONS ////////////
+\end{clang}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Experimento Cook-Torrance: Código GLSL da BRDF deste experimento (2 de 2)}
+\begin{clang}
+vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
+
+  //////////// START OF BUILTINS INITIALIZATION ////////////
+  var_0_vec_h = normalize(L + V);
+  var_3_vec_n = normalize(N);
+  var_1_pi = 3.141592653589793;
+  var_2_epsilon = 1.192092896e-07;
+  var_4_vec_omega_i = L;
+  var_5_theta_i = atan(var_4_vec_omega_i.y, var_4_vec_omega_i.x);
+  var_6_phi_i = atan(sqrt(var_4_vec_omega_i.y * var_4_vec_omega_i.y +
+                          var_4_vec_omega_i.x * var_4_vec_omega_i.x), var_4_vec_omega_i.z);
+  var_7_vec_omega_o = V;
+  var_8_theta_o = atan(var_7_vec_omega_o.y, var_7_vec_omega_o.x);
+  var_9_phi_o = atan(sqrt(var_7_vec_omega_o.y * var_7_vec_omega_o.y + var_7_vec_omega_o.x * var_7_vec_omega_o.x),
+                     var_7_vec_omega_o.z);
+  var_10_theta_h = acos(dot(var_0_vec_h, N));
+  var_11_theta_d = acos(dot(var_0_vec_h, var_4_vec_omega_i));
+  //////////// END OF BUILTINS INITIALIZATION ////////////
+
+  var_12_G = min(1.0, min((((2.0 * (dot(var_3_vec_n, var_0_vec_h))) * (dot(var_3_vec_n, var_7_vec_omega_o))) / (dot(var_0_vec_h, var_7_vec_omega_o))), (((2.0 * (dot(var_3_vec_n, var_0_vec_h))) *
+                            (dot(var_3_vec_n, var_4_vec_omega_i))) /
+                           (dot(var_0_vec_h, var_7_vec_omega_o)))));
+  var_13_rho_s = vec3(0.0, 0.2, 1.0);
+  var_14_m = 0.13;
+  var_15_D = ((1.0 / ((pow(var_14_m, 2.0)) * pow((cos(var_10_theta_h)), 4.0))) *
+              exp((-pow((((tan(var_10_theta_h)) / var_14_m)), 2.0))));
+  var_16_rho_d = vec3(0.3, 0.05, 0.05);
+  var_17_f = ((var_16_rho_d / var_1_pi) + ((var_13_rho_s / var_1_pi) * ((var_15_D * var_12_G) / ((dot(var_3_vec_n, var_4_vec_omega_i)) * (dot(var_3_vec_n, var_7_vec_omega_o))))));
+  return vec3(var_17_f);
+}
+\end{clang}
+\end{frame}
+
+\begin{frame}{Experimento Cook-Torrance: Plots de Distruição de Reflexão}
+\begin{figure}[H]
+  
+\caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa do experimento cook-torrance.}}
+    \label{fig-cook-torrance-plots}
+\minipage{0.48\textwidth}
+    \vspace{42px}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-3D-plot}
+    % \caption{\small{(a)}}\label{fig:awesome_image1}
+    % \vspace{0.1px}
+    % \legend{ \small (a) 3D \textit{plot}}
+\endminipage\hfill
+\minipage{0.48\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-polar-plot-log.png}
+    % \legend{ \small (b) \textit{Polar plot}}
+    % \caption{\small{(b)}}\label{fig:awesome_image1}
+\endminipage\hfill
+\end{figure}
+\end{frame}
+
+\begin{frame}{Experimento Cook-Torrance: Objetos 3D renderizados para esta BRDF}
+\begin{figure}[H]
+    \label{fig-cook-torrance-eqlang}
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-teapot.png}
+    % \legend{ \small (a) \textit{Teapot}}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-dragon.png}
+    % \legend{ \small (b) Dragão de Stanford}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{./Imagens/brdfs/cook-torrance-goblin.png}
+    % \legend{ \small (c) Goblin}
+\endminipage
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Experimento Cook-Torrance}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

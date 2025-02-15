@@ -1,25 +1,31 @@
 \section{Conclusão}
-
-% Slide de Conclusão Geral
 \begin{frame}{Conclusão}
+    Este trabalho alcançou seu objetivo de \textbf{desenvolver um compilador capaz de traduzir BRDFs descritas em \LaTeX{} para código GLSL}. De forma que:
+
     \begin{itemize}
-        \item Objetivo alcançado: desenvolvimento de um compilador para traduzir BRDFs para código GLSL.
-        \item Facilita a criação de \textit{shaders} a partir de descrições matemáticas em \LaTeX{}, democratizando o acesso a técnicas de computação gráfica avançada.
-        \item Integração com ferramentas gratuitas como o visualizador da Disney.
-        \item Projeto interdisciplinar envolvendo:
-        \begin{itemize}
-            \item Gramáticas livres de contexto.
-            \item Traversia em Árvores.
-            \item Programação com \textit{shaders}.
-            \item Fundamentos teóricos de refletância e radiometria.
-        \end{itemize}
+        \item Reduz a \textbf{barreira técnica} para a criação de \textit{shaders}, permitindo que profissionais de áreas não relacionadas à programação explorem efeitos visuais complexos.
+        \item Aumenta a \textbf{interatividade} no design das BRDFs.
+        \item Suporta a \textbf{integração} com a ferramenta gratuita da Disney para renderização visual das BRDFs compiladas.
+        \item Permite que os usuários \textbf{focalizem na modelagem} de refletância, sem a necessidade de lidar com detalhes de baixo nível.
+        \item Demonstra-se capaz por meio de experimentos de renderização bem-sucedidos.
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Conclusão: Conhecimentos Usados}
+    Utilizamos conhecimentos interdisciplinares para realizar este trabalho, tais como:
+    \begin{itemize}
+        \item Gramáticas livres de contexto e geração de código.
+        \item Algoritmos com árvores e grafos.
+        \item Renderização projetiva, \textit{raytracing} e programação com \textit{shaders}.
+        \item Fundamentos teóricos de refletância e radiometria.
     \end{itemize}
 \end{frame}
 
 % Slide de Principais Contribuições
-\begin{frame}{Principais Contribuições}
+\begin{frame}{Conclusão: Contribuições}
     \begin{itemize}
-        \item Tradução de equações \LaTeX{} em código GLSL para BRDFs:
+        \item Tradução de equações \LaTeX{} com suporte as convenções mais usadas na definição de BRDFs ( $\omega_i,\omega_o, \theta_i, \vec{n}, \pi ...$) :
         \item Visualização das árvores sintáticas geradas (SVG).
         \item Geração de mensagens de erro informativos para facilitar depuração.
         \item Suporte a operações fundamentais em computação gráfica:
@@ -30,22 +36,8 @@
     \end{itemize}
 \end{frame}
 
-% Slide de Resultados
-\begin{frame}{Resultados Obtidos}
-    \begin{itemize}
-        \item Redução da barreira técnica para implementação de BRDFs.
-        \item Sistema funcional e bem-sucedido em experimentos realizados.
-        \item Possibilidade de focar na modelagem de refletância sem detalhes de baixo nível.
-    \end{itemize}
-    % \begin{figure}
-    %     \centering
-    %     \includegraphics[scale=0.4]{./Imagens/estrutura-geral-compilador.png}
-    %     \caption{\small Arquitetura do compilador.}
-    % \end{figure}
-\end{frame}
-
 % Slide de Perspectivas Futuras
-\begin{frame}{Perspectivas Futuras}
+\begin{frame}{Conclusão: Perspectivas Futuras}
     \begin{itemize}
         \item Ampliar suporte a novas construções matemáticas:
         \begin{itemize}
@@ -64,13 +56,9 @@
     % \end{figure}
 \end{frame}
 
-\begin{frame}{Encerramento}
+\begin{frame}{Conclusão: Encerramento}
     \begin{center}
-        \textbf{\Huge Fim}
+        \textbf{\Huge Fim}\footnote{\href{mailto:evertonse.junior@gmail.com}{evertonse.junior@gmail.com}.}
     \end{center}
-    \begin{itemize}
-        \item O projeto abre caminho para a democratização de técnicas avançadas em computação gráfica.
-        \item\href{mailto:evertonse.junior@gmail.com}{evertonse.junior@gmail.com}.
-    \end{itemize}
 \end{frame}
 

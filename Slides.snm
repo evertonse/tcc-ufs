@@ -1,5 +1,13 @@
 \beamer@slide {eq-rendering-equation}{11}
-\beamer@slide {fig-blinn-phong-plots}{25}
-\beamer@slide {fig-blinn-phong-eqlang}{26}
-\beamer@slide {radiance-img}{43}
-\beamer@slide {solid-angle}{43}
+\beamer@slide {tab-result}{16}
+\beamer@slide {tab-definition-of-lang}{19}
+\beamer@slide {tab-conventions-metodologia}{20}
+\beamer@slide {tab-definition-of-lang}{20}
+\beamer@slide {fig-blinn-phong-plots}{33}
+\beamer@slide {fig-blinn-phong-eqlang}{34}
+\beamer@slide {fig-cook-torrance-plots}{39}
+\beamer@slide {fig-cook-torrance-eqlang}{40}
+\beamer@slide {fig-edwards-2006-plots}{45}
+\beamer@slide {fig-edwards-2006-eqlang}{46}
+\beamer@slide {radiance-img}{64}
+\beamer@slide {solid-angle}{64}

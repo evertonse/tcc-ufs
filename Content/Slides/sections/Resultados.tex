@@ -1,12 +1,12 @@
 \section{Resultados}
 
 \begin{frame}{Resultados}
+    Experimentos são relizados com diferentes BRDFs para validar o compilador
    \begin{itemize}
-       \item Experimentos com diferentes BRDFs para validar o compilador
        \item Metodologia padronizada:
              \begin{itemize}
-                 \item Código fonte em é o  ambiente \texttt{equation} do \LaTeX{}
-                 \item Tradução para GLSL pelo compilador
+                 \item O código fonte de entrada são equações no ambiente \texttt{equation} do \LaTeX{}
+                 \item Tradução para GLSL pelo compilador desenvolvido neste trabalho
                  \item Visualização no Disney BRDF Explorer
              \end{itemize}
        \item Condições controladas:
@@ -17,163 +17,84 @@
    \end{itemize}
 \end{frame}
 
-\begin{frame}{Resultados - Experimentos}
-\textbf{11 Experimentos Realizados:}
-         \begin{itemize}
-             \item Modelos Comuns: Blinn-Phong, Cook-Torrance, Ward
-             \item Modelos Avançados: Ashikhmin-Shirley, Oren-Nayar
-             \item Variações: Cook-Torrance$_2$, Ashikhmin-Shirley$_2$
-             \item Especializados/Outros: Dür, Edwards-2006, Kajiya-Kay-1989, Minnaert
-         \end{itemize}
+\begin{frame}{Resultados: Experimentos}
 
-   Cada experimento mostra:
-         \begin{itemize}
-             \item Gráficos 3D e 2D de distribuição
+\begin{itemize}
+\item \textbf{11 Experimentos Realizados:}
+    \begin{enumerate}
+        \item Blinn-Phong
+        \item Cook-Torrance
+        \item Ward 
+        \item Ashikhmin-Shirley
+        \item Oren-Nayar 
+        \item Cook-Torrance$_2$
+        \item Ashikhmin-Shirley$_2$ 
+        \item Dür
+        \item Edwards-2006
+        \item Kajiya-Kay-1989$_*$
+        \item Minnaert
+    \end{enumerate}
+         % \begin{enum}
+         %     \item Modelos Comuns:
+         %     \item Modelos Avançados:
+         %     \item Variações:
+         %     \item Especializados/Outros:
+         % \end{itemize}
+
+\item Cada experimento ilustra:
+         \begin{enumerate}
+             \item Código fonte de entrada (\LaTeX{}) e saída (GLSL)
+             \item Gráficos 3D e 2D de distribuição de reflexão
              \item Renderização de objetos 3D
-         \end{itemize}
+         \end{enumerate}
+
+    \end{itemize}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Experimento Blinn-Phong}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{Content/Slides/sections/Resultados-Blinn-Phong.tex}
+\input{Content/Slides/sections/Resultados-Cook-Torrance.tex}
+\input{Content/Slides/sections/Resultados-Edwards.tex}
 
-\begin{frame}
-\begin{figure}
-    \frametitle{Equações da BRDF do experimento Blinn-Phong em documento \LaTeX{}}
-    \begin{center}
-        % \includegraphics[scale=1.1,width=\textwidth]{./Imagens/brdfs/aniso.pdf}
-        \includegraphics[scale=0.92]{./Imagens/brdfs/blinn-phong.pdf}
-    \end{center}
-\end{figure}
+\begin{frame}[fragile]{Resultados: Visão Simplificada dos Outros Experimentos}
+   \begin{table}
+       \centering
+       \scriptsize % Tamanho de texto ajustável (\scriptsize ou \footnotesize)
+       \begin{tabular}{|c|c|c|c|c|}
+           \hline
+           \textbf{Experimento}        & Blinn-Phong     & Cook-Torrance   & Ward           & Ashikhmin-Shirley \\ \hline
+           \textbf{Visualização} &
+           \includegraphics[scale=0.14]{./Imagens/brdfs/blinn-phong-dragon.png} & 
+           \includegraphics[scale=0.14]{./Imagens/brdfs/cook-torrance-dragon.png} & 
+           \includegraphics[scale=0.14]{./Imagens/brdfs/ward-dragon.png} & 
+           \includegraphics[scale=0.14]{./Imagens/brdfs/ashikhmin-shirley-close-to-original-dragon.png} \\ \hline
+       \end{tabular}
+   \end{table}
+
+   \begin{table}
+       \centering
+       \scriptsize % Tamanho de texto ajustável (\scriptsize ou \footnotesize)
+       \begin{tabular}{|c|c|c|c|c|}
+           \hline
+           \textbf{Experimento}        & Oren-Nayar     & Ashikhmin-Shirley$_2$   & Cook-Torrance$_2$ & Dür \\ \hline
+           \textbf{Visualização} &
+           \includegraphics[scale=0.14]{./Imagens/brdfs/oren-nayar-dragon.png} &
+           \includegraphics[scale=0.14]{./Imagens/brdfs/ashikhmin-shirley-alternative-dragon.png} &
+           \includegraphics[scale=0.14]{./Imagens/brdfs/cook-torrance-alternative-dragon.png} &
+           \includegraphics[scale=0.14]{./Imagens/brdfs/duer-dragon.png} \\ \hline
+       \end{tabular}
+   \end{table}
+
+   \begin{table}
+       \centering
+       \scriptsize % Tamanho de texto ajustável (\scriptsize ou \footnotesize)
+       \begin{tabular}{|c|c|c|c|}
+           \hline
+           \textbf{Experimento}        & Edwards-2006     & Kajiya-Kay-1989$_*$   & Minnaert \\ \hline
+           \textbf{Visualização} &
+           \includegraphics[scale=0.14]{./Imagens/brdfs/edwards-2006-dragon.png} &
+           \includegraphics[scale=0.14]{./Imagens/brdfs/aniso-dragon.png} &
+           \includegraphics[scale=0.14]{./Imagens/brdfs/minnaert-dragon.png}\\ \hline
+       \end{tabular}
+   \end{table}
 \end{frame}
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-    \frametitle{Código fonte da BRDF do experimento Blinn-Phong}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{lstlisting}[language=tex, frame=none, inputencoding=utf8]
-\begin{equation}
-    \rho_{d} = \vec{0,1,1}
-\end{equation}
-
-\begin{equation}
-    \rho_{s} = \vec{1,0,1}
-\end{equation}
-
-\begin{equation}
-    n = +2^8
-\end{equation}
-
-\begin{equation}
-f = \frac{\rho_{d}}{\pi} + \rho_{s} * \frac{n+2}{2*\pi} *
-\cos{\theta_{h}}^{n}
-\end{equation}
-\end{lstlisting}
-\end{frame}
-
-\begin{frame}[fragile]
-    \frametitle{Código GLSL da BRDF do experimento Blinn-Phong (1 de 2).}
-\begin{clang}
-analytic ::begin parameters
-#[type][name][min val][max val][default val]
-::end parameters
-::begin shader
-//////////// START OF BUILTINS DECLARTION ////////////
-vec3 var_0_vec_h;
-vec3 var_3_vec_n;
-float var_10_theta_h;
-float var_11_theta_d;
-float var_1_pi;
-float var_2_epsilon;
-vec3 var_4_vec_omega_i;
-float var_5_theta_i;
-float var_6_phi_i;
-vec3 var_7_vec_omega_o;
-float var_8_theta_o;
-float var_9_phi_o;
-//////////// END OF BUILTINS DECLARTION ////////////
-//////////// START OF USER DECLARED ////////////
-vec3 var_12_rho_s;
-float var_13_n;
-vec3 var_14_rho_d;
-vec3 var_15_f;
-//////////// END OF USER DECLARED ////////////
-\end{clang}
-\end{frame}
-
-\begin{frame}[fragile]
-    \frametitle{Código GLSL da BRDF do experimento Blinn-Phong (2 de 2).}
-\begin{clang}
-vec3 BRDF(vec3 L, vec3 V, vec3 N, vec3 X, vec3 Y) {
-  //////////// START OF BUILTINS INITIALIZATION ////////////
-  var_0_vec_h = normalize(L + V);
-  var_3_vec_n = normalize(N);
-  var_1_pi = 3.141592653589793;
-  var_2_epsilon = 1.192092896e-07;
-  var_4_vec_omega_i = L;
-  var_5_theta_i = atan(var_4_vec_omega_i.y, var_4_vec_omega_i.x);
-  var_6_phi_i = atan(sqrt(var_4_vec_omega_i.y * var_4_vec_omega_i.y +
-                          var_4_vec_omega_i.x * var_4_vec_omega_i.x),
-                     var_4_vec_omega_i.z);
-  var_7_vec_omega_o = V;
-  var_8_theta_o = atan(var_7_vec_omega_o.y, var_7_vec_omega_o.x);
-  var_9_phi_o = atan(sqrt(var_7_vec_omega_o.y * var_7_vec_omega_o.y +
-                          var_7_vec_omega_o.x * var_7_vec_omega_o.x),
-                     var_7_vec_omega_o.z);
-  var_10_theta_h = acos(dot(var_0_vec_h, N));
-  var_11_theta_d = acos(dot(var_0_vec_h, var_4_vec_omega_i));
-  //////////// END OF BUILTINS INITIALIZATION ////////////
-  var_12_rho_s = vec3(1.0, 0.0, 1.0);
-  var_13_n = pow(2.0, 8.0);
-  var_14_rho_d = vec3(0.0, 1.0, 1.0);
-  var_15_f = ((var_14_rho_d / var_1_pi) +
-              ((var_12_rho_s * ((var_13_n + 2.0) / (2.0 * var_1_pi))) *
-               pow(cos(var_10_theta_h), var_13_n)));
-  return vec3(var_15_f);
-}
-\end{clang}
-\end{frame}
-
-\begin{frame}{Plots de Distruição Blinn-Phong}
-\begin{figure}[H]
-  
-\caption{\small{\textit{Plots} da distribuição de reflexão especular e difusa do experimento Blinn-Phong.}}
-    \label{fig-blinn-phong-plots}
-\minipage{0.48\textwidth}
-    \vspace{42px}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-3D-plot}
-    % \caption{\small{(a)}}\label{fig:awesome_image1}
-    % \vspace{0.1px}
-    % \legend{ \small (a) 3D \textit{plot}}
-\endminipage\hfill
-\minipage{0.48\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-polar-plot-log.png}
-    % \legend{ \small (b) \textit{Polar plot}}
-    % \caption{\small{(b)}}\label{fig:awesome_image1}
-\endminipage\hfill
-\end{figure}
-\end{frame}
-
-\begin{frame}{Objetos 3D renderizados pelo experimento Blinn-Phong.}
-\begin{figure}[H]
-    \label{fig-blinn-phong-eqlang}
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-teapot.png}
-    % \legend{ \small (a) \textit{Teapot}}
-\endminipage\hfill
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-dragon.png}
-    % \legend{ \small (b) Dragão de Stanford}
-\endminipage\hfill
-\minipage{0.32\textwidth}%
-  \includegraphics[width=\linewidth]{./Imagens/brdfs/blinn-phong-goblin.png}
-    % \legend{ \small (c) Goblin}
-\endminipage
-\end{figure}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsection{Experimento Blinn-Phong}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
